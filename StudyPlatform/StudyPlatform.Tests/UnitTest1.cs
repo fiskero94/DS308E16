@@ -9,6 +9,7 @@ namespace StudyPlatform.Tests
         [TestMethod]
         public void TestMethod1()
         {
+            string hej = "haha";
         }
     }
 }
