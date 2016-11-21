@@ -37,6 +37,7 @@ namespace StudyPlatform.Classes.Database
         }
         public static void RemoveAssignmentDescription(AssignmentDescription assignmentDescription)
         {
+            Query.ExecuteQueryString("DELETE FROM studieplatform.assignmentdescriptions WHERE id='" + assignmentDescription.ID + "';");
             throw new NotImplementedException();
         }
         public static void RemoveAssignment(Assignment assignment)
