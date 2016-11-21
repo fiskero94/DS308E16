@@ -102,7 +102,28 @@ namespace StudyPlatform.Classes.Database
         }
         public static void CreateLesson(DateTime date, string description, bool online, bool active, List<Room> rooms, List<string> filepaths, Course course)
         {
-            // Ensure input is not null, throw ArgumentNullException (Use EnsureNotNull method)
+            EnsureNotNull(date, description, online, active, rooms, filepaths, course);
+            Query.ExecuteQueryString("INSERT INTO studyplatform.lessons VALUES(NULL,'" +
+                             date + "','" + description + "','" + online.ToString().ToUpper() + "','" + active.ToString().ToUpper() + "');");
+             secretary = Lists.Secretaries.Last();
+            Lesson lesson = Lists.lessons.Last();
+            CreateTable("lessonrooms" + lesson.ID, "roomid INT UNSIGNED NOT NULL");
+            CreateTable("lessonabsences" + lesson.ID, "absenceid INT UNSIGNED NOT NULL");
+            CreateTable("lessondocuments" + lesson.ID, "TEXT NOT NULL");
+
+            foreach (Room room in rooms)
+            {
+                Query.ExecuteQueryString("INSERT INTO studyplatform.lessonrooms" + lesson.ID + " VALUES("+room.ID + ");");
+                Query.ExecuteQueryString("INSERT INTO studyplatform.roomreservations" + room.ID + " VALUES(" + lesson.ID + ");");
+            }
+
+            foreach (string filepath in filepaths)
+            {
+                Query.ExecuteQueryString("INSERT INTO studyplatform.lessondocuments" + lesson.ID + " VALUES(" + filepath + ");");
+            }
+
+            Query.ExecuteQueryString("INSERT INTO studyplatform.courselessons" + course.ID + " VALUES(" + lesson.ID + ");");
+
             // Add new Lesson to the studyplatform.lessons table (enter bool values as TRUE or FALSE, not 'TRUE' or 'FALSE')
             // Get the ID of the newly created Lesson
             // Create new table lessonroomsN where N is the ID of the Lesson
@@ -112,7 +133,6 @@ namespace StudyPlatform.Classes.Database
             // Add the filepaths to the table
             // Input the ID of the Lesson into the courselessonsN tables for the Course.
             // Input the ID of the Lesson into the roomreservationsN tables foreach of the Rooms.
-            throw new NotImplementedException();
         }
         public static void CreateRoom(string name)
         {
