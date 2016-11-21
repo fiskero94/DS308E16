@@ -18,10 +18,12 @@ namespace StudyPlatform.Classes.Database
         }
         public static void RemoveNews(News news)
         {
-            throw new NotImplementedException();
+            Query.ExecuteQueryString("DELETE FROM studyplatform.news WHERE id='" + news.ID + "';");
+            //throw new NotImplementedException();
         }
         public static void RemoveCourse(Course course)
         {
+
             throw new NotImplementedException();
         }
         public static void RemoveLesson(Lesson lesson)
