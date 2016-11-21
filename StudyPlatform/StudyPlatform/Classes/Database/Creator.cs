@@ -106,7 +106,7 @@ namespace StudyPlatform.Classes.Database
             EnsureNotNull(date, description, online, active, rooms, filepaths, course);
             Query.ExecuteQueryString("INSERT INTO studyplatform.lessons VALUES(NULL,'" +
                              date + "','" + description + "','" + online.ToString().ToUpper() + "','" + active.ToString().ToUpper() + "');");
-             secretary = Lists.Secretaries.Last();
+            secretary = Lists.Secretaries.Last();
             Lesson lesson = Lists.lessons.Last();
             CreateTable("lessonrooms" + lesson.ID, "roomid INT UNSIGNED NOT NULL");
             CreateTable("lessonabsences" + lesson.ID, "absenceid INT UNSIGNED NOT NULL");
@@ -114,7 +114,7 @@ namespace StudyPlatform.Classes.Database
 
             foreach (Room room in rooms)
             {
-                Query.ExecuteQueryString("INSERT INTO studyplatform.lessonrooms" + lesson.ID + " VALUES("+room.ID + ");");
+                Query.ExecuteQueryString("INSERT INTO studyplatform.lessonrooms" + lesson.ID + " VALUES(" + room.ID + ");");
                 Query.ExecuteQueryString("INSERT INTO studyplatform.roomreservations" + room.ID + " VALUES(" + lesson.ID + ");");
             }
 
@@ -171,7 +171,6 @@ namespace StudyPlatform.Classes.Database
             // Input the ID of the AssignmentDescription into the courseassignmentdescriptionsN table for the Course
             Query.ExecuteQueryString("INSERT INTO studyplatform.courseassignmentdescription" + course.ID +
                                     " VALUES(NULL, '" + assignmentdescription.ID + "');");
-            throw new NotImplementedException();
         }
         public static void CreateAssignment(AssignmentDescription assignmentDescription, Student student, string comment, List<string> filepaths)
         {

@@ -34,6 +34,7 @@ namespace StudyPlatform.Classes.Database
         }
         public static void RemoveAssignmentDescription(AssignmentDescription assignmentDescription)
         {
+
             throw new NotImplementedException();
         }
         public static void RemoveAssignment(Assignment assignment)
