@@ -7,5 +7,6 @@ namespace StudyPlatform.Classes.Model
 {
     public class Room
     {
+        private uint _roomid;
     }
 }
