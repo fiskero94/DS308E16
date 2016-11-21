@@ -62,7 +62,8 @@ namespace StudyPlatform.Classes.Database
             {
                 uint id = reader.GetUInt32(reader.GetOrdinal("id"));
                 string name = reader.GetString(reader.GetOrdinal("name"));
-                string type = reader.GetString(reader.GetOrdinal("type"));
+                string description = reader.GetString(reader.GetOrdinal("description"));
+                courses.Add(id, name, description);
             }
             return courses;
             //throw new NotImplementedException();

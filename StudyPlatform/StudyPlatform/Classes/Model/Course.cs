@@ -7,6 +7,12 @@ namespace StudyPlatform.Classes.Model
 {
     public class Course
     {
+        public Course(uint id, string name, string description)
+        {
+            _id = id;
+            _name = name;
+            _description = description;
+        }
         private uint _id;
         public uint ID
         {
