@@ -9,7 +9,6 @@ namespace StudyPlatform.Classes.Model
     public class Room
     {
         private uint _id;
-        private string _name;
 
         public uint ID
         {
@@ -18,6 +17,8 @@ namespace StudyPlatform.Classes.Model
                 return _id;
             }
         }
+
+        private string _name;
 
         public string Name
         {
