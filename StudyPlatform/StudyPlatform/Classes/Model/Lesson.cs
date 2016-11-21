@@ -70,7 +70,7 @@ namespace StudyPlatform.Classes.Model
             set
             {
 
-                Editor.SetValue("lessons", ID, "description", value.ToString().ToUpper());
+                Editor.SetValue("lessons", ID, "online", value.ToString().ToUpper());
                 _online = value;
             }
         }
@@ -84,7 +84,7 @@ namespace StudyPlatform.Classes.Model
             }
             set
             {
-                Editor.SetValue("lessons", ID, "description", value.ToString().ToUpper());
+                Editor.SetValue("lessons", ID, "active", value.ToString().ToUpper());
                 _active = value;
             }
         }
