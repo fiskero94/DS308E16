@@ -74,7 +74,15 @@ namespace StudyPlatform.Classes.Database
         }
         public static List<Room> ExtractRooms(MySqlConnectionReader connectionReader)
         {
-            throw new NotImplementedException();
+            MySqlDataReader reader = connectionReader.Reader;
+            List<Room> rooms = new List<Room>();
+            while (reader.HasRows && reader.Read())
+            {
+                uint id = reader.GetUInt32(reader.GetOrdinal("id"));
+                string name = reader.GetString(reader.GetOrdinal("name"));
+                rooms.Add(new Room(id, name));
+            }
+            return rooms;
         }
         public static List<AssignmentDescription> ExtractAssignmentDescriptions(MySqlConnectionReader connectionReader)
         {

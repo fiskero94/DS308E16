@@ -117,11 +117,9 @@ namespace StudyPlatform.Classes.Database
         public static void CreateRoom(string name)
         {
             EnsureNotNull(name);
-            // Ensure input is not null, throw ArgumentNullException (Use EnsureNotNull method)
-            // Add new Room to the studyplatform.rooms table
-            // Get the ID of the newly created Room
-            // Create new table roomreservationsN where N is the ID of the Room
-            throw new NotImplementedException();
+            Query.ExecuteQueryString("INSERT INTO studyplatform.rooms VALUES(NULL,'" + name + "');");
+            Room room = Lists.Rooms.Last();
+            CreateTable("roomreservations" + room.ID, "lessonid INT UNSIGNED NOT NULL");
         }
         public static void CreateAssignmentDescription(Course course, string description, DateTime deadline, List<string> filepaths)
         {
