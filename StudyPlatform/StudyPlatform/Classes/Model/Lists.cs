@@ -55,7 +55,8 @@ namespace StudyPlatform.Classes.Model
         {
             get
             {
-                throw new NotImplementedException();
+                Query query = new Query("SELECT * FROM studyplatform.assignmentdescriptions;");
+                return Extractor.ExtractAssignmentDescriptions(query.Execute());
             }
         }
 

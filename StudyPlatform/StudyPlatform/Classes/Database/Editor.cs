@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace StudyPlatform.Classes.Database
 {
@@ -12,8 +9,15 @@ namespace StudyPlatform.Classes.Database
             if (table == null || variable == null || value == null)
                 throw new ArgumentNullException();
 
-            Query query = new Query("UPDATE " + table + " SET " + variable + "='" + value + "' WHERE id='" + id + "';");
-            query.Execute();
+
+            if (value == "TRUE" || value == "FALSE")
+            {
+                Query.ExecuteQueryString("UPDATE " + table + " SET " + variable + "=" + value + " WHERE id='" + id + "';");
+            }
+            else
+            {
+                Query.ExecuteQueryString("UPDATE " + table + " SET " + variable + "='" + value + "' WHERE id='" + id + "';");
+            }
         }
     }
 }
