@@ -51,6 +51,14 @@ namespace StudyPlatform.Classes.Model
                 throw new NotImplementedException();
             }
         }
+        public static List<AssignmentDescription> AssignmentDescriptions
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
         public static List<Course> Courses
         {
             get
@@ -64,6 +72,14 @@ namespace StudyPlatform.Classes.Model
             {
                 Query query = new Query("SELECT * FROM studyplatform.rooms;");
                 return Extractor.ExtractRooms(query.Execute());
+            }
+        }
+        public static List<Lesson> lessons
+        {
+            get
+            {
+                Query query = new Query("SELECT * FROM studyplatform.lessons;");
+                return Extractor.ExtractLessons(query.Execute());
             }
         }
     }

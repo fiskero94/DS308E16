@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using StudyPlatform.Classes.Model;
 using System.IO;
+using StudyPlatform.Classes.Database;
 
 namespace StudyPlatform.Classes.Database
 {
@@ -102,7 +103,28 @@ namespace StudyPlatform.Classes.Database
         }
         public static void CreateLesson(DateTime date, string description, bool online, bool active, List<Room> rooms, List<string> filepaths, Course course)
         {
-            // Ensure input is not null, throw ArgumentNullException (Use EnsureNotNull method)
+            EnsureNotNull(date, description, online, active, rooms, filepaths, course);
+            Query.ExecuteQueryString("INSERT INTO studyplatform.lessons VALUES(NULL,'" +
+                             date + "','" + description + "','" + online.ToString().ToUpper() + "','" + active.ToString().ToUpper() + "');");
+             secretary = Lists.Secretaries.Last();
+            Lesson lesson = Lists.lessons.Last();
+            CreateTable("lessonrooms" + lesson.ID, "roomid INT UNSIGNED NOT NULL");
+            CreateTable("lessonabsences" + lesson.ID, "absenceid INT UNSIGNED NOT NULL");
+            CreateTable("lessondocuments" + lesson.ID, "TEXT NOT NULL");
+
+            foreach (Room room in rooms)
+            {
+                Query.ExecuteQueryString("INSERT INTO studyplatform.lessonrooms" + lesson.ID + " VALUES("+room.ID + ");");
+                Query.ExecuteQueryString("INSERT INTO studyplatform.roomreservations" + room.ID + " VALUES(" + lesson.ID + ");");
+            }
+
+            foreach (string filepath in filepaths)
+            {
+                Query.ExecuteQueryString("INSERT INTO studyplatform.lessondocuments" + lesson.ID + " VALUES(" + filepath + ");");
+            }
+
+            Query.ExecuteQueryString("INSERT INTO studyplatform.courselessons" + course.ID + " VALUES(" + lesson.ID + ");");
+
             // Add new Lesson to the studyplatform.lessons table (enter bool values as TRUE or FALSE, not 'TRUE' or 'FALSE')
             // Get the ID of the newly created Lesson
             // Create new table lessonroomsN where N is the ID of the Lesson
@@ -112,7 +134,6 @@ namespace StudyPlatform.Classes.Database
             // Add the filepaths to the table
             // Input the ID of the Lesson into the courselessonsN tables for the Course.
             // Input the ID of the Lesson into the roomreservationsN tables foreach of the Rooms.
-            throw new NotImplementedException();
         }
         public static void CreateRoom(string name)
         {
@@ -121,15 +142,35 @@ namespace StudyPlatform.Classes.Database
             Room room = Lists.Rooms.Last();
             CreateTable("roomreservations" + room.ID, "lessonid INT UNSIGNED NOT NULL");
         }
+
         public static void CreateAssignmentDescription(Course course, string description, DateTime deadline, List<string> filepaths)
         {
             // Ensure input is not null, throw ArgumentNullException (Use EnsureNotNull method)
+            EnsureNotNull(course, description, deadline, filepaths);
+
             // Add new AssignmentDescription to the studyplatform.assignmentdescription table
+            Query.ExecuteQueryString("INSERT INTO studyplatform.assignmentdescriptions VALUES(NULL, '" + course +
+                                    "','" + description + "','" + deadline + "');");
+
             // Get the ID of the newly created AssignmentDescription
+            AssignmentDescription assignmentdescription = Lists.AssignmentDescriptions.Last;
+
             // Create new table assignmentdescriptionassignmentsN where N is the ID of the AssignmentDescription
+            CreateTable("assignmentdescriptionassignments" + assignmentdescription.ID, "assignmentid INT UNSIGNED NOT NULL");
+
             // Create new table assignmentdescriptiondocumentsN where N is the ID of the AssignmentDescription
+            CreateTable("assignmentdescriptiondocuments" + assignmentdescription.ID, "filepath TEXT NOT NULL");
+
             // Add the filepaths to the table
+            foreach (string filepath in filepaths)
+            {
+                Query.ExecuteQueryString("INSERT INTO studyplatform.assignentdescriptiondocuments " +
+                    assignmentdescription.ID + " VALUES(NULL, '" + filepath + "');");
+            }
+
             // Input the ID of the AssignmentDescription into the courseassignmentdescriptionsN table for the Course
+            Query.ExecuteQueryString("INSERT INTO studyplatform.courseassignmentdescription" + course.ID +
+                                    " VALUES(NULL, '" + assignmentdescription.ID + "');");
             throw new NotImplementedException();
         }
         public static void CreateAssignment(AssignmentDescription assignmentDescription, Student student, string comment, List<string> filepaths)
