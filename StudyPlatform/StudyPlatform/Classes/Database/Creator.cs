@@ -78,16 +78,26 @@ namespace StudyPlatform.Classes.Database
         }
         public static void CreateCourse(string name, string description)
         {
-            EnsureNotNull(name, description);// Ensure input is not null, throw ArgumentNullException (Use EnsureNotNull method)
+            // Ensure input is not null, throw ArgumentNullException(Use EnsureNotNull method)
+            EnsureNotNull(name, description);
             // Add new Course to the studyplatform.courses table
+            Query.ExecuteQueryString("INSERT INTO studyplatform.courses VALUES(NULL,'" +
+                                     name + "','" + description + "');");
             // Get the ID of the newly created Course
+            Course course = Lists.Courses.Last();
             // Create new table courseteachersN where N is the ID of the Course
+            CreateTable("courseteachers" + course.Id, "teacherid INT UNSIGNED NOT NULL");
             // Create new table coursestudentsN where N is the ID of the Course
+            CreateTable("coursestudents" + course.Id, "studentid INT UNSIGNED NOT NULL");
             // Create new table courselessonsN where N is the ID of the Course
+            CreateTable("courselessons" + course.Id, "lessonid INT UNSIGNED NOT NULL");
             // Create new table courseassignmentdescriptionsN where N is the ID of the Course
+            CreateTable("courseassignmentdescriptions" + course.Id, "assignmentdescriptionid INT UNSIGNED NOT NULL");
             // Create new table coursegradesN where N is the ID of the Course
-            // Create new table messagerecipientsN where N is the ID of the Course
-            throw new NotImplementedException();
+            CreateTable("coursegrades" + course.Id, "gradeid INT UNSIGNED NOT NULL");
+            // Create new table messagerecipientsN where N is the ID of the Course - teacher mente coursedocuments istedet
+            CreateTable("coursedocuments" + course.Id, "filepath TEXT NOT NULL");
+            //throw new NotImplementedException();
         }
         public static void CreateLesson(DateTime date, string description, bool online, bool active, List<Room> rooms, List<string> filepaths, Course course)
         {
