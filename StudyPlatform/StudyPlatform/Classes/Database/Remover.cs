@@ -37,7 +37,6 @@ namespace StudyPlatform.Classes.Database
         }
         public static void RemoveAssignmentDescription(AssignmentDescription assignmentDescription)
         {
-
             throw new NotImplementedException();
         }
         public static void RemoveAssignment(Assignment assignment)
@@ -50,7 +49,9 @@ namespace StudyPlatform.Classes.Database
         }
         public static void RemoveCourseGrade(CourseGrade grade)
         {
+            DateTime.Parse("")
             throw new NotImplementedException();
         }
+
     }
 }
