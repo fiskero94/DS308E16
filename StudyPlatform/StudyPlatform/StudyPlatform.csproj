@@ -76,6 +76,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="MySql.Data, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -109,8 +110,32 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\Database\Creator.cs" />
+    <Compile Include="Classes\Database\Editor.cs" />
+    <Compile Include="Classes\Database\Extractor.cs" />
+    <Compile Include="Classes\Database\MySqlConnectionReader.cs" />
+    <Compile Include="Classes\Database\Query.cs" />
+    <Compile Include="Classes\Database\Remover.cs" />
+    <Compile Include="Classes\Exceptions\InvalidPersonTypeException.cs" />
+    <Compile Include="Classes\Model\Assignment.cs" />
+    <Compile Include="Classes\Model\AssignmentDescription.cs" />
+    <Compile Include="Classes\Model\AssignmentGrade.cs" />
+    <Compile Include="Classes\Model\Course.cs" />
+    <Compile Include="Classes\Model\CourseGrade.cs" />
+    <Compile Include="Classes\Model\Getters.cs" />
+    <Compile Include="Classes\Model\Grade.cs" />
+    <Compile Include="Classes\Model\Lesson.cs" />
+    <Compile Include="Classes\Model\Message.cs" />
+    <Compile Include="Classes\Model\News.cs" />
+    <Compile Include="Classes\Model\Person.cs" />
+    <Compile Include="Classes\Model\Lists.cs" />
+    <Compile Include="Classes\Model\Room.cs" />
+    <Compile Include="Classes\Model\Secretary.cs" />
+    <Compile Include="Classes\Model\Student.cs" />
+    <Compile Include="Classes\Model\Teacher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
