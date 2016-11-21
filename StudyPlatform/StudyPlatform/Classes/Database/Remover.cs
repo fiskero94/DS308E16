@@ -22,6 +22,7 @@ namespace StudyPlatform.Classes.Database
         }
         public static void RemoveCourse(Course course)
         {
+
             throw new NotImplementedException();
         }
         public static void RemoveLesson(Lesson lesson)
