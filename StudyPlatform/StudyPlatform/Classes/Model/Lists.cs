@@ -82,5 +82,19 @@ namespace StudyPlatform.Classes.Model
                 return Extractor.ExtractLessons(query.Execute());
             }
         }
+        public static List<AssignmentGrade> AssignmentGrades
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+        public static List<CourseGrade> CourseGrades
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
     }
 }
