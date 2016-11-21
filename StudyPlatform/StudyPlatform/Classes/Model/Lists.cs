@@ -65,5 +65,13 @@ namespace StudyPlatform.Classes.Model
                 throw new NotImplementedException();
             }
         }
+        public static List<Lesson> lessons
+        {
+            get
+            {
+                Query query = new Query("SELECT * FROM studyplatform.lessons;");
+                return Extractor.ExtractLessons(query.Execute());
+            }
+        }
     }
 }
