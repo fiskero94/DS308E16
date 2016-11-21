@@ -105,6 +105,7 @@ namespace StudyPlatform.Classes.Database
         }
         public static void CreateRoom(string name)
         {
+            EnsureNotNull(name);
             // Ensure input is not null, throw ArgumentNullException (Use EnsureNotNull method)
             // Add new Room to the studyplatform.rooms table
             // Get the ID of the newly created Room
