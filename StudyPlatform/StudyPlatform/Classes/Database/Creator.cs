@@ -105,7 +105,6 @@ namespace StudyPlatform.Classes.Database
             EnsureNotNull(date, description, online, active, rooms, filepaths, course);
             Query.ExecuteQueryString("INSERT INTO studyplatform.lessons VALUES(NULL,'" +
                              date + "','" + description + "','" + online.ToString().ToUpper() + "','" + active.ToString().ToUpper() + "');");
-             secretary = Lists.Secretaries.Last();
             Lesson lesson = Lists.lessons.Last();
             CreateTable("lessonrooms" + lesson.ID, "roomid INT UNSIGNED NOT NULL");
             CreateTable("lessonabsences" + lesson.ID, "absenceid INT UNSIGNED NOT NULL");
