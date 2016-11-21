@@ -100,7 +100,7 @@ namespace StudyPlatform.Classes.Database
             CreateTable("coursedocuments" + course.ID, "filepath TEXT NOT NULL");
             //throw new NotImplementedException();
         }
-        public static void CreateLesson(DateTime date, string description, bool online, bool active, List<Room> rooms, List<string> filepaths, Course course)
+        public static void CreateLesson(TimeSpan date, string description, bool online, bool active, List<Room> rooms, List<string> filepaths, Course course)
         {
             EnsureNotNull(date, description, online, active, rooms, filepaths, course);
             Query.ExecuteQueryString("INSERT INTO studyplatform.lessons VALUES(NULL,'" +
@@ -141,7 +141,7 @@ namespace StudyPlatform.Classes.Database
             Room room = Lists.Rooms.Last();
             CreateTable("roomreservations" + room.ID, "lessonid INT UNSIGNED NOT NULL");
         }
-        public static void CreateAssignmentDescription(Course course, string description, DateTime deadline, List<string> filepaths)
+        public static void CreateAssignmentDescription(Course course, string description, TimeSpan deadline, List<string> filepaths)
         {
             // Ensure input is not null, throw ArgumentNullException (Use EnsureNotNull method)
             // Add new AssignmentDescription to the studyplatform.assignmentdescription table

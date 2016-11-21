@@ -50,17 +50,17 @@ namespace StudyPlatformSQLSetup
                                     "senderid INT UNSIGNED NOT NULL",
                                     "title TEXT NOT NULL",
                                     "text TEXT NOT NULL",
-                                    "date DATE NOT NULL");
+                                    "date TIMESPAN NOT NULL");
             CreateTable("news", "id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY",
                                 "authorid INT UNSIGNED NOT NULL",
                                 "title TEXT NOT NULL",
                                 "text TEXT NOT NULL",
-                                "date DATE NOT NULL");
+                                "date TIMESPAN NOT NULL");
             CreateTable("courses", "id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY",
                                    "name TEXT NOT NULL",
                                    "description TEXT NOT NULL");
             CreateTable("lessons", "id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY",
-                                   "date DATE NOT NULL",
+                                   "date TIMESPAN NOT NULL",
                                    "description TEXT NOT NULL",
                                    "online BOOL NOT NULL",
                                    "active BOOL NOT NULL");
@@ -69,13 +69,13 @@ namespace StudyPlatformSQLSetup
             CreateTable("assignmentdescriptions", "id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY",
                                                   "courseid INT UNSIGNED NOT NULL",
                                                   "description TEXT NOT NULL",
-                                                  "deadline DATE NOT NULL");
+                                                  "deadline TIMESPAN NOT NULL");
             CreateTable("assignments", "id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY",
                                        "assignmentdescriptionid INT UNSIGNED NOT NULL",
                                        "studentid INT UNSIGNED NOT NULL",
                                        "comment TEXT NOT NULL",
                                        "gradeid INT UNSIGNED NOT NULL",
-                                       "date DATE NOT NULL");
+                                       "date TIMESPAN NOT NULL");
             CreateTable("assignmentgrades", "id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY",
                                             "grade ENUM('12','10','7','4','02','00','-3') NOT NULL",
                                             "assignmentid INT UNSIGNED NOT NULL");
