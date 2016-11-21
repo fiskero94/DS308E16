@@ -1,9 +1,7 @@
-﻿using System;
+﻿using StudyPlatform.Classes.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using StudyPlatform.Classes.Model;
-using System.IO;
 
 namespace StudyPlatform.Classes.Database
 {
@@ -112,7 +110,7 @@ namespace StudyPlatform.Classes.Database
 
             foreach (Room room in rooms)
             {
-                Query.ExecuteQueryString("INSERT INTO studyplatform.lessonrooms" + lesson.ID + " VALUES("+room.ID + ");");
+                Query.ExecuteQueryString("INSERT INTO studyplatform.lessonrooms" + lesson.ID + " VALUES(" + room.ID + ");");
                 Query.ExecuteQueryString("INSERT INTO studyplatform.roomreservations" + room.ID + " VALUES(" + lesson.ID + ");");
             }
 
@@ -140,16 +138,35 @@ namespace StudyPlatform.Classes.Database
             Room room = Lists.Rooms.Last();
             CreateTable("roomreservations" + room.ID, "lessonid INT UNSIGNED NOT NULL");
         }
+
         public static void CreateAssignmentDescription(Course course, string description, DateTime deadline, List<string> filepaths)
         {
             // Ensure input is not null, throw ArgumentNullException (Use EnsureNotNull method)
+            EnsureNotNull(course, description, deadline, filepaths);
+
             // Add new AssignmentDescription to the studyplatform.assignmentdescription table
+            Query.ExecuteQueryString("INSERT INTO studyplatform.assignmentdescriptions VALUES(NULL, '" + course +
+                                    "','" + description + "','" + deadline + "');");
+
             // Get the ID of the newly created AssignmentDescription
+            AssignmentDescription assignmentdescription = Lists.AssignmentDescriptions.Last;
+
             // Create new table assignmentdescriptionassignmentsN where N is the ID of the AssignmentDescription
+            CreateTable("assignmentdescriptionassignments" + assignmentdescription.ID, "assignmentid INT UNSIGNED NOT NULL");
+
             // Create new table assignmentdescriptiondocumentsN where N is the ID of the AssignmentDescription
+            CreateTable("assignmentdescriptiondocuments" + assignmentdescription.ID, "filepath TEXT NOT NULL");
+
             // Add the filepaths to the table
+            foreach (string filepath in filepaths)
+            {
+                Query.ExecuteQueryString("INSERT INTO studyplatform.assignentdescriptiondocuments " +
+                    assignmentdescription.ID + " VALUES(NULL, '" + filepath + "');");
+            }
+
             // Input the ID of the AssignmentDescription into the courseassignmentdescriptionsN table for the Course
-            throw new NotImplementedException();
+            Query.ExecuteQueryString("INSERT INTO studyplatform.courseassignmentdescription" + course.ID +
+                                    " VALUES(NULL, '" + assignmentdescription.ID + "');");
         }
         public static void CreateAssignment(AssignmentDescription assignmentDescription, Student student, string comment, List<string> filepaths)
         {
