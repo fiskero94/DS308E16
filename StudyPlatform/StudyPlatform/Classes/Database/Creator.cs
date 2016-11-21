@@ -72,25 +72,59 @@ namespace StudyPlatform.Classes.Database
         public static void CreateNews(Person author, string title, string text)
         {
             // Ensure input is not null, throw ArgumentNullException (Use EnsureNotNull method)
+            EnsureNotNull(author, title, text);
             // Add new News to the studyplatform.news table
+            Query.ExecuteQueryString("INSERT INTO studyplatform.news VALUES(NULL,'" +
+                                     author.ID + "','" + title + "','" + text + "','" + "NOW()" + "');"); // tilføjet now() 
             throw new NotImplementedException();
         }
         public static void CreateCourse(string name, string description)
         {
-            // Ensure input is not null, throw ArgumentNullException (Use EnsureNotNull method)
+            // Ensure input is not null, throw ArgumentNullException(Use EnsureNotNull method)
+            EnsureNotNull(name, description);
             // Add new Course to the studyplatform.courses table
+            Query.ExecuteQueryString("INSERT INTO studyplatform.courses VALUES(NULL,'" +
+                                     name + "','" + description + "');");
             // Get the ID of the newly created Course
+            Course course = Lists.Courses.Last();
             // Create new table courseteachersN where N is the ID of the Course
+            CreateTable("courseteachers" + course.ID, "teacherid INT UNSIGNED NOT NULL");
             // Create new table coursestudentsN where N is the ID of the Course
+            CreateTable("coursestudents" + course.ID, "studentid INT UNSIGNED NOT NULL");
             // Create new table courselessonsN where N is the ID of the Course
+            CreateTable("courselessons" + course.ID, "lessonid INT UNSIGNED NOT NULL");
             // Create new table courseassignmentdescriptionsN where N is the ID of the Course
+            CreateTable("courseassignmentdescriptions" + course.ID, "assignmentdescriptionid INT UNSIGNED NOT NULL");
             // Create new table coursegradesN where N is the ID of the Course
-            // Create new table messagerecipientsN where N is the ID of the Course
-            throw new NotImplementedException();
+            CreateTable("coursegrades" + course.ID, "gradeid INT UNSIGNED NOT NULL");
+            // Create new table messagerecipientsN where N is the ID of the Course - teacher mente coursedocuments istedet
+            CreateTable("coursedocuments" + course.ID, "filepath TEXT NOT NULL");
+            //throw new NotImplementedException();
         }
         public static void CreateLesson(DateTime date, string description, bool online, bool active, List<Room> rooms, List<string> filepaths, Course course)
         {
-            // Ensure input is not null, throw ArgumentNullException (Use EnsureNotNull method)
+            EnsureNotNull(date, description, online, active, rooms, filepaths, course);
+            Query.ExecuteQueryString("INSERT INTO studyplatform.lessons VALUES(NULL,'" +
+                             date + "','" + description + "','" + online.ToString().ToUpper() + "','" + active.ToString().ToUpper() + "');");
+             secretary = Lists.Secretaries.Last();
+            Lesson lesson = Lists.lessons.Last();
+            CreateTable("lessonrooms" + lesson.ID, "roomid INT UNSIGNED NOT NULL");
+            CreateTable("lessonabsences" + lesson.ID, "absenceid INT UNSIGNED NOT NULL");
+            CreateTable("lessondocuments" + lesson.ID, "TEXT NOT NULL");
+
+            foreach (Room room in rooms)
+            {
+                Query.ExecuteQueryString("INSERT INTO studyplatform.lessonrooms" + lesson.ID + " VALUES("+room.ID + ");");
+                Query.ExecuteQueryString("INSERT INTO studyplatform.roomreservations" + room.ID + " VALUES(" + lesson.ID + ");");
+            }
+
+            foreach (string filepath in filepaths)
+            {
+                Query.ExecuteQueryString("INSERT INTO studyplatform.lessondocuments" + lesson.ID + " VALUES(" + filepath + ");");
+            }
+
+            Query.ExecuteQueryString("INSERT INTO studyplatform.courselessons" + course.ID + " VALUES(" + lesson.ID + ");");
+
             // Add new Lesson to the studyplatform.lessons table (enter bool values as TRUE or FALSE, not 'TRUE' or 'FALSE')
             // Get the ID of the newly created Lesson
             // Create new table lessonroomsN where N is the ID of the Lesson
@@ -100,15 +134,13 @@ namespace StudyPlatform.Classes.Database
             // Add the filepaths to the table
             // Input the ID of the Lesson into the courselessonsN tables for the Course.
             // Input the ID of the Lesson into the roomreservationsN tables foreach of the Rooms.
-            throw new NotImplementedException();
         }
         public static void CreateRoom(string name)
         {
-            // Ensure input is not null, throw ArgumentNullException (Use EnsureNotNull method)
-            // Add new Room to the studyplatform.rooms table
-            // Get the ID of the newly created Room
-            // Create new table roomreservationsN where N is the ID of the Room
-            throw new NotImplementedException();
+            EnsureNotNull(name);
+            Query.ExecuteQueryString("INSERT INTO studyplatform.rooms VALUES(NULL,'" + name + "');");
+            Room room = Lists.Rooms.Last();
+            CreateTable("roomreservations" + room.ID, "lessonid INT UNSIGNED NOT NULL");
         }
 
         public static void CreateAssignmentDescription(Course course, string description, DateTime deadline, List<string> filepaths)

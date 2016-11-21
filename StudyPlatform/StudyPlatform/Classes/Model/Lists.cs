@@ -70,7 +70,16 @@ namespace StudyPlatform.Classes.Model
         {
             get
             {
-                throw new NotImplementedException();
+                Query query = new Query("SELECT * FROM studyplatform.rooms;");
+                return Extractor.ExtractRooms(query.Execute());
+            }
+        }
+        public static List<Lesson> lessons
+        {
+            get
+            {
+                Query query = new Query("SELECT * FROM studyplatform.lessons;");
+                return Extractor.ExtractLessons(query.Execute());
             }
         }
     }
