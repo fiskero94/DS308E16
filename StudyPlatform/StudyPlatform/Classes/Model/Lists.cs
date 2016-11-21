@@ -51,6 +51,14 @@ namespace StudyPlatform.Classes.Model
                 throw new NotImplementedException();
             }
         }
+        public static List<AssignmentDescription> AssignmentDescriptions
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
         public static List<Course> Courses
         {
             get
