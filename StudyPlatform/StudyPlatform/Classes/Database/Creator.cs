@@ -78,7 +78,7 @@ namespace StudyPlatform.Classes.Database
         }
         public static void CreateCourse(string name, string description)
         {
-            // Ensure input is not null, throw ArgumentNullException (Use EnsureNotNull method)
+            EnsureNotNull(name, description);// Ensure input is not null, throw ArgumentNullException (Use EnsureNotNull method)
             // Add new Course to the studyplatform.courses table
             // Get the ID of the newly created Course
             // Create new table courseteachersN where N is the ID of the Course
