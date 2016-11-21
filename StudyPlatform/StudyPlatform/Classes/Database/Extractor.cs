@@ -51,6 +51,7 @@ namespace StudyPlatform.Classes.Database
         }
         public static List<News> ExtractNews(MySqlConnectionReader connectionReader)
         {
+
             throw new NotImplementedException();
         }
         public static List<Course> ExtractCourses(MySqlConnectionReader connectionReader)
