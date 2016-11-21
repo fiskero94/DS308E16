@@ -182,10 +182,20 @@ namespace StudyPlatform.Classes.Database
         public static void CreateAssignmentGrade(string grade, Assignment assignment)
         {
             // Ensure input is not null, throw ArgumentNullException (Use EnsureNotNull method)
+            EnsureNotNull(grade, assignment);
             // Ensure that grade is a part of the set Grade.ValidGrades, throw exception if not.
+            if (!Grade.ValidGrades.Contains(grade))
+            {
+                throw new Exception();
+            }
             // Add new AssignmentGrade to the studyplatform.assignmentgrades table
+            Query.ExecuteQueryString("INSERT INTO studyplatform.assignmentgrade VALUES(NULL,'" +
+                                     grade + "','" + assignment.ID + "');");
             // Get the ID of the newly created AssignmentGrade
+            AssignmentGrade assignmentGrade = Lists.AssignmentGrades.Last();
             // Input the ID into the gradeid variable of the corrosponding assigment.
+            Editor.SetValue("assignments", assignment.ID, "gradeid", assignmentGrade.ID.ToString());
+
             throw new NotImplementedException();
         }
         public static void CreateCourseGrade(string grade, Course course, Student student)

@@ -23,8 +23,26 @@ namespace StudyPlatform.Classes.Database
         }
         public static void RemoveCourse(Course course)
         {
+            Query.ExecuteQueryString("DELETE FROM studyplatform.courses WHERE id='" + course.ID + "';");
+            Query.ExecuteQueryString("DROP TABLE studyplatform.courseteachers" + course.ID + ";");
+            Query.ExecuteQueryString("DROP TABLE studyplatform.coursestudents" + course.ID + ";");
+            Query.ExecuteQueryString("DROP TABLE studyplatform.courselessons" + course.ID + ";");
+            Query.ExecuteQueryString("DROP TABLE studyplatform.courseassignmentdescriptions" + course.ID + ";");
+            Query.ExecuteQueryString("DROP TABLE studyplatform.coursegrades" + course.ID + ";");
+            Query.ExecuteQueryString("DROP TABLE studyplatform.coursedocuments" + course.ID + ";");
+            foreach (Person person in Lists.Persons)
+            {
+                Query.ExecuteQueryString("DELETE FROM studyplatform.personcourses" + person.ID + " WHERE courseid='" + course.ID + "';");
+            }
+            Query.ExecuteQueryString("DELETE FROM studyplatform.assignmentdescriptions WHERE courseid='" + course.ID + "';");
+            Query.ExecuteQueryString("DELETE FROM studyplatform.coursegrades WHERE courseid='" + course.ID + "';");
+            foreach (AssignmentDescription assigmentdescription in Lists.AssignmentDescriptions)
+            {
+                if()
+                Query.ExecuteQueryString("DELETE FROM studyplatform.assignments WHERE assignmentdescriptionid='" + assigmentdescription.ID + "';");
+            }
 
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
         public static void RemoveLesson(Lesson lesson)
         {
