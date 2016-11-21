@@ -149,24 +149,24 @@ namespace StudyPlatform.Classes.Database
                                     "','" + description + "','" + deadline + "');");
 
             // Get the ID of the newly created AssignmentDescription
-            AssignmentDescription assignmentdescription = Lists.AssignmentDescriptions.Last;
+            AssignmentDescription assignmentDescription = Lists.AssignmentDescriptions.Last();
 
             // Create new table assignmentdescriptionassignmentsN where N is the ID of the AssignmentDescription
-            CreateTable("assignmentdescriptionassignments" + assignmentdescription.ID, "assignmentid INT UNSIGNED NOT NULL");
+            CreateTable("assignmentdescriptionassignments" + assignmentDescription.ID, "assignmentid INT UNSIGNED NOT NULL");
 
             // Create new table assignmentdescriptiondocumentsN where N is the ID of the AssignmentDescription
-            CreateTable("assignmentdescriptiondocuments" + assignmentdescription.ID, "filepath TEXT NOT NULL");
+            CreateTable("assignmentdescriptiondocuments" + assignmentDescription.ID, "filepath TEXT NOT NULL");
 
             // Add the filepaths to the table
             foreach (string filepath in filepaths)
             {
                 Query.ExecuteQueryString("INSERT INTO studyplatform.assignentdescriptiondocuments " +
-                    assignmentdescription.ID + " VALUES(NULL, '" + filepath + "');");
+                    assignmentDescription.ID + " VALUES(NULL, '" + filepath + "');");
             }
 
             // Input the ID of the AssignmentDescription into the courseassignmentdescriptionsN table for the Course
             Query.ExecuteQueryString("INSERT INTO studyplatform.courseassignmentdescription" + course.ID +
-                                    " VALUES(NULL, '" + assignmentdescription.ID + "');");
+                                    " VALUES(NULL, '" + assignmentDescription.ID + "');");
         }
         public static void CreateAssignment(AssignmentDescription assignmentDescription, Student student, string comment, List<string> filepaths)
         {

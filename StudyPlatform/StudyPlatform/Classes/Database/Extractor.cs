@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using MySql.Data.MySqlClient;
-using StudyPlatform.Classes.Database;
-using StudyPlatform.Classes.Model;
+﻿using MySql.Data.MySqlClient;
 using StudyPlatform.Classes.Exceptions;
+using StudyPlatform.Classes.Model;
+using System;
+using System.Collections.Generic;
 
 namespace StudyPlatform.Classes.Database
 {
@@ -80,7 +77,18 @@ namespace StudyPlatform.Classes.Database
         }
         public static List<Lesson> ExtractLessons(MySqlConnectionReader connectionReader)
         {
-            throw new NotImplementedException();
+            MySqlDataReader reader = connectionReader.Reader;
+            List<Lesson> lessons = new List<Lesson>();
+            while (reader.HasRows && reader.Read())
+            {
+                uint id = reader.GetUInt32(reader.GetOrdinal("id"));
+                string description = reader.GetString(reader.GetOrdinal("description"));
+                DateTime date = reader.GetDateTime(reader.GetOrdinal("date"));
+                bool online = reader.GetBoolean(reader.GetOrdinal("online"));
+                bool active = reader.GetBoolean(reader.GetOrdinal("active"));
+                lessons.Add(new Lesson(id, date, description, online, active));
+            }
+            return lessons;
         }
         public static List<Room> ExtractRooms(MySqlConnectionReader connectionReader)
         {

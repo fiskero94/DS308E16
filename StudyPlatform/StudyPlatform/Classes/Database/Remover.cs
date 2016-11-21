@@ -32,11 +32,11 @@ namespace StudyPlatform.Classes.Database
         }
         public static void RemoveRoom(Room room)
         {
-            throw new NotImplementedException();
+            Query.ExecuteQueryString("DELETE FROM studieplatform.rooms WHERE id='" + room.ID + "';");
+            Query.ExecuteQueryString("DROP TABLE studieplatform.rooms WHERE id='" + room.ID + "';");
         }
         public static void RemoveAssignmentDescription(AssignmentDescription assignmentDescription)
         {
-
             throw new NotImplementedException();
         }
         public static void RemoveAssignment(Assignment assignment)
@@ -49,7 +49,9 @@ namespace StudyPlatform.Classes.Database
         }
         public static void RemoveCourseGrade(CourseGrade grade)
         {
+            DateTime.Parse("")
             throw new NotImplementedException();
         }
+
     }
 }
