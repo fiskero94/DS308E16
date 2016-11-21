@@ -7,6 +7,15 @@ namespace StudyPlatform.Classes.Model
 {
     public class News
     {
+        public News(uint id, uint authorid, string title, string text)
+        {
+            _id = id;
+            _authorid = authorid;
+            _title = title;
+            _text = text;
+            // mangler date
+        }
+
         private uint _id;
         public uint ID
         {
