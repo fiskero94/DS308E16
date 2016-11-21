@@ -73,7 +73,8 @@ namespace StudyPlatform.Classes.Database
             // Ensure input is not null, throw ArgumentNullException (Use EnsureNotNull method)
             EnsureNotNull(author, title, text);
             // Add new News to the studyplatform.news table
-
+            Query.ExecuteQueryString("INSERT INTO studyplatform.news VALUES(NULL,'" +
+                                     author.ID + "','" + title + "','" + text + "','" + "NOW()" + "');"); // tilføjet now() 
             throw new NotImplementedException();
         }
         public static void CreateCourse(string name, string description)
