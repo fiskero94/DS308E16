@@ -87,17 +87,17 @@ namespace StudyPlatform.Classes.Database
             // Get the ID of the newly created Course
             Course course = Lists.Courses.Last();
             // Create new table courseteachersN where N is the ID of the Course
-            CreateTable("courseteachers" + course.Id, "teacherid INT UNSIGNED NOT NULL");
+            CreateTable("courseteachers" + course.ID, "teacherid INT UNSIGNED NOT NULL");
             // Create new table coursestudentsN where N is the ID of the Course
-            CreateTable("coursestudents" + course.Id, "studentid INT UNSIGNED NOT NULL");
+            CreateTable("coursestudents" + course.ID, "studentid INT UNSIGNED NOT NULL");
             // Create new table courselessonsN where N is the ID of the Course
-            CreateTable("courselessons" + course.Id, "lessonid INT UNSIGNED NOT NULL");
+            CreateTable("courselessons" + course.ID, "lessonid INT UNSIGNED NOT NULL");
             // Create new table courseassignmentdescriptionsN where N is the ID of the Course
-            CreateTable("courseassignmentdescriptions" + course.Id, "assignmentdescriptionid INT UNSIGNED NOT NULL");
+            CreateTable("courseassignmentdescriptions" + course.ID, "assignmentdescriptionid INT UNSIGNED NOT NULL");
             // Create new table coursegradesN where N is the ID of the Course
-            CreateTable("coursegrades" + course.Id, "gradeid INT UNSIGNED NOT NULL");
+            CreateTable("coursegrades" + course.ID, "gradeid INT UNSIGNED NOT NULL");
             // Create new table messagerecipientsN where N is the ID of the Course - teacher mente coursedocuments istedet
-            CreateTable("coursedocuments" + course.Id, "filepath TEXT NOT NULL");
+            CreateTable("coursedocuments" + course.ID, "filepath TEXT NOT NULL");
             //throw new NotImplementedException();
         }
         public static void CreateLesson(DateTime date, string description, bool online, bool active, List<Room> rooms, List<string> filepaths, Course course)
@@ -117,11 +117,9 @@ namespace StudyPlatform.Classes.Database
         public static void CreateRoom(string name)
         {
             EnsureNotNull(name);
-            // Ensure input is not null, throw ArgumentNullException (Use EnsureNotNull method)
-            // Add new Room to the studyplatform.rooms table
-            // Get the ID of the newly created Room
-            // Create new table roomreservationsN where N is the ID of the Room
-            throw new NotImplementedException();
+            Query.ExecuteQueryString("INSERT INTO studyplatform.rooms VALUES(NULL,'" + name + "');");
+            Room room = Lists.Rooms.Last();
+            CreateTable("roomreservations" + room.ID, "lessonid INT UNSIGNED NOT NULL");
         }
         public static void CreateAssignmentDescription(Course course, string description, DateTime deadline, List<string> filepaths)
         {
