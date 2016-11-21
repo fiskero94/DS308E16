@@ -56,10 +56,10 @@ namespace StudyPlatform.Classes.Database
             while (reader.HasRows && reader.Read())
             {
                 uint id = reader.GetUInt32(reader.GetOrdinal("id"));
-                string authorid = reader.GetString(reader.GetOrdinal("authorid"));
+                uint authorid = reader.GetUInt32(reader.GetOrdinal("authorid"));
                 string title = reader.GetString(reader.GetOrdinal("title"));
                 string text = reader.GetString(reader.GetOrdinal("text"));
-                news.Add(id, authorid, title, text);
+                news.Add(new News(id, authorid, title, text));
             }
             return news;
             //throw new NotImplementedException();
@@ -73,7 +73,7 @@ namespace StudyPlatform.Classes.Database
                 uint id = reader.GetUInt32(reader.GetOrdinal("id"));
                 string name = reader.GetString(reader.GetOrdinal("name"));
                 string description = reader.GetString(reader.GetOrdinal("description"));
-                courses.Add(id, name, description);
+                courses.Add(new Course(id, name, description));
             }
             return courses;
             //throw new NotImplementedException();
