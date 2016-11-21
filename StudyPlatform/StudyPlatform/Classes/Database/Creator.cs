@@ -71,7 +71,9 @@ namespace StudyPlatform.Classes.Database
         public static void CreateNews(Person author, string title, string text)
         {
             // Ensure input is not null, throw ArgumentNullException (Use EnsureNotNull method)
+            EnsureNotNull(author, title, text);
             // Add new News to the studyplatform.news table
+
             throw new NotImplementedException();
         }
         public static void CreateCourse(string name, string description)
