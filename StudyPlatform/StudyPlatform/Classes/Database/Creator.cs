@@ -153,13 +153,13 @@ namespace StudyPlatform.Classes.Database
                                     "','" + description + "','" + deadline + "');");
 
             // Get the ID of the newly created AssignmentDescription
-            AssignmentDescription assignmentdescription = Lists.AssignmentDescriptions.Last;
+            AssignmentDescription assignmentDescription = Lists.AssignmentDescriptions.Last();
 
             // Create new table assignmentdescriptionassignmentsN where N is the ID of the AssignmentDescription
-            CreateTable("assignmentdescriptionassignments" + assignmentdescription.ID, "assignmentid INT UNSIGNED NOT NULL");
+            CreateTable("assignmentdescriptionassignments" + assignmentDescription.ID, "assignmentid INT UNSIGNED NOT NULL");
 
             // Create new table assignmentdescriptiondocumentsN where N is the ID of the AssignmentDescription
-            CreateTable("assignmentdescriptiondocuments" + assignmentdescription.ID, "filepath TEXT NOT NULL");
+            CreateTable("assignmentdescriptiondocuments" + assignmentDescription.ID, "filepath TEXT NOT NULL");
 
             // Add the filepaths to the table
             foreach (string filepath in filepaths)
