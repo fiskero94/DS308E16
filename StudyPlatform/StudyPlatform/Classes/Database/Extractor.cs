@@ -51,11 +51,32 @@ namespace StudyPlatform.Classes.Database
         }
         public static List<News> ExtractNews(MySqlConnectionReader connectionReader)
         {
-            throw new NotImplementedException();
+            MySqlDataReader reader = connectionReader.Reader;
+            List<News> news = new List<News>();
+            while (reader.HasRows && reader.Read())
+            {
+                uint id = reader.GetUInt32(reader.GetOrdinal("id"));
+                string authorid = reader.GetString(reader.GetOrdinal("authorid"));
+                string title = reader.GetString(reader.GetOrdinal("title"));
+                string text = reader.GetString(reader.GetOrdinal("text"));
+                news.Add(id, authorid, title, text);
+            }
+            return news;
+            //throw new NotImplementedException();
         }
         public static List<Course> ExtractCourses(MySqlConnectionReader connectionReader)
         {
-            throw new NotImplementedException();
+            MySqlDataReader reader = connectionReader.Reader;
+            List<Course> courses = new List<Course>();
+            while (reader.HasRows && reader.Read())
+            {
+                uint id = reader.GetUInt32(reader.GetOrdinal("id"));
+                string name = reader.GetString(reader.GetOrdinal("name"));
+                string description = reader.GetString(reader.GetOrdinal("description"));
+                courses.Add(id, name, description);
+            }
+            return courses;
+            //throw new NotImplementedException();
         }
         public static List<Lesson> ExtractLessons(MySqlConnectionReader connectionReader)
         {
@@ -63,7 +84,15 @@ namespace StudyPlatform.Classes.Database
         }
         public static List<Room> ExtractRooms(MySqlConnectionReader connectionReader)
         {
-            throw new NotImplementedException();
+            MySqlDataReader reader = connectionReader.Reader;
+            List<Room> rooms = new List<Room>();
+            while (reader.HasRows && reader.Read())
+            {
+                uint id = reader.GetUInt32(reader.GetOrdinal("id"));
+                string name = reader.GetString(reader.GetOrdinal("name"));
+                rooms.Add(new Room(id, name));
+            }
+            return rooms;
         }
         public static List<AssignmentDescription> ExtractAssignmentDescriptions(MySqlConnectionReader connectionReader)
         {
