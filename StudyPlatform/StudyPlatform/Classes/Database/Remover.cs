@@ -38,7 +38,8 @@ namespace StudyPlatform.Classes.Database
             Query.ExecuteQueryString("DELETE FROM studyplatform.coursegrades WHERE courseid='" + course.ID + "';");
             foreach (AssignmentDescription assigmentdescription in Lists.AssignmentDescriptions)
             {
-                Query.ExecuteQueryString("DELETE FROM studyplatform.assignments WHERE assignmentdescriptionid='" + assigmentdescription + "';");
+                if()
+                Query.ExecuteQueryString("DELETE FROM studyplatform.assignments WHERE assignmentdescriptionid='" + assigmentdescription.ID + "';");
             }
 
             //throw new NotImplementedException();
