@@ -161,12 +161,12 @@ namespace StudyPlatform.Classes.Database
             foreach (string filepath in filepaths)
             {
                 Query.ExecuteQueryString("INSERT INTO studyplatform.assignentdescriptiondocuments " +
-                    assignmentdescription.ID + " VALUES(NULL, '" + filepath + "');");
+                    assignmentDescription.ID + " VALUES(NULL, '" + filepath + "');");
             }
 
             // Input the ID of the AssignmentDescription into the courseassignmentdescriptionsN table for the Course
             Query.ExecuteQueryString("INSERT INTO studyplatform.courseassignmentdescription" + course.ID +
-                                    " VALUES(NULL, '" + assignmentdescription.ID + "');");
+                                    " VALUES(NULL, '" + assignmentDescription.ID + "');");
         }
         public static void CreateAssignment(AssignmentDescription assignmentDescription, Student student, string comment, List<string> filepaths)
         {
