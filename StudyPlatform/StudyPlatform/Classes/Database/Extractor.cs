@@ -96,7 +96,18 @@ namespace StudyPlatform.Classes.Database
         }
         public static List<AssignmentDescription> ExtractAssignmentDescriptions(MySqlConnectionReader connectionReader)
         {
-            throw new NotImplementedException();
+            MySqlDataReader reader = connectionReader.Reader;
+            List<AssignmentDescription> assignmentdescriptions = new List<AssignmentDescription>();
+
+            while (reader.HasRows && reader.Read())
+            {
+                uint id = reader.GetUInt32(reader.GetOrdinal("id"));
+                uint courseid = reader.GetUInt32(reader.GetOrdinal("courseid"));
+                string description = reader.GetString(reader.GetOrdinal("description"));
+                DateTime date = reader.GetDateTime(reader.GetOrdinal("date"));
+                assignmentdescriptions.Add(new AssignmentDescription(id, courseid, description, date));
+            }
+            return assignmentdescriptions;
         }
         public static List<Assignment> ExtractAssignments(MySqlConnectionReader connectionReader)
         {
