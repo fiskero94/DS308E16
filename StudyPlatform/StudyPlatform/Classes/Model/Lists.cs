@@ -20,21 +20,24 @@ namespace StudyPlatform.Classes.Model
         {
             get
             {
-                return Persons.Where(person => person.GetType() == typeof(Student)).Cast<Student>().ToList();
+                Query query = new Query("SELECT * FROM studyplatform.persons WHERE type=student;");
+                return Extractor.ExtractPersons(query.Execute()).Cast<Student>().ToList();
             }
         }
         public static List<Teacher> Teachers
         {
             get
             {
-                return Persons.Where(person => person.GetType() == typeof(Teacher)).Cast<Teacher>().ToList();
+                Query query = new Query("SELECT * FROM studyplatform.persons WHERE type=teacher;");
+                return Extractor.ExtractPersons(query.Execute()).Cast<Teacher>().ToList();
             }
         }
         public static List<Secretary> Secretaries
         {
             get
             {
-                return Persons.Where(person => person.GetType() == typeof(Secretary)).Cast<Secretary>().ToList();
+                Query query = new Query("SELECT * FROM studyplatform.persons WHERE type=secretary;");
+                return Extractor.ExtractPersons(query.Execute()).Cast<Secretary>().ToList();
             }
         }
         public static List<Message> Messages
@@ -49,7 +52,8 @@ namespace StudyPlatform.Classes.Model
         {
             get
             {
-                throw new NotImplementedException();
+                Query query = new Query("SELECT * FROM studyplatform.news;");
+                return Extractor.ExtractNews(query.Execute());
             }
         }
         public static List<AssignmentDescription> AssignmentDescriptions
@@ -65,7 +69,8 @@ namespace StudyPlatform.Classes.Model
         {
             get
             {
-                throw new NotImplementedException();
+                Query query = new Query("SELECT * FROM studyplatform.courses;");
+                return Extractor.ExtractCourses(query.Execute());
             }
         }
         public static List<Room> Rooms
@@ -76,7 +81,7 @@ namespace StudyPlatform.Classes.Model
                 return Extractor.ExtractRooms(query.Execute());
             }
         }
-        public static List<Lesson> lessons
+        public static List<Lesson> Lessons
         {
             get
             {
@@ -88,14 +93,24 @@ namespace StudyPlatform.Classes.Model
         {
             get
             {
-                throw new NotImplementedException();
+                Query query = new Query("SELECT * FROM studyplatform.assignmentgrades;");
+                return Extractor.ExtractAssignmentGrades(query.Execute());
             }
         }
         public static List<CourseGrade> CourseGrades
         {
             get
             {
-                throw new NotImplementedException();
+                Query query = new Query("SELECT * FROM studyplatform.coursegrades;");
+                return Extractor.ExtractCourseGrades(query.Execute());
+            }
+        }
+        public static List<Assignment> Assignments
+        {
+            get
+            {
+                Query query = new Query("SELECT * FROM studyplatform.assignments;");
+                return Extractor.ExtractAssignments(query.Execute());
             }
         }
     }
