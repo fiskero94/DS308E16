@@ -71,7 +71,7 @@ namespace StudyPlatform.Classes.Database
             Commands.DropTable("assignmentdescriptiondocuments" + assignmentDescription.ID);
 
             foreach (Assignment assignment in Lists.Assignments)
-                if (assignment.ID == assignmentDescription.ID)
+                if (assignment. == assignmentDescription.ID)
                     RemoveAssignment(assignment);
         }
         public static void RemoveAssignment(Assignment assignment)
