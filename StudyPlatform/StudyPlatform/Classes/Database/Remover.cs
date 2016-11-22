@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using StudyPlatform.Classes.Model;
+﻿using StudyPlatform.Classes.Model;
+using System;
 
 namespace StudyPlatform.Classes.Database
 {
@@ -39,7 +36,8 @@ namespace StudyPlatform.Classes.Database
         }
         public static void RemoveLesson(Lesson lesson)
         {
-            throw new NotImplementedException();
+            Commands.DeleteFrom("lessons", "id=" + lesson.ID);
+
         }
         public static void RemoveRoom(Room room)
         {
