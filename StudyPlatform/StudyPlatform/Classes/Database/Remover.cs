@@ -27,10 +27,12 @@ namespace StudyPlatform.Classes.Database
             foreach (Person person in Lists.Persons)
                 Commands.DeleteFrom("personcourses" + person.ID, "courseid=" + course.ID);
             //lessons
-            Commands.DropTable("courselessons" + course.ID);
-
+            //Commands.DropTable("courselessons" + course.ID); ---- metoden burde gerne fjerne dette?
+            foreach (Lesson lesson in Lists.lessons)
+                if (lesson.Course.ID == course.ID)
+                    RemoveLesson(lesson);
             //assignmentdescription
-            //Commands.DropTable("courseassignmentdescriptions" + course.ID);   ---- metoden burde gerne fjerne dette?
+            //Commands.DropTable("courseassignmentdescriptions" + course.ID); ---- metoden burde gerne fjerne dette?
             foreach (AssignmentDescription assignmentdescription in Lists.AssignmentDescriptions)
                 if (assignmentdescription.Course.ID == course.ID)
                     RemoveAssignmentDescription(assignmentdescription);
@@ -39,6 +41,7 @@ namespace StudyPlatform.Classes.Database
             Commands.DeleteFrom("coursegrades", "courseid=" + course.ID);
             //coursedocuments
             Commands.DropTable("coursedocuments" + course.ID);
+            //brug for måde at fjerne selve dokumentet. generisk metode som tager filepath som vi kan bruge til alle slags dokumenter?
         }
         public static void RemoveLesson(Lesson lesson)
         {
