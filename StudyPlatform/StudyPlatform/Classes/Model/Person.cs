@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using StudyPlatform.Classes.Database;
+using StudyPlatform.Classes.Model;
 
 namespace StudyPlatform.Classes.Model
 {
@@ -29,7 +30,7 @@ namespace StudyPlatform.Classes.Model
                     throw new ArgumentNullException();
                 else
                 {
-                    Editor.SetValue("persons", ID, "name", value);
+                    Commands.SetValue("persons", ID, "name", value);
                     _name = value;
                 }
             }

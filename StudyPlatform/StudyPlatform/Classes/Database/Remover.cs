@@ -18,11 +18,24 @@ namespace StudyPlatform.Classes.Database
         }
         public static void RemoveNews(News news)
         {
-            throw new NotImplementedException();
+            Commands.DeleteFrom("news", "id=" + news.ID);
         }
         public static void RemoveCourse(Course course)
         {
-            throw new NotImplementedException();
+            Commands.DeleteFrom("courses", "id=" + course.ID);
+            Commands.DropTable("courseteachers" + course.ID);
+            Commands.DropTable("coursestudents" + course.ID);
+            Commands.DropTable("courselessons" + course.ID);
+            Commands.DropTable("courseassignmentdescriptions" + course.ID);
+            Commands.DropTable("coursegrades" + course.ID);
+            Commands.DropTable("coursedocuments" + course.ID);
+            Commands.DeleteFrom("assignmentdescriptions", "courseid=" + course.ID);
+            Commands.DeleteFrom("coursegrades", "courseid=" + course.ID);
+            foreach (Person person in Lists.Persons)
+                Commands.DeleteFrom("personcourses" + person.ID, "courseid=" + course.ID);
+            foreach (AssignmentDescription assigmentdescription in Lists.AssignmentDescriptions)
+                if (true) // Why tho?
+                    Commands.DeleteFrom("assignments", "assignmentdescriptionid=" + assigmentdescription.ID);
         }
         public static void RemoveLesson(Lesson lesson)
         {
@@ -30,10 +43,13 @@ namespace StudyPlatform.Classes.Database
         }
         public static void RemoveRoom(Room room)
         {
-            throw new NotImplementedException();
+            Commands.DeleteFrom("rooms", "id=" + room.ID);
+            Commands.DropTable("roomreservations" + room.ID);
+            room = null;
         }
         public static void RemoveAssignmentDescription(AssignmentDescription assignmentDescription)
         {
+            Commands.DeleteFrom("assignmentdescriptions", "id=" + assignmentDescription.ID);
             throw new NotImplementedException();
         }
         public static void RemoveAssignment(Assignment assignment)
@@ -48,5 +64,6 @@ namespace StudyPlatform.Classes.Database
         {
             throw new NotImplementedException();
         }
+
     }
 }
