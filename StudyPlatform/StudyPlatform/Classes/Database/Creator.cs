@@ -148,14 +148,8 @@ namespace StudyPlatform.Classes.Database
             Commands.CreateTable("assignmentdocuments" + assignment.ID, "filepath TEXT NOT NULL");
             foreach (string filepath in filepaths)
                 Commands.InsertInto("assignmentdocuments" + assignment.ID, filepath);
-            Commands.InsertInto("assignmentdescriptionassignments");
-
-
-
-
-            // Input the ID of the Assignment into the assignmentdescriptionassignmentsN table for the AssignmentDescription
-            // Input the ID of the Student into the personassignmentsN table for the Student
-            throw new NotImplementedException();
+            Commands.InsertInto("assignmentdescriptionassignments" + assignmentDescription.ID, assignment.ID.ToString());
+            Commands.InsertInto("personassignments" + student.ID, assignment.ID.ToString());
         }
         public static void CreateAssignmentGrade(string grade, string comment, Assignment assignment)
         {
