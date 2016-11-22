@@ -84,6 +84,13 @@ namespace StudyPlatform.Classes.Database
         {
             Commands.DeleteFrom("assignments", "id=" + assignment.ID);
             Commands.DropTable("assignmentdocuments" + assignment.ID);
+            foreach (AssignmentGrade grade in Lists.AssignmentGrades)
+            {
+                if ()
+                {
+
+                }
+            }
             throw new NotImplementedException();
         }
         public static void RemoveAssignmentGrade(AssignmentGrade grade)
