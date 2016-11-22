@@ -28,21 +28,17 @@ namespace StudyPlatform.Classes.Database
                 Commands.DeleteFrom("personcourses" + person.ID, "courseid=" + course.ID);
             //lessons
             Commands.DropTable("courselessons" + course.ID);
+
             //assignmentdescription
-            Commands.DropTable("courseassignmentdescriptions" + course.ID);
+            //Commands.DropTable("courseassignmentdescriptions" + course.ID);   ---- metoden burde gerne fjerne dette?
             foreach (AssignmentDescription assignmentdescription in Lists.AssignmentDescriptions)
                 if (assignmentdescription.Course.ID == course.ID)
                     RemoveAssignmentDescription(assignmentdescription);
             //coursegrades
             Commands.DropTable("coursegrades" + course.ID);
+            Commands.DeleteFrom("coursegrades", "courseid=" + course.ID);
             //coursedocuments
             Commands.DropTable("coursedocuments" + course.ID);
-            Commands.DeleteFrom("coursegrades", "courseid=" + course.ID);
-            foreach (Person person in Lists.Persons)
-                Commands.DeleteFrom("personcourses" + person.ID, "courseid=" + course.ID);
-            foreach (AssignmentDescription assigmentdescription in Lists.AssignmentDescriptions)
-                if (true)
-                    Commands.DeleteFrom("assignments", "assignmentdescriptionid=" + assigmentdescription.ID);
         }
         public static void RemoveLesson(Lesson lesson)
         {
@@ -58,6 +54,12 @@ namespace StudyPlatform.Classes.Database
         public static void RemoveAssignmentDescription(AssignmentDescription assignmentDescription)
         {
             Commands.DeleteFrom("assignmentdescriptions", "id=" + assignmentDescription.ID);
+            Commands.DropTable("assignmentdescriptionassignments" + assignmentDescription.ID);
+            Commands.DropTable("assignmentdescriptiondocuments" + assignmentDescription.ID);
+            foreach(Assignment assignment in Lists.)
+            {
+                Commands.DeleteFrom()
+            }
             throw new NotImplementedException();
         }
         public static void RemoveAssignment(Assignment assignment)
