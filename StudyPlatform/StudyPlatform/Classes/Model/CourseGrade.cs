@@ -7,5 +7,6 @@ namespace StudyPlatform.Classes.Model
 {
     public class CourseGrade : Grade
     {
+
     }
 }
