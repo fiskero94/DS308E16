@@ -55,8 +55,37 @@ namespace StudyPlatform.Classes.Database
             Secretary secretary = Lists.Secretaries.Last();
             CreateTable("personmessages" + secretary.ID, "messageid INT UNSIGNED NOT NULL");
         }
+
         public static void CreateMessage(Person sender, string title, string text, List<Person> recipients, List<string> filepaths)
         {
+            EnsureNotNull(sender, title, text, recipients, filepaths);
+            Query.ExecuteQueryString("INSERT INTO studyplatform.messages VALUES(NULL,'" +
+                                     sender + "','" + title + "','" + text + "','" + recipients + "','" + filepaths + "');");
+
+            Message message = Lists.Messages.Last();
+            CreateTable("messagerecipients" + message.ID, "messageid INT UNSIGNED NOT NULL");
+
+            foreach (var recipient in recipients)
+            {
+                Query.ExecuteQueryString("INSERT INTO studyplatform.messagerecipients VALUES(NULL,'" +
+                                        recipient.ID + "');");
+
+                Query.ExecuteQueryString("INSERT INTO studyplatform.personrecievedmessages" + recipient.ID + "VALUES(NULL,'" +
+                                        message.ID + "');");
+            }
+
+            CreateTable("messageattachments" + message.ID, "messageid INT UNSIGNED NOT NULL");
+
+            foreach (var filepath in filepaths)
+            {
+                Query.ExecuteQueryString("INSERT INTO studyplatform.messageattachments VALUES(NULL,'" +
+                                       filepath + "');");
+            }
+
+            Query.ExecuteQueryString("INSERT INTO studyplatform.personsentmessages" + sender.ID + "VALUES(NULL,'" +
+                                    message.ID + "');");
+
+
             // Ensure input is not null, throw ArgumentNullException (Use EnsureNotNull method)
             // Add new Message to the studyplatform.messages table
             // Get the ID of the newly created Message
@@ -64,9 +93,10 @@ namespace StudyPlatform.Classes.Database
             // Add the ID's of the recipients to the table
             // Create new table messageattachmentsN where N is the ID of the Message
             // Add the filepaths to the table
+
             // Input the ID of the Message into the personsentmessagesN tables for the sender.
             // Input the ID of the Message into the personrecievedmessagesN tables foreach of the recipients
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
         public static void CreateNews(Person author, string title, string text)
         {

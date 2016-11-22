@@ -41,7 +41,8 @@ namespace StudyPlatform.Classes.Model
         {
             get
             {
-                throw new NotImplementedException();
+                Query query = new Query("SELECT * FROM studyplatform.messages;");
+                return Extractor.ExtractMessages(query.Execute());
             }
         }
         public static List<News> News
