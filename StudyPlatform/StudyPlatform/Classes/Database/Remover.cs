@@ -84,7 +84,7 @@ namespace StudyPlatform.Classes.Database
         }
         public static void RemoveAssignmentGrade(AssignmentGrade grade)
         {
-            throw new NotImplementedException();
+            Commands.DeleteFrom("assignmentgrades", "id=" + grade.ID);
         }
         public static void RemoveCourseGrade(CourseGrade grade)
         {

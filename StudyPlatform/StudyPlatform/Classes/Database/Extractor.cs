@@ -151,11 +151,35 @@ namespace StudyPlatform.Classes.Database
         }
         public static List<AssignmentGrade> ExtractAssignmentGrades(MySqlConnectionReader connectionReader)
         {
+            MySqlDataReader reader = connectionReader.Reader;
+            List<AssignmentGrade> assignmentgrades = new List<AssignmentGrade>();
+            while (reader.HasRows && reader.Read())
+            {
+                uint id = reader.GetUInt32(reader.GetOrdinal("id"));
+                string grade = reader.GetString(reader.GetOrdinal("grade"));
+                string comment = reader.GetString(reader.GetOrdinal("comment"));
+                uint assignmentid = reader.GetUInt32(reader.GetOrdinal("assignmentid"));
+
+
+                assignmentgrades.Add(new AssignmentGrade(id, grade, comment, assignmentid));
+            }
+            return assignmentgrades;
             throw new NotImplementedException();
         }
         public static List<CourseGrade> ExtractCourseGrades(MySqlConnectionReader connectionReader)
         {
-            throw new NotImplementedException();
+            MySqlDataReader reader = connectionReader.Reader;
+            List<CourseGrade> coursegrades = new List<CourseGrade>();
+            while (reader.HasRows && reader.Read())
+            {
+                uint id = reader.GetUInt32(reader.GetOrdinal("id"));
+                string grade = reader.GetString(reader.GetOrdinal("grade"));
+                string comment = reader.GetString(reader.GetOrdinal("comment"));
+                uint courseid = reader.GetUInt32(reader.GetOrdinal("courseid"));
+                uint studentid = reader.GetUInt32(reader.GetOrdinal("studentid"));
+                coursegrades.Add(new CourseGrade(id, grade, comment, courseid, studentid));
+            }
+            return coursegrades;
         }
     }
 }
