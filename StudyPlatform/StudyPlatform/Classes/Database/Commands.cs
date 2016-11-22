@@ -37,7 +37,7 @@ namespace StudyPlatform.Classes.Database
         {
             Query.ExecuteQueryString("DROP TABLE studyplatform." + tableName + ";");
         }
-        private static void AppendStringArray(ref string stringToAppendOn, string seperator, string[] strings)
+        public static void AppendStringArray(ref string stringToAppendOn, string seperator, string[] strings)
         {
             foreach (string item in strings)
             {
