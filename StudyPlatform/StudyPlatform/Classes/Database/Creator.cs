@@ -47,7 +47,7 @@ namespace StudyPlatform.Classes.Database
         public static void CreateMessage(Person sender, string title, string text, List<Person> recipients, List<string> filepaths)
         {
             EnsureNotNull(sender, title, text, recipients, filepaths);
-            Commands.InsertInto("messages", "NULL", sender.ID.ToString(), title, text, DateTime.Now.ToString());
+            Commands.InsertInto("messages", "NULL", sender.ID.ToString(), title, text, "NOW()");
             Message message = Lists.Messages.Last();
             Commands.CreateTable("messagerecipients" + message.ID, "messageid INT UNSIGNED NOT NULL");
             Commands.CreateTable("messageattachments" + message.ID, "messageid INT UNSIGNED NOT NULL");
