@@ -7,7 +7,39 @@ namespace StudyPlatform.Classes.Database
     {
         public static void RemovePerson(Person person)
         {
-            throw new NotImplementedException();
+            Commands.DeleteFrom("persons", "id=" + person.ID);
+            Commands.DropTable("personsentmessages" + person.ID);
+            Commands.DropTable("personrecievedmessages" + person.ID);
+
+            foreach (Message message in Lists.Messages)
+            {
+                Commands.DeleteFrom("messagerecipients" + message.ID, "personid=" + person.ID);
+            }
+
+            if (person is Student)
+            {
+                foreach (Course course in Lists.Courses)
+                {
+                    Commands.DeleteFrom("coursestudents" + course.ID, "studentid=" + person.ID);
+                }
+                foreach (Lesson lesson in Lists.Lessons)
+                {
+                    Commands.DeleteFrom("lessonabsences" + lesson.ID, "studentid=" + person.ID);
+                }
+                Commands.DropTable("personcourses" + person.ID);
+                Commands.DropTable("personassignments" + person.ID);
+                Commands.DropTable("personabsences" + person.ID);
+            }
+            else if (person is Teacher)
+            {
+                foreach (Course course in Lists.Courses)
+                {
+                    Commands.DeleteFrom("courseteachers" + course.ID, "teacherid=" + person.ID);
+                }
+                Commands.DropTable("personcourses" + person.ID);
+            }
+            person = null;
+
         }
         public static void RemoveMessage(Message message)
         {
@@ -52,12 +84,28 @@ namespace StudyPlatform.Classes.Database
             Commands.DeleteFrom("coursegrades", "courseid=" + course.ID);
             //coursedocuments
             Commands.DropTable("coursedocuments" + course.ID);
+            course = null;
             //brug for måde at fjerne selve dokumentet. generisk metode som tager filepath som vi kan bruge til alle slags dokumenter?
         }
         public static void RemoveLesson(Lesson lesson)
         {
+            // Deleting the different tabels lessonrooms, lessonabsences and lessondocuments.
+            Commands.DropTable("lessonrooms" + lesson.ID);
+            Commands.DropTable("lessonabsences" + lesson.ID);
+            Commands.DropTable("lessondocuments" + lesson.ID);
+
+            // Deleting the ID from lessons.
             Commands.DeleteFrom("lessons", "id=" + lesson.ID);
 
+            // Deleting the lesson.ID from different classes/tabels.
+            foreach (Person person in Lists.Persons)
+                Commands.DeleteFrom("personabsences" + person.ID, "lessonid=" + lesson.ID);
+            foreach (Room room in Lists.Rooms)
+                Commands.DeleteFrom("roomreservations" + room.ID, "lessonid=" + lesson.ID);
+            foreach (Course course in Lists.Courses)
+                Commands.DeleteFrom("courselessons" + course.ID, "lessonid=" + lesson.ID);
+
+            lesson = null;
         }
         public static void RemoveRoom(Room room)
         {
@@ -70,7 +118,6 @@ namespace StudyPlatform.Classes.Database
             Commands.DeleteFrom("assignmentdescriptions", "id=" + assignmentDescription.ID);
             Commands.DropTable("assignmentdescriptionassignments" + assignmentDescription.ID);
             Commands.DropTable("assignmentdescriptiondocuments" + assignmentDescription.ID);
-
             foreach (Assignment assignment in Lists.Assignments)
                 if (assignment.AssignmentDescription.ID == assignmentDescription.ID)
                     RemoveAssignment(assignment);
@@ -80,15 +127,28 @@ namespace StudyPlatform.Classes.Database
         {
             Commands.DeleteFrom("assignments", "id=" + assignment.ID);
             Commands.DropTable("assignmentdocuments" + assignment.ID);
-            throw new NotImplementedException();
+            foreach (AssignmentGrade assignmentGrade in Lists.AssignmentGrades)
+                if (assignmentGrade.Assignment.ID == assignment.ID)
+                    RemoveAssignmentGrade(assignmentGrade);
+            foreach (AssignmentDescription assignmentDescription in Lists.AssignmentDescriptions)
+                Commands.DeleteFrom("assignmentdescriptionassignments" + assignmentDescription.ID, "assignmentid=" + assignment.ID);
+            foreach (Student student in Lists.Students)
+                Commands.DeleteFrom("personassignments" + student.ID, "assignmentid=" + assignment.ID);
+            assignment = null;
         }
         public static void RemoveAssignmentGrade(AssignmentGrade grade)
         {
             Commands.DeleteFrom("assignmentgrades", "id=" + grade.ID);
+            foreach (Assignment assignment in Lists.Assignments)
+                Commands.SetValue("assignments", assignment.ID, "gradeid", "NULL");
+            grade = null;
         }
         public static void RemoveCourseGrade(CourseGrade grade)
         {
             Commands.DeleteFrom("coursegrades", "id=" + grade.ID);
+            foreach (Course course in Lists.Courses)
+                Commands.DeleteFrom("coursegrades" + course.ID, "gradeid=" + grade.ID);
+            grade = null;
         }
     }
 }

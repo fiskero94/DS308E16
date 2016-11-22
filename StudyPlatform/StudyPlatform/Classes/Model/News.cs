@@ -8,16 +8,21 @@ namespace StudyPlatform.Classes.Model
 {
     public class News
     {
-        public News(uint id, uint authorid, string title, string text)
+        private uint _id;
+        private uint _authorid;
+        private string _title;
+        private string _text;
+        private DateTime _date;
+
+        public News(uint id, uint authorid, string title, string text, DateTime date)
         {
             _id = id;
             _authorid = authorid;
             _title = title;
             _text = text;
-            // mangler date
+            _date = date;
         }
-
-        private uint _id;
+        
         public uint ID
         {
             get
@@ -25,16 +30,13 @@ namespace StudyPlatform.Classes.Model
                 return _id;
             }
         }
-        private uint _authorid;
-        public uint AuthorID
+        public Secretary Author
         {
             get
             {
-                return _authorid;
+                return Getters.GetPersonByID(_authorid) as Secretary;
             }
         }
-
-        private string _title;
         public string Title
         {
             get
@@ -52,7 +54,6 @@ namespace StudyPlatform.Classes.Model
                 }
             }
         }
-        private string _text;
         public string Text
         {
             get
@@ -70,12 +71,12 @@ namespace StudyPlatform.Classes.Model
                 }
             }
         }
-        
-
-        /*
-         HALLOOOOOOOOOOOOO Mangler date - convert fra mysql til datetime
-        */
-
+        public DateTime Date
+        {
+            get
+            {
+                return _date;
+            }
+        }
     }
-
 }

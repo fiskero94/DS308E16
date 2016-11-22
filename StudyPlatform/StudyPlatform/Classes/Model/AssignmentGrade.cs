@@ -7,14 +7,20 @@ namespace StudyPlatform.Classes.Model
 {
     public class AssignmentGrade : Grade
     {
-        AssignmentGrade(uint id, string grade, string comment, uint assignmentid) : base(id, grade, comment)
+        
+        public AssignmentGrade(uint id, string grade, string comment, uint assignmentid) : base(id, grade, comment)
         {
-            _id = id;
-            _grade = grade;
-            _comment = comment;
+
             _assignmentid = assignmentid;
         }
-
+        private uint _assignmentid;
+        public Assignment Assignment
+        {
+            get
+            {
+                return Getters.GetAssignmentByID(_assignmentid);
+            }
+        }
             
     }
 }
