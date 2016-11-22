@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using StudyPlatform.Classes.Model;
+﻿using StudyPlatform.Classes.Model;
+using System;
 
 namespace StudyPlatform.Classes.Database
 {
@@ -22,24 +19,35 @@ namespace StudyPlatform.Classes.Database
         }
         public static void RemoveCourse(Course course)
         {
+            //course
             Commands.DeleteFrom("courses", "id=" + course.ID);
+            //people
             Commands.DropTable("courseteachers" + course.ID);
             Commands.DropTable("coursestudents" + course.ID);
+            foreach (Person person in Lists.Persons)
+                Commands.DeleteFrom("personcourses" + person.ID, "courseid=" + course.ID);
+            //lessons
             Commands.DropTable("courselessons" + course.ID);
+            //assignmentdescription
             Commands.DropTable("courseassignmentdescriptions" + course.ID);
+            foreach (AssignmentDescription assignmentdescription in Lists.AssignmentDescriptions)
+                if (assignmentdescription.Course.ID == course.ID)
+                    RemoveAssignmentDescription(assignmentdescription);
+            //coursegrades
             Commands.DropTable("coursegrades" + course.ID);
+            //coursedocuments
             Commands.DropTable("coursedocuments" + course.ID);
-            Commands.DeleteFrom("assignmentdescriptions", "courseid=" + course.ID);
             Commands.DeleteFrom("coursegrades", "courseid=" + course.ID);
             foreach (Person person in Lists.Persons)
                 Commands.DeleteFrom("personcourses" + person.ID, "courseid=" + course.ID);
             foreach (AssignmentDescription assigmentdescription in Lists.AssignmentDescriptions)
-                if (true) // Why tho?
+                if (true)
                     Commands.DeleteFrom("assignments", "assignmentdescriptionid=" + assigmentdescription.ID);
         }
         public static void RemoveLesson(Lesson lesson)
         {
-            throw new NotImplementedException();
+            Commands.DeleteFrom("lessons", "id=" + lesson.ID);
+
         }
         public static void RemoveRoom(Room room)
         {
