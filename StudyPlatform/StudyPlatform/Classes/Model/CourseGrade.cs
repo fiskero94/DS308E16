@@ -7,16 +7,11 @@ namespace StudyPlatform.Classes.Model
 {
     public class CourseGrade : Grade
     {
-        private string _comment;
         private uint _courseid;
-        private string _grade;
         private uint _studentid;
 
         public CourseGrade(uint id, string grade, string comment, uint courseid, uint studentid) : base(id, grade, comment)
         {
-            ID = id;
-            _grade = grade;
-            _comment = comment;
             _courseid = courseid;
             _studentid = studentid;
         }
@@ -27,11 +22,11 @@ namespace StudyPlatform.Classes.Model
                 return Getters.GetCourseByID(_courseid);
             }
         }
-        public string Grade
+        public Student Student
         {
             get
             {
-                return _grade;
+                return Getters.GetPersonByID(_studentid) as Student;
             }
         }
     }
