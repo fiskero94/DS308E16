@@ -10,11 +10,11 @@ namespace StudyPlatform.Classes.Model
     {
         public AssignmentDescription(uint id, uint courseid, string description, DateTime date)
         {
-            id = _id;
-            courseid = _courseid;
-            description = _description;
-            date = _date;
-        }
+            _id = id;
+            _courseid = courseid;
+            _description = description;
+            _date = date;
+        }   
 
         private uint _id;
         public uint ID
@@ -26,11 +26,11 @@ namespace StudyPlatform.Classes.Model
         }
 
         private uint _courseid;
-        public uint CourseID
+        public Course Course
         {
             get
             {
-                return _courseid;
+                return Getters.GetCourseByID(_courseid);
             }
         }
 
