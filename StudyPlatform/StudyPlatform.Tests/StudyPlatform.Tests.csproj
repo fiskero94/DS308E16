@@ -52,6 +52,12 @@
   <ItemGroup>
     <Compile Include="DatabaseTests\CommandsTests.cs" />
     <Compile Include="DatabaseTests\CreatorTests.cs" />
+    <Compile Include="DatabaseTests\ExtractorTests.cs" />
+    <Compile Include="DatabaseTests\QueryTests.cs" />
+    <Compile Include="DatabaseTests\RemoverTests.cs" />
+    <Compile Include="ModelTests\ClassTests.cs" />
+    <Compile Include="ModelTests\GettersTests.cs" />
+    <Compile Include="ModelTests\ListsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -60,9 +66,7 @@
       <Name>StudyPlatform</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ModelTests\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

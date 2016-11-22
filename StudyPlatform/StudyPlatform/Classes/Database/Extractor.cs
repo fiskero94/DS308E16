@@ -74,7 +74,8 @@ namespace StudyPlatform.Classes.Database
                 uint authorid = reader.GetUInt32(reader.GetOrdinal("authorid"));
                 string title = reader.GetString(reader.GetOrdinal("title"));
                 string text = reader.GetString(reader.GetOrdinal("text"));
-                news.Add(new News(id, authorid, title, text));
+                DateTime date = reader.GetDateTime(reader.GetOrdinal("date"));
+                news.Add(new News(id, authorid, title, text, date));
             }
             return news;
         }
