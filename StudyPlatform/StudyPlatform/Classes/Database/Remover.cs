@@ -71,14 +71,10 @@ namespace StudyPlatform.Classes.Database
             Commands.DropTable("assignmentdescriptionassignments" + assignmentDescription.ID);
             Commands.DropTable("assignmentdescriptiondocuments" + assignmentDescription.ID);
 
-
-
             foreach (Assignment assignment in Lists.Assignments)
-            {
-                Commands.DeleteFrom("assignments", "assignmentid=" + assignment.ID);
-            }
-
-            throw new NotImplementedException();
+                if (assignment.AssignmentDescription.ID == assignmentDescription.ID)
+                    RemoveAssignment(assignment);
+            assignmentDescription = null;
         }
         public static void RemoveAssignment(Assignment assignment)
         {
