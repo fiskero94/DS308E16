@@ -30,6 +30,13 @@ namespace StudyPlatform.Classes.Database
             Commands.DropTable("coursegrades" + course.ID);
             Commands.DropTable("coursedocuments" + course.ID);
             Commands.DeleteFrom("assignmentdescriptions", "courseid=" + course.ID);
+            foreach (AssignmentDescription assignmentdescription in Lists.AssignmentDescriptions)
+            {
+                if (assignmentdescription.CourseID = course.id)
+                {
+
+                }
+            }
             Commands.DeleteFrom("coursegrades", "courseid=" + course.ID);
             foreach (Person person in Lists.Persons)
                 Commands.DeleteFrom("personcourses" + person.ID, "courseid=" + course.ID);
