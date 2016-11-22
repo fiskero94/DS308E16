@@ -52,8 +52,18 @@ namespace StudyPlatform.Classes.Database
         }
         public static List<Message> ExtractMessages(MySqlConnectionReader connectionReader)
         {
-            throw new NotImplementedException();
+            MySqlDataReader reader = connectionReader.Reader;
+            List<Message> messages = new List<Message>();
+            while (reader.HasRows && reader.Read())
+            {
+                Person sender = Getters.GetPersonByID(reader.GetUInt32(reader.GetOrdinal("id")));
+                string title = reader.GetString(reader.GetOrdinal("title"));
+                string text = reader.GetString(reader.GetOrdinal("text"));    
+                messages.Add(new Message(sender.ID, title, text));
+            }
+            return messages;
         }
+
         public static List<News> ExtractNews(MySqlConnectionReader connectionReader)
         {
             MySqlDataReader reader = connectionReader.Reader;
@@ -64,7 +74,8 @@ namespace StudyPlatform.Classes.Database
                 uint authorid = reader.GetUInt32(reader.GetOrdinal("authorid"));
                 string title = reader.GetString(reader.GetOrdinal("title"));
                 string text = reader.GetString(reader.GetOrdinal("text"));
-                news.Add(new News(id, authorid, title, text));
+                DateTime date = reader.GetDateTime(reader.GetOrdinal("date"));
+                news.Add(new News(id, authorid, title, text, date));
             }
             return news;
         }
@@ -88,11 +99,12 @@ namespace StudyPlatform.Classes.Database
             while (reader.HasRows && reader.Read())
             {
                 uint id = reader.GetUInt32(reader.GetOrdinal("id"));
+                uint courseid = reader.GetUInt32("courseid");
                 string description = reader.GetString(reader.GetOrdinal("description"));
                 DateTime date = reader.GetDateTime(reader.GetOrdinal("date"));
                 bool online = reader.GetBoolean(reader.GetOrdinal("online"));
                 bool active = reader.GetBoolean(reader.GetOrdinal("active"));
-                lessons.Add(new Lesson(id, date, description, online, active));
+                lessons.Add(new Lesson(id, courseid, date, description, online, active));
             }
             return lessons;
         }
@@ -124,15 +136,51 @@ namespace StudyPlatform.Classes.Database
         }
         public static List<Assignment> ExtractAssignments(MySqlConnectionReader connectionReader)
         {
-            throw new NotImplementedException();
+            MySqlDataReader reader = connectionReader.Reader;
+            List<Assignment> assignments = new List<Assignment>();
+            while (reader.HasRows && reader.Read())
+            {
+                uint id = reader.GetUInt32(reader.GetOrdinal("id"));
+                uint assignmentdescriptionid = reader.GetUInt32(reader.GetOrdinal("assignmentdescriptionid"));
+                uint studentid = reader.GetUInt32(reader.GetOrdinal("studentid"));
+                string comment = reader.GetString(reader.GetOrdinal("comment"));
+                uint gradeid = reader.GetUInt32(reader.GetOrdinal("gradeid"));
+                DateTime date = reader.GetDateTime(reader.GetOrdinal("date"));
+                assignments.Add(new Assignment(id, assignmentdescriptionid, studentid, comment, gradeid, date));
+            }
+            return assignments;
         }
         public static List<AssignmentGrade> ExtractAssignmentGrades(MySqlConnectionReader connectionReader)
         {
+            MySqlDataReader reader = connectionReader.Reader;
+            List<AssignmentGrade> assignmentgrades = new List<AssignmentGrade>();
+            while (reader.HasRows && reader.Read())
+            {
+                uint id = reader.GetUInt32(reader.GetOrdinal("id"));
+                string grade = reader.GetString(reader.GetOrdinal("grade"));
+                string comment = reader.GetString(reader.GetOrdinal("comment"));
+                uint assignmentid = reader.GetUInt32(reader.GetOrdinal("assignmentid"));
+
+
+                assignmentgrades.Add(new AssignmentGrade(id, grade, comment, assignmentid));
+            }
+            return assignmentgrades;
             throw new NotImplementedException();
         }
         public static List<CourseGrade> ExtractCourseGrades(MySqlConnectionReader connectionReader)
         {
-            throw new NotImplementedException();
+            MySqlDataReader reader = connectionReader.Reader;
+            List<CourseGrade> coursegrades = new List<CourseGrade>();
+            while (reader.HasRows && reader.Read())
+            {
+                uint id = reader.GetUInt32(reader.GetOrdinal("id"));
+                string grade = reader.GetString(reader.GetOrdinal("grade"));
+                string comment = reader.GetString(reader.GetOrdinal("comment"));
+                uint courseid = reader.GetUInt32(reader.GetOrdinal("courseid"));
+                uint studentid = reader.GetUInt32(reader.GetOrdinal("studentid"));
+                coursegrades.Add(new CourseGrade(id, grade, comment, courseid, studentid));
+            }
+            return coursegrades;
         }
     }
 }
