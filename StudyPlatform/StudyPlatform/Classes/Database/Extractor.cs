@@ -135,7 +135,19 @@ namespace StudyPlatform.Classes.Database
         }
         public static List<Assignment> ExtractAssignments(MySqlConnectionReader connectionReader)
         {
-            throw new NotImplementedException();
+            MySqlDataReader reader = connectionReader.Reader;
+            List<Assignment> assignments = new List<Assignment>();
+            while (reader.HasRows && reader.Read())
+            {
+                uint id = reader.GetUInt32(reader.GetOrdinal("id"));
+                uint assignmentdescriptionid = reader.GetUInt32(reader.GetOrdinal("assignmentdescriptionid"));
+                uint studentid = reader.GetUInt32(reader.GetOrdinal("studentid"));
+                string comment = reader.GetString(reader.GetOrdinal("comment"));
+                uint gradeid = reader.GetUInt32(reader.GetOrdinal("gradeid"));
+                DateTime date = reader.GetDateTime(reader.GetOrdinal("date"));
+                assignments.Add(new Assignment(id, assignmentdescriptionid, studentid, comment, gradeid, date));
+            }
+            return assignments;
         }
         public static List<AssignmentGrade> ExtractAssignmentGrades(MySqlConnectionReader connectionReader)
         {
