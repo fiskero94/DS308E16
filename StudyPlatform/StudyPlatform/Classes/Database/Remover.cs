@@ -81,6 +81,7 @@ namespace StudyPlatform.Classes.Database
         }
         public static void RemoveAssignment(Assignment assignment)
         {
+
             throw new NotImplementedException();
         }
         public static void RemoveAssignmentGrade(AssignmentGrade grade)

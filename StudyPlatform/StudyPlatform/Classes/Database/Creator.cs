@@ -31,8 +31,8 @@ namespace StudyPlatform.Classes.Database
             EnsureNotNull(name, username, password);
             CreatePerson(name, username, password, "teacher");
             Teacher teacher = Lists.Teachers.Last();
-            Commands.CreateTable("personsentmessages" + student.ID, "messageid INT UNSIGNED NOT NULL");
-            Commands.CreateTable("personrecievedmessages" + student.ID, "messageid INT UNSIGNED NOT NULL");
+            Commands.CreateTable("personsentmessages" + teacher.ID, "messageid INT UNSIGNED NOT NULL");
+            Commands.CreateTable("personrecievedmessages" + teacher.ID, "messageid INT UNSIGNED NOT NULL");
             Commands.CreateTable("personcourses" + teacher.ID, "courseid INT UNSIGNED NOT NULL");
         }
         public static void CreateSecretary(string name, string username, string password)
@@ -40,8 +40,8 @@ namespace StudyPlatform.Classes.Database
             EnsureNotNull(name, username, password);
             CreatePerson(name, username, password, "secretary");
             Secretary secretary = Lists.Secretaries.Last();
-            Commands.CreateTable("personsentmessages" + student.ID, "messageid INT UNSIGNED NOT NULL");
-            Commands.CreateTable("personrecievedmessages" + student.ID, "messageid INT UNSIGNED NOT NULL");
+            Commands.CreateTable("personsentmessages" + secretary.ID, "messageid INT UNSIGNED NOT NULL");
+            Commands.CreateTable("personrecievedmessages" + secretary.ID, "messageid INT UNSIGNED NOT NULL");
         }
 
         public static void CreateMessage(Person sender, string title, string text, List<Person> recipients, List<string> filepaths)
