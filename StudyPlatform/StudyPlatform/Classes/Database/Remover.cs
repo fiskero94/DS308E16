@@ -14,7 +14,17 @@ namespace StudyPlatform.Classes.Database
         }
         public static void RemoveMessage(Message message)
         {
-            throw new NotImplementedException();
+            Commands.DeleteFrom("messages", "id=" + message.ID);
+            Commands.DropTable("messagerecipients" + message.ID);
+            Commands.DropTable("messageattachments" + message.ID);
+
+            foreach (Person recipient in message.Recipients)
+            {
+                Commands.DeleteFrom("personrecievedmessages" + recipient.ID, "id=" + message.ID);
+            }
+
+            Commands.DeleteFrom("personsentmessages" + message.SenderId, "id=" + message.ID);
+            Commands.DeleteFrom("personrecievedmessages" + message.SenderId, "id=" + message.ID);
         }
         public static void RemoveNews(News news)
         {
