@@ -2,6 +2,7 @@
 using System.Text;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using StudyPlatform.Classes.Database;
 
 namespace StudyPlatform.Tests.DatabaseTests
 {
@@ -59,11 +60,10 @@ namespace StudyPlatform.Tests.DatabaseTests
         #endregion
 
         [TestMethod]
-        public void TestMethod1()
+        public void QueryExecuteQueryString()
         {
-            //
-            // TODO: Add test logic here
-            //
+            Query.ExecuteQueryString("SHOW DATABASES;");
+
         }
     }
 }
