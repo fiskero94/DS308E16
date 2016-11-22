@@ -106,13 +106,13 @@ namespace StudyPlatform.Classes.Database
         public static void CreateLesson(DateTime date, string description, bool online, bool active, List<Room> rooms, List<string> filepaths, Course course)
         {
             EnsureNotNull(date, description, online, active, rooms, filepaths, course);
-            Commands.InsertInto("lessons", "NULL", date.ToString("yyyy-MM-dd HH:mm:ss"), description, 
+            Commands.InsertInto("lessons", "NULL", course.ID.ToString(), date.ToString("yyyy-MM-dd HH:mm:ss"), description, 
                                 online.ToString().ToUpper(), active.ToString().ToUpper());
             Lesson lesson = Lists.lessons.Last();
             Commands.CreateTable("lessonrooms" + lesson.ID, "roomid INT UNSIGNED NOT NULL");
             Commands.CreateTable("lessonabsences" + lesson.ID, "absenceid INT UNSIGNED NOT NULL");
             Commands.CreateTable("lessondocuments" + lesson.ID, "TEXT NOT NULL");
-            Query.ExecuteQueryString("INSERT INTO studyplatform.courselessons" + course.ID + " VALUES(" + lesson.ID + ");");
+            Commands.InsertInto("courselessons" + course.ID, lesson.ID.ToString());
             foreach (Room room in rooms)
             {
                 Commands.InsertInto("lessonrooms" + lesson.ID, room.ID.ToString());
@@ -145,36 +145,36 @@ namespace StudyPlatform.Classes.Database
             EnsureNotNull(assignmentDescription, student, comment, filepaths);
             Commands.InsertInto("assignments", "NULL", assignmentDescription.ID.ToString(), student.ID.ToString(), comment, "NULL", "NOW()");
             Assignment assignment = Lists.Assignments.Last();
+            Commands.CreateTable("assignmentdocuments" + assignment.ID, "filepath TEXT NOT NULL");
+            foreach (string filepath in filepaths)
+                Commands.InsertInto("assignmentdocuments" + assignment.ID, filepath);
+            Commands.InsertInto("assignmentdescriptionassignments");
 
 
-            // Ensure input is not null, throw ArgumentNullException (Use EnsureNotNull method)
-            // Add new Assignment to the studyplatform.assignments table
-            // Get the ID of the newly created Assignment
-            // Create new table assignmentdocumentsN where N is the ID of the Assignment
-            // Add the filepaths to the table
+
+
             // Input the ID of the Assignment into the assignmentdescriptionassignmentsN table for the AssignmentDescription
             // Input the ID of the Student into the personassignmentsN table for the Student
             throw new NotImplementedException();
         }
         public static void CreateAssignmentGrade(string grade, string comment, Assignment assignment)
         {
-            EnsureNotNull(grade, assignment);
+            EnsureNotNull(grade, comment, assignment);
             if (!Grade.ValidGrades.Contains(grade))
                 throw new InvalidGradeException();
-            Commands.InsertInto("assignmentgrades", "NULL", grade, assignment.ID.ToString());
+            Commands.InsertInto("assignmentgrades", "NULL", grade, comment, assignment.ID.ToString());
             AssignmentGrade assignmentGrade = Lists.AssignmentGrades.Last();
             Commands.SetValue("assignments", assignment.ID, "gradeid", assignmentGrade.ID.ToString());
-            // Needs to handle comment as well!
+          
         }
         public static void CreateCourseGrade(string grade, string comment, Course course, Student student)
         {
-            // Ensure input is not null, throw ArgumentNullException (Use EnsureNotNull method)
-            // Ensure that grade is a part of the set Grade.ValidGrades, throw exception if not.
-            // Add new CourseGrade to the studyplatform.coursegrades table
-            // Get the ID of the newly created CourseGrade
-            // Input the ID into the coursegrades table of the corrosponding course.
-            // Needs to handle comment as well!
-            throw new NotImplementedException();
+            EnsureNotNull(grade, comment, course, student);
+            if (!Grade.ValidGrades.Contains(grade))
+                throw new InvalidGradeException();
+            Commands.InsertInto("coursegrades", "NULL", grade, comment, course.ID.ToString(), student.ID.ToString());
+            CourseGrade courseGrade = Lists.CourseGrades.Last();
+            Commands.InsertInto("coursegrades" + course.ID, courseGrade.ID.ToString());
         }
     }
 }

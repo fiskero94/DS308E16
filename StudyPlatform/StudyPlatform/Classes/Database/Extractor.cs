@@ -98,11 +98,12 @@ namespace StudyPlatform.Classes.Database
             while (reader.HasRows && reader.Read())
             {
                 uint id = reader.GetUInt32(reader.GetOrdinal("id"));
+                uint courseid = reader.GetUInt32("courseid");
                 string description = reader.GetString(reader.GetOrdinal("description"));
                 DateTime date = reader.GetDateTime(reader.GetOrdinal("date"));
                 bool online = reader.GetBoolean(reader.GetOrdinal("online"));
                 bool active = reader.GetBoolean(reader.GetOrdinal("active"));
-                lessons.Add(new Lesson(id, date, description, online, active));
+                lessons.Add(new Lesson(id, courseid, date, description, online, active));
             }
             return lessons;
         }

@@ -13,6 +13,14 @@ namespace StudyPlatform.Classes.Model
                 return _id;
             }
         }
+        private uint _courseid;
+        public Course Course
+        {
+            get
+            {
+                return Getters.GetCourseByID(_courseid);
+            }
+        }
         private DateTime _date;
         public DateTime Date
         {
@@ -64,7 +72,6 @@ namespace StudyPlatform.Classes.Model
                 _online = value;
             }
         }
-
         private bool _active;
         public bool Active
         {
@@ -78,9 +85,10 @@ namespace StudyPlatform.Classes.Model
                 _active = value;
             }
         }
-        public Lesson(uint id, DateTime date, string description, bool online, bool active)
+        public Lesson(uint id, uint courseid, DateTime date, string description, bool online, bool active)
         {
             _id = id;
+            _courseid = courseid;
             _date = date;
             _description = description;
             _online = online;
