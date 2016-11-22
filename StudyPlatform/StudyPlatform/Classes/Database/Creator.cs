@@ -106,13 +106,13 @@ namespace StudyPlatform.Classes.Database
         public static void CreateLesson(DateTime date, string description, bool online, bool active, List<Room> rooms, List<string> filepaths, Course course)
         {
             EnsureNotNull(date, description, online, active, rooms, filepaths, course);
-            Commands.InsertInto("lessons", "NULL", date.ToString("yyyy-MM-dd HH:mm:ss"), description, 
+            Commands.InsertInto("lessons", "NULL", course.ID.ToString(), date.ToString("yyyy-MM-dd HH:mm:ss"), description, 
                                 online.ToString().ToUpper(), active.ToString().ToUpper());
             Lesson lesson = Lists.lessons.Last();
             Commands.CreateTable("lessonrooms" + lesson.ID, "roomid INT UNSIGNED NOT NULL");
             Commands.CreateTable("lessonabsences" + lesson.ID, "absenceid INT UNSIGNED NOT NULL");
             Commands.CreateTable("lessondocuments" + lesson.ID, "TEXT NOT NULL");
-            Query.ExecuteQueryString("INSERT INTO studyplatform.courselessons" + course.ID + " VALUES(" + lesson.ID + ");");
+            Commands.InsertInto("courselessons" + course.ID, lesson.ID.ToString());
             foreach (Room room in rooms)
             {
                 Commands.InsertInto("lessonrooms" + lesson.ID, room.ID.ToString());
@@ -145,13 +145,14 @@ namespace StudyPlatform.Classes.Database
             EnsureNotNull(assignmentDescription, student, comment, filepaths);
             Commands.InsertInto("assignments", "NULL", assignmentDescription.ID.ToString(), student.ID.ToString(), comment, "NULL", "NOW()");
             Assignment assignment = Lists.Assignments.Last();
+            Commands.CreateTable("assignmentdocuments" + assignment.ID, "filepath TEXT NOT NULL");
+            foreach (string filepath in filepaths)
+                Commands.InsertInto("assignmentdocuments" + assignment.ID, filepath);
+            Commands.InsertInto("assignmentdescriptionassignments");
 
 
-            // Ensure input is not null, throw ArgumentNullException (Use EnsureNotNull method)
-            // Add new Assignment to the studyplatform.assignments table
-            // Get the ID of the newly created Assignment
-            // Create new table assignmentdocumentsN where N is the ID of the Assignment
-            // Add the filepaths to the table
+
+
             // Input the ID of the Assignment into the assignmentdescriptionassignmentsN table for the AssignmentDescription
             // Input the ID of the Student into the personassignmentsN table for the Student
             throw new NotImplementedException();

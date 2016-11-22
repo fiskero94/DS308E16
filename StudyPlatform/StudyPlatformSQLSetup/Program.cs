@@ -60,6 +60,7 @@ namespace StudyPlatformSQLSetup
                                    "name TEXT NOT NULL",
                                    "description TEXT NOT NULL");
             CreateTable("lessons", "id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY",
+                                   "courseid INT UNSIGNED NOT NULL",
                                    "date DATETIME NOT NULL",
                                    "description TEXT NOT NULL",
                                    "online BOOL NOT NULL",
