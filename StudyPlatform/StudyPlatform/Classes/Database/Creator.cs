@@ -120,23 +120,22 @@ namespace StudyPlatform.Classes.Database
         }
         public static void CreateAssignmentGrade(string grade, string comment, Assignment assignment)
         {
-            EnsureNotNull(grade, assignment);
+            EnsureNotNull(grade, comment, assignment);
             if (!Grade.ValidGrades.Contains(grade))
                 throw new InvalidGradeException();
-            Commands.InsertInto("assignmentgrades", "NULL", grade, assignment.ID.ToString());
+            Commands.InsertInto("assignmentgrades", "NULL", grade, comment, assignment.ID.ToString());
             AssignmentGrade assignmentGrade = Lists.AssignmentGrades.Last();
             Commands.SetValue("assignments", assignment.ID, "gradeid", assignmentGrade.ID.ToString());
-            // Needs to handle comment as well!
+          
         }
         public static void CreateCourseGrade(string grade, string comment, Course course, Student student)
         {
-            // Ensure input is not null, throw ArgumentNullException (Use EnsureNotNull method)
-            // Ensure that grade is a part of the set Grade.ValidGrades, throw exception if not.
-            // Add new CourseGrade to the studyplatform.coursegrades table
-            // Get the ID of the newly created CourseGrade
-            // Input the ID into the coursegrades table of the corrosponding course.
-            // Needs to handle comment as well!
-            throw new NotImplementedException();
+            EnsureNotNull(grade, comment, course, student);
+            if (!Grade.ValidGrades.Contains(grade))
+                throw new InvalidGradeException();
+            Commands.InsertInto("coursegrades", "NULL", grade, comment, course.ID.ToString(), student.ID.ToString());
+            CourseGrade courseGrade = Lists.CourseGrades.Last();
+            Commands.InsertInto("coursegrades" + course.ID, courseGrade.ID.ToString());
         }
     }
 }
