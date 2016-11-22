@@ -49,7 +49,8 @@ namespace StudyPlatform.Classes.Model
         {
             get
             {
-                throw new NotImplementedException();
+                Query query = new Query("SELECT * FROM studyplatform.news;");
+                return Extractor.ExtractNews(query.Execute());
             }
         }
         public static List<AssignmentDescription> AssignmentDescriptions
@@ -65,7 +66,8 @@ namespace StudyPlatform.Classes.Model
         {
             get
             {
-                throw new NotImplementedException();
+                Query query = new Query("SELECT * FROM studyplatform.courses;");
+                return Extractor.ExtractCourses(query.Execute());
             }
         }
         public static List<Room> Rooms
@@ -76,7 +78,7 @@ namespace StudyPlatform.Classes.Model
                 return Extractor.ExtractRooms(query.Execute());
             }
         }
-        public static List<Lesson> lessons
+        public static List<Lesson> Lessons
         {
             get
             {
@@ -88,21 +90,24 @@ namespace StudyPlatform.Classes.Model
         {
             get
             {
-                throw new NotImplementedException();
+                Query query = new Query("SELECT * FROM studyplatform.assignmentgrades;");
+                return Extractor.ExtractAssignmentGrades(query.Execute());
             }
         }
         public static List<CourseGrade> CourseGrades
         {
             get
             {
-                throw new NotImplementedException();
+                Query query = new Query("SELECT * FROM studyplatform.coursegrades;");
+                return Extractor.ExtractCourseGrades(query.Execute());
             }
         }
         public static List<Assignment> Assignments
         {
             get
             {
-                throw new NotImplementedException();
+                Query query = new Query("SELECT * FROM studyplatform.assignments;");
+                return Extractor.ExtractAssignments(query.Execute());
             }
         }
     }

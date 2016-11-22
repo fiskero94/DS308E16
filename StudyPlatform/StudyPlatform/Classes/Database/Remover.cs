@@ -38,7 +38,7 @@ namespace StudyPlatform.Classes.Database
                 Commands.DeleteFrom("personcourses" + person.ID, "courseid=" + course.ID);
             //lessons
             //Commands.DropTable("courselessons" + course.ID); ---- metoden burde gerne fjerne dette?
-            foreach (Lesson lesson in Lists.lessons)
+            foreach (Lesson lesson in Lists.Lessons)
                 if (lesson.Course.ID == course.ID)
                     RemoveLesson(lesson);
             //assignmentdescription
@@ -89,7 +89,8 @@ namespace StudyPlatform.Classes.Database
         }
         public static void RemoveCourseGrade(CourseGrade grade)
         {
-            throw new NotImplementedException();
+
+            //throw new NotImplementedException();
         }
 
     }
