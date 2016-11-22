@@ -26,6 +26,7 @@ namespace StudyPlatform.Classes.Database
         public static void RemoveNews(News news)
         {
             Commands.DeleteFrom("news", "id=" + news.ID);
+            news = null;
         }
         public static void RemoveCourse(Course course)
         {
@@ -81,7 +82,8 @@ namespace StudyPlatform.Classes.Database
         }
         public static void RemoveAssignment(Assignment assignment)
         {
-
+            Commands.DeleteFrom("assignments", "id=" + assignment.ID);
+            Commands.DropTable("assignmentdocuments" + assignment.ID);
             throw new NotImplementedException();
         }
         public static void RemoveAssignmentGrade(AssignmentGrade grade)
