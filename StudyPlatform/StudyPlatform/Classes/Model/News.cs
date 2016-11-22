@@ -47,7 +47,7 @@ namespace StudyPlatform.Classes.Model
                     throw new ArgumentNullException();
                 else
                 {
-                    Editor.SetValue("news", ID, "title", value);
+                    Commands.SetValue("news", ID, "title", value);
                     _title = value;
                 }
             }
@@ -65,7 +65,7 @@ namespace StudyPlatform.Classes.Model
                     throw new ArgumentNullException();
                 else
                 {
-                    Editor.SetValue("news", ID, "text", value);
+                    Commands.SetValue("news", ID, "text", value);
                     _text = value;
                 }
             }

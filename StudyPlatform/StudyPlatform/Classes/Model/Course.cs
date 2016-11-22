@@ -35,7 +35,7 @@ namespace StudyPlatform.Classes.Model
                     throw new ArgumentNullException();
                 else
                 {
-                    Editor.SetValue("courses", ID, "name", value);
+                    Commands.SetValue("courses", ID, "name", value);
                     _name = value;
                 }
             }
@@ -53,7 +53,7 @@ namespace StudyPlatform.Classes.Model
                     throw new ArgumentNullException();
                 else
                 {
-                    Editor.SetValue("courses", ID, "description", value);
+                    Commands.SetValue("courses", ID, "description", value);
                     _description = value;
                 }
             }

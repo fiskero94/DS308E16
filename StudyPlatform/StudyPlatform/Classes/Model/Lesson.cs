@@ -5,14 +5,6 @@ namespace StudyPlatform.Classes.Model
 {
     public class Lesson
     {
-        public Lesson(uint id, DateTime date, string description, bool online, bool active)
-        {
-            _id = id;
-            _date = date;
-            _description = description;
-            _online = online;
-            _active = active;
-        }
         private uint _id;
         public uint ID
         {
@@ -34,12 +26,11 @@ namespace StudyPlatform.Classes.Model
                     throw new ArgumentNullException();
                 else
                 {
-                    Editor.SetValue("lessons", ID, "date", value.ToString("yyyy-MM-dd HH:mm:ss"));
+                    Commands.SetValue("lessons", ID, "date", value.ToString("yyyy-MM-dd HH:mm:ss"));
                     _date = value;
                 }
             }
         }
-
         private string _description;
         public string Description
         {
@@ -53,13 +44,12 @@ namespace StudyPlatform.Classes.Model
                     throw new ArgumentNullException();
                 else
                 {
-                    Editor.SetValue("lessons", ID, "description", value);
+                    Commands.SetValue("lessons", ID, "description", value);
                     _description = value;
                 }
             }
 
         }
-
         private bool _online;
         public bool Online
         {
@@ -70,7 +60,7 @@ namespace StudyPlatform.Classes.Model
             set
             {
 
-                Editor.SetValue("lessons", ID, "online", value.ToString().ToUpper());
+                Commands.SetValue("lessons", ID, "online", value.ToString().ToUpper());
                 _online = value;
             }
         }
@@ -84,9 +74,17 @@ namespace StudyPlatform.Classes.Model
             }
             set
             {
-                Editor.SetValue("lessons", ID, "active", value.ToString().ToUpper());
+                Commands.SetValue("lessons", ID, "active", value.ToString().ToUpper());
                 _active = value;
             }
+        }
+        public Lesson(uint id, DateTime date, string description, bool online, bool active)
+        {
+            _id = id;
+            _date = date;
+            _description = description;
+            _online = online;
+            _active = active;
         }
     }
 }

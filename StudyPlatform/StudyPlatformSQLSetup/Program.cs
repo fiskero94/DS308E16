@@ -78,9 +78,11 @@ namespace StudyPlatformSQLSetup
                                        "date DATETIME NOT NULL");
             CreateTable("assignmentgrades", "id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY",
                                             "grade ENUM('12','10','7','4','02','00','-3') NOT NULL",
+                                            "comment TEXT NOT NULL",
                                             "assignmentid INT UNSIGNED NOT NULL");
             CreateTable("coursegrades", "id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY",
                                         "grade ENUM('12','10','7','4','02','00','-3') NOT NULL",
+                                        "comment TEXT NOT NULL",
                                         "courseid INT UNSIGNED NOT NULL",
                                         "studentid INT UNSIGNED NOT NULL");
             // Setting up Admin person

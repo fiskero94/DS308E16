@@ -34,7 +34,7 @@ namespace StudyPlatform.Classes.Model
                 }
                 else
                 {
-                    Editor.SetValue("rooms", ID, "name", value);
+                    Commands.SetValue("rooms", ID, "name", value);
                     _name = value;
                 }
             }

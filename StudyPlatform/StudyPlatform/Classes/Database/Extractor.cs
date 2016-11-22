@@ -16,6 +16,14 @@ namespace StudyPlatform.Classes.Database
                 ids.Add(reader.GetUInt32(0));
             return ids.ToArray();
         }
+        public static string[] ExtractFilepaths(MySqlConnectionReader connectionReader)
+        {
+            MySqlDataReader reader = connectionReader.Reader;
+            List<string> filepaths = new List<string>();
+            while (reader.HasRows && reader.Read())
+                filepaths.Add(reader.GetString(0));
+            return filepaths.ToArray();
+        }
         public static List<Person> ExtractPersons(MySqlConnectionReader connectionReader)
         {
             MySqlDataReader reader = connectionReader.Reader;
@@ -59,7 +67,6 @@ namespace StudyPlatform.Classes.Database
                 news.Add(new News(id, authorid, title, text));
             }
             return news;
-            //throw new NotImplementedException();
         }
         public static List<Course> ExtractCourses(MySqlConnectionReader connectionReader)
         {
@@ -73,7 +80,6 @@ namespace StudyPlatform.Classes.Database
                 courses.Add(new Course(id, name, description));
             }
             return courses;
-            //throw new NotImplementedException();
         }
         public static List<Lesson> ExtractLessons(MySqlConnectionReader connectionReader)
         {
@@ -106,7 +112,6 @@ namespace StudyPlatform.Classes.Database
         {
             MySqlDataReader reader = connectionReader.Reader;
             List<AssignmentDescription> assignmentdescriptions = new List<AssignmentDescription>();
-
             while (reader.HasRows && reader.Read())
             {
                 uint id = reader.GetUInt32(reader.GetOrdinal("id"));

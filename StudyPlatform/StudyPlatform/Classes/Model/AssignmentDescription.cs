@@ -47,7 +47,7 @@ namespace StudyPlatform.Classes.Model
                     throw new ArgumentNullException();
                 else
                 {
-                    Editor.SetValue("assignmentdescriptions", ID, "description", value);
+                    Commands.SetValue("assignmentdescriptions", ID, "description", value);
                     _description = value;
                 }
             }
@@ -66,7 +66,7 @@ namespace StudyPlatform.Classes.Model
                     throw new ArgumentNullException();
                 else
                 {
-                    Editor.SetValue("assignmentdescriptions", ID, "date", value.ToString("yyyy-MM-dd HH:mm:ss"));
+                    Commands.SetValue("assignmentdescriptions", ID, "date", value.ToString("yyyy-MM-dd HH:mm:ss"));
                     _date = value;
                 }
             }

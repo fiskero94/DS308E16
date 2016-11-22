@@ -30,7 +30,7 @@ namespace StudyPlatform.Classes.Model
                     throw new ArgumentNullException();
                 else
                 {
-                    Editor.SetValue("persons", ID, "name", value);
+                    Commands.SetValue("persons", ID, "name", value);
                     _name = value;
                 }
             }
