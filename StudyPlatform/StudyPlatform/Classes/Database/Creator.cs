@@ -21,7 +21,8 @@ namespace StudyPlatform.Classes.Database
             EnsureNotNull(name, username, password);
             CreatePerson(name, username, password, "student");
             Student student = Lists.Students.Last();
-            Commands.CreateTable("personmessages" + student.ID, "messageid INT UNSIGNED NOT NULL");
+            Commands.CreateTable("personsentmessages" + student.ID, "messageid INT UNSIGNED NOT NULL");
+            Commands.CreateTable("personrecievedmessages" + student.ID, "messageid INT UNSIGNED NOT NULL");
             Commands.CreateTable("personcourses" + student.ID, "courseid INT UNSIGNED NOT NULL");
             Commands.CreateTable("personabscences" + student.ID, "lessonid INT UNSIGNED NOT NULL");
         }
@@ -30,7 +31,8 @@ namespace StudyPlatform.Classes.Database
             EnsureNotNull(name, username, password);
             CreatePerson(name, username, password, "teacher");
             Teacher teacher = Lists.Teachers.Last();
-            Commands.CreateTable("personmessages" + teacher.ID, "messageid INT UNSIGNED NOT NULL");
+            Commands.CreateTable("personsentmessages" + student.ID, "messageid INT UNSIGNED NOT NULL");
+            Commands.CreateTable("personrecievedmessages" + student.ID, "messageid INT UNSIGNED NOT NULL");
             Commands.CreateTable("personcourses" + teacher.ID, "courseid INT UNSIGNED NOT NULL");
         }
         public static void CreateSecretary(string name, string username, string password)
@@ -38,10 +40,40 @@ namespace StudyPlatform.Classes.Database
             EnsureNotNull(name, username, password);
             CreatePerson(name, username, password, "secretary");
             Secretary secretary = Lists.Secretaries.Last();
-            Commands.CreateTable("personmessages" + secretary.ID, "messageid INT UNSIGNED NOT NULL");
+            Commands.CreateTable("personsentmessages" + student.ID, "messageid INT UNSIGNED NOT NULL");
+            Commands.CreateTable("personrecievedmessages" + student.ID, "messageid INT UNSIGNED NOT NULL");
         }
+
         public static void CreateMessage(Person sender, string title, string text, List<Person> recipients, List<string> filepaths)
         {
+            EnsureNotNull(sender, title, text, recipients, filepaths);
+            Query.ExecuteQueryString("INSERT INTO studyplatform.messages VALUES(NULL,'" +
+                                     sender + "','" + title + "','" + text + "','" + recipients + "','" + filepaths + "');");
+
+            Message message = Lists.Messages.Last();
+            CreateTable("messagerecipients" + message.ID, "messageid INT UNSIGNED NOT NULL");
+
+            foreach (var recipient in recipients)
+            {
+                Query.ExecuteQueryString("INSERT INTO studyplatform.messagerecipients VALUES(NULL,'" +
+                                        recipient.ID + "');");
+
+                Query.ExecuteQueryString("INSERT INTO studyplatform.personrecievedmessages" + recipient.ID + "VALUES(NULL,'" +
+                                        message.ID + "');");
+            }
+
+            CreateTable("messageattachments" + message.ID, "messageid INT UNSIGNED NOT NULL");
+
+            foreach (var filepath in filepaths)
+            {
+                Query.ExecuteQueryString("INSERT INTO studyplatform.messageattachments VALUES(NULL,'" +
+                                       filepath + "');");
+            }
+
+            Query.ExecuteQueryString("INSERT INTO studyplatform.personsentmessages" + sender.ID + "VALUES(NULL,'" +
+                                    message.ID + "');");
+
+
             // Ensure input is not null, throw ArgumentNullException (Use EnsureNotNull method)
             // Add new Message to the studyplatform.messages table
             // Get the ID of the newly created Message
@@ -49,9 +81,10 @@ namespace StudyPlatform.Classes.Database
             // Add the ID's of the recipients to the table
             // Create new table messageattachmentsN where N is the ID of the Message
             // Add the filepaths to the table
+
             // Input the ID of the Message into the personsentmessagesN tables for the sender.
             // Input the ID of the Message into the personrecievedmessagesN tables foreach of the recipients
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
         public static void CreateNews(Person author, string title, string text)
         {
@@ -109,6 +142,11 @@ namespace StudyPlatform.Classes.Database
         }
         public static void CreateAssignment(AssignmentDescription assignmentDescription, Student student, string comment, List<string> filepaths)
         {
+            EnsureNotNull(assignmentDescription, student, comment, filepaths);
+            Commands.InsertInto("assignments", "NULL", assignmentDescription.ID.ToString(), student.ID.ToString(), comment, "NULL", "NOW()");
+            Assignment assignment = Lists.Assignments.Last();
+
+
             // Ensure input is not null, throw ArgumentNullException (Use EnsureNotNull method)
             // Add new Assignment to the studyplatform.assignments table
             // Get the ID of the newly created Assignment
