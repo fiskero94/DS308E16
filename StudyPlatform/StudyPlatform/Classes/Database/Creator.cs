@@ -31,8 +31,8 @@ namespace StudyPlatform.Classes.Database
             EnsureNotNull(name, username, password);
             CreatePerson(name, username, password, "teacher");
             Teacher teacher = Lists.Teachers.Last();
-            Commands.CreateTable("personsentmessages" + student.ID, "messageid INT UNSIGNED NOT NULL");
-            Commands.CreateTable("personrecievedmessages" + student.ID, "messageid INT UNSIGNED NOT NULL");
+            Commands.CreateTable("personsentmessages" + teacher.ID, "messageid INT UNSIGNED NOT NULL");
+            Commands.CreateTable("personrecievedmessages" + teacher.ID, "messageid INT UNSIGNED NOT NULL");
             Commands.CreateTable("personcourses" + teacher.ID, "courseid INT UNSIGNED NOT NULL");
         }
         public static void CreateSecretary(string name, string username, string password)
@@ -40,8 +40,8 @@ namespace StudyPlatform.Classes.Database
             EnsureNotNull(name, username, password);
             CreatePerson(name, username, password, "secretary");
             Secretary secretary = Lists.Secretaries.Last();
-            Commands.CreateTable("personsentmessages" + student.ID, "messageid INT UNSIGNED NOT NULL");
-            Commands.CreateTable("personrecievedmessages" + student.ID, "messageid INT UNSIGNED NOT NULL");
+            Commands.CreateTable("personsentmessages" + secretary.ID, "messageid INT UNSIGNED NOT NULL");
+            Commands.CreateTable("personrecievedmessages" + secretary.ID, "messageid INT UNSIGNED NOT NULL");
         }
 
         public static void CreateMessage(Person sender, string title, string text, List<Person> recipients, List<string> filepaths)
@@ -84,7 +84,7 @@ namespace StudyPlatform.Classes.Database
             EnsureNotNull(date, description, online, active, rooms, filepaths, course);
             Commands.InsertInto("lessons", "NULL", course.ID.ToString(), date.ToString("yyyy-MM-dd HH:mm:ss"), description, 
                                 online.ToString().ToUpper(), active.ToString().ToUpper());
-            Lesson lesson = Lists.lessons.Last();
+            Lesson lesson = Lists.Lessons.Last();
             Commands.CreateTable("lessonrooms" + lesson.ID, "roomid INT UNSIGNED NOT NULL");
             Commands.CreateTable("lessonabsences" + lesson.ID, "absenceid INT UNSIGNED NOT NULL");
             Commands.CreateTable("lessondocuments" + lesson.ID, "TEXT NOT NULL");
@@ -124,14 +124,8 @@ namespace StudyPlatform.Classes.Database
             Commands.CreateTable("assignmentdocuments" + assignment.ID, "filepath TEXT NOT NULL");
             foreach (string filepath in filepaths)
                 Commands.InsertInto("assignmentdocuments" + assignment.ID, filepath);
-            Commands.InsertInto("assignmentdescriptionassignments");
-
-
-
-
-            // Input the ID of the Assignment into the assignmentdescriptionassignmentsN table for the AssignmentDescription
-            // Input the ID of the Student into the personassignmentsN table for the Student
-            throw new NotImplementedException();
+            Commands.InsertInto("assignmentdescriptionassignments" + assignmentDescription.ID, assignment.ID.ToString());
+            Commands.InsertInto("personassignments" + student.ID, assignment.ID.ToString());
         }
         public static void CreateAssignmentGrade(string grade, string comment, Assignment assignment)
         {
