@@ -31,5 +31,13 @@ namespace StudyPlatform.Classes.Model
                 return _id;
             }
         }
+
+        public AssignmentDescription AssignmentDescription
+        {
+            get
+            {
+                return Getters.GetAssignmentDescriptionByID(_assignmentdescriptionid);
+            }
+        }
     }
 }
