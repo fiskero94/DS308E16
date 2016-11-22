@@ -52,8 +52,18 @@ namespace StudyPlatform.Classes.Database
         }
         public static List<Message> ExtractMessages(MySqlConnectionReader connectionReader)
         {
-            throw new NotImplementedException();
+            MySqlDataReader reader = connectionReader.Reader;
+            List<Message> messages = new List<Message>();
+            while (reader.HasRows && reader.Read())
+            {
+                Person sender = Getters.GetPersonByID(reader.GetUInt32(reader.GetOrdinal("id")));
+                string title = reader.GetString(reader.GetOrdinal("title"));
+                string text = reader.GetString(reader.GetOrdinal("text"));    
+                messages.Add(new Message(sender.ID, title, text));
+            }
+            return messages;
         }
+
         public static List<News> ExtractNews(MySqlConnectionReader connectionReader)
         {
             MySqlDataReader reader = connectionReader.Reader;
