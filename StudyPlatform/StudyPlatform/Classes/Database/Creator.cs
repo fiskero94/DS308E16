@@ -47,44 +47,20 @@ namespace StudyPlatform.Classes.Database
         public static void CreateMessage(Person sender, string title, string text, List<Person> recipients, List<string> filepaths)
         {
             EnsureNotNull(sender, title, text, recipients, filepaths);
-            Query.ExecuteQueryString("INSERT INTO studyplatform.messages VALUES(NULL,'" +
-                                     sender + "','" + title + "','" + text + "','" + recipients + "','" + filepaths + "');");
-
+            Commands.InsertInto("messages", "NULL", sender.ID.ToString(), title, text, DateTime.Now.ToString());
             Message message = Lists.Messages.Last();
-            CreateTable("messagerecipients" + message.ID, "messageid INT UNSIGNED NOT NULL");
-
-            foreach (var recipient in recipients)
+            Commands.CreateTable("messagerecipients" + message.ID, "messageid INT UNSIGNED NOT NULL");
+            Commands.CreateTable("messageattachments" + message.ID, "messageid INT UNSIGNED NOT NULL");
+            Commands.InsertInto("personsentmessages" + sender.ID, message.ID.ToString());
+            Commands.InsertInto("personrecievedmessages" + sender.ID, message.ID.ToString());
+            foreach (Person recipient in recipients)
             {
-                Query.ExecuteQueryString("INSERT INTO studyplatform.messagerecipients VALUES(NULL,'" +
-                                        recipient.ID + "');");
-
-                Query.ExecuteQueryString("INSERT INTO studyplatform.personrecievedmessages" + recipient.ID + "VALUES(NULL,'" +
-                                        message.ID + "');");
+                Commands.InsertInto("messagerecipients" + message.ID, recipient.ID.ToString());
             }
-
-            CreateTable("messageattachments" + message.ID, "messageid INT UNSIGNED NOT NULL");
-
             foreach (var filepath in filepaths)
             {
-                Query.ExecuteQueryString("INSERT INTO studyplatform.messageattachments VALUES(NULL,'" +
-                                       filepath + "');");
+                Commands.InsertInto("messageattachments" + message.ID, filepath);
             }
-
-            Query.ExecuteQueryString("INSERT INTO studyplatform.personsentmessages" + sender.ID + "VALUES(NULL,'" +
-                                    message.ID + "');");
-
-
-            // Ensure input is not null, throw ArgumentNullException (Use EnsureNotNull method)
-            // Add new Message to the studyplatform.messages table
-            // Get the ID of the newly created Message
-            // Create new table messagerecipientsN where N is the ID of the Message
-            // Add the ID's of the recipients to the table
-            // Create new table messageattachmentsN where N is the ID of the Message
-            // Add the filepaths to the table
-
-            // Input the ID of the Message into the personsentmessagesN tables for the sender.
-            // Input the ID of the Message into the personrecievedmessagesN tables foreach of the recipients
-            //throw new NotImplementedException();
         }
         public static void CreateNews(Person author, string title, string text)
         {
@@ -159,23 +135,22 @@ namespace StudyPlatform.Classes.Database
         }
         public static void CreateAssignmentGrade(string grade, string comment, Assignment assignment)
         {
-            EnsureNotNull(grade, assignment);
+            EnsureNotNull(grade, comment, assignment);
             if (!Grade.ValidGrades.Contains(grade))
                 throw new InvalidGradeException();
-            Commands.InsertInto("assignmentgrades", "NULL", grade, assignment.ID.ToString());
+            Commands.InsertInto("assignmentgrades", "NULL", grade, comment, assignment.ID.ToString());
             AssignmentGrade assignmentGrade = Lists.AssignmentGrades.Last();
             Commands.SetValue("assignments", assignment.ID, "gradeid", assignmentGrade.ID.ToString());
-            // Needs to handle comment as well!
+          
         }
         public static void CreateCourseGrade(string grade, string comment, Course course, Student student)
         {
-            // Ensure input is not null, throw ArgumentNullException (Use EnsureNotNull method)
-            // Ensure that grade is a part of the set Grade.ValidGrades, throw exception if not.
-            // Add new CourseGrade to the studyplatform.coursegrades table
-            // Get the ID of the newly created CourseGrade
-            // Input the ID into the coursegrades table of the corrosponding course.
-            // Needs to handle comment as well!
-            throw new NotImplementedException();
+            EnsureNotNull(grade, comment, course, student);
+            if (!Grade.ValidGrades.Contains(grade))
+                throw new InvalidGradeException();
+            Commands.InsertInto("coursegrades", "NULL", grade, comment, course.ID.ToString(), student.ID.ToString());
+            CourseGrade courseGrade = Lists.CourseGrades.Last();
+            Commands.InsertInto("coursegrades" + course.ID, courseGrade.ID.ToString());
         }
     }
 }
