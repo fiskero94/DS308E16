@@ -34,7 +34,7 @@ namespace StudyPlatform.Classes.Database
             foreach (Person person in Lists.Persons)
                 Commands.DeleteFrom("personcourses" + person.ID, "courseid=" + course.ID);
             foreach (AssignmentDescription assigmentdescription in Lists.AssignmentDescriptions)
-                if (true) // Why tho?
+                if (true)
                     Commands.DeleteFrom("assignments", "assignmentdescriptionid=" + assigmentdescription.ID);
         }
         public static void RemoveLesson(Lesson lesson)
