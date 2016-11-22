@@ -20,21 +20,24 @@ namespace StudyPlatform.Classes.Model
         {
             get
             {
-                return Persons.Where(person => person.GetType() == typeof(Student)).Cast<Student>().ToList();
+                Query query = new Query("SELECT * FROM studyplatform.persons WHERE type=student;");
+                return Extractor.ExtractPersons(query.Execute()).Cast<Student>().ToList();
             }
         }
         public static List<Teacher> Teachers
         {
             get
             {
-                return Persons.Where(person => person.GetType() == typeof(Teacher)).Cast<Teacher>().ToList();
+                Query query = new Query("SELECT * FROM studyplatform.persons WHERE type=teacher;");
+                return Extractor.ExtractPersons(query.Execute()).Cast<Teacher>().ToList();
             }
         }
         public static List<Secretary> Secretaries
         {
             get
             {
-                return Persons.Where(person => person.GetType() == typeof(Secretary)).Cast<Secretary>().ToList();
+                Query query = new Query("SELECT * FROM studyplatform.persons WHERE type=secretary;");
+                return Extractor.ExtractPersons(query.Execute()).Cast<Secretary>().ToList();
             }
         }
         public static List<Message> Messages
