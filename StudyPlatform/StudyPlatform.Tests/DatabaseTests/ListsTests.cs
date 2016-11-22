@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace StudyPlatform.Tests.ModelTests
 {
     [TestClass]
-    public class ClassTests
+    public class ListsTests
     {
         [TestMethod]
         public void TestMethod1()

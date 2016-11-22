@@ -8,15 +8,15 @@ namespace StudyPlatform.Classes.Model
     public abstract class Grade
     {
         public static string[] ValidGrades = { "12", "10", "7", "4", "02", "00", "-3" };
-        private string comment;
-        private string grade;
+        private string _comment;
+        private string _grade;
         private uint _id;
 
         public Grade(uint id, string grade, string comment)
         {
-            ID = id;
-            this.grade = grade;
-            this.comment = comment;
+            _id = id;
+            _grade = grade;
+            _comment = comment;
         }
 
         public uint ID
@@ -25,9 +25,19 @@ namespace StudyPlatform.Classes.Model
             {
                 return _id;
             }
-            set
+        }
+        public string AssignedGrade
+        {
+            get
             {
-                _id = value;
+                return _grade;
+            }
+        }
+        public string Comment
+        {
+            get
+            {
+                return _comment;
             }
         }
     }

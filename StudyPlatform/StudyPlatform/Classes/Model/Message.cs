@@ -17,11 +17,11 @@ namespace StudyPlatform.Classes.Model
         }
 
         private uint _senderid;
-        public uint SenderId
+        public Person Sender
         {
             get
             {
-                return _senderid;
+                return Getters.GetPersonByID(_senderid);
             }
         }
 

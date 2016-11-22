@@ -43,10 +43,10 @@ namespace StudyPlatform.Classes.Database
             }
             return connectionReader;
         }
-        public static void ExecuteQueryString(string queryString)
+        public static MySqlConnectionReader ExecuteQueryString(string queryString)
         {
             Query query = new Query(queryString);
-            query.Execute();
+            return query.Execute();
         }
     }
 }

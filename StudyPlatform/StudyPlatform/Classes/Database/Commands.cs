@@ -24,7 +24,7 @@ namespace StudyPlatform.Classes.Database
         public static void InsertInto(string tableName, params string[] values)
         {
             AddApostrophes(values);
-            string queryString = "USE studyplatform; INSERT INTO " + tableName + " VALUES(";
+            string queryString = "INSERT INTO studyplatform." + tableName + " VALUES(";
             AppendStringArray(ref queryString, ", ", values);
             queryString += ");";
             Query.ExecuteQueryString(queryString);
@@ -45,6 +45,10 @@ namespace StudyPlatform.Classes.Database
                 stringToAppendOn += seperator;
             }
             stringToAppendOn = stringToAppendOn.TrimEnd(seperator.ToCharArray());
+        }
+        public static MySqlConnectionReader GetLatestRows(string tableName, int count)
+        {
+            return Query.ExecuteQueryString("SELECT * FROM studyplatform." + tableName + " ORDER BY id DESC LIMIT " + count + ";");
         }
         private static string[] AddApostrophes(params string[] strings)
         {

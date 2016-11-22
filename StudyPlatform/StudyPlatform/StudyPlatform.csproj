@@ -97,10 +97,13 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Pages\Admin.aspx" />
+    <Content Include="Pages\Login.aspx" />
     <Content Include="packages.config" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Pages\Navigation.Master" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -112,6 +115,14 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\Exceptions\ArgumentNotSecretaryException.cs" />
+    <Compile Include="Pages\Admin.aspx.cs">
+      <DependentUpon>Admin.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Admin.aspx.designer.cs">
+      <DependentUpon>Admin.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Classes\Database\Creator.cs" />
     <Compile Include="Classes\Database\Commands.cs" />
     <Compile Include="Classes\Database\Extractor.cs" />
@@ -125,20 +136,36 @@
     <Compile Include="Classes\Model\AssignmentGrade.cs" />
     <Compile Include="Classes\Model\Course.cs" />
     <Compile Include="Classes\Model\CourseGrade.cs" />
-    <Compile Include="Classes\Model\Getters.cs" />
+    <Compile Include="Classes\Database\Getters.cs" />
     <Compile Include="Classes\Model\Grade.cs" />
     <Compile Include="Classes\Model\Lesson.cs" />
     <Compile Include="Classes\Model\Message.cs" />
     <Compile Include="Classes\Model\News.cs" />
     <Compile Include="Classes\Model\Person.cs" />
-    <Compile Include="Classes\Model\Lists.cs" />
+    <Compile Include="Classes\Database\Lists.cs" />
     <Compile Include="Classes\Model\Room.cs" />
     <Compile Include="Classes\Model\Secretary.cs" />
     <Compile Include="Classes\Model\Student.cs" />
     <Compile Include="Classes\Model\Teacher.cs" />
+    <Compile Include="Pages\Login.aspx.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Login.aspx.designer.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Navigation.Master.cs">
+      <DependentUpon>Navigation.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Navigation.Master.designer.cs">
+      <DependentUpon>Navigation.Master</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Files\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

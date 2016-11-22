@@ -52,8 +52,8 @@ namespace StudyPlatform.Classes.Database
                 Commands.DeleteFrom("personrecievedmessages" + recipient.ID, "id=" + message.ID);
             }
 
-            Commands.DeleteFrom("personsentmessages" + message.SenderId, "id=" + message.ID);
-            Commands.DeleteFrom("personrecievedmessages" + message.SenderId, "id=" + message.ID);
+            Commands.DeleteFrom("personsentmessages" + message.Sender.ID, "id=" + message.ID);
+            Commands.DeleteFrom("personrecievedmessages" + message.Sender.ID, "id=" + message.ID);
         }
         public static void RemoveNews(News news)
         {

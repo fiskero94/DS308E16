@@ -11,7 +11,7 @@ namespace StudyPlatform.Classes.Model
         public static Person GetPersonByID(uint id)
         {
             Query query = new Query("SELECT * FROM studyplatform.persons WHERE id=" + id + ";");
-            return Extractor.ExtractPersons(query.Execute()).First();
+            return Extractor.ExtractPersons(query.Execute()).Single();
         }
         public static List<Person> GetPersonsByPredicates(params string[] predicates)
         {
@@ -21,10 +21,14 @@ namespace StudyPlatform.Classes.Model
             Query query = new Query(queryString);
             return Extractor.ExtractPersons(query.Execute());
         }
+        public static List<Person> GetLatestPersons(int count)
+        {
+            return Extractor.ExtractPersons(Commands.GetLatestRows("persons", count));
+        }
         public static Message GetMessageByID(uint id)
         {
             Query query = new Query("SELECT * FROM studyplatform.messages WHERE id=" + id + ";");
-            return Extractor.ExtractMessages(query.Execute()).First();
+            return Extractor.ExtractMessages(query.Execute()).Single();
         }
         public static List<Message> GetMessagesByPredicates(params string[] predicates)
         {
@@ -34,10 +38,14 @@ namespace StudyPlatform.Classes.Model
             Query query = new Query(queryString);
             return Extractor.ExtractMessages(query.Execute());
         }
+        public static List<Message> GetLatestMessages(int count)
+        {
+            return Extractor.ExtractMessages(Commands.GetLatestRows("messages", count));
+        }
         public static News GetNewsByID(uint id)
         {
             Query query = new Query("SELECT * FROM studyplatform.news WHERE id=" + id + ";");
-            return Extractor.ExtractNews(query.Execute()).First();
+            return Extractor.ExtractNews(query.Execute()).Single();
         }
         public static List<News> GetNewsByPredicates(params string[] predicates)
         {
@@ -47,10 +55,14 @@ namespace StudyPlatform.Classes.Model
             Query query = new Query(queryString);
             return Extractor.ExtractNews(query.Execute());
         }
+        public static List<News> GetLatestNews(int count)
+        {
+            return Extractor.ExtractNews(Commands.GetLatestRows("news", count));
+        }
         public static Course GetCourseByID(uint id)
         {
             Query query = new Query("SELECT * FROM studyplatform.courses WHERE id=" + id + ";");
-            return Extractor.ExtractCourses(query.Execute()).First();
+            return Extractor.ExtractCourses(query.Execute()).Single();
         }
         public static List<Course> GetCoursesByPredicates(params string[] predicates)
         {
@@ -60,10 +72,14 @@ namespace StudyPlatform.Classes.Model
             Query query = new Query(queryString);
             return Extractor.ExtractCourses(query.Execute());
         }
+        public static List<Course> GetLatestCourses(int count)
+        {
+            return Extractor.ExtractCourses(Commands.GetLatestRows("courses", count));
+        }
         public static Lesson GetLessonByID(uint id)
         {
             Query query = new Query("SELECT * FROM studyplatform.lessons WHERE id=" + id + ";");
-            return Extractor.ExtractLessons(query.Execute()).First();
+            return Extractor.ExtractLessons(query.Execute()).Single();
         }
         public static List<Lesson> GetLessonsByPredicates(params string[] predicates)
         {
@@ -73,10 +89,14 @@ namespace StudyPlatform.Classes.Model
             Query query = new Query(queryString);
             return Extractor.ExtractLessons(query.Execute());
         }
+        public static List<Lesson> GetLatestLessons(int count)
+        {
+            return Extractor.ExtractLessons(Commands.GetLatestRows("lessons", count));
+        }
         public static Room GetRoomByID(uint id)
         {
             Query query = new Query("SELECT * FROM studyplatform.rooms WHERE id=" + id + ";");
-            return Extractor.ExtractRooms(query.Execute()).First();
+            return Extractor.ExtractRooms(query.Execute()).Single();
         }
         public static List<Room> GetRoomsByPredicates(params string[] predicates)
         {
@@ -86,10 +106,14 @@ namespace StudyPlatform.Classes.Model
             Query query = new Query(queryString);
             return Extractor.ExtractRooms(query.Execute());
         }
+        public static List<Room> GetLatestRooms(int count)
+        {
+            return Extractor.ExtractRooms(Commands.GetLatestRows("rooms", count));
+        }
         public static AssignmentDescription GetAssignmentDescriptionByID(uint id)
         {
             Query query = new Query("SELECT * FROM studyplatform.assignmentsdescriptions WHERE id=" + id + ";");
-            return Extractor.ExtractAssignmentDescriptions(query.Execute()).First();
+            return Extractor.ExtractAssignmentDescriptions(query.Execute()).Single();
         }
         public static List<AssignmentDescription> GetAssignmentDescriptionsByPredicates(params string[] predicates)
         {
@@ -99,10 +123,14 @@ namespace StudyPlatform.Classes.Model
             Query query = new Query(queryString);
             return Extractor.ExtractAssignmentDescriptions(query.Execute());
         }
+        public static List<AssignmentDescription> GetLatestAssignmentDescriptions(int count)
+        {
+            return Extractor.ExtractAssignmentDescriptions(Commands.GetLatestRows("assignmentdescriptions", count));
+        }
         public static Assignment GetAssignmentByID(uint id)
         {
             Query query = new Query("SELECT * FROM studyplatform.assignments WHERE id=" + id + ";");
-            return Extractor.ExtractAssignments(query.Execute()).First();
+            return Extractor.ExtractAssignments(query.Execute()).Single();
         }
         public static List<Assignment> GetAssignmentsByPredicates(params string[] predicates)
         {
@@ -112,10 +140,14 @@ namespace StudyPlatform.Classes.Model
             Query query = new Query(queryString);
             return Extractor.ExtractAssignments(query.Execute());
         }
+        public static List<Assignment> GetLatestAssignments(int count)
+        {
+            return Extractor.ExtractAssignments(Commands.GetLatestRows("assignments", count));
+        }
         public static AssignmentGrade GetAssignmentGradeByID(uint id)
         {
             Query query = new Query("SELECT * FROM studyplatform.assignmentgrades WHERE id=" + id + ";");
-            return Extractor.ExtractAssignmentGrades(query.Execute()).First();
+            return Extractor.ExtractAssignmentGrades(query.Execute()).Single();
         }
         public static List<AssignmentGrade> GetAssignmentGradesByPredicates(params string[] predicates)
         {
@@ -125,10 +157,14 @@ namespace StudyPlatform.Classes.Model
             Query query = new Query(queryString);
             return Extractor.ExtractAssignmentGrades(query.Execute());
         }
+        public static List<AssignmentGrade> GetLatestAssignmentGrades(int count)
+        {
+            return Extractor.ExtractAssignmentGrades(Commands.GetLatestRows("assignmentgrades", count));
+        }
         public static CourseGrade GetCourseGradeByID(uint id)
         {
             Query query = new Query("SELECT * FROM studyplatform.coursegrades WHERE id=" + id + ";");
-            return Extractor.ExtractCourseGrades(query.Execute()).First();
+            return Extractor.ExtractCourseGrades(query.Execute()).Single();
         }
         public static List<CourseGrade> GetCourseGradesByPredicates(params string[] predicates)
         {
@@ -137,6 +173,10 @@ namespace StudyPlatform.Classes.Model
             queryString += ";";
             Query query = new Query(queryString);
             return Extractor.ExtractCourseGrades(query.Execute());
+        }
+        public static List<CourseGrade> GetLatestCourseGrades(int count)
+        {
+            return Extractor.ExtractCourseGrades(Commands.GetLatestRows("coursegrades", count));
         }
     }
 }
