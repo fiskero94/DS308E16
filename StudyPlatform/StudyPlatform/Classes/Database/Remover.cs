@@ -22,7 +22,7 @@ namespace StudyPlatform.Classes.Database
                 {
                     Commands.DeleteFrom("coursestudents" + course.ID, "studentid=" + person.ID);
                 }
-                foreach (Lesson lesson in Lists.lessons)
+                foreach (Lesson lesson in Lists.Lessons)
                 {
                     Commands.DeleteFrom("lessonabsences" + lesson.ID, "studentid=" + person.ID);
                 }
