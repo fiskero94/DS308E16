@@ -84,7 +84,7 @@ namespace StudyPlatform.Classes.Database
             EnsureNotNull(date, description, online, active, rooms, filepaths, course);
             Commands.InsertInto("lessons", "NULL", course.ID.ToString(), date.ToString("yyyy-MM-dd HH:mm:ss"), description, 
                                 online.ToString().ToUpper(), active.ToString().ToUpper());
-            Lesson lesson = Lists.lessons.Last();
+            Lesson lesson = Lists.Lessons.Last();
             Commands.CreateTable("lessonrooms" + lesson.ID, "roomid INT UNSIGNED NOT NULL");
             Commands.CreateTable("lessonabsences" + lesson.ID, "absenceid INT UNSIGNED NOT NULL");
             Commands.CreateTable("lessondocuments" + lesson.ID, "TEXT NOT NULL");
