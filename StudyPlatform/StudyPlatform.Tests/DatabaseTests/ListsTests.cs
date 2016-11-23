@@ -15,7 +15,40 @@ namespace StudyPlatform.Tests.ModelTests
         {
             Common.ResetTables();
         }
+        [TestMethod]
+        public void ListsMessage_ListsParametersFilled_ContainsMessageData()
+        {
+            // Arrange
+            List<Person> recipients = Lists.Persons;
+            List<string> filepaths = new List<string>();
+            filepaths.Add("");
 
+            Creator.CreateMessage(Getters.GetPersonByID(1), Instances.Title, Instances.Text, recipients, filepaths);
+
+            List<Message> messages = Lists.Messages;
+
+            uint id = Instances.ID;
+            uint _id = Instances.ID;
+            string title = Instances.Title;
+            string text = Instances.Text;
+            Message message = new Message(id, _id, title, text);
+
+            foreach (Message item in messages)
+            {
+                if (item.Title == "Title")
+                {
+                    actualMessage = item;
+                    break;
+                }
+            }
+
+            // Act
+            Assert.AreEqual(message.Title, actualMessage.Title);
+            Assert.AreEqual(message.ID, actualMessage.ID);
+        }
+
+
+        Message actualMessage;
         Student actualStudent;
         Person actualPerson;
         Teacher actualTeacher;

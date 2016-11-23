@@ -2,6 +2,8 @@
 using System.Text;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using StudyPlatform.Classes.Database;
+using StudyPlatform.Classes.Model;
 
 namespace StudyPlatform.Tests.DatabaseTests
 {
@@ -14,11 +16,31 @@ namespace StudyPlatform.Tests.DatabaseTests
         }
 
         [TestMethod]
-        public void TestMethod1()
+        public void CommandsSetValue_StringAsValue_VariableChanged()
         {
-            //
-            // TODO: Add test logic here
-            //
+            // Arrange
+            string stringValue = Instances.Name;
+
+            // Act
+            Commands.SetValue("persons", 1, "name", "'" + Instances.Name + "'");
+
+            // Assert
+            Person person = Getters.GetPersonByID(1);
+            Assert.AreEqual(person.Name, Instances.Name);
+        }
+
+        [TestMethod]
+        public void CommandsCreateTable_()
+        {
+            // Arrange
+            string stringValue = Instances.Name;
+
+            // Act
+            Commands.SetValue("persons", 1, "name", "'" + Instances.Name + "'");
+
+            // Assert
+            Person person = Getters.GetPersonByID(1);
+            Assert.AreEqual(person.Name, Instances.Name);
         }
     }
 }
