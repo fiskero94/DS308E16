@@ -14,11 +14,21 @@ namespace StudyPlatform.Classes.Database
                 if (obj == null)
                     throw new ArgumentNullException();
         }
+
+        private static void EnsureNotEmpty(params string[] strings)
+        {
+            foreach (string str in strings)
+            {
+                if (str == "")
+                    throw new ArgumentException();
+            }
+        }
         private static void CreatePerson(string name, string username, string password, string type) =>
             Commands.InsertInto("persons", "NULL", name, username, password, type);
         public static void CreateStudent(string name, string username, string password)
         {
             EnsureNotNull(name, username, password);
+            EnsureNotEmpty(name, username, password);
             CreatePerson(name, username, password, "student");
             Student student = Getters.GetLatestPersons(1).Single() as Student;
             Commands.CreateTable("personsentmessages" + student.ID, "messageid INT UNSIGNED NOT NULL");
@@ -29,6 +39,7 @@ namespace StudyPlatform.Classes.Database
         public static void CreateTeacher(string name, string username, string password)
         {
             EnsureNotNull(name, username, password);
+            EnsureNotEmpty(name, username, password);
             CreatePerson(name, username, password, "teacher");
             Teacher teacher = Getters.GetLatestPersons(1).Single() as Teacher;
             Commands.CreateTable("personsentmessages" + teacher.ID, "messageid INT UNSIGNED NOT NULL");
@@ -38,6 +49,7 @@ namespace StudyPlatform.Classes.Database
         public static void CreateSecretary(string name, string username, string password)
         {
             EnsureNotNull(name, username, password);
+            EnsureNotEmpty(name, username, password);
             CreatePerson(name, username, password, "secretary");
             Secretary secretary = Getters.GetLatestPersons(1).Single() as Secretary;
             Commands.CreateTable("personsentmessages" + secretary.ID, "messageid INT UNSIGNED NOT NULL");
@@ -47,6 +59,7 @@ namespace StudyPlatform.Classes.Database
         public static void CreateMessage(Person sender, string title, string text, List<Person> recipients, List<string> filepaths)
         {
             EnsureNotNull(sender, title, text, recipients, filepaths);
+            EnsureNotEmpty(title);
             Commands.InsertInto("messages", "NULL", sender.ID.ToString(), title, text, "NOW()");
             Message message = Getters.GetLatestMessages(1).Single();
             Commands.CreateTable("messagerecipients" + message.ID, "messageid INT UNSIGNED NOT NULL");
@@ -61,11 +74,13 @@ namespace StudyPlatform.Classes.Database
         public static void CreateNews(Person author, string title, string text)
         {
             EnsureNotNull(author, title, text);
+            EnsureNotEmpty(title);
             Commands.InsertInto("news", "NULL", author.ID.ToString(), title, text, "NOW()");
         }
         public static void CreateCourse(string name, string description)
         {
             EnsureNotNull(name, description);
+            EnsureNotEmpty(name);
             Commands.InsertInto("courses", "NULL", name, description);
             Course course = Getters.GetLatestCourses(1).Single();
             Commands.CreateTable("courseteachers" + course.ID, "teacherid INT UNSIGNED NOT NULL");
@@ -96,6 +111,7 @@ namespace StudyPlatform.Classes.Database
         public static void CreateRoom(string name)
         {
             EnsureNotNull(name);
+            EnsureNotEmpty(name);
             Commands.InsertInto("rooms", "NULL", name);
             Room room = Getters.GetLatestRooms(1).Single();
             Commands.CreateTable("roomreservations" + room.ID, "lessonid INT UNSIGNED NOT NULL");
@@ -104,6 +120,7 @@ namespace StudyPlatform.Classes.Database
         public static void CreateAssignmentDescription(Course course, string description, DateTime deadline, List<string> filepaths)
         {
             EnsureNotNull(course, description, deadline, filepaths);
+            
             Commands.InsertInto("assignmentsdescriptions", "NULL", description, deadline.ToString("yyyy-MM-dd HH:mm:ss"));
             AssignmentDescription assignmentDescription = Getters.GetLatestAssignmentDescriptions(1).Single();
             Commands.CreateTable("assignmentdescriptionassignments" + assignmentDescription.ID, "assignmentid INT UNSIGNED NOT NULL");
