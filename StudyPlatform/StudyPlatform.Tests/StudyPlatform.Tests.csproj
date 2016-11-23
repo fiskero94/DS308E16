@@ -36,6 +36,7 @@
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework">
       <Private>False</Private>
     </Reference>
+    <Reference Include="MySql.Data, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
@@ -50,6 +51,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common.cs" />
     <Compile Include="DatabaseTests\CommandsTests.cs" />
     <Compile Include="DatabaseTests\CreatorTests.cs" />
     <Compile Include="DatabaseTests\ExtractorTests.cs" />
@@ -62,6 +64,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\StudyPlatformSQLSetup\StudyPlatformSQLSetup.csproj">
+      <Project>{c43e491a-991d-4951-8547-22feff9de493}</Project>
+      <Name>StudyPlatformSQLSetup</Name>
+    </ProjectReference>
     <ProjectReference Include="..\StudyPlatform\StudyPlatform.csproj">
       <Project>{7E12B6F8-44AC-4FCB-B94D-C2B6E2CC5225}</Project>
       <Name>StudyPlatform</Name>

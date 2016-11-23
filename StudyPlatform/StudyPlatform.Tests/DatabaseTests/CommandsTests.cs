@@ -8,6 +8,11 @@ namespace StudyPlatform.Tests.DatabaseTests
     [TestClass]
     public class CommandsTests
     {
+        public CommandsTests()
+        {
+            Common.ResetTables();
+        }
+
         [TestMethod]
         public void TestMethod1()
         {

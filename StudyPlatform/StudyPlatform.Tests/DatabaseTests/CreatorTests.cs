@@ -6,12 +6,18 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StudyPlatform.Classes.Database;
 using StudyPlatform.Classes.Model;
 using StudyPlatform.Classes.Exceptions;
+using System.Configuration;
 
 namespace StudyPlatform.Tests.DatabaseTests
 {
     [TestClass]
     public class CreatorTests
     {
+        public CreatorTests()
+        {
+            Common.ResetTables();
+        }
+
         [TestMethod]
         public void CreatorCreateStudent_ValidParameters_NoExceptionThrown()
         {

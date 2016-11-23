@@ -8,6 +8,11 @@ namespace StudyPlatform.Tests.DatabaseTests
     [TestClass]
     public class ExtractorTests
     {
+        public ExtractorTests()
+        {
+            Common.ResetTables();
+        }
+
         [TestMethod]
         public void TestMethod1()
         {
