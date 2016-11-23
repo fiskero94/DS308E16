@@ -15,7 +15,7 @@ namespace StudyPlatform.Tests.DatabaseTests
     {
         public CreatorTests()
         {
-            StudyPlatformSQLSetup.Program.Setup(ConfigurationManager.ConnectionStrings["MySQLConnectionString"].ToString());
+            Common.ResetTables();
         }
 
         [TestMethod]

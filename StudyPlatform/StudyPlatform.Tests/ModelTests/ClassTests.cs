@@ -8,6 +8,11 @@ namespace StudyPlatform.Tests.ModelTests
     [TestClass]
     public class ClassTests
     {
+        public ClassTests()
+        {
+            Common.ResetTables();
+        }
+
         [TestMethod]
         public void TestMethod1()
         {

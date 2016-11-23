@@ -11,6 +11,11 @@ namespace StudyPlatform.Tests.ModelTests
     [TestClass]
     public class ListsTests
     {
+        public ListsTests()
+        {
+            Common.ResetTables();
+        }
+
         Student actualStudent;
         [TestMethod]
         public void TestMethod1()
