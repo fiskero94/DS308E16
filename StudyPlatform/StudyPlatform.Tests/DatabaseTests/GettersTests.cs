@@ -6,6 +6,7 @@ using StudyPlatform.Classes.Database;
 using StudyPlatform.Classes.Model;
 using StudyPlatform.Classes.Exceptions;
 using System.Linq;
+using MySql.Data.MySqlClient;
 
 namespace StudyPlatform.Tests.ModelTests
 {
@@ -26,35 +27,37 @@ namespace StudyPlatform.Tests.ModelTests
         }
 
         [TestMethod]
-        public void GetPersonByID_ValidParameters_ArgumentNullExceptionThrown()
+        public void GetPersonByID_ValidParameters_NoExceptionThrown()
         {
-            // Arrange
-            string name = Instances.Name;
-            string username = Instances.Username;
-            string password = Instances.Password;
+            // Act
+            Person admin = Getters.GetPersonByID(1);
+            
+            // Assert
+            Assert.AreEqual("Admin", admin.Name);
+        }
 
-            Creator.CreateStudent(name, username, password);
-            Person lastestPerson = Getters.GetLatestPersons(1).Single();
+        [TestMethod]
+        public void GetPersonByID_ValidParameters_ExceptionThrown()
+        {
+            // Act
+
 
             //Act & Assert
             try
             {
-                Person person = Getters.GetPersonByID(lastestPerson.ID);
+                Person admin = Getters.GetPersonByID(0);
 
-                foreach (var item in Lists.Persons)
-                {
-                    if (lastestPerson.Equals(person) != true)
-                    {
-                        Assert.Fail(); // No exception thrown
-                    }
-                }
+                Assert.Fail(); // No exception thrown
             }
             catch (Exception ex)
             {
-                if (!(ex is ArgumentNullException))
+                if (!(ex is NoConnectionException) || !(ex is InvalidIDException))
                     Assert.Fail(); // Exception thrown is not an ArgumentNullException
             }
         }
+
+
+
 
         [TestMethod]
         public void GetLastestPersons_ValidParameters_ArgumentNullExceptionThrown()
@@ -93,21 +96,20 @@ namespace StudyPlatform.Tests.ModelTests
             string password = Instances.Password;
 
             Creator.CreateStudent(name, username, password);
-            Person lastestPerson = Getters.GetLatestPersons(1).Single();
+            List<Person> lastestPersonList = Getters.GetLatestPersons(7);
 
             // Act & Assert
             try
             {
-                List<Person> personList = Getters.GetPersonsByPredicates(lastestPerson.Name);
-
-                foreach (var item in personList)
+                foreach (var item in lastestPersonList)
                 {
-                    if (lastestPerson.Equals(item) != true)
+                    Person person = (Getters.GetPersonsByPredicates(item.Name).Single());
+
+                    if (person.Equals(item) != true)
                     {
                         Assert.Fail(); // No exception thrown
                     }
                 }
-
             }
             catch (Exception ex)
             {

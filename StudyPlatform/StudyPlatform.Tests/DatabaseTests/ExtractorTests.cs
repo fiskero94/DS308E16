@@ -14,7 +14,7 @@ namespace StudyPlatform.Tests.DatabaseTests
         }
 
         [TestMethod]
-        public void TestMethod1()
+        public void TestMethod1() 
         {
             //
             // TODO: Add test logic here
