@@ -14,8 +14,9 @@ namespace StudyPlatform.Classes.Model
         private string _text;
         private DateTime _date;
 
-        public Message(uint senderid, string title, string text)
+        public Message(uint id, uint senderid, string title, string text)
         {
+            _id = id;
             _senderid = senderid;
             _title = title;
             _text = text;
