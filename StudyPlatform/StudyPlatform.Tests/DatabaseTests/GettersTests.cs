@@ -19,15 +19,7 @@ namespace StudyPlatform.Tests.ModelTests
         }
 
         [TestMethod]
-        public void TestMethod1()
-        {
-            //
-            // TODO: Add test logic here
-            //
-        }
-
-        [TestMethod]
-        public void GetPersonByID_ValidParameters_NoExceptionThrown()
+        public void GetPersonByID_1AsID_NoExceptionThrown()
         {
             // Act
             Person admin = Getters.GetPersonByID(1);
@@ -37,11 +29,8 @@ namespace StudyPlatform.Tests.ModelTests
         }
 
         [TestMethod]
-        public void GetPersonByID_ValidParameters_ExceptionThrown()
+        public void GetPersonByID_0AsID_InvalidIDExceptionThrown()
         {
-            // Act
-
-
             //Act & Assert
             try
             {
@@ -51,10 +40,35 @@ namespace StudyPlatform.Tests.ModelTests
             }
             catch (Exception ex)
             {
-                if (!(ex is NoConnectionException) || !(ex is InvalidIDException))
+                if (!(ex is InvalidIDException))
                     Assert.Fail(); // Exception thrown is not an ArgumentNullException
             }
         }
+
+
+        [TestMethod] //LUL
+        public void GetPersonsByPredicates_ValidParameters_ArgumentNullExceptionThrown()
+        {
+            //Act & Assert
+            try
+            {
+                List<Person> personsList = Getters.GetPersonsByPredicates(null);
+
+                Assert.Fail(); // No exception thrown
+            }
+
+            catch (Exception ex)
+            {
+                if (!(ex is InvalidIDException) || !(ex is NullReferenceException))
+                {
+                    Assert.Fail(); // Exception thrown is not an ArgumentNullException
+                }
+            }
+        }
+
+
+
+
 
 
 
@@ -87,43 +101,5 @@ namespace StudyPlatform.Tests.ModelTests
         }
 
 
-        [TestMethod]
-        public void GetPersonsByPredicates_ValidParameters_ArgumentNullExceptionThrown()
-        {
-            // Arrange
-            string name = Instances.Name;
-            string username = Instances.Username;
-            string password = Instances.Password;
-
-            Creator.CreateStudent(name, username, password);
-            List<Person> lastestPersonList = Getters.GetLatestPersons(7);
-
-            // Act & Assert
-            try
-            {
-                foreach (var item in lastestPersonList)
-                {
-                    Person person = (Getters.GetPersonsByPredicates(item.Name).Single());
-
-                    if (person.Equals(item) != true)
-                    {
-                        Assert.Fail(); // No exception thrown
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                if ((ex is ArgumentNullException))
-                    Assert.Fail(); // Exception thrown is not an ArgumentNullException
-            }
-        }
-
-
-
-
-
-
-
-
-        }
+    }
 }
