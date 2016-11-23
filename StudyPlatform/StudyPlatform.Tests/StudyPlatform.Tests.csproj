@@ -62,6 +62,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\StudyPlatformSQLSetup\StudyPlatformSQLSetup.csproj">
+      <Project>{c43e491a-991d-4951-8547-22feff9de493}</Project>
+      <Name>StudyPlatformSQLSetup</Name>
+    </ProjectReference>
     <ProjectReference Include="..\StudyPlatform\StudyPlatform.csproj">
       <Project>{7E12B6F8-44AC-4FCB-B94D-C2B6E2CC5225}</Project>
       <Name>StudyPlatform</Name>

@@ -47,7 +47,8 @@ namespace StudyPlatform.Classes.Database
         }
         public static MySqlConnectionReader GetLatestRows(string tableName, int count)
         {
-            return Query.ExecuteQueryString("SELECT * FROM studyplatform." + tableName + " ORDER BY id DESC LIMIT " + count + ";");
+            Query query = new Query("SELECT * FROM studyplatform." + tableName + " ORDER BY id DESC LIMIT " + count + ";");
+            return query.Execute();
         }
         private static string[] AddApostrophes(params string[] strings)
         {

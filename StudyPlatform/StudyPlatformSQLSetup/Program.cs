@@ -1,12 +1,14 @@
 ﻿using System;
+using System.Collections;
 using MySql.Data.MySqlClient;
+using System.Collections.Generic;
 
 namespace StudyPlatformSQLSetup
 {
-    class Program
+    public class Program
     {
         static string rootPassword;
-        static string connectionString { get { return @"server=localhost;user=root;port=3306;password=" + rootPassword + ";"; } }
+        static string connectionString;
         static void Main(string[] args)
         {
             
@@ -14,11 +16,12 @@ namespace StudyPlatformSQLSetup
             Console.WriteLine("If a 'studyplatform' database already exists, it will be dropped.");
             Console.Write("Input MySQL root password: ");
             rootPassword = Console.ReadLine();
+            connectionString = @"server=localhost;user=root;port=3306;password=" + rootPassword + ";";
 
             bool success = false;
             try
             {
-                Setup();
+                Setup(null);
                 success = true;
             }
             catch (MySqlException e)
@@ -32,14 +35,41 @@ namespace StudyPlatformSQLSetup
             else Console.WriteLine("Setup failed, press any key to exit");
             Console.ReadKey();
         }
-        static void Setup()
+        public static void Setup(string externalConnectionString)
         {
-            // Database creation
-            WriteSetupMessage("Dropping old studyplatform database if exists");
-            ExecuteQuery("DROP DATABASE IF EXISTS studyplatform;");
-            WriteSetupMessage("Creating new studyplatform database");
-            ExecuteQuery("CREATE DATABASE studyplatform;");
-            ExecuteQuery("USE studyplatform;");
+            if (externalConnectionString == null)
+            {
+                // Database creation
+                WriteSetupMessage("Dropping old studyplatform database if exists");
+                ExecuteQuery("DROP DATABASE IF EXISTS studyplatform;");
+                WriteSetupMessage("Creating new studyplatform database");
+                ExecuteQuery("CREATE DATABASE studyplatform;");
+                ExecuteQuery("USE studyplatform;");
+                // Database user creation
+                WriteSetupMessage("Dropping old studyplatformuser if exists");
+                ExecuteQuery("DROP USER IF EXISTS 'studyplatformuser'@'localhost';");
+                WriteSetupMessage("Creating new MySQL user: studyplatformuser");
+                ExecuteQuery("CREATE USER 'studyplatformuser'@'localhost' IDENTIFIED BY '7JPRFq9LeNet4DU2NNB4rwmP';");
+                WriteSetupMessage("Granting all priviliges on database 'studyplatform' for user 'studyplatformuser'");
+                ExecuteQuery("GRANT ALL PRIVILEGES ON studyplatform . * TO 'studyplatformuser'@'localhost';");
+            }
+            else
+            {
+                connectionString = externalConnectionString;
+                List<string> tables = new List<string>();
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                using (MySqlCommand command = connection.CreateCommand())
+                {
+                    connection.Open();
+                    command.CommandText = "SHOW TABLES;";
+                    MySqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                        tables.Add(reader.GetString(0));
+                    connection.Close();
+                }
+                foreach (string table in tables)
+                    ExecuteQuery("DROP TABLE IF EXISTS " + table + ";");
+            }
             // Table creation
             CreateTable("persons", "id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY",
                                    "username TEXT NOT NULL",
@@ -88,18 +118,7 @@ namespace StudyPlatformSQLSetup
                                         "studentid INT UNSIGNED NOT NULL");
             // Setting up Admin person
             WriteSetupMessage("Setting up admin person");
-            // ExecuteQuery("INSERT INTO persons VALUES(NULL,'admin','password','Admin','secretary');");
-            // ExecuteQuery("CREATE TABLE personsentmessages1 (messageid INT UNSIGNED NOT NULL);");
-            // ExecuteQuery("CREATE TABLE personrecievedmessages1 (messageid INT UNSIGNED NOT NULL);");
             StudyPlatform.Classes.Database.Creator.CreateSecretary("Admin", "admin", "password");
-
-            // Database user creation
-            WriteSetupMessage("Dropping old studyplatformuser if exists");
-            ExecuteQuery("DROP USER IF EXISTS 'studyplatformuser'@'localhost';");
-            WriteSetupMessage("Creating new MySQL user: studyplatformuser");
-            ExecuteQuery("CREATE USER 'studyplatformuser'@'localhost' IDENTIFIED BY '7JPRFq9LeNet4DU2NNB4rwmP';");
-            WriteSetupMessage("Granting all priviliges on database 'studyplatform' for user 'studyplatformuser'");
-            ExecuteQuery("GRANT ALL PRIVILEGES ON studyplatform . * TO 'studyplatformuser'@'localhost';");
         }
         static void ExecuteQuery(string query)
         {
@@ -109,6 +128,7 @@ namespace StudyPlatformSQLSetup
                 connection.Open();
                 command.CommandText = query;
                 command.ExecuteNonQuery();
+                connection.Close();
             }
         }
         static void CreateTable(string tableName, params string[] variables)
