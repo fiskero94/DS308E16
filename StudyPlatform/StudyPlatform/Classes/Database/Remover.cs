@@ -23,11 +23,11 @@ namespace StudyPlatform.Classes.Database
                     Commands.DeleteFrom("coursestudents" + course.ID, "studentid=" + person.ID);
 
                 foreach (Lesson lesson in ((Student)person).Absences)
-                    Commands.DeleteFrom("lessonabsences" + lesson.ID, "studentid=" + person.ID);
+                    Commands.DeleteFrom("lessonabscences" + lesson.ID, "studentid=" + person.ID);
 
                 Commands.DropTable("personcourses" + person.ID);
                 Commands.DropTable("personassignments" + person.ID);
-                Commands.DropTable("personabsences" + person.ID);
+                Commands.DropTable("personabscences" + person.ID);
             }
             else if (person is Teacher)
             {
@@ -37,7 +37,6 @@ namespace StudyPlatform.Classes.Database
                 Commands.DropTable("personcourses" + person.ID);
             }
             person = null;
-
         }
         public static void RemoveMessage(Message message)
         {
