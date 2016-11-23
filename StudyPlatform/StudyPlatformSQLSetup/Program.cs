@@ -88,9 +88,11 @@ namespace StudyPlatformSQLSetup
                                         "studentid INT UNSIGNED NOT NULL");
             // Setting up Admin person
             WriteSetupMessage("Setting up admin person");
-            ExecuteQuery("INSERT INTO persons VALUES(NULL,'admin','password','Admin','secretary');");
-            ExecuteQuery("CREATE TABLE personsentmessages1 (messageid INT UNSIGNED NOT NULL);");
-            ExecuteQuery("CREATE TABLE personrecievedmessages1 (messageid INT UNSIGNED NOT NULL);");
+            // ExecuteQuery("INSERT INTO persons VALUES(NULL,'admin','password','Admin','secretary');");
+            // ExecuteQuery("CREATE TABLE personsentmessages1 (messageid INT UNSIGNED NOT NULL);");
+            // ExecuteQuery("CREATE TABLE personrecievedmessages1 (messageid INT UNSIGNED NOT NULL);");
+            StudyPlatform.Classes.Database.Creator.CreateSecretary("Admin", "admin", "password");
+
             // Database user creation
             WriteSetupMessage("Dropping old studyplatformuser if exists");
             ExecuteQuery("DROP USER IF EXISTS 'studyplatformuser'@'localhost';");

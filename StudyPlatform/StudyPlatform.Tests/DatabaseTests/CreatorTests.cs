@@ -168,8 +168,9 @@ namespace StudyPlatform.Tests.DatabaseTests
         [TestMethod]
         public void CreatorCreateMessage_ValidParameters_NoExceptionThrown()
         {
+
             // Arrange
-            Person sender = Instances.Student;
+            Person sender = Lists.Secretaries.First();
             string title = Instances.Title;
             string text = Instances.Text;
             List<Person> recipients = new List<Person>();

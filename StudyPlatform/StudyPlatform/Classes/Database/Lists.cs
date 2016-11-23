@@ -1,10 +1,10 @@
-﻿using StudyPlatform.Classes.Database;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using StudyPlatform.Classes.Model;
 
-namespace StudyPlatform.Classes.Model
+namespace StudyPlatform.Classes.Database
 {
     public static class Lists
     {

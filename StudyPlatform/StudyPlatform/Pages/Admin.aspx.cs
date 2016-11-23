@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using StudyPlatform.Classes.Database;
+using StudyPlatform.Classes.Model;
 
 namespace StudyPlatform.Classes
 {
@@ -17,7 +18,7 @@ namespace StudyPlatform.Classes
 
         protected void Button_Click(object sender, EventArgs e)
         {
-            Query.ExecuteQueryString("CREATE TABLE studyplatform.shit (id INT);");
+            
         }
     }
 }
