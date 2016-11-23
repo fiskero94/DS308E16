@@ -47,7 +47,12 @@ namespace StudyPlatform.Classes.Model
         {
             get
             {
-
+                Query query = new Query("SELECT * FROM studyplatform.roomreservations" + ID);
+                uint[] ids = Extractor.ExtractIDs(query.Execute());
+                List<Lesson> lessons = new List<Lesson>();
+                foreach (uint id in ids)
+                    lessons.Add(Getters.GetLessonByID(id));
+                return lessons;
             }
         }
     }

@@ -103,19 +103,34 @@ namespace StudyPlatform.Classes.Model
         {
             get
             {
-
+                Query query = new Query("SELECT * FROM studyplatform.lessonrooms" + ID);
+                uint[] ids = Extractor.ExtractIDs(query.Execute());
+                List<Room> rooms = new List<Room>();
+                foreach (uint id in ids)
+                    rooms.Add(Getters.GetRoomByID(id));
+                return rooms;
             }
         }
         public List<Student> Absences
         {
             get
             {
-
+                Query query = new Query("SELECT * FROM studyplatform.lessonabsences" + ID);
+                uint[] ids = Extractor.ExtractIDs(query.Execute());
+                List<Student> students = new List<Student>();
+                foreach (uint id in ids)
+                    students.Add(Getters.GetPersonByID(id) as Student);
+                return students;
             }
         }
         public List<string> Documents
         {
-
+            get
+            {
+                Query query = new Query("SELECT * FROM studyplatform.lessondocuments" + ID);
+                string[] filepaths = Extractor.ExtractFilepaths(query.Execute());
+                return filepaths.ToList();
+            }
         }
     }
 }
