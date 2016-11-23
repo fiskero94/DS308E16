@@ -98,11 +98,15 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Pages\Admin.aspx" />
+    <Content Include="Pages\Assignments.aspx" />
+    <Content Include="Pages\Courses.aspx" />
+    <Content Include="Pages\Grades.aspx" />
     <Content Include="Pages\Login.aspx" />
     <Content Include="packages.config" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Pages\Messages.aspx" />
     <Content Include="Pages\Navigation.Master" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -112,10 +116,13 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Pages\News.aspx" />
+    <Content Include="Pages\Schedule.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\Common.cs" />
+    <Compile Include="Classes\Exceptions\NoRecipientsException.cs" />
     <Compile Include="Classes\Exceptions\InvalidIDException.cs" />
     <Compile Include="Classes\Exceptions\NoConnectionException.cs" />
     <Compile Include="Pages\Admin.aspx.cs">
@@ -149,6 +156,27 @@
     <Compile Include="Classes\Model\Secretary.cs" />
     <Compile Include="Classes\Model\Student.cs" />
     <Compile Include="Classes\Model\Teacher.cs" />
+    <Compile Include="Pages\Assignments.aspx.cs">
+      <DependentUpon>Assignments.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Assignments.aspx.designer.cs">
+      <DependentUpon>Assignments.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Courses.aspx.cs">
+      <DependentUpon>Courses.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Courses.aspx.designer.cs">
+      <DependentUpon>Courses.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Grades.aspx.cs">
+      <DependentUpon>Grades.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Grades.aspx.designer.cs">
+      <DependentUpon>Grades.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Pages\Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -156,12 +184,33 @@
     <Compile Include="Pages\Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Pages\Messages.aspx.cs">
+      <DependentUpon>Messages.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Messages.aspx.designer.cs">
+      <DependentUpon>Messages.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Pages\Navigation.Master.cs">
       <DependentUpon>Navigation.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Pages\Navigation.Master.designer.cs">
       <DependentUpon>Navigation.Master</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\News.aspx.cs">
+      <DependentUpon>News.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\News.aspx.designer.cs">
+      <DependentUpon>News.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Schedule.aspx.cs">
+      <DependentUpon>Schedule.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Schedule.aspx.designer.cs">
+      <DependentUpon>Schedule.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

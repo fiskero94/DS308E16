@@ -18,7 +18,7 @@ namespace StudyPlatform.Tests.DatabaseTests
         }
 
         [TestMethod]
-        public void RemoverRemovePerson_Removed()
+        public void RemoverRemovePerson_StudentAsParameter_PersonRemoved()
         {
             //Commands.DeleteFrom("persons", "id=" + person.ID);
 
@@ -95,41 +95,60 @@ namespace StudyPlatform.Tests.DatabaseTests
             //SECRETARY DELETION
             Creator.CreateSecretary(Instances.Name, Instances.Username, Instances.Password);
         }
-        public void RemoverRemoveMessage_Removed()
+        [TestMethod]
+        public void RemoverRemovePerson_TeacherAsParameter_PersonRemoved()
         {
-
+            throw new NotImplementedException();
         }
-        public void RemoverRemoveNews_Removed()
+        [TestMethod]
+        public void RemoverRemovePerson_SecretaryAsParameter_PersonRemoved()
         {
-
+            throw new NotImplementedException();
         }
-        public void RemoverRemoveCourse_Removed()
+        [TestMethod]
+        public void RemoverRemoveMessage_ValidParameters_MessageRemoved()
         {
-
+            throw new NotImplementedException();
         }
-        public void RemoverRemoveLesson_Removed()
+        [TestMethod]
+        public void RemoverRemoveNews_ValidParameters_NewsRemoved()
         {
-
+            throw new NotImplementedException();
         }
-        public void RemoverRemoveRoom_Removed()
+        [TestMethod]
+        public void RemoverRemoveCourse_ValidParameters_CourseRemoved()
         {
-
+            throw new NotImplementedException();
         }
-        public void RemoverRemoveAssignmentDescription_Removed()
+        [TestMethod]
+        public void RemoverRemoveLesson_ValidParameters_LessonRemoved()
         {
-
+            throw new NotImplementedException();
         }
-        public void RemoverRemoveAssignment_Removed()
+        [TestMethod]
+        public void RemoverRemoveRoom_ValidParameters_RoomRemoved()
         {
-
+            throw new NotImplementedException();
         }
-        public void RemoverRemoveAssignmentGrade_Removed()
+        [TestMethod]
+        public void RemoverRemoveAssignmentDescription_ValidParameters_AssignmentDescriptionRemoved()
         {
-
+            throw new NotImplementedException();
         }
-        public void RemoverRemoveCourseGrade_Removed()
+        [TestMethod]
+        public void RemoverRemoveAssignment_ValidParameters_AssignmentRemoved()
         {
-
+            throw new NotImplementedException();
+        }
+        [TestMethod]
+        public void RemoverRemoveAssignmentGrade_ValidParameters_AssignmentGradeRemoved()
+        {
+            throw new NotImplementedException();
+        }
+        [TestMethod]
+        public void RemoverRemoveCourseGrade_ValidParameters_CourseGradeRemoved()
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -12,13 +12,5 @@ namespace StudyPlatform.Tests.ModelTests
         {
             Common.ResetTables();
         }
-
-        [TestMethod]
-        public void TestMethod1()
-        {
-            //
-            // TODO: Add test logic here
-            //
-        }
     }
 }

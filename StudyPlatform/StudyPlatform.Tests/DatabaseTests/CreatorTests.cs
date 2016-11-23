@@ -231,7 +231,11 @@ namespace StudyPlatform.Tests.DatabaseTests
                     Assert.Fail(); // Exception thrown is not an ArgumentNullException
             }
         }
-        // TODO: Add No Recipients
+        [TestMethod]
+        public void CreatorCreateMessage_NoRecipients_NoRecipientsExceptionThrown()
+        {
+            throw new NotImplementedException();
+        }
         [TestMethod]
         public void CreatorCreateNews_ValidParameters_NoExceptionThrown()
         {

@@ -8,18 +8,21 @@ using StudyPlatform.Classes.Exceptions;
 using System.Linq;
 using MySql.Data.MySqlClient;
 
-namespace StudyPlatform.Tests.ModelTests
+namespace StudyPlatform.Tests.DatabaseTests
 {
     [TestClass]
     public class GettersTests
     {
+        // The methods tested here are generic, 
+        // so if Person and Message works, 
+        // the rest should work as well.
         public GettersTests()
         {
             Common.ResetTables();
         }
 
         [TestMethod]
-        public void GetPersonByID_1AsID_NoExceptionThrown()
+        public void GettersGetPersonByID_1AsID_PersonReturned()
         {
             // Act
             Person admin = Getters.GetPersonByID(1);
@@ -27,79 +30,66 @@ namespace StudyPlatform.Tests.ModelTests
             // Assert
             Assert.AreEqual("Admin", admin.Name);
         }
-
         [TestMethod]
-        public void GetPersonByID_0AsID_InvalidIDExceptionThrown()
+        public void GettersGetPersonByID_0AsID_InvalidIDExceptionThrown()
         {
             //Act & Assert
             try
             {
                 Person admin = Getters.GetPersonByID(0);
-
                 Assert.Fail(); // No exception thrown
             }
             catch (Exception ex)
             {
                 if (!(ex is InvalidIDException))
-                    Assert.Fail(); // Exception thrown is not an ArgumentNullException
+                    Assert.Fail(); // Exception thrown is not an InvalidIDException
             }
         }
-
-
-        [TestMethod] //LUL
-        public void GetPersonsByPredicates_ValidParameters_ArgumentNullExceptionThrown()
-        {
-            //Act & Assert
-            try
-            {
-                List<Person> personsList = Getters.GetPersonsByConditions(null);
-
-                Assert.Fail(); // No exception thrown
-            }
-
-            catch (Exception ex)
-            {
-                if (!(ex is InvalidIDException) || !(ex is NullReferenceException))
-                {
-                    Assert.Fail(); // Exception thrown is not an ArgumentNullException
-                }
-            }
-        }
-
-
-
-
-
-
-
-
         [TestMethod]
-        public void GetLastestPersons_ValidParameters_ArgumentNullExceptionThrown()
+        public void GettersGetPersonsByConditions_ValidParameters_PersonReturned()
+        {
+            // Act
+            Person admin = Getters.GetPersonsByConditions("name='Admin'", "username='admin'", "password='password'").Single();
+
+            // Assert
+            Assert.AreEqual("Admin", admin.Name);
+        }
+        [TestMethod]
+        public void GettersGetLatestPersons_FourPersonsCreated_ThreePersonsReturned()
         {
             // Arrange
-            int amount = 3;
-            List<Person> latestPersonsList = Getters.GetLatestPersons(amount);
-            List<Person> personList = Lists.Persons;
-            personList.Reverse();
+            Commands.InsertInto("persons", "NULL", "username1", "password1", "name1", "secretary");
+            Commands.InsertInto("persons", "NULL", "username2", "password2", "name2", "secretary");
+            Commands.InsertInto("persons", "NULL", "username3", "password3", "name3", "secretary");
+            Commands.InsertInto("persons", "NULL", "username4", "password4", "name4", "secretary");
 
-            // Act & Assert
-            try
-            {
-                for (int i = 0; i < amount - 1; i++)
-                {
-                    if (latestPersonsList[i].Equals(personList[i]) != true)
-                    {
-                        Assert.Fail(); // No exception thrown
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                if ((ex is ArgumentNullException))
-                    Assert.Fail(); // Exception thrown is not an ArgumentNullException
-            }
+            // Act
+            List<Person> persons = Getters.GetLatestPersons(3);
+
+            // Assert
+            Assert.AreEqual("name4", persons[0].Name);
+            Assert.AreEqual("name3", persons[1].Name);
+            Assert.AreEqual("name2", persons[2].Name);
         }
-
-
+        [TestMethod]
+        public void GettersGetMessageByID_1AsID_MessageReturned()
+        {
+            throw new NotImplementedException();
+        }
+        [TestMethod]
+        public void GettersGetMessageByID_0AsID_InvalidIDExceptionThrown()
+        {
+            throw new NotImplementedException();
+        }
+        [TestMethod]
+        public void GettersGetMessagesByConditions_ValidParameters_MessageReturned()
+        {
+            throw new NotImplementedException();
+        }
+        [TestMethod]
+        public void GettersGetLatestMessages_FourMessagesCreated_ThreeMessagesReturned()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

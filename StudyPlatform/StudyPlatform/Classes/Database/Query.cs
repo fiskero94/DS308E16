@@ -51,6 +51,7 @@ namespace StudyPlatform.Classes.Database
                 connectionReader.Connection.Open();
                 command.CommandText = QueryString;
                 command.ExecuteNonQuery();
+                connectionReader.Connection.Close();
             }
         }
         public static void ExecuteQueryString(string queryString)

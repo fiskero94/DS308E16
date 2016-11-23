@@ -7,18 +7,18 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace StudyPlatform {
+namespace StudyPlatform.Pages {
     
     
-    public partial class Login {
+    public partial class Schedule {
         
         /// <summary>
-        /// LoginForm control.
+        /// ScheduleForm control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlForm LoginForm;
+        protected global::System.Web.UI.HtmlControls.HtmlForm ScheduleForm;
     }
 }

@@ -7,7 +7,7 @@
 <body>
     <form id="AdminForm" runat="server">
     <div>
-        <asp:Button id="Button" runat="server" OnClick="Button_Click"/>
+        
     </div>
     </form>
 </body>
