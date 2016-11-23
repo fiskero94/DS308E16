@@ -28,14 +28,36 @@ namespace StudyPlatform.Classes.Database
                     throw new InvalidIDException();
                 }
             }
+            catch (InvalidOperationException)
+            {
+                throw new InvalidIDException();
+            }
         }
         public static List<Person> GetPersonsByPredicates(params string[] predicates)
         {
-            string queryString = "SELECT * FROM studyplatform.persons WHERE ";
-            Commands.AppendStringArray(ref queryString, " AND ", predicates);
-            queryString += ";";
-            Query query = new Query(queryString);
-            return Extractor.ExtractPersons(query.Execute());
+            try
+            {
+                string queryString = "SELECT * FROM studyplatform.persons WHERE ";
+                Commands.AppendStringArray(ref queryString, " AND ", predicates);
+                queryString += ";";
+                Query query = new Query(queryString);
+                return Extractor.ExtractPersons(query.Execute());
+            }
+            catch (MySqlException ex)
+            {
+                if (ex.Number == 0)
+                {
+                    throw new NoConnectionException();
+                }
+                else
+                {
+                    throw new InvalidIDException();
+                }
+            }
+            catch (NullReferenceException)
+            {
+                throw new NullReferenceException();
+            }
         }
         public static List<Person> GetLatestPersons(int count)
         {
