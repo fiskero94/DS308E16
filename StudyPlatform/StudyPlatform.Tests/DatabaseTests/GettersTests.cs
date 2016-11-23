@@ -26,8 +26,17 @@ namespace StudyPlatform.Tests.ModelTests
         }
 
         [TestMethod]
-        public void GetPersonByID_ValidParameters_ArgumentNullExceptionThrown()
+        public void GetPersonByID_ValidParameters_NoExceptionThrown()
         {
+            // Act
+            Person admin = Getters.GetPersonByID(1);
+            
+            // Assert
+            Assert.AreEqual("Admin", admin.Name);
+
+
+
+
             // Arrange
             string name = Instances.Name;
             string username = Instances.Username;
@@ -45,9 +54,11 @@ namespace StudyPlatform.Tests.ModelTests
                 {
                     if (lastestPerson.Equals(person) != true)
                     {
-                        Assert.Fail(); // No exception thrown
+                        
                     }
                 }
+
+                Assert.Fail(); // No exception thrown
             }
             catch (Exception ex)
             {

@@ -8,34 +8,32 @@ namespace StudyPlatform.Classes.Database
         public static void RemovePerson(Person person)
         {
             Commands.DeleteFrom("persons", "id=" + person.ID);
+
+            foreach (Message message in person.SentMessages)
+                RemoveMessage(message);
+            foreach (Message message in person.RecievedMessages)
+                Commands.DeleteFrom("messagerecipients" + message.ID, "personid=" + person.ID);
+            
             Commands.DropTable("personsentmessages" + person.ID);
             Commands.DropTable("personrecievedmessages" + person.ID);
-
-            foreach (Message message in Lists.Messages)
-            {
-                Commands.DeleteFrom("messagerecipients" + message.ID, "personid=" + person.ID);
-            }
-
+            
             if (person is Student)
             {
-                foreach (Course course in Lists.Courses)
-                {
+                foreach (Course course in ((Student)person).Courses)
                     Commands.DeleteFrom("coursestudents" + course.ID, "studentid=" + person.ID);
-                }
-                foreach (Lesson lesson in Lists.Lessons)
-                {
+
+                foreach (Lesson lesson in ((Student)person).Absences)
                     Commands.DeleteFrom("lessonabsences" + lesson.ID, "studentid=" + person.ID);
-                }
+
                 Commands.DropTable("personcourses" + person.ID);
                 Commands.DropTable("personassignments" + person.ID);
                 Commands.DropTable("personabsences" + person.ID);
             }
             else if (person is Teacher)
             {
-                foreach (Course course in Lists.Courses)
-                {
+                foreach (Course course in ((Teacher)person).Courses)
                     Commands.DeleteFrom("courseteachers" + course.ID, "teacherid=" + person.ID);
-                }
+
                 Commands.DropTable("personcourses" + person.ID);
             }
             person = null;
