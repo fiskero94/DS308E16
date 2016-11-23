@@ -33,39 +33,30 @@ namespace StudyPlatform.Tests.ModelTests
             
             // Assert
             Assert.AreEqual("Admin", admin.Name);
+        }
 
+        [TestMethod]
+        public void GetPersonByID_ValidParameters_ExceptionThrown()
+        {
+            // Act
 
-
-
-            // Arrange
-            string name = Instances.Name;
-            string username = Instances.Username;
-            string password = Instances.Password;
-
-            Creator.CreateStudent(name, username, password);
-            Person lastestPerson = Getters.GetLatestPersons(1).Single();
 
             //Act & Assert
             try
             {
-                Person person = Getters.GetPersonByID(lastestPerson.ID);
-
-                foreach (var item in Lists.Persons)
-                {
-                    if (lastestPerson.Equals(person) != true)
-                    {
-                        
-                    }
-                }
+                Person admin = Getters.GetPersonByID(0);
 
                 Assert.Fail(); // No exception thrown
             }
             catch (Exception ex)
             {
-                if (!(ex is ArgumentNullException))
+                if (!(ex is NoConnectionException) || !(ex is InvalidIDException))
                     Assert.Fail(); // Exception thrown is not an ArgumentNullException
             }
         }
+
+
+
 
         [TestMethod]
         public void GetLastestPersons_ValidParameters_ArgumentNullExceptionThrown()

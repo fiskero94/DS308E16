@@ -66,22 +66,5 @@ namespace StudyPlatform.Classes.Model
                 return recievedMessages;
             }
         }
-
-
-        public override bool Equals(object obj)
-        {
-            if(obj == null || !(obj is Person))
-            {
-                return false;
-            }
-
-            var item = obj as Person;
-
-            this.ID.Equals(item.ID);
-            return this.ID.Equals(item.ID);
-        }
-
-
-
     }
 }

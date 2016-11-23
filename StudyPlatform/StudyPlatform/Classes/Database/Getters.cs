@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using StudyPlatform.Classes.Model;
+using MySql.Data.MySqlClient;
+using StudyPlatform.Classes.Exceptions;
 
 namespace StudyPlatform.Classes.Database
 {
@@ -10,8 +12,22 @@ namespace StudyPlatform.Classes.Database
     {
         public static Person GetPersonByID(uint id)
         {
-            Query query = new Query("SELECT * FROM studyplatform.persons WHERE id=" + id + ";");
-            return Extractor.ExtractPersons(query.Execute()).Single();
+            try
+            {
+                Query query = new Query("SELECT * FROM studyplatform.persons WHERE id=" + id + ";");
+                return Extractor.ExtractPersons(query.Execute()).Single();
+            }
+            catch (MySqlException ex)
+            {
+                if(ex.Number == 0)
+                {
+                    throw new NoConnectionException();
+                }
+                else
+                {
+                    throw new InvalidIDException();
+                }
+            }
         }
         public static List<Person> GetPersonsByPredicates(params string[] predicates)
         {

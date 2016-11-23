@@ -116,6 +116,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\Exceptions\ArgumentNotSecretaryException.cs" />
+    <Compile Include="Classes\Exceptions\InvalidIDException.cs" />
+    <Compile Include="Classes\Exceptions\NoConnectionException.cs" />
     <Compile Include="Pages\Admin.aspx.cs">
       <DependentUpon>Admin.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
