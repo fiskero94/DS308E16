@@ -446,7 +446,7 @@ namespace StudyPlatform.Tests.DatabaseTests
         {
             // Arrange
             AssignmentDescription assignmentDescription = Instances.AssignmentDescription;
-            Student student = Instances.Student;
+            Student student = Lists.Students.Last();
             string comment = "comment";
             List<string> filepaths = new List<string>();
 
