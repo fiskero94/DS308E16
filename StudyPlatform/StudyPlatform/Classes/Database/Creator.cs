@@ -119,8 +119,7 @@ namespace StudyPlatform.Classes.Database
         public static void CreateAssignmentDescription(Course course, string description, DateTime deadline, List<string> filepaths)
         {
             EnsureNotNull(course, description, deadline, filepaths);
-            
-            Commands.InsertInto("assignmentsdescriptions", "NULL", description, deadline.ToString("yyyy-MM-dd HH:mm:ss"));
+            Commands.InsertInto("assignmentdescriptions", "NULL", description, deadline.ToString("yyyy-MM-dd HH:mm:ss"));
             AssignmentDescription assignmentDescription = Getters.GetLatestAssignmentDescriptions(1).Single();
             Commands.CreateTable("assignmentdescriptionassignments" + assignmentDescription.ID, "assignmentid INT UNSIGNED NOT NULL");
             Commands.CreateTable("assignmentdescriptiondocuments" + assignmentDescription.ID, "filepath TEXT NOT NULL");
