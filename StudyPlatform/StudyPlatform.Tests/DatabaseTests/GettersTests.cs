@@ -24,15 +24,21 @@ namespace StudyPlatform.Tests.ModelTests
         public void GetPersonByID_ValidParameters_ArgumentNullExceptionThrown()
         {
             // Arrange
-            uint id = Instances.ID;
-            Person person = Getters.GetPersonByID(id);
+            string name = Instances.Name;
+            string username = Instances.Username;
+            string password = Instances.Password;
 
-            // Act & Assert
+            Creator.CreateStudent(name, username, password);
+            Person lastestPerson = Getters.GetLatestPersons(1).Single();
+
+            //Act & Assert
             try
             {
-                foreach (Person item in Lists.Persons)
+                Person person = Getters.GetPersonByID(lastestPerson.ID);
+
+                foreach (var item in Lists.Persons)
                 {
-                    if (item.Equals(person) != true)
+                    if (lastestPerson.Equals(person) != true)
                     {
                         Assert.Fail(); // No exception thrown
                     }
@@ -67,7 +73,7 @@ namespace StudyPlatform.Tests.ModelTests
             }
             catch (Exception ex)
             {
-                if (!(ex is ArgumentNullException))
+                if ((ex is ArgumentNullException))
                     Assert.Fail(); // Exception thrown is not an ArgumentNullException
             }
         }
