@@ -2,6 +2,7 @@
 using System.Collections;
 using MySql.Data.MySqlClient;
 using System.Collections.Generic;
+using StudyPlatform.Classes.Database;
 
 namespace StudyPlatformSQLSetup
 {
@@ -21,7 +22,10 @@ namespace StudyPlatformSQLSetup
             bool success = false;
             try
             {
-                Setup(null);
+                SetupDatabase();
+                SetupMySqlUser();
+                SetupTables(null);
+                SetupAdmin(null);
                 success = true;
             }
             catch (MySqlException e)
@@ -35,42 +39,28 @@ namespace StudyPlatformSQLSetup
             else Console.WriteLine("Setup failed, press any key to exit");
             Console.ReadKey();
         }
-        public static void Setup(string externalConnectionString)
+        static void SetupDatabase()
         {
-            if (externalConnectionString == null)
-            {
-                // Database creation
-                WriteSetupMessage("Dropping old studyplatform database if exists");
-                ExecuteQuery("DROP DATABASE IF EXISTS studyplatform;");
-                WriteSetupMessage("Creating new studyplatform database");
-                ExecuteQuery("CREATE DATABASE studyplatform;");
-                ExecuteQuery("USE studyplatform;");
-                // Database user creation
-                WriteSetupMessage("Dropping old studyplatformuser if exists");
-                ExecuteQuery("DROP USER IF EXISTS 'studyplatformuser'@'localhost';");
-                WriteSetupMessage("Creating new MySQL user: studyplatformuser");
-                ExecuteQuery("CREATE USER 'studyplatformuser'@'localhost' IDENTIFIED BY '7JPRFq9LeNet4DU2NNB4rwmP';");
-                WriteSetupMessage("Granting all priviliges on database 'studyplatform' for user 'studyplatformuser'");
-                ExecuteQuery("GRANT ALL PRIVILEGES ON studyplatform . * TO 'studyplatformuser'@'localhost';");
-            }
-            else
-            {
+            WriteSetupMessage("Dropping old studyplatform database if exists");
+            ExecuteQuery("DROP DATABASE IF EXISTS studyplatform;");
+            WriteSetupMessage("Creating new studyplatform database");
+            ExecuteQuery("CREATE DATABASE studyplatform;");
+            ExecuteQuery("USE studyplatform;");
+        }
+        static void SetupMySqlUser()
+        {
+            WriteSetupMessage("Dropping old studyplatformuser if exists");
+            ExecuteQuery("DROP USER IF EXISTS 'studyplatformuser'@'localhost';");
+            WriteSetupMessage("Creating new MySQL user: studyplatformuser");
+            ExecuteQuery("CREATE USER 'studyplatformuser'@'localhost' IDENTIFIED BY '7JPRFq9LeNet4DU2NNB4rwmP';");
+            WriteSetupMessage("Granting all priviliges on database 'studyplatform' for user 'studyplatformuser'");
+            ExecuteQuery("GRANT ALL PRIVILEGES ON studyplatform . * TO 'studyplatformuser'@'localhost';");
+        }
+        public static void SetupTables(string externalConnectionString)
+        {
+            if (externalConnectionString != null)
                 connectionString = externalConnectionString;
-                List<string> tables = new List<string>();
-                using (MySqlConnection connection = new MySqlConnection(connectionString))
-                using (MySqlCommand command = connection.CreateCommand())
-                {
-                    connection.Open();
-                    command.CommandText = "SHOW TABLES;";
-                    MySqlDataReader reader = command.ExecuteReader();
-                    while (reader.Read())
-                        tables.Add(reader.GetString(0));
-                    connection.Close();
-                }
-                foreach (string table in tables)
-                    ExecuteQuery("DROP TABLE IF EXISTS " + table + ";");
-            }
-            // Table creation
+
             CreateTable("persons", "id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY",
                                    "username TEXT NOT NULL",
                                    "password TEXT NOT NULL",
@@ -116,9 +106,14 @@ namespace StudyPlatformSQLSetup
                                         "comment TEXT NOT NULL",
                                         "courseid INT UNSIGNED NOT NULL",
                                         "studentid INT UNSIGNED NOT NULL");
-            // Setting up Admin person
+        }
+        public static void SetupAdmin(string externalConnectionString)
+        {
+            if (externalConnectionString != null)
+                connectionString = externalConnectionString;
+
             WriteSetupMessage("Setting up admin person");
-            StudyPlatform.Classes.Database.Creator.CreateSecretary("Admin", "admin", "password");
+            Creator.CreateSecretary("Admin", "admin", "password");
         }
         static void ExecuteQuery(string query)
         {

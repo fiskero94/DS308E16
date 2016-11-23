@@ -11,32 +11,44 @@ namespace StudyPlatform.Tests.ModelTests
     [TestClass]
     public class ListsTests
     {
-        Student actualStudent;
-        [TestMethod]
-        public void TestMethod1()
+        public ListsTests()
         {
-            //
-            // TODO: Add test logic here
-            //
+            Common.ResetTables();
         }
+
+        Student actualStudent;
+        Person actualPerson;
+        Teacher actualTeacher;
 
         [TestMethod]
         public void ListsPersons_ListParametersFilled_ContainsPersonDataFromDatabase()
         {
             // Arrange
-            List<Person> persons = new List<Person>();
-            Query query = new Query("SELECT * FROM studyplatform.persons;");
-            persons = Extractor.ExtractPersons(query.Execute());
+            Creator.CreateStudent(Instances.Name, Instances.Username, Instances.Password);
+            List<Person> persons = Lists.Persons;
+
             uint id = Instances.ID;
             string name = Instances.Name;
-            string type = "student";
+            Student student = new Student(id, name);
+
+            foreach (Person item in persons)
+            {
+                if (item.Name == "Name")
+                {
+                    actualPerson = item;
+                }
+
+                break;
+            }
 
             // Act
-            
+            Assert.AreEqual(student.Name, actualPerson.Name);
+            Assert.AreEqual(student.ID, actualPerson.ID);
+
         }
 
         [TestMethod]
-        public void ListsStudents_ListParametersFilled_ContainsStudentData()
+        public void ListsStudents_ListParametersFilled_ContainsStudentDataFromDatabase()
         {
             // Arrange
             Creator.CreateStudent(Instances.Name, Instances.Username, Instances.Password);
@@ -45,17 +57,41 @@ namespace StudyPlatform.Tests.ModelTests
             uint id = Instances.ID;
             string name = Instances.Name;
             Student student = new Student(id, name);
-            List<Student> expected = new List<Student>();
 
-            expected.Add(student);
-            foreach (var item in students)
+            foreach (Student item in students)
             {
                 if (item.Name == "Name")
                     actualStudent = item;
+                break;
             }
+
             // Act
             Assert.AreEqual(student.Name, actualStudent.Name);
             Assert.AreEqual(student.ID, actualStudent.ID);
         }
+
+        [TestMethod]
+        public void ListsTeachers_ListParametersFilled_ContainsTeacherDataFromDatabase()
+        {
+            // Arrange
+            Creator.CreateTeacher(Instances.Name, Instances.Username, Instances.Password);
+            List<Teacher> teachers = Lists.Teachers;
+
+            uint id = Instances.ID;
+            string name = Instances.Name;
+            Teacher teacher = new Teacher(id, name);
+
+            foreach (Teacher item in teachers)
+            {
+                if (item.Name == "Name")
+                    actualTeacher = item;
+                break;
+            }
+
+            // Act
+            Assert.AreEqual(teacher.Name, actualTeacher.Name);
+            Assert.AreEqual(teacher.ID, actualTeacher.ID);
+        }
+
     }
 }

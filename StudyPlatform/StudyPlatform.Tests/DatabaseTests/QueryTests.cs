@@ -9,6 +9,11 @@ namespace StudyPlatform.Tests.DatabaseTests
     [TestClass]
     public class QueryTests
     {
+        public QueryTests()
+        {
+            Common.ResetTables();
+        }
+
         [TestMethod]
         public void QueryExecuteQueryString_UseAsQueryString_NoExceptionsThrown()
         {

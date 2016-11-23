@@ -12,6 +12,11 @@ namespace StudyPlatform.Tests.ModelTests
     [TestClass]
     public class GettersTests
     {
+        public GettersTests()
+        {
+            Common.ResetTables();
+        }
+
         [TestMethod]
         public void TestMethod1()
         {
