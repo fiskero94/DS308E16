@@ -19,6 +19,7 @@ namespace StudyPlatform.Tests.ModelTests
         Student actualStudent;
         Person actualPerson;
         Teacher actualTeacher;
+        Secretary actualSecretary;
 
         [TestMethod]
         public void ListsPersons_ListParametersFilled_ContainsPersonDataFromDatabase()
@@ -90,6 +91,28 @@ namespace StudyPlatform.Tests.ModelTests
             // Act
             Assert.AreEqual(teacher.Name, actualTeacher.Name);
             Assert.AreEqual(teacher.ID, actualTeacher.ID);
+        }
+
+        [TestMethod]
+        public void ListsSecretaries_ListParametersFilled_ContainsSecretaryDataFromDatabase()
+        {
+            // Arrange
+            Creator.CreateSecretary(Instances.Name, Instances.Username, Instances.Password);
+            List<Secretary> secretaries = Lists.Secretaries;
+
+            uint id = Instances.ID;
+            string name = Instances.Name;
+            Secretary secretary = new Secretary(id, name);
+
+            foreach (Secretary item in secretaries)
+            {
+                if (item.Name == "Name")
+                    actualSecretary = item;
+            }
+
+            // Act
+            Assert.AreEqual(secretary.Name, actualSecretary.Name);
+            Assert.AreEqual(secretary.ID, actualSecretary.ID);
         }
 
     }
