@@ -6,6 +6,7 @@ using StudyPlatform.Classes.Database;
 using StudyPlatform.Classes.Model;
 using StudyPlatform.Classes.Exceptions;
 using System.Linq;
+using MySql.Data.MySqlClient;
 
 namespace StudyPlatform.Tests.ModelTests
 {

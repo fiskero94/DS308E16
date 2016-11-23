@@ -24,7 +24,6 @@ namespace StudyPlatform.Tests.DatabaseTests
 
             // Assert
             Getters.GetPersonByID(1);
-            Assert
         }
     }
 }
