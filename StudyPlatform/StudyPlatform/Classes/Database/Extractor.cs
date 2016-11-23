@@ -14,6 +14,7 @@ namespace StudyPlatform.Classes.Database
             List<uint> ids = new List<uint>();
             while (reader.HasRows && reader.Read())
                 ids.Add(reader.GetUInt32(0));
+            connectionReader.Connection.Close();
             return ids.ToArray();
         }
         public static string[] ExtractFilepaths(MySqlConnectionReader connectionReader)
@@ -22,6 +23,7 @@ namespace StudyPlatform.Classes.Database
             List<string> filepaths = new List<string>();
             while (reader.HasRows && reader.Read())
                 filepaths.Add(reader.GetString(0));
+            connectionReader.Connection.Close();
             return filepaths.ToArray();
         }
         public static List<Person> ExtractPersons(MySqlConnectionReader connectionReader)
@@ -48,6 +50,7 @@ namespace StudyPlatform.Classes.Database
                         throw new InvalidPersonTypeException();
                 }
             }
+            connectionReader.Connection.Close();
             return persons;
         }
         public static List<Message> ExtractMessages(MySqlConnectionReader connectionReader)
@@ -62,6 +65,7 @@ namespace StudyPlatform.Classes.Database
                 string text = reader.GetString(reader.GetOrdinal("text"));    
                 messages.Add(new Message(id, sender.ID, title, text));
             }
+            connectionReader.Connection.Close();
             return messages;
         }
 
@@ -78,6 +82,7 @@ namespace StudyPlatform.Classes.Database
                 DateTime date = reader.GetDateTime(reader.GetOrdinal("date"));
                 news.Add(new News(id, authorid, title, text, date));
             }
+            connectionReader.Connection.Close();
             return news;
         }
         public static List<Course> ExtractCourses(MySqlConnectionReader connectionReader)
@@ -91,6 +96,7 @@ namespace StudyPlatform.Classes.Database
                 string description = reader.GetString(reader.GetOrdinal("description"));
                 courses.Add(new Course(id, name, description));
             }
+            connectionReader.Connection.Close();
             return courses;
         }
         public static List<Lesson> ExtractLessons(MySqlConnectionReader connectionReader)
@@ -107,6 +113,7 @@ namespace StudyPlatform.Classes.Database
                 bool active = reader.GetBoolean(reader.GetOrdinal("active"));
                 lessons.Add(new Lesson(id, courseid, date, description, online, active));
             }
+            connectionReader.Connection.Close();
             return lessons;
         }
         public static List<Room> ExtractRooms(MySqlConnectionReader connectionReader)
@@ -119,6 +126,7 @@ namespace StudyPlatform.Classes.Database
                 string name = reader.GetString(reader.GetOrdinal("name"));
                 rooms.Add(new Room(id, name));
             }
+            connectionReader.Connection.Close();
             return rooms;
         }
         public static List<AssignmentDescription> ExtractAssignmentDescriptions(MySqlConnectionReader connectionReader)
@@ -133,6 +141,7 @@ namespace StudyPlatform.Classes.Database
                 DateTime deadline = reader.GetDateTime(reader.GetOrdinal("deadline"));
                 assignmentdescriptions.Add(new AssignmentDescription(id, courseid, description, deadline));
             }
+            connectionReader.Connection.Close();
             return assignmentdescriptions;
         }
         public static List<Assignment> ExtractAssignments(MySqlConnectionReader connectionReader)
@@ -157,6 +166,7 @@ namespace StudyPlatform.Classes.Database
                     assignments.Add(new Assignment(id, assignmentdescriptionid, studentid, comment, date));
                 }
             }
+            connectionReader.Connection.Close();
             return assignments;
         }
         public static List<AssignmentGrade> ExtractAssignmentGrades(MySqlConnectionReader connectionReader)
@@ -173,8 +183,8 @@ namespace StudyPlatform.Classes.Database
 
                 assignmentgrades.Add(new AssignmentGrade(id, grade, comment, assignmentid));
             }
+            connectionReader.Connection.Close();
             return assignmentgrades;
-            throw new NotImplementedException();
         }
         public static List<CourseGrade> ExtractCourseGrades(MySqlConnectionReader connectionReader)
         {
@@ -189,6 +199,7 @@ namespace StudyPlatform.Classes.Database
                 uint studentid = reader.GetUInt32(reader.GetOrdinal("studentid"));
                 coursegrades.Add(new CourseGrade(id, grade, comment, courseid, studentid));
             }
+            connectionReader.Connection.Close();
             return coursegrades;
         }
     }
