@@ -1,10 +1,10 @@
-﻿using StudyPlatform.Classes.Database;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using StudyPlatform.Classes.Model;
 
-namespace StudyPlatform.Classes.Model
+namespace StudyPlatform.Classes.Database
 {
     public static class Lists
     {
@@ -20,7 +20,7 @@ namespace StudyPlatform.Classes.Model
         {
             get
             {
-                Query query = new Query("SELECT * FROM studyplatform.persons WHERE type=student;");
+                Query query = new Query("SELECT * FROM studyplatform.persons WHERE type='student';");
                 return Extractor.ExtractPersons(query.Execute()).Cast<Student>().ToList();
             }
         }
@@ -28,7 +28,7 @@ namespace StudyPlatform.Classes.Model
         {
             get
             {
-                Query query = new Query("SELECT * FROM studyplatform.persons WHERE type=teacher;");
+                Query query = new Query("SELECT * FROM studyplatform.persons WHERE type='teacher';");
                 return Extractor.ExtractPersons(query.Execute()).Cast<Teacher>().ToList();
             }
         }
@@ -36,7 +36,7 @@ namespace StudyPlatform.Classes.Model
         {
             get
             {
-                Query query = new Query("SELECT * FROM studyplatform.persons WHERE type=secretary;");
+                Query query = new Query("SELECT * FROM studyplatform.persons WHERE type='secretary';");
                 return Extractor.ExtractPersons(query.Execute()).Cast<Secretary>().ToList();
             }
         }
