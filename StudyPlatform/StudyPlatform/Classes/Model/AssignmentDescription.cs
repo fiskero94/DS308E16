@@ -47,7 +47,7 @@ namespace StudyPlatform.Classes.Model
                     throw new ArgumentNullException();
                 else
                 {
-                    Commands.SetValue("assignmentdescriptions", ID, "description", value);
+                    Commands.SetValue("assignmentdescriptions", ID, "description", "'" + value + "'");
                     _description = value;
                 }
             }
