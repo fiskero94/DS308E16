@@ -41,7 +41,7 @@ namespace StudyPlatform.Classes.Model
         {
             get
             {
-                Query query = new Query("SELECT * FROM studyplatform.personabscenses" + ID);
+                Query query = new Query("SELECT * FROM studyplatform.personabscences" + ID);
                 uint[] ids = Extractor.ExtractIDs(query.Execute());
                 List<Lesson> absences = new List<Lesson>();
                 foreach (uint id in ids)
