@@ -8,13 +8,17 @@ namespace StudyPlatform.Classes.Model
 {
     public class Course
     {
+        private uint _id;
+        private string _name;
+        private string _description;
+
         public Course(uint id, string name, string description)
         {
             _id = id;
             _name = name;
             _description = description;
         }
-        private uint _id;
+        
         public uint ID
         {
             get
@@ -22,7 +26,6 @@ namespace StudyPlatform.Classes.Model
                 return _id;
             }
         }
-        private string _name;
         public string Name
         {
             get
@@ -40,7 +43,6 @@ namespace StudyPlatform.Classes.Model
                 }
             }
         }
-        private string _description;
         public string Description
         {
             get
@@ -56,6 +58,48 @@ namespace StudyPlatform.Classes.Model
                     Commands.SetValue("courses", ID, "description", value);
                     _description = value;
                 }
+            }
+        }
+        public List<Teacher> Teachers
+        {
+            get
+            {
+                
+            }
+        }
+        public List<Student> Students
+        {
+            get
+            {
+
+            }
+        }
+        public List<Lesson> Lessons
+        {
+            get
+            {
+
+            }
+        }
+        public List<AssignmentDescription> AssignmentDescription
+        {
+            get
+            {
+
+            }
+        }
+        public List<CourseGrade> CourseGrades
+        {
+            get
+            {
+
+            }
+        }
+        public List<string> Documents
+        {
+            get
+            {
+
             }
         }
     }

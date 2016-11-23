@@ -15,6 +15,7 @@ namespace StudyPlatform.Classes.Model
             _courseid = courseid;
             _studentid = studentid;
         }
+
         public Course Course
         {
             get

@@ -13,16 +13,16 @@ namespace StudyPlatform.Classes.Model
         private uint _studentid;
         private string _comment;
         private uint _gradeid;
-        private DateTime _date;
+        private DateTime _deadline;
 
-        public Assignment(uint id, uint assignmentdescriptionid, uint studentid, string comment, uint gradeid, DateTime date)
+        public Assignment(uint id, uint assignmentdescriptionid, uint studentid, string comment, uint gradeid, DateTime deadline)
         {
             _id = id;
             _assignmentdescriptionid = assignmentdescriptionid;
             _studentid = studentid;
             _comment = comment;
             _gradeid = gradeid;
-            _date = date;
+            _deadline = deadline;
         }
 
         public uint ID
@@ -70,11 +70,18 @@ namespace StudyPlatform.Classes.Model
                 return Getters.GetAssignmentGradeByID(_gradeid);
             }
         }
-        public DateTime Date
+        public DateTime Deadline
         {
             get
             {
-                return _date;
+                return _deadline;
+            }
+        }
+        public List<string> Documents
+        {
+            get
+            {
+
             }
         }
     }

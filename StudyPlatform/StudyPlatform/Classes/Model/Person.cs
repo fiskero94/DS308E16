@@ -10,6 +10,14 @@ namespace StudyPlatform.Classes.Model
     public abstract class Person
     {
         private uint _id;
+        private string _name;
+
+        protected Person(uint id, string name)
+        {
+            _id = id;
+            Name = name;
+        }
+
         public uint ID
         {
             get
@@ -17,7 +25,6 @@ namespace StudyPlatform.Classes.Model
                 return _id;
             }
         }
-        private string _name;
         public string Name
         {
             get
@@ -58,11 +65,6 @@ namespace StudyPlatform.Classes.Model
                     recievedMessages.Add(Getters.GetMessageByID(id));
                 return recievedMessages;
             }
-        }
-        protected Person(uint id, string name)
-        {
-            _id = id;
-            Name = name;
         }
     }
 }

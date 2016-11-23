@@ -8,6 +8,11 @@ namespace StudyPlatform.Classes.Model
 {
     public class Student : Person
     {
+        public Student(uint id, string name) : base(id, name)
+        {
+
+        }
+
         public List<Course> Courses
         {
             get
@@ -43,10 +48,6 @@ namespace StudyPlatform.Classes.Model
                     absences.Add(Getters.GetLessonByID(id));
                 return absences;
             }
-        }
-        public Student(uint id, string name) : base(id, name)
-        {
-
         }
     }
 }

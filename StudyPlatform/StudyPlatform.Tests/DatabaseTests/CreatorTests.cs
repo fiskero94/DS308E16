@@ -13,27 +13,23 @@ namespace StudyPlatform.Tests.DatabaseTests
     public class CreatorTests
     {
         [TestMethod]
-        public void CreatorCreateStudent_ValidParameters_InputNameEqualsStudentName()
+        public void CreatorCreateStudent_ValidParameters_NoExceptionThrown()
         {
             // Arrange
-            string name = "John Doe";
-            string username = "johndoe";
-            string password = "1234";
+            string name = Instances.Name;
+            string username = Instances.Username;
+            string password = Instances.Password;
 
             // Act
             Creator.CreateStudent(name, username, password);
-
-            // Assert
-            Student student = Getters.GetLatestPersons(1).Single() as Student;
-            Assert.IsTrue(name.Equals(student.Name));
         }
         [TestMethod]
         public void CreatorCreateStudent_EmptyStringParameters_ArgumentExceptionThrown()
         {
             // Arrange
-            string name = "";
-            string username = "";
-            string password = "";
+            string name = Instances.EmptyString;
+            string username = Instances.EmptyString;
+            string password = Instances.EmptyString;
 
             // Act & Assert
             try
@@ -68,27 +64,23 @@ namespace StudyPlatform.Tests.DatabaseTests
             }
         }
         [TestMethod]
-        public void CreatorCreateTeacher_ValidParameters_InputValuesEqualInstanceValues()
+        public void CreatorCreateTeacher_ValidParameters_NoExceptionThrown()
         {
             // Arrange
-            string name = "John Doe";
-            string username = "johndoe";
-            string password = "1234";
+            string name = Instances.Name;
+            string username = Instances.Username;
+            string password = Instances.Password;
 
             // Act
             Creator.CreateTeacher(name, username, password);
-
-            // Assert
-            Student student = Getters.GetLatestPersons(1).Single() as Student;
-            Assert.IsTrue(name.Equals(student.Name));
         }
         [TestMethod]
         public void CreatorCreateTeacher_EmptyStringParameters_ArgumentExceptionThrown()
         {
             // Arrange
-            string name = "";
-            string username = "";
-            string password = "";
+            string name = Instances.EmptyString;
+            string username = Instances.EmptyString;
+            string password = Instances.EmptyString;
 
             // Act & Assert
             try
@@ -123,27 +115,23 @@ namespace StudyPlatform.Tests.DatabaseTests
             }
         }
         [TestMethod]
-        public void CreatorCreateSecretary_ValidParameters_InputNameEqualsStudentName()
+        public void CreatorCreateSecretary_ValidParameters_NoExceptionThrown()
         {
             // Arrange
-            string name = "John Doe";
-            string username = "johndoe";
-            string password = "1234";
+            string name = Instances.Name;
+            string username = Instances.Username;
+            string password = Instances.Password;
 
             // Act
             Creator.CreateSecretary(name, username, password);
-
-            // Assert
-            Student student = Getters.GetLatestPersons(1).Single() as Student;
-            Assert.IsTrue(name.Equals(student.Name));
         }
         [TestMethod]
         public void CreatorCreateSecretary_EmptyStringParameters_ArgumentExceptionThrown()
         {
             // Arrange
-            string name = "";
-            string username = "";
-            string password = "";
+            string name = Instances.EmptyString;
+            string username = Instances.EmptyString;
+            string password = Instances.EmptyString;
 
             // Act & Assert
             try
@@ -178,41 +166,29 @@ namespace StudyPlatform.Tests.DatabaseTests
             }
         }
         [TestMethod]
-        public void CreatorCreateMessage_ValidParameters_InputNameEqualsStudentName()
+        public void CreatorCreateMessage_ValidParameters_NoExceptionThrown()
         {
             // Arrange
-            Creator.CreateStudent("name", "username", "password");
-            Person sender = Getters.GetLatestPersons(1).Single();
-            string title = "title";
-            string text = "text";
+            Person sender = Instances.Student;
+            string title = Instances.Title;
+            string text = Instances.Text;
             List<Person> recipients = new List<Person>();
             recipients.Add(sender);
             List<string> filepaths = new List<string>();
-            filepaths.Add("filepath");
 
             // Act
             Creator.CreateMessage(sender, title, text, recipients, filepaths);
-
-            // Assert
-            Message message = Getters.GetLatestMessages(1).Single();
-            Assert.IsTrue(message.Sender.Name.Equals(sender.Name));
-            Assert.IsTrue(message.Title.Equals(title));
-            Assert.IsTrue(message.Text.Equals(text));
-            Assert.IsTrue(message.Recipients.First().Name.Equals("name"));
-            Assert.IsTrue(message.Attachments.First().Equals("filepath"));
         }
         [TestMethod]
         public void CreatorCreateMessage_EmptyStringParameters_ArgumentExceptionThrown()
         {
             // Arrange
-            Creator.CreateStudent("name", "username", "password");
-            Person sender = Getters.GetLatestPersons(1).Single();
-            string title = "";
-            string text = "";
+            Person sender = Instances.Student;
+            string title = Instances.EmptyString;
+            string text = Instances.EmptyString;
             List<Person> recipients = new List<Person>();
             recipients.Add(sender);
             List<string> filepaths = new List<string>();
-            filepaths.Add("filepath");
 
             // Act & Assert
             try
@@ -248,32 +224,25 @@ namespace StudyPlatform.Tests.DatabaseTests
                     Assert.Fail(); // Exception thrown is not an ArgumentNullException
             }
         }
+        // TODO: Add No Recipients
         [TestMethod]
-        public void CreatorCreateNews_ValidParameters_InputNameEqualsStudentName()
+        public void CreatorCreateNews_ValidParameters_NoExceptionThrown()
         {
             // Arrange
-            Creator.CreateSecretary("name", "username", "password");
-            Person author = Getters.GetLatestPersons(1).Single() as Secretary;
-            string title = "title";
-            string text = "text";
+            Person author = Instances.Secretary;
+            string title = Instances.Title;
+            string text = Instances.Text;
 
             // Act
             Creator.CreateNews(author, title, text);
-
-            // Assert
-            News news = Getters.GetLatestNews(1).Single();
-            Assert.IsTrue(news.Author.Name.Equals(author.Name));
-            Assert.IsTrue(news.Title.Equals(title));
-            Assert.IsTrue(news.Text.Equals(text));
         }
         [TestMethod]
         public void CreatorCreateNews_EmptyStringParameters_ArgumentExceptionThrown()
         {
             // Arrange
-            Creator.CreateSecretary("name", "username", "password");
-            Person author = Getters.GetLatestPersons(1).Single() as Secretary;
-            string title = "";
-            string text = "";
+            Person author = Instances.Secretary;
+            string title = Instances.EmptyString;
+            string text = Instances.EmptyString;
 
             // Act & Assert
             try
@@ -311,10 +280,9 @@ namespace StudyPlatform.Tests.DatabaseTests
         public void CreatorCreateNews_StudentAsAuthor_ArgumentNotSecretaryExceptionThrown()
         {
             // Arrange
-            Creator.CreateStudent("name", "username", "password");
-            Person author = Getters.GetLatestPersons(1).Single() as Student;
-            string title = "title";
-            string text = "text";
+            Person author = Instances.Student;
+            string title = Instances.Title;
+            string text = Instances.Text;
 
             // Act & Assert
             try
@@ -329,26 +297,21 @@ namespace StudyPlatform.Tests.DatabaseTests
             }
         }
         [TestMethod]
-        public void CreatorCreateCourse_ValidParameters_InputNameEqualsStudentName()
+        public void CreatorCreateCourse_ValidParameters_NoExceptionThrown()
         {
             // Arrange
-            string name = "coursename";
-            string description = "descriptivetext";
+            string name = Instances.Name;
+            string description = Instances.Description;
 
             // Act
             Creator.CreateCourse(name, description);
-
-            // Assert
-            Course course = Getters.GetLatestCourses(1).Single();
-            Assert.IsTrue(name.Equals(course.Name));
-            Assert.IsTrue(description.Equals(course.Description));
         }
         [TestMethod]
         public void CreatorCreateCourse_EmptyStringParameters_ArgumentExceptionThrown()
         {
             // Arrange
-            string name = "";
-            string description = "";
+            string name = Instances.EmptyString;
+            string description = Instances.EmptyString;
 
             // Act & Assert
             try
@@ -382,40 +345,28 @@ namespace StudyPlatform.Tests.DatabaseTests
             }
         }
         [TestMethod]
-        public void CreatorCreateLesson_ValidParameters_InputNameEqualsStudentName()
+        public void CreatorCreateLesson_ValidParameters_NoExceptionThrown()
         {
             // Arrange
-            DateTime date = DateTime.Now;
-            string description = "descriptivetext";
-            bool online = true;
-            bool active = true;
+            DateTime date = Instances.Date;
+            string description = Instances.Description;
+            bool online = Instances.Online;
+            bool active = Instances.Active;
             List<Room> rooms = new List<Room>();
             List<string> filepaths = new List<string>();
-            string courseName = "TestCourse";
-            string courseDescription = "TestDescription";
-            Creator.CreateCourse(courseName, courseDescription);
-            Course course = Getters.GetLatestCourses(1).Single();
+            Course course = Instances.Course;
 
             // Act
             Creator.CreateLesson(date, description, online, active, rooms, filepaths, course);
-
-            // Assert
-            Lesson lesson = Getters.GetLatestLessons(1).Single();
-            Assert.IsTrue(date.Equals(lesson.Date));
-            Assert.IsTrue(description.Equals(lesson.Description));
-            Assert.IsTrue(online.Equals(lesson.Online));
-            Assert.IsTrue(active.Equals(lesson.Active));
-            Assert.IsTrue(courseName.Equals(lesson.Course.Name));
-            Assert.IsTrue(courseDescription.Equals(lesson.Course.Description));
         }
         [TestMethod]
         public void CreatorCreateLesson_NullParameters_ArgumentNullExceptionThrown()
         {
             // Arrange
-            DateTime date = DateTime.Now;
+            DateTime date = Instances.Date;
             string description = null;
-            bool online = true;
-            bool active = true;
+            bool online = Instances.Online;
+            bool active = Instances.Active;
             List<Room> rooms = null;
             List<string> filepaths = null;
             Course course = null;
@@ -436,20 +387,16 @@ namespace StudyPlatform.Tests.DatabaseTests
         public void CreatorCreateRoom_ValidParameters_InputNameEqualsRoomName()
         {
             // Arrange
-            string name = "G308";
+            string name = Instances.Name;
 
             // Act
             Creator.CreateRoom(name);
-
-            // Assert
-            Room room = Getters.GetLatestRooms(1).Single();
-            Assert.IsTrue(name.Equals(room.Name));
         }
         [TestMethod]
         public void CreatorCreateRoom_EmptyStringParameters_ArgumentExceptionThrown()
         {
             // Arrange
-            string name = "";
+            string name = Instances.EmptyString;
 
             // Act & Assert
             try
@@ -482,26 +429,16 @@ namespace StudyPlatform.Tests.DatabaseTests
             }
         }
         [TestMethod]
-        public void CreatorCreateAssignmentDescription_ValidParameters_InputNameEqualsStudentName()
+        public void CreatorCreateAssignmentDescription_ValidParameters_NoExceptionThrown()
         {
             // Arrange
-            string courseName = "TestCourse";
-            string courseDescription = "TestDescription";
-            Creator.CreateCourse(courseName, courseDescription);
-            Course course = Getters.GetLatestCourses(1).Single();
-            string description = "descriptivetext";
-            DateTime deadline = DateTime.Now;
+            Course course = Instances.Course;
+            string description = Instances.Description;
+            DateTime deadline = Instances.Date;
             List<string> filepaths = new List<string>();
 
             // Act
             Creator.CreateAssignmentDescription(course, description, deadline, filepaths);
-
-            // Assert
-            AssignmentDescription assignmentDescription = Getters.GetLatestAssignmentDescriptions(1).Single();
-            Assert.IsTrue(course.Name.Equals(assignmentDescription.Course.Name));
-            Assert.IsTrue(course.Description.Equals(assignmentDescription.Course.Description));
-            Assert.IsTrue(description.Equals(assignmentDescription.Description));
-            Assert.IsTrue(deadline.Equals(assignmentDescription.Date));
         }
         [TestMethod]
         public void CreatorCreateAssignmentDescription_NullParameters_ArgumentNullExceptionThrown()
@@ -509,7 +446,7 @@ namespace StudyPlatform.Tests.DatabaseTests
             // Arrange
             Course course = null;
             string description = null;
-            DateTime deadline = DateTime.Now;
+            DateTime deadline = Instances.Date;
             List<string> filepaths = null;
 
             // Act & Assert
@@ -525,37 +462,16 @@ namespace StudyPlatform.Tests.DatabaseTests
             }
         }
         [TestMethod]
-        public void CreatorCreateAssignment_ValidParameters_InputNameEqualsStudentName()
+        public void CreatorCreateAssignment_ValidParameters_NoExceptionThrown()
         {
-            // Arrange Dummy AssignmentDescription
-            string courseName = "TestCourse";
-            string courseDescription = "TestDescription";
-            Creator.CreateCourse(courseName, courseDescription);
-            Course course = Getters.GetLatestCourses(1).Single();
-            string description = "descriptivetext";
-            DateTime deadline = DateTime.Now;
-            List<string> filepaths = new List<string>();
-            Creator.CreateAssignmentDescription(course, description, deadline, filepaths);
-            AssignmentDescription assignmentDescription = Getters.GetLatestAssignmentDescriptions(1).Single();
-
-            // Arrange Dummy Student
-            string name = "John Doe";
-            string username = "johndoe";
-            string password = "1234";
-            Creator.CreateStudent(name, username, password);
-            Student student = Getters.GetLatestPersons(1).Single() as Student;
-
             // Arrange
+            AssignmentDescription assignmentDescription = Instances.AssignmentDescription;
+            Student student = Instances.Student;
             string comment = "comment";
+            List<string> filepaths = new List<string>();
 
             // Act
             Creator.CreateAssignment(assignmentDescription, student, comment, filepaths);
-
-            // Assert
-            Assignment assignment = Getters.GetLatestAssignments(1).Single();
-            Assert.IsTrue(assignmentDescription.Description.Equals(assignment.AssignmentDescription.Description));
-            Assert.IsTrue(student.Name.Equals(assignment.Student.Name));
-            Assert.IsTrue(comment.Equals(assignment.Comment));
         }
         [TestMethod]
         public void CreatorCreateAssignment_NullParameters_ArgumentNullExceptionThrown()
@@ -579,38 +495,15 @@ namespace StudyPlatform.Tests.DatabaseTests
             }
         }
         [TestMethod]
-        public void CreatorCreateAssignmentGrade_ValidParameters_InputNameEqualsStudentName()
+        public void CreatorCreateAssignmentGrade_ValidParameters_NoExceptionThrown()
         {
-            // Arrange Dummy Assignment
-            string courseName = "TestCourse";
-            string courseDescription = "TestDescription";
-            Creator.CreateCourse(courseName, courseDescription);
-            Course course = Getters.GetLatestCourses(1).Single();
-            string description = "descriptivetext";
-            DateTime deadline = DateTime.Now;
-            List<string> filepaths = new List<string>();
-            Creator.CreateAssignmentDescription(course, description, deadline, filepaths);
-            AssignmentDescription assignmentDescription = Getters.GetLatestAssignmentDescriptions(1).Single();
-            string name = "John Doe";
-            string username = "johndoe";
-            string password = "1234";
-            Creator.CreateStudent(name, username, password);
-            Student student = Getters.GetLatestPersons(1).Single() as Student;
-            string comment = "comment";
-            Creator.CreateAssignment(assignmentDescription, student, comment, filepaths);
-            Assignment assignment = Getters.GetLatestAssignments(1).Single();
-
             // Arrange
-            string grade = "12";
+            string grade = Instances.Grade;
+            string comment = Instances.Comment;
+            Assignment assignment = Instances.Assignment;
 
             // Act
             Creator.CreateAssignmentGrade(grade, comment, assignment);
-
-            // Assert
-            AssignmentGrade assignmentGrade = Getters.GetLatestAssignmentGrades(1).Single();
-            Assert.IsTrue(grade.Equals(assignment.Grade));
-            Assert.IsTrue(comment.Equals(assignment.Comment));
-            Assert.IsTrue(assignment.Comment.Equals(assignmentGrade.Assignment.Comment));
         }
         [TestMethod]
         public void CreatorCreateAssignmentGrade_NullParameters_ArgumentNullExceptionThrown()
@@ -635,27 +528,10 @@ namespace StudyPlatform.Tests.DatabaseTests
         [TestMethod]
         public void CreatorCreateAssignmentGrade_11AsGrade_InvalidGradeExceptionThrown()
         {
-            // Arrange Dummy Assignment
-            string courseName = "TestCourse";
-            string courseDescription = "TestDescription";
-            Creator.CreateCourse(courseName, courseDescription);
-            Course course = Getters.GetLatestCourses(1).Single();
-            string description = "descriptivetext";
-            DateTime deadline = DateTime.Now;
-            List<string> filepaths = new List<string>();
-            Creator.CreateAssignmentDescription(course, description, deadline, filepaths);
-            AssignmentDescription assignmentDescription = Getters.GetLatestAssignmentDescriptions(1).Single();
-            string name = "John Doe";
-            string username = "johndoe";
-            string password = "1234";
-            Creator.CreateStudent(name, username, password);
-            Student student = Getters.GetLatestPersons(1).Single() as Student;
-            string comment = "comment";
-            Creator.CreateAssignment(assignmentDescription, student, comment, filepaths);
-            Assignment assignment = Getters.GetLatestAssignments(1).Single();
-
             // Arrange
             string grade = "11";
+            string comment = Instances.Comment;
+            Assignment assignment = Instances.Assignment;
 
             // Act & Assert
             try
@@ -670,34 +546,16 @@ namespace StudyPlatform.Tests.DatabaseTests
             }
         }
         [TestMethod]
-        public void CreatorCreateCourseGrade_ValidParameters_InputNameEqualsStudentName()
+        public void CreatorCreateCourseGrade_ValidParameters_NoExceptionThrown()
         {
-            // Arrange Dummy Course
-            string courseName = "coursename";
-            string description = "descriptivetext";
-            Creator.CreateCourse(courseName, description);
-            Course course = Getters.GetLatestCourses(1).Single();
-
-            // Arrange Dummy Student
-            string studentName = "John Doe";
-            string username = "johndoe";
-            string password = "1234";
-            Creator.CreateStudent(studentName, username, password);
-            Student student = Getters.GetLatestPersons(1).Single() as Student;
-
             // Arrange
-            string grade = "12";
-            string comment = "comment";
+            string grade = Instances.Grade;
+            string comment = Instances.Comment;
+            Course course = Instances.Course;
+            Student student = Instances.Student;
 
             // Act
             Creator.CreateCourseGrade(grade, comment, course, student);
-
-            // Assert
-            CourseGrade courseGrade = Getters.GetLatestCourseGrades(1).Single();
-            Assert.IsTrue(grade.Equals(courseGrade.AssignedGrade));
-            Assert.IsTrue(comment.Equals(courseGrade.Comment));
-            Assert.IsTrue(courseName.Equals(courseGrade.Course.Name));
-            Assert.IsTrue(studentName.Equals(courseGrade.Student.Name));
         }
         [TestMethod]
         public void CreatorCreateCourseGrade_NullParameters_ArgumentNullExceptionThrown()
@@ -723,22 +581,11 @@ namespace StudyPlatform.Tests.DatabaseTests
         [TestMethod]
         public void CreatorCreateCourseGrade_11AsGrade_InvalidGradeExceptionThrown()
         {
-            // Arrange Dummy Course
-            string courseName = "coursename";
-            string description = "descriptivetext";
-            Creator.CreateCourse(courseName, description);
-            Course course = Getters.GetLatestCourses(1).Single();
-
-            // Arrange Dummy Student
-            string studentName = "John Doe";
-            string username = "johndoe";
-            string password = "1234";
-            Creator.CreateStudent(studentName, username, password);
-            Student student = Getters.GetLatestPersons(1).Single() as Student;
-
             // Arrange
             string grade = "11";
-            string comment = "comment";
+            string comment = Instances.Comment;
+            Course course = Instances.Course;
+            Student student = Instances.Student;
 
             // Act & Assert
             try

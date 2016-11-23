@@ -8,6 +8,11 @@ namespace StudyPlatform.Classes.Model
 {
     public class AssignmentDescription
     {
+        private uint _id;
+        private uint _courseid;
+        private string _description;
+        private DateTime _date;
+
         public AssignmentDescription(uint id, uint courseid, string description, DateTime date)
         {
             _id = id;
@@ -15,8 +20,7 @@ namespace StudyPlatform.Classes.Model
             _description = description;
             _date = date;
         }   
-
-        private uint _id;
+        
         public uint ID
         {
             get
@@ -24,8 +28,6 @@ namespace StudyPlatform.Classes.Model
                 return _id;
             }
         }
-
-        private uint _courseid;
         public Course Course
         {
             get
@@ -33,8 +35,6 @@ namespace StudyPlatform.Classes.Model
                 return Getters.GetCourseByID(_courseid);
             }
         }
-
-        private string _description;
         public string Description
         {
             get
@@ -52,8 +52,6 @@ namespace StudyPlatform.Classes.Model
                 }
             }
         }
-
-        private DateTime _date;
         public DateTime Date
         {
             get
@@ -69,6 +67,20 @@ namespace StudyPlatform.Classes.Model
                     Commands.SetValue("assignmentdescriptions", ID, "date", value.ToString("yyyy-MM-dd HH:mm:ss"));
                     _date = value;
                 }
+            }
+        }
+        public List<Assignment> Assignments
+        {
+            get
+            {
+
+            }
+        }
+        public List<string> Documents
+        {
+            get
+            {
+
             }
         }
     }

@@ -1,11 +1,30 @@
 ﻿using StudyPlatform.Classes.Database;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
 
 namespace StudyPlatform.Classes.Model
 {
     public class Lesson
     {
         private uint _id;
+        private uint _courseid;
+        private DateTime _date;
+        private string _description;
+        private bool _online;
+        private bool _active;
+
+        public Lesson(uint id, uint courseid, DateTime date, string description, bool online, bool active)
+        {
+            _id = id;
+            _courseid = courseid;
+            _date = date;
+            _description = description;
+            _online = online;
+            _active = active;
+        }
+        
         public uint ID
         {
             get
@@ -13,7 +32,6 @@ namespace StudyPlatform.Classes.Model
                 return _id;
             }
         }
-        private uint _courseid;
         public Course Course
         {
             get
@@ -21,7 +39,6 @@ namespace StudyPlatform.Classes.Model
                 return Getters.GetCourseByID(_courseid);
             }
         }
-        private DateTime _date;
         public DateTime Date
         {
             get
@@ -39,7 +56,6 @@ namespace StudyPlatform.Classes.Model
                 }
             }
         }
-        private string _description;
         public string Description
         {
             get
@@ -58,7 +74,6 @@ namespace StudyPlatform.Classes.Model
             }
 
         }
-        private bool _online;
         public bool Online
         {
             get
@@ -72,7 +87,6 @@ namespace StudyPlatform.Classes.Model
                 _online = value;
             }
         }
-        private bool _active;
         public bool Active
         {
             get
@@ -85,14 +99,23 @@ namespace StudyPlatform.Classes.Model
                 _active = value;
             }
         }
-        public Lesson(uint id, uint courseid, DateTime date, string description, bool online, bool active)
+        public List<Room> Rooms
         {
-            _id = id;
-            _courseid = courseid;
-            _date = date;
-            _description = description;
-            _online = online;
-            _active = active;
+            get
+            {
+
+            }
+        }
+        public List<Student> Absences
+        {
+            get
+            {
+
+            }
+        }
+        public List<string> Documents
+        {
+
         }
     }
 }

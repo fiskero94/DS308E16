@@ -9,6 +9,13 @@ namespace StudyPlatform.Classes.Model
     public class Room
     {
         private uint _id;
+        private string _name;
+
+        public Room(uint id, string name)
+        {
+            _id = id;
+            _name = name;
+        }
 
         public uint ID
         {
@@ -17,9 +24,6 @@ namespace StudyPlatform.Classes.Model
                 return _id;
             }
         }
-
-        private string _name;
-
         public string Name
         {
             get
@@ -39,11 +43,12 @@ namespace StudyPlatform.Classes.Model
                 }
             }
         }
-
-        public Room(uint id, string name)
+        public List<Lesson> Reservations
         {
-            _id = id;
-            Name = name;
+            get
+            {
+
+            }
         }
     }
 }
