@@ -130,8 +130,8 @@ namespace StudyPlatform.Classes.Database
                 uint id = reader.GetUInt32(reader.GetOrdinal("id"));
                 uint courseid = reader.GetUInt32(reader.GetOrdinal("courseid"));
                 string description = reader.GetString(reader.GetOrdinal("description"));
-                DateTime date = reader.GetDateTime(reader.GetOrdinal("date"));
-                assignmentdescriptions.Add(new AssignmentDescription(id, courseid, description, date));
+                DateTime deadline = reader.GetDateTime(reader.GetOrdinal("deadline"));
+                assignmentdescriptions.Add(new AssignmentDescription(id, courseid, description, deadline));
             }
             return assignmentdescriptions;
         }

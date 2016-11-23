@@ -115,7 +115,6 @@ namespace StudyPlatform.Classes.Database
             Room room = Getters.GetLatestRooms(1).Single();
             Commands.CreateTable("roomreservations" + room.ID, "lessonid INT UNSIGNED NOT NULL");
         }
-
         public static void CreateAssignmentDescription(Course course, string description, DateTime deadline, List<string> filepaths)
         {
             EnsureNotNull(course, description, deadline, filepaths);
