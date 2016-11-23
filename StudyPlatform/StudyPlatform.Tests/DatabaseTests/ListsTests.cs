@@ -11,6 +11,7 @@ namespace StudyPlatform.Tests.ModelTests
     [TestClass]
     public class ListsTests
     {
+        Student actualStudent;
         [TestMethod]
         public void TestMethod1()
         {
@@ -47,9 +48,14 @@ namespace StudyPlatform.Tests.ModelTests
             List<Student> expected = new List<Student>();
 
             expected.Add(student);
-
+            foreach (var item in students)
+            {
+                if (item.Name == "Name")
+                    actualStudent = item;
+            }
             // Act
-            Assert.AreEqual(expected, students);
+            Assert.AreEqual(student.Name, actualStudent.Name);
+            Assert.AreEqual(student.ID, actualStudent.ID);
         }
     }
 }
