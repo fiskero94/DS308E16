@@ -38,7 +38,7 @@ namespace StudyPlatform.Classes.Model
                 }
                 else
                 {
-                    Commands.SetValue("rooms", ID, "name", value);
+                    Commands.SetValue("rooms", ID, "name", "'" + value + "'");
                     _name = value;
                 }
             }
