@@ -70,7 +70,7 @@ namespace StudyPlatform.Classes.Database
             foreach (var filepath in filepaths)
                 Commands.InsertInto("messageattachments" + message.ID, filepath);
         }
-        public static void CreateNews(Person author, string title, string text)
+        public static void CreateNews(Secretary author, string title, string text)
         {
             EnsureNotNull(author, title, text);
             EnsureNotEmpty(title);
@@ -97,7 +97,7 @@ namespace StudyPlatform.Classes.Database
             Lesson lesson = Getters.GetLatestLessons(1).Single();
             Commands.CreateTable("lessonrooms" + lesson.ID, "roomid INT UNSIGNED NOT NULL");
             Commands.CreateTable("lessonabsences" + lesson.ID, "absenceid INT UNSIGNED NOT NULL");
-            Commands.CreateTable("lessondocuments" + lesson.ID, "TEXT NOT NULL");
+            Commands.CreateTable("lessondocuments" + lesson.ID, "filepath TEXT NOT NULL");
             Commands.InsertInto("courselessons" + course.ID, lesson.ID.ToString());
             foreach (Room room in rooms)
             {
@@ -119,7 +119,7 @@ namespace StudyPlatform.Classes.Database
         public static void CreateAssignmentDescription(Course course, string description, DateTime deadline, List<string> filepaths)
         {
             EnsureNotNull(course, description, deadline, filepaths);
-            Commands.InsertInto("assignmentdescriptions", "NULL", description, deadline.ToString("yyyy-MM-dd HH:mm:ss"));
+            Commands.InsertInto("assignmentdescriptions", "NULL", course.ID.ToString(), description, deadline.ToString("yyyy-MM-dd HH:mm:ss"));
             AssignmentDescription assignmentDescription = Getters.GetLatestAssignmentDescriptions(1).Single();
             Commands.CreateTable("assignmentdescriptionassignments" + assignmentDescription.ID, "assignmentid INT UNSIGNED NOT NULL");
             Commands.CreateTable("assignmentdescriptiondocuments" + assignmentDescription.ID, "filepath TEXT NOT NULL");

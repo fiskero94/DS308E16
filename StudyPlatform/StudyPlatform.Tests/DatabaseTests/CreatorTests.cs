@@ -229,7 +229,7 @@ namespace StudyPlatform.Tests.DatabaseTests
         public void CreatorCreateNews_ValidParameters_NoExceptionThrown()
         {
             // Arrange
-            Person author = Instances.Secretary;
+            Secretary author = Instances.Secretary;
             string title = Instances.Title;
             string text = Instances.Text;
 
@@ -240,7 +240,7 @@ namespace StudyPlatform.Tests.DatabaseTests
         public void CreatorCreateNews_EmptyStringParameters_ArgumentExceptionThrown()
         {
             // Arrange
-            Person author = Instances.Secretary;
+            Secretary author = Instances.Secretary;
             string title = Instances.EmptyString;
             string text = Instances.EmptyString;
 
@@ -260,7 +260,7 @@ namespace StudyPlatform.Tests.DatabaseTests
         public void CreatorCreateNews_NullParameters_ArgumentNullExceptionThrown()
         {
             // Arrange
-            Person author = null;
+            Secretary author = null;
             string title = null;
             string text = null;
 
@@ -273,26 +273,6 @@ namespace StudyPlatform.Tests.DatabaseTests
             catch (Exception ex)
             {
                 if (!(ex is ArgumentNullException))
-                    Assert.Fail(); // Exception thrown is not an ArgumentNullException
-            }
-        }
-        [TestMethod]
-        public void CreatorCreateNews_StudentAsAuthor_ArgumentNotSecretaryExceptionThrown()
-        {
-            // Arrange
-            Person author = Instances.Student;
-            string title = Instances.Title;
-            string text = Instances.Text;
-
-            // Act & Assert
-            try
-            {
-                Creator.CreateNews(author, title, text);
-                Assert.Fail(); // No exception thrown
-            }
-            catch (Exception ex)
-            {
-                if (!(ex is ArgumentNotSecretaryException))
                     Assert.Fail(); // Exception thrown is not an ArgumentNullException
             }
         }
