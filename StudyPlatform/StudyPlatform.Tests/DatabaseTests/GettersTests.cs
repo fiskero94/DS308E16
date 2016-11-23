@@ -52,7 +52,7 @@ namespace StudyPlatform.Tests.ModelTests
             //Act & Assert
             try
             {
-                List<Person> personsList = Getters.GetPersonsByPredicates(null);
+                List<Person> personsList = Getters.GetPersonsByConditions(null);
 
                 Assert.Fail(); // No exception thrown
             }

@@ -63,7 +63,7 @@ namespace StudyPlatform.Classes.Model
                     throw new ArgumentNullException();
                 else
                 {
-                    Commands.SetValue("assignments", ID, "comment", "'" + value + "'");
+                    Commands.SetValue("assignments", ID, "comment", value);
                     _comment = value;
                 }
             }

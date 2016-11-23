@@ -8,27 +8,12 @@ namespace StudyPlatform.Classes.Database
 {
     public static class Creator
     {
-        private static void EnsureNotNull(params object[] objects)
-        {
-            foreach (object obj in objects)
-                if (obj == null)
-                    throw new ArgumentNullException();
-        }
-
-        private static void EnsureNotEmpty(params string[] strings)
-        {
-            foreach (string str in strings)
-            {
-                if (str == "")
-                    throw new ArgumentException();
-            }
-        }
         private static void CreatePerson(string name, string username, string password, string type) =>
             Commands.InsertInto("persons", "NULL", username, password, name, type);
         public static void CreateStudent(string name, string username, string password)
         {
-            EnsureNotNull(name, username, password);
-            EnsureNotEmpty(name, username, password);
+            Common.EnsureNotNull(name, username, password);
+            Common.EnsureNotEmpty(name, username, password);
             CreatePerson(name, username, password, "student");
             Student student = Getters.GetLatestPersons(1).Single() as Student;
             Commands.CreateTable("personsentmessages" + student.ID, "messageid INT UNSIGNED NOT NULL");
@@ -39,8 +24,8 @@ namespace StudyPlatform.Classes.Database
         }
         public static void CreateTeacher(string name, string username, string password)
         {
-            EnsureNotNull(name, username, password);
-            EnsureNotEmpty(name, username, password);
+            Common.EnsureNotNull(name, username, password);
+            Common.EnsureNotEmpty(name, username, password);
             CreatePerson(name, username, password, "teacher");
             Teacher teacher = Getters.GetLatestPersons(1).Single() as Teacher;
             Commands.CreateTable("personsentmessages" + teacher.ID, "messageid INT UNSIGNED NOT NULL");
@@ -49,8 +34,8 @@ namespace StudyPlatform.Classes.Database
         }
         public static void CreateSecretary(string name, string username, string password)
         {
-            EnsureNotNull(name, username, password);
-            EnsureNotEmpty(name, username, password);
+            Common.EnsureNotNull(name, username, password);
+            Common.EnsureNotEmpty(name, username, password);
             CreatePerson(name, username, password, "secretary");
             Secretary secretary = Getters.GetLatestPersons(1).Single() as Secretary;
             Commands.CreateTable("personsentmessages" + secretary.ID, "messageid INT UNSIGNED NOT NULL");
@@ -58,8 +43,8 @@ namespace StudyPlatform.Classes.Database
         }
         public static void CreateMessage(Person sender, string title, string text, List<Person> recipients, List<string> filepaths)
         {
-            EnsureNotNull(sender, title, text, recipients, filepaths);
-            EnsureNotEmpty(title);
+            Common.EnsureNotNull(sender, title, text, recipients, filepaths);
+            Common.EnsureNotEmpty(title);
             Commands.InsertInto("messages", "NULL", sender.ID.ToString(), title, text, "NOW()");
             Message message = Getters.GetLatestMessages(1).Single();
             Commands.CreateTable("messagerecipients" + message.ID, "messageid INT UNSIGNED NOT NULL");
@@ -73,14 +58,14 @@ namespace StudyPlatform.Classes.Database
         }
         public static void CreateNews(Secretary author, string title, string text)
         {
-            EnsureNotNull(author, title, text);
-            EnsureNotEmpty(title);
+            Common.EnsureNotNull(author, title, text);
+            Common.EnsureNotEmpty(title);
             Commands.InsertInto("news", "NULL", author.ID.ToString(), title, text, "NOW()");
         }
         public static void CreateCourse(string name, string description)
         {
-            EnsureNotNull(name, description);
-            EnsureNotEmpty(name);
+            Common.EnsureNotNull(name, description);
+            Common.EnsureNotEmpty(name);
             Commands.InsertInto("courses", "NULL", name, description);
             Course course = Getters.GetLatestCourses(1).Single();
             Commands.CreateTable("courseteachers" + course.ID, "teacherid INT UNSIGNED NOT NULL");
@@ -92,7 +77,7 @@ namespace StudyPlatform.Classes.Database
         }
         public static void CreateLesson(DateTime date, string description, bool online, bool active, List<Room> rooms, List<string> filepaths, Course course)
         {
-            EnsureNotNull(date, description, online, active, rooms, filepaths, course);
+            Common.EnsureNotNull(date, description, online, active, rooms, filepaths, course);
             Commands.InsertInto("lessons", "NULL", course.ID.ToString(), date.ToString("yyyy-MM-dd HH:mm:ss"), description, 
                                 online.ToString().ToUpper(), active.ToString().ToUpper());
             Lesson lesson = Getters.GetLatestLessons(1).Single();
@@ -110,15 +95,15 @@ namespace StudyPlatform.Classes.Database
         }
         public static void CreateRoom(string name)
         {
-            EnsureNotNull(name);
-            EnsureNotEmpty(name);
+            Common.EnsureNotNull(name);
+            Common.EnsureNotEmpty(name);
             Commands.InsertInto("rooms", "NULL", name);
             Room room = Getters.GetLatestRooms(1).Single();
             Commands.CreateTable("roomreservations" + room.ID, "lessonid INT UNSIGNED NOT NULL");
         }
         public static void CreateAssignmentDescription(Course course, string description, DateTime deadline, List<string> filepaths)
         {
-            EnsureNotNull(course, description, deadline, filepaths);
+            Common.EnsureNotNull(course, description, deadline, filepaths);
             Commands.InsertInto("assignmentdescriptions", "NULL", course.ID.ToString(), description, deadline.ToString("yyyy-MM-dd HH:mm:ss"));
             AssignmentDescription assignmentDescription = Getters.GetLatestAssignmentDescriptions(1).Single();
             Commands.CreateTable("assignmentdescriptionassignments" + assignmentDescription.ID, "assignmentid INT UNSIGNED NOT NULL");
@@ -129,7 +114,7 @@ namespace StudyPlatform.Classes.Database
         }
         public static void CreateAssignment(AssignmentDescription assignmentDescription, Student student, string comment, List<string> filepaths)
         {
-            EnsureNotNull(assignmentDescription, student, comment, filepaths);
+            Common.EnsureNotNull(assignmentDescription, student, comment, filepaths);
             Commands.InsertInto("assignments", "NULL", assignmentDescription.ID.ToString(), student.ID.ToString(), comment, "NULL", "NOW()");
             Assignment assignment = Getters.GetLatestAssignments(1).Single();
             Commands.CreateTable("assignmentdocuments" + assignment.ID, "filepath TEXT NOT NULL");
@@ -140,7 +125,7 @@ namespace StudyPlatform.Classes.Database
         }
         public static void CreateAssignmentGrade(string grade, string comment, Assignment assignment)
         {
-            EnsureNotNull(grade, comment, assignment);
+            Common.EnsureNotNull(grade, comment, assignment);
             if (!Grade.ValidGrades.Contains(grade))
                 throw new InvalidGradeException();
             Commands.InsertInto("assignmentgrades", "NULL", grade, comment, assignment.ID.ToString());
@@ -150,7 +135,7 @@ namespace StudyPlatform.Classes.Database
         }
         public static void CreateCourseGrade(string grade, string comment, Course course, Student student)
         {
-            EnsureNotNull(grade, comment, course, student);
+            Common.EnsureNotNull(grade, comment, course, student);
             if (!Grade.ValidGrades.Contains(grade))
                 throw new InvalidGradeException();
             Commands.InsertInto("coursegrades", "NULL", grade, comment, course.ID.ToString(), student.ID.ToString());

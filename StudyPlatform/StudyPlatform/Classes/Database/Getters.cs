@@ -10,211 +10,97 @@ namespace StudyPlatform.Classes.Database
 {
     public static class Getters
     {
-        public static Person GetPersonByID(uint id)
+        private static Dictionary<Type, string> TablesByType = new Dictionary<Type, string>()
+        {
+            { typeof(Person), "persons" },
+            { typeof(Message), "messages" },
+            { typeof(News), "news" },
+            { typeof(Course), "courses" },
+            { typeof(Lesson), "lessons" },
+            { typeof(Room), "rooms" },
+            { typeof(AssignmentDescription), "assignmentdescriptions" },
+            { typeof(Assignment), "assignments" },
+            { typeof(AssignmentGrade), "assignmentgrades" },
+            { typeof(CourseGrade), "coursegrades" }
+        };
+        private static Dictionary<Type, Func<MySqlConnectionReader, object>> ExtractMethodsByType = 
+            new Dictionary<Type, Func<MySqlConnectionReader, object>>()
+        {
+            { typeof(Person), new Func<MySqlConnectionReader,List<Person>>(Extractor.ExtractPersons) },
+            { typeof(Message), new Func<MySqlConnectionReader,List<Message>>(Extractor.ExtractMessages) },
+            { typeof(News), new Func<MySqlConnectionReader,List<News>>(Extractor.ExtractNews) },
+            { typeof(Course), new Func<MySqlConnectionReader,List<Course>>(Extractor.ExtractCourses) },
+            { typeof(Lesson), new Func<MySqlConnectionReader,List<Lesson>>(Extractor.ExtractLessons) },
+            { typeof(Room), new Func<MySqlConnectionReader,List<Room>>(Extractor.ExtractRooms) },
+            { typeof(AssignmentDescription), new Func<MySqlConnectionReader,List<AssignmentDescription>>(Extractor.ExtractAssignmentDescriptions) },
+            { typeof(Assignment), new Func<MySqlConnectionReader,List<Assignment>>(Extractor.ExtractAssignments) },
+            { typeof(AssignmentGrade), new Func<MySqlConnectionReader,List<AssignmentGrade>>(Extractor.ExtractAssignmentGrades) },
+            { typeof(CourseGrade), new Func<MySqlConnectionReader,List<CourseGrade>>(Extractor.ExtractCourseGrades) }
+        };
+
+        private static T GetRecordByID<T>(uint id)
         {
             try
             {
-                Query query = new Query("SELECT * FROM studyplatform.persons WHERE id=" + id + ";");
-                return Extractor.ExtractPersons(query.Execute()).Single();
-            }
-            catch (MySqlException ex)
-            {
-                if(ex.Number == 0)
-                {
-                    throw new NoConnectionException();
-                }
-                else
-                {
-                    throw new InvalidIDException();
-                }
+                Query query = new Query("SELECT * FROM studyplatform." + TablesByType[typeof(T)] + " WHERE id=" + id + ";");
+                return ((List<T>)ExtractMethodsByType[typeof(T)].Invoke(query.Execute())).Single();
             }
             catch (InvalidOperationException)
             {
                 throw new InvalidIDException();
             }
         }
-        public static List<Person> GetPersonsByPredicates(params string[] predicates)
+        private static List<T> GetRecordsByPredicates<T>(params string[] conditions)
         {
             try
             {
-                string queryString = "SELECT * FROM studyplatform.persons WHERE ";
-                Commands.AppendStringArray(ref queryString, " AND ", predicates);
+                string queryString = "SELECT * FROM studyplatform." + TablesByType[typeof(T)] + " WHERE ";
+                Common.AppendStringArray(ref queryString, " AND ", conditions);
                 queryString += ";";
                 Query query = new Query(queryString);
-                return Extractor.ExtractPersons(query.Execute());
+                return (List<T>)ExtractMethodsByType[typeof(T)].Invoke(query.Execute());
             }
-            catch (MySqlException ex)
+            catch (InvalidOperationException)
             {
-                if (ex.Number == 0)
-                {
-                    throw new NoConnectionException();
-                }
-                else
-                {
-                    throw new InvalidIDException();
-                }
-            }
-            catch (NullReferenceException)
-            {
-                throw new NullReferenceException();
+                throw new InvalidIDException();
             }
         }
-        public static List<Person> GetLatestPersons(int count)
+        private static List<T> GetLatestRecords<T>(int count)
         {
-            return Extractor.ExtractPersons(Commands.GetLatestRows("persons", count));
+            return (List<T>)ExtractMethodsByType[typeof(T)].Invoke(Commands.GetLatestRows(TablesByType[typeof(T)],count));
         }
-        public static Message GetMessageByID(uint id)
-        {
-            Query query = new Query("SELECT * FROM studyplatform.messages WHERE id=" + id + ";");
-            return Extractor.ExtractMessages(query.Execute()).Single();
-        }
-        public static List<Message> GetMessagesByPredicates(params string[] predicates)
-        {
-            string queryString = "SELECT * FROM studyplatform.messages WHERE ";
-            Commands.AppendStringArray(ref queryString, " AND ", predicates);
-            queryString += ";";
-            Query query = new Query(queryString);
-            return Extractor.ExtractMessages(query.Execute());
-        }
-        public static List<Message> GetLatestMessages(int count)
-        {
-            return Extractor.ExtractMessages(Commands.GetLatestRows("messages", count));
-        }
-        public static News GetNewsByID(uint id)
-        {
-            Query query = new Query("SELECT * FROM studyplatform.news WHERE id=" + id + ";");
-            return Extractor.ExtractNews(query.Execute()).Single();
-        }
-        public static List<News> GetNewsByPredicates(params string[] predicates)
-        {
-            string queryString = "SELECT * FROM studyplatform.news WHERE ";
-            Commands.AppendStringArray(ref queryString, " AND ", predicates);
-            queryString += ";";
-            Query query = new Query(queryString);
-            return Extractor.ExtractNews(query.Execute());
-        }
-        public static List<News> GetLatestNews(int count)
-        {
-            return Extractor.ExtractNews(Commands.GetLatestRows("news", count));
-        }
-        public static Course GetCourseByID(uint id)
-        {
-            Query query = new Query("SELECT * FROM studyplatform.courses WHERE id=" + id + ";");
-            return Extractor.ExtractCourses(query.Execute()).Single();
-        }
-        public static List<Course> GetCoursesByPredicates(params string[] predicates)
-        {
-            string queryString = "SELECT * FROM studyplatform.courses WHERE ";
-            Commands.AppendStringArray(ref queryString, " AND ", predicates);
-            queryString += ";";
-            Query query = new Query(queryString);
-            return Extractor.ExtractCourses(query.Execute());
-        }
-        public static List<Course> GetLatestCourses(int count)
-        {
-            return Extractor.ExtractCourses(Commands.GetLatestRows("courses", count));
-        }
-        public static Lesson GetLessonByID(uint id)
-        {
-            Query query = new Query("SELECT * FROM studyplatform.lessons WHERE id=" + id + ";");
-            return Extractor.ExtractLessons(query.Execute()).Single();
-        }
-        public static List<Lesson> GetLessonsByPredicates(params string[] predicates)
-        {
-            string queryString = "SELECT * FROM studyplatform.lessons WHERE ";
-            Commands.AppendStringArray(ref queryString, " AND ", predicates);
-            queryString += ";";
-            Query query = new Query(queryString);
-            return Extractor.ExtractLessons(query.Execute());
-        }
-        public static List<Lesson> GetLatestLessons(int count)
-        {
-            return Extractor.ExtractLessons(Commands.GetLatestRows("lessons", count));
-        }
-        public static Room GetRoomByID(uint id)
-        {
-            Query query = new Query("SELECT * FROM studyplatform.rooms WHERE id=" + id + ";");
-            return Extractor.ExtractRooms(query.Execute()).Single();
-        }
-        public static List<Room> GetRoomsByPredicates(params string[] predicates)
-        {
-            string queryString = "SELECT * FROM studyplatform.rooms WHERE ";
-            Commands.AppendStringArray(ref queryString, " AND ", predicates);
-            queryString += ";";
-            Query query = new Query(queryString);
-            return Extractor.ExtractRooms(query.Execute());
-        }
-        public static List<Room> GetLatestRooms(int count)
-        {
-            return Extractor.ExtractRooms(Commands.GetLatestRows("rooms", count));
-        }
-        public static AssignmentDescription GetAssignmentDescriptionByID(uint id)
-        {
-            Query query = new Query("SELECT * FROM studyplatform.assignmentsdescriptions WHERE id=" + id + ";");
-            return Extractor.ExtractAssignmentDescriptions(query.Execute()).Single();
-        }
-        public static List<AssignmentDescription> GetAssignmentDescriptionsByPredicates(params string[] predicates)
-        {
-            string queryString = "SELECT * FROM studyplatform.assignmentsdescriptions WHERE ";
-            Commands.AppendStringArray(ref queryString, " AND ", predicates);
-            queryString += ";";
-            Query query = new Query(queryString);
-            return Extractor.ExtractAssignmentDescriptions(query.Execute());
-        }
-        public static List<AssignmentDescription> GetLatestAssignmentDescriptions(int count)
-        {
-            return Extractor.ExtractAssignmentDescriptions(Commands.GetLatestRows("assignmentdescriptions", count));
-        }
-        public static Assignment GetAssignmentByID(uint id)
-        {
-            Query query = new Query("SELECT * FROM studyplatform.assignments WHERE id=" + id + ";");
-            return Extractor.ExtractAssignments(query.Execute()).Single();
-        }
-        public static List<Assignment> GetAssignmentsByPredicates(params string[] predicates)
-        {
-            string queryString = "SELECT * FROM studyplatform.assignments WHERE ";
-            Commands.AppendStringArray(ref queryString, " AND ", predicates);
-            queryString += ";";
-            Query query = new Query(queryString);
-            return Extractor.ExtractAssignments(query.Execute());
-        }
-        public static List<Assignment> GetLatestAssignments(int count)
-        {
-            return Extractor.ExtractAssignments(Commands.GetLatestRows("assignments", count));
-        }
-        public static AssignmentGrade GetAssignmentGradeByID(uint id)
-        {
-            Query query = new Query("SELECT * FROM studyplatform.assignmentgrades WHERE id=" + id + ";");
-            return Extractor.ExtractAssignmentGrades(query.Execute()).Single();
-        }
-        public static List<AssignmentGrade> GetAssignmentGradesByPredicates(params string[] predicates)
-        {
-            string queryString = "SELECT * FROM studyplatform.assignmentgrades WHERE ";
-            Commands.AppendStringArray(ref queryString, " AND ", predicates);
-            queryString += ";";
-            Query query = new Query(queryString);
-            return Extractor.ExtractAssignmentGrades(query.Execute());
-        }
-        public static List<AssignmentGrade> GetLatestAssignmentGrades(int count)
-        {
-            return Extractor.ExtractAssignmentGrades(Commands.GetLatestRows("assignmentgrades", count));
-        }
-        public static CourseGrade GetCourseGradeByID(uint id)
-        {
-            Query query = new Query("SELECT * FROM studyplatform.coursegrades WHERE id=" + id + ";");
-            return Extractor.ExtractCourseGrades(query.Execute()).Single();
-        }
-        public static List<CourseGrade> GetCourseGradesByPredicates(params string[] predicates)
-        {
-            string queryString = "SELECT * FROM studyplatform.coursegrades WHERE ";
-            Commands.AppendStringArray(ref queryString, " AND ", predicates);
-            queryString += ";";
-            Query query = new Query(queryString);
-            return Extractor.ExtractCourseGrades(query.Execute());
-        }
-        public static List<CourseGrade> GetLatestCourseGrades(int count)
-        {
-            return Extractor.ExtractCourseGrades(Commands.GetLatestRows("coursegrades", count));
-        }
-    }
+
+        public static Person GetPersonByID(uint id) => GetRecordByID<Person>(id);
+        public static Message GetMessageByID(uint id) => GetRecordByID<Message>(id);
+        public static News GetNewsByID(uint id) => GetRecordByID<News>(id);
+        public static Course GetCourseByID(uint id) => GetRecordByID<Course>(id);
+        public static Lesson GetLessonByID(uint id) => GetRecordByID<Lesson>(id);
+        public static Room GetRoomByID(uint id) => GetRecordByID<Room>(id);
+        public static AssignmentDescription GetAssignmentDescriptionByID(uint id) => GetRecordByID<AssignmentDescription>(id);
+        public static Assignment GetAssignmentByID(uint id) => GetRecordByID<Assignment>(id);
+        public static AssignmentGrade GetAssignmentGradeByID(uint id) => GetRecordByID<AssignmentGrade>(id);
+        public static CourseGrade GetCourseGradeByID(uint id) => GetRecordByID<CourseGrade>(id);
+        
+        public static List<Person> GetPersonsByConditions(params string[] conditions) => GetRecordsByPredicates<Person>(conditions);
+        public static List<Message> GetMessagesByConditions(params string[] conditions) => GetRecordsByPredicates<Message>(conditions);
+        public static List<News> GetNewsByConditions(params string[] conditions) => GetRecordsByPredicates<News>(conditions);
+        public static List<Course> GetCoursesByConditions(params string[] conditions) => GetRecordsByPredicates<Course>(conditions);
+        public static List<Lesson> GetLessonsByConditions(params string[] conditions) => GetRecordsByPredicates<Lesson>(conditions);
+        public static List<Room> GetRoomsByConditions(params string[] conditions) => GetRecordsByPredicates<Room>(conditions);
+        public static List<AssignmentDescription> GetAssignmentDescriptionsByConditions(params string[] conditions) => GetRecordsByPredicates<AssignmentDescription>(conditions);
+        public static List<Assignment> GetAssignmentsByConditions(params string[] conditions) => GetRecordsByPredicates<Assignment>(conditions);
+        public static List<AssignmentGrade> GetAssignmentGradesByConditions(params string[] conditions) => GetRecordsByPredicates<AssignmentGrade>(conditions);
+        public static List<CourseGrade> GetCourseGradesByConditions(params string[] conditions) => GetRecordsByPredicates<CourseGrade>(conditions);
+
+        public static List<Person> GetLatestPersons(int count) => GetLatestRecords<Person>(count);
+        public static List<Message> GetLatestMessages(int count) => GetLatestRecords<Message>(count);
+        public static List<News> GetLatestNews(int count) => GetLatestRecords<News>(count);
+        public static List<Course> GetLatestCourses(int count) => GetLatestRecords<Course>(count);
+        public static List<Lesson> GetLatestLessons(int count) => GetLatestRecords<Lesson>(count);
+        public static List<Room> GetLatestRooms(int count) => GetLatestRecords<Room>(count);
+        public static List<AssignmentDescription> GetLatestAssignmentDescriptions(int count) => GetLatestRecords<AssignmentDescription>(count);
+        public static List<Assignment> GetLatestAssignments(int count) => GetLatestRecords<Assignment>(count);
+        public static List<AssignmentGrade> GetLatestAssignmentGrades(int count) => GetLatestRecords<AssignmentGrade>(count);
+        public static List<CourseGrade> GetLatestCourseGrades(int count) => GetLatestRecords<CourseGrade>(count);
+    } 
 }

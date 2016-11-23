@@ -115,7 +115,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Classes\Exceptions\ArgumentNotSecretaryException.cs" />
+    <Compile Include="Classes\Common.cs" />
     <Compile Include="Classes\Exceptions\InvalidIDException.cs" />
     <Compile Include="Classes\Exceptions\NoConnectionException.cs" />
     <Compile Include="Pages\Admin.aspx.cs">
