@@ -24,6 +24,11 @@ namespace StudyPlatform.Classes.Model
             _gradeid = gradeid;
             _deadline = deadline;
         }
+        public Assignment(uint id, uint assignmentdescriptionid, uint studentid, string comment, DateTime deadline) 
+            : this(id, assignmentdescriptionid, studentid, comment, 0, deadline)
+        {
+
+        }
 
         public uint ID
         {

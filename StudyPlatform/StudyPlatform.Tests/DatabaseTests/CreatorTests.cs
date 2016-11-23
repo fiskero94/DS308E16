@@ -12,6 +12,15 @@ namespace StudyPlatform.Tests.DatabaseTests
     [TestClass]
     public class CreatorTests
     {
+        public CreatorTests()
+        {
+            string name = Instances.Name;
+            string username = Instances.Username;
+            string password = Instances.Password;
+
+            Creator.CreateStudent(name, username, password);
+        }
+
         [TestMethod]
         public void CreatorCreateStudent_ValidParameters_NoExceptionThrown()
         {

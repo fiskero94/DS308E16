@@ -75,7 +75,7 @@ namespace StudyPlatformSQLSetup
                                        "assignmentdescriptionid INT UNSIGNED NOT NULL",
                                        "studentid INT UNSIGNED NOT NULL",
                                        "comment TEXT NOT NULL",
-                                       "gradeid INT UNSIGNED NOT NULL",
+                                       "gradeid INT UNSIGNED",
                                        "date DATETIME NOT NULL");
             CreateTable("assignmentgrades", "id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY",
                                             "grade ENUM('12','10','7','4','02','00','-3') NOT NULL",

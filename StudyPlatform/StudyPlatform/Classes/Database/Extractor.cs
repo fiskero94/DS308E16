@@ -145,9 +145,17 @@ namespace StudyPlatform.Classes.Database
                 uint assignmentdescriptionid = reader.GetUInt32(reader.GetOrdinal("assignmentdescriptionid"));
                 uint studentid = reader.GetUInt32(reader.GetOrdinal("studentid"));
                 string comment = reader.GetString(reader.GetOrdinal("comment"));
-                uint gradeid = reader.GetUInt32(reader.GetOrdinal("gradeid"));
                 DateTime date = reader.GetDateTime(reader.GetOrdinal("date"));
-                assignments.Add(new Assignment(id, assignmentdescriptionid, studentid, comment, gradeid, date));
+                uint gradeid;
+                try
+                {
+                    gradeid = reader.GetUInt32(reader.GetOrdinal("gradeid"));
+                    assignments.Add(new Assignment(id, assignmentdescriptionid, studentid, comment, gradeid, date));
+                }
+                catch (System.Data.SqlTypes.SqlNullValueException)
+                {
+                    assignments.Add(new Assignment(id, assignmentdescriptionid, studentid, comment, date));
+                }
             }
             return assignments;
         }
