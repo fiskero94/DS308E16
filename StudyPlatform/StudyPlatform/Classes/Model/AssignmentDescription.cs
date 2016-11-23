@@ -73,14 +73,21 @@ namespace StudyPlatform.Classes.Model
         {
             get
             {
-
+                Query query = new Query("SELECT * FROM studyplatform.assignmentdescriptionassignments" + ID);
+                uint[] ids = Extractor.ExtractIDs(query.Execute());
+                List<Assignment> assignments = new List<Assignment>();
+                foreach (uint id in ids)
+                    assignments.Add(Getters.GetAssignmentByID(id));
+                return assignments;
             }
         }
         public List<string> Documents
         {
             get
             {
-
+                Query query = new Query("SELECT * FROM studyplatform.assignmentdescriptiondocuments" + ID);
+                string[] filepaths = Extractor.ExtractFilepaths(query.Execute());
+                return filepaths.ToList();
             }
         }
     }

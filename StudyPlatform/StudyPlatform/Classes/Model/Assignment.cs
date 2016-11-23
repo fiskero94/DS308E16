@@ -81,7 +81,9 @@ namespace StudyPlatform.Classes.Model
         {
             get
             {
-
+                Query query = new Query("SELECT * FROM studyplatform.assignmentdocuments" + ID);
+                string[] filepaths = Extractor.ExtractFilepaths(query.Execute());
+                return filepaths.ToList();
             }
         }
     }
