@@ -36,9 +36,8 @@ namespace StudyPlatform.Tests.ModelTests
                 if (item.Name == "Name")
                 {
                     actualPerson = item;
+                    break;
                 }
-
-                break;
             }
 
             // Act
