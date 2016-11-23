@@ -21,34 +21,32 @@ namespace StudyPlatform.Tests.DatabaseTests
         public void RemoverRemovePerson_Removed()
         {
             //Commands.DeleteFrom("persons", "id=" + person.ID);
+
+            //foreach (Message message in person.SentMessages)
+            //    RemoveMessage(message);
+            //foreach (Message message in person.RecievedMessages)
+            //    Commands.DeleteFrom("messagerecipients" + message.ID, "personid=" + person.ID);
+
             //Commands.DropTable("personsentmessages" + person.ID);
             //Commands.DropTable("personrecievedmessages" + person.ID);
 
-            //foreach (Message message in Lists.Messages)
-            //{
-            //    Commands.DeleteFrom("messagerecipients" + message.ID, "personid=" + person.ID);
-            //}
-
             //if (person is Student)
             //{
-            //    foreach (Course course in Lists.Courses)
-            //    {
+            //    foreach (Course course in ((Student)person).Courses)
             //        Commands.DeleteFrom("coursestudents" + course.ID, "studentid=" + person.ID);
-            //    }
-            //    foreach (Lesson lesson in Lists.Lessons)
-            //    {
-            //        Commands.DeleteFrom("lessonabsences" + lesson.ID, "studentid=" + person.ID);
-            //    }
+
+            //    foreach (Lesson lesson in ((Student)person).Absences)
+            //        Commands.DeleteFrom("lessonabscences" + lesson.ID, "studentid=" + person.ID);
+
             //    Commands.DropTable("personcourses" + person.ID);
             //    Commands.DropTable("personassignments" + person.ID);
-            //    Commands.DropTable("personabsences" + person.ID);
+            //    Commands.DropTable("personabscences" + person.ID);
             //}
             //else if (person is Teacher)
             //{
-            //    foreach (Course course in Lists.Courses)
-            //    {
+            //    foreach (Course course in ((Teacher)person).Courses)
             //        Commands.DeleteFrom("courseteachers" + course.ID, "teacherid=" + person.ID);
-            //    }
+
             //    Commands.DropTable("personcourses" + person.ID);
             //}
             //person = null;
@@ -57,12 +55,23 @@ namespace StudyPlatform.Tests.DatabaseTests
             Creator.CreateStudent(Instances.Name, Instances.Username, Instances.Password);
             List<Person> allUsers = Lists.Persons;
             Student student = Getters.GetLatestPersons(1).Single() as Student;
-            Remover.RemovePerson(student);
             List<Person> allUsersTest = Lists.Persons;
-
-            Assert.AreEqual(allUsersTest.Count, allUsers.Count - 1);    //Person deletion
-            Assert.AreEqual(0, student.RecievedMessages.Count);         //Recieved messages deletion
-            Assert.AreEqual(0, student.SentMessages.Count);             //Sent messages deletion
+            bool messageTest = false;
+            Remover.RemovePerson(student);
+            foreach (Message message in Lists.Messages)
+            {
+                if(message.Sender.ID == student.ID || message.Recipients.Contains(student))
+                {
+                    messageTest = true;
+                }
+            }
+            Assert.AreEqual(allUsersTest.Count, allUsers.Count - 1);
+            Assert.AreEqual(0, student.RecievedMessages.Count);
+            Assert.AreEqual(0, student.SentMessages.Count);
+            Assert.AreEqual(0, student.Courses.Count);
+            Assert.AreEqual(0, student.Absences.Count);
+            Assert.AreEqual(0, student.Assignments.Count);
+            Assert.AreEqual(false, messageTest);
 
             //TEACHER DELETION
             Creator.CreateTeacher(Instances.Name, Instances.Username, Instances.Password);

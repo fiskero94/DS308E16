@@ -15,10 +15,44 @@ namespace StudyPlatform.Tests.ModelTests
         {
             Common.ResetTables();
         }
+        [TestMethod]
+        public void ListsMessage_ListsParametersFilled_ContainsMessageData()
+        {
+            // Arrange
+            List<Person> recipients = Lists.Persons;
+            List<string> filepaths = new List<string>();
+            filepaths.Add("");
 
+            Creator.CreateMessage(Getters.GetPersonByID(1), Instances.Title, Instances.Text, recipients, filepaths);
+
+            List<Message> messages = Lists.Messages;
+
+            uint id = Instances.ID;
+            uint _id = Instances.ID;
+            string title = Instances.Title;
+            string text = Instances.Text;
+            Message message = new Message(id, _id, title, text);
+
+            foreach (Message item in messages)
+            {
+                if (item.Title == "Title")
+                {
+                    actualMessage = item;
+                    break;
+                }
+            }
+
+            // Act
+            Assert.AreEqual(message.Title, actualMessage.Title);
+            Assert.AreEqual(message.ID, actualMessage.ID);
+        }
+
+
+        Message actualMessage;
         Student actualStudent;
         Person actualPerson;
         Teacher actualTeacher;
+        Secretary actualSecretary;
 
         [TestMethod]
         public void ListsPersons_ListParametersFilled_ContainsPersonDataFromDatabase()
@@ -90,6 +124,28 @@ namespace StudyPlatform.Tests.ModelTests
             // Act
             Assert.AreEqual(teacher.Name, actualTeacher.Name);
             Assert.AreEqual(teacher.ID, actualTeacher.ID);
+        }
+
+        [TestMethod]
+        public void ListsSecretaries_ListParametersFilled_ContainsSecretaryDataFromDatabase()
+        {
+            // Arrange
+            Creator.CreateSecretary(Instances.Name, Instances.Username, Instances.Password);
+            List<Secretary> secretaries = Lists.Secretaries;
+
+            uint id = Instances.ID;
+            string name = Instances.Name;
+            Secretary secretary = new Secretary(id, name);
+
+            foreach (Secretary item in secretaries)
+            {
+                if (item.Name == "Name")
+                    actualSecretary = item;
+            }
+
+            // Act
+            Assert.AreEqual(secretary.Name, actualSecretary.Name);
+            Assert.AreEqual(secretary.ID, actualSecretary.ID);
         }
 
     }
