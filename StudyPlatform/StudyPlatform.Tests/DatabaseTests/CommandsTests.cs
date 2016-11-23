@@ -2,6 +2,7 @@
 using System.Text;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using StudyPlatform.Classes.Database;
 
 namespace StudyPlatform.Tests.DatabaseTests
 {
@@ -14,11 +15,15 @@ namespace StudyPlatform.Tests.DatabaseTests
         }
 
         [TestMethod]
-        public void TestMethod1()
+        public void CommandsSetValue_StringAsValue_VariableChanged()
         {
-            //
-            // TODO: Add test logic here
-            //
+            // Arrange
+
+            // Act
+            Commands.SetValue("persons", 1, "name", "TEST");
+
+            // Assert
+            Getters.GetPersonByID(1);
         }
     }
 }
