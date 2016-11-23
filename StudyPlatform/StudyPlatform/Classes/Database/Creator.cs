@@ -24,7 +24,7 @@ namespace StudyPlatform.Classes.Database
             }
         }
         private static void CreatePerson(string name, string username, string password, string type) =>
-            Commands.InsertInto("persons", "NULL", name, username, password, type);
+            Commands.InsertInto("persons", "NULL", username, password, name, type);
         public static void CreateStudent(string name, string username, string password)
         {
             EnsureNotNull(name, username, password);
