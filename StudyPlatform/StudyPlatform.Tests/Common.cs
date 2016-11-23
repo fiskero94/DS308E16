@@ -20,6 +20,7 @@ namespace StudyPlatform.Tests
                 tables.Add(connectionReader.Reader.GetString(0));
             foreach (string table in tables)
                 Query.ExecuteQueryString("DROP TABLE IF EXISTS " + table + ";");
+            connectionReader.Connection.Close();
             Program.SetupTables(ConfigurationManager.ConnectionStrings["MySQLConnectionString"].ToString());
             Program.SetupAdmin(ConfigurationManager.ConnectionStrings["MySQLConnectionString"].ToString());
         }
