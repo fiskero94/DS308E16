@@ -55,7 +55,7 @@ namespace StudyPlatform.Tests
         {
             get
             {
-                return new Message(ID, Title, Text);
+                return new Message(ID, ID, Title, Text);
             }
         }
         public static News News

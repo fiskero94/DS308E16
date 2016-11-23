@@ -56,10 +56,11 @@ namespace StudyPlatform.Classes.Database
             List<Message> messages = new List<Message>();
             while (reader.HasRows && reader.Read())
             {
+                uint id = reader.GetUInt32(reader.GetOrdinal("id"));
                 Person sender = Getters.GetPersonByID(reader.GetUInt32(reader.GetOrdinal("id")));
                 string title = reader.GetString(reader.GetOrdinal("title"));
                 string text = reader.GetString(reader.GetOrdinal("text"));    
-                messages.Add(new Message(sender.ID, title, text));
+                messages.Add(new Message(id, sender.ID, title, text));
             }
             return messages;
         }

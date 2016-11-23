@@ -15,7 +15,6 @@ namespace StudyPlatform.Classes.Database
         }
         public static void CreateTable(string tableName, params string[] variables)
         {
-            AddApostrophes(variables);
             string queryString = "USE studyplatform; CREATE TABLE " + tableName + " (";
             AppendStringArray(ref queryString, ", ", variables);
             queryString += ");";

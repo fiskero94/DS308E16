@@ -43,7 +43,6 @@ namespace StudyPlatform.Classes.Database
             Commands.CreateTable("personsentmessages" + secretary.ID, "messageid INT UNSIGNED NOT NULL");
             Commands.CreateTable("personrecievedmessages" + secretary.ID, "messageid INT UNSIGNED NOT NULL");
         }
-
         public static void CreateMessage(Person sender, string title, string text, List<Person> recipients, List<string> filepaths)
         {
             EnsureNotNull(sender, title, text, recipients, filepaths);
