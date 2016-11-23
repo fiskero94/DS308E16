@@ -93,21 +93,20 @@ namespace StudyPlatform.Tests.ModelTests
             string password = Instances.Password;
 
             Creator.CreateStudent(name, username, password);
-            Person lastestPerson = Getters.GetLatestPersons(1).Single();
+            List<Person> lastestPersonList = Getters.GetLatestPersons(7);
 
             // Act & Assert
             try
             {
-                List<Person> personList = Getters.GetPersonsByPredicates(lastestPerson.Name);
-
-                foreach (var item in personList)
+                foreach (var item in lastestPersonList)
                 {
-                    if (lastestPerson.Equals(item) != true)
+                    Person person = (Getters.GetPersonsByPredicates(item.Name).Single());
+
+                    if (person.Equals(item) != true)
                     {
                         Assert.Fail(); // No exception thrown
                     }
                 }
-
             }
             catch (Exception ex)
             {
