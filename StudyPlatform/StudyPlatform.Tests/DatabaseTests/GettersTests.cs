@@ -84,11 +84,44 @@ namespace StudyPlatform.Tests.ModelTests
         }
 
 
+        [TestMethod]
+        public void GetPersonsByPredicates_ValidParameters_ArgumentNullExceptionThrown()
+        {
+            // Arrange
+            string name = Instances.Name;
+            string username = Instances.Username;
+            string password = Instances.Password;
+
+            Creator.CreateStudent(name, username, password);
+            Person lastestPerson = Getters.GetLatestPersons(1).Single();
+
+            // Act & Assert
+            try
+            {
+                List<Person> personList = Getters.GetPersonsByPredicates(lastestPerson.Name);
+
+                foreach (var item in personList)
+                {
+                    if (lastestPerson.Equals(item) != true)
+                    {
+                        Assert.Fail(); // No exception thrown
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                if ((ex is ArgumentNullException))
+                    Assert.Fail(); // Exception thrown is not an ArgumentNullException
+            }
+        }
 
 
 
 
 
-        
-    }
+
+
+
+        }
 }
