@@ -1,7 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StudyPlatform.Classes.Database;
 using StudyPlatform.Classes.Model;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -32,16 +31,6 @@ namespace StudyPlatform.Tests.ModelTests
             Assert.AreEqual(Instances.Title, message.Title);
             Assert.AreEqual(Instances.Text, message.Text);
         }
-
-<<<<<<< HEAD
-        Message actualMessage;
-        Student actualStudent;
-        Person actualPerson;
-        Teacher actualTeacher;
-        Secretary actualSecretary;
-=======
->>>>>>> f2cf2c09d4bc3a709816b1e4e24685bfee69692a
-
         [TestMethod]
         public void ListsPersons_ListParametersFilled_ContainsPersonDataFromDatabase()
         {
