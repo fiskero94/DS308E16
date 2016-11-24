@@ -1,9 +1,7 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StudyPlatform.Classes.Database;
 using StudyPlatform.Classes.Model;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace StudyPlatform.Tests.ModelTests
@@ -17,66 +15,99 @@ namespace StudyPlatform.Tests.ModelTests
         }
 
         [TestMethod]
+        public void ListsCourseGrades_ListsParametersFilled_ContainsCourseGradesData()
+        {
+
+            // Arrange
+            List<string> filepaths = new List<string>();
+
+            Creator.CreateStudent(Instances.Name, Instances.Username, Instances.Password);
+            Person person = Getters.GetLatestPersons(1).Single();
+
+            Creator.CreateCourse(Instances.Name, Instances.Description);
+            Course course = Getters.GetLatestCourses(1).Single();
+
+            Creator.CreateAssignmentDescription(course, Instances.Description, Instances.Date, filepaths);
+            AssignmentDescription assignmentdescription = Getters.GetLatestAssignmentDescriptions(1).Single();
+
+            Creator.CreateAssignment(assignmentdescription, Instances.Student, Instances.Comment, filepaths);
+            Assignment assignment = Getters.GetLatestAssignments(1).Single();
+
+            Creator.CreateAssignmentGrade(Instances.Grade, Instances.Comment, assignment);
+
+            // Act
+            AssignmentGrade assignmentgrade = Lists.AssignmentGrades.Single();
+
+            // Assert
+            Assert.AreEqual(Instances.Comment, assignmentgrade.Comment);
+        }
+
+        [TestMethod]
+        public void ListsAssignmentGrades_ListsParametersFilled_ContainsAssignmentGradesData()
+        {
+            // Arrange
+
+            Creator.CreateStudent(Instances.Name, Instances.Username, Instances.Password);
+            Student student = Getters.GetLatestPersons(1).Single() as Student;
+
+            Creator.CreateCourse(Instances.Name, Instances.Description);
+            Course course = Getters.GetLatestCourses(1).Single();
+
+
+            Creator.CreateCourseGrade(Instances.Grade, Instances.Comment, course, student);
+
+            // Act
+            CourseGrade coursegrade = Lists.CourseGrades.Single();
+
+            // Assert
+            Assert.AreEqual(Instances.Comment, coursegrade.Comment);
+        }
+
+        [TestMethod]
+        public void ListsNews_ListsParametersFilled_ContainsNewsData()
+        {
+            // Arrange
+
+            Creator.CreateSecretary(Instances.Name, Instances.Username, Instances.Password);
+            Secretary secretary = Getters.GetLatestPersons(1).Single() as Secretary;
+            Creator.CreateNews(secretary, Instances.Title, Instances.Text);
+            // Act
+            News news = Lists.News.Single();
+
+            // Assert
+            Assert.AreEqual(Instances.Title, news.Title);
+        }
+
+        [TestMethod]
         public void ListsMessage_ListsParametersFilled_ContainsMessageData()
         {
             // Arrange
             List<Person> recipients = Lists.Persons;
             List<string> filepaths = new List<string>();
-            filepaths.Add("");
+
 
             Creator.CreateMessage(Getters.GetPersonByID(1), Instances.Title, Instances.Text, recipients, filepaths);
-
-            List<Message> messages = Lists.Messages;
-
-            uint id = Instances.ID;
-            uint _id = Instances.ID;
-            string title = Instances.Title;
-            string text = Instances.Text;
-            Message message = new Message(id, _id, title, text);
-
-            foreach (Message item in messages)
-            {
-                if (item.Title == "Title")
-                {
-                    actualMessage = item;
-                    break;
-                }
-            }
-
             // Act
-            Assert.AreEqual(message.Title, actualMessage.Title);
-            Assert.AreEqual(message.ID, actualMessage.ID);
-        }
-        
-        Message actualMessage;
-        Student actualStudent;
-        Person actualPerson;
-        Teacher actualTeacher;
-        Secretary actualSecretary;
 
+            Message message = Lists.Messages.Single();
+
+            // Assert
+            Assert.AreEqual(Instances.Title, message.Title);
+            Assert.AreEqual(Instances.Text, message.Text);
+        }
         [TestMethod]
         public void ListsPersons_ListParametersFilled_ContainsPersonDataFromDatabase()
         {
+
             // Arrange
             Creator.CreateStudent(Instances.Name, Instances.Username, Instances.Password);
-            List<Person> persons = Lists.Persons;
-
-            uint id = Instances.ID;
-            string name = Instances.Name;
-            Student student = new Student(id, name);
-
-            foreach (Person item in persons)
-            {
-                if (item.Name == "Name")
-                {
-                    actualPerson = item;
-                    break;
-                }
-            }
 
             // Act
-            Assert.AreEqual(student.Name, actualPerson.Name);
-            Assert.AreEqual(student.ID, actualPerson.ID);
+            List<Person> person = Lists.Persons;
+
+            // Assert
+            Assert.AreEqual("Admin", person[0].Name);
+            Assert.AreEqual(Instances.Name, person[1].Name);
 
         }
         [TestMethod]
@@ -89,50 +120,116 @@ namespace StudyPlatform.Tests.ModelTests
             Student student = Lists.Students.Single();
 
             // Assert
-             Assert.AreEqual(Instances.Name, student.Name);
+            Assert.AreEqual(Instances.Name, student.Name);
         }
         [TestMethod]
         public void ListsTeachers_ListParametersFilled_ContainsTeacherDataFromDatabase()
         {
+
             // Arrange
             Creator.CreateTeacher(Instances.Name, Instances.Username, Instances.Password);
-            List<Teacher> teachers = Lists.Teachers;
-
-            uint id = Instances.ID;
-            string name = Instances.Name;
-            Teacher teacher = new Teacher(id, name);
-
-            foreach (Teacher item in teachers)
-            {
-                if (item.Name == "Name")
-                    actualTeacher = item;
-                break;
-            }
 
             // Act
-            Assert.AreEqual(teacher.Name, actualTeacher.Name);
-            Assert.AreEqual(teacher.ID, actualTeacher.ID);
+            Teacher teacher = Lists.Teachers.Single();
+
+            // Assert
+            Assert.AreEqual(Instances.Name, teacher.Name);
         }
         [TestMethod]
         public void ListsSecretaries_ListParametersFilled_ContainsSecretaryDataFromDatabase()
         {
             // Arrange
             Creator.CreateSecretary(Instances.Name, Instances.Username, Instances.Password);
-            List<Secretary> secretaries = Lists.Secretaries;
-
-            uint id = Instances.ID;
-            string name = Instances.Name;
-            Secretary secretary = new Secretary(id, name);
-
-            foreach (Secretary item in secretaries)
-            {
-                if (item.Name == "Name")
-                    actualSecretary = item;
-            }
 
             // Act
-            Assert.AreEqual(secretary.Name, actualSecretary.Name);
-            Assert.AreEqual(secretary.ID, actualSecretary.ID);
+            List<Secretary> secretary = Lists.Secretaries;
+
+            // Assert
+            Assert.AreEqual("Admin", secretary[0].Name);
+            Assert.AreEqual(Instances.Name, secretary[1].Name);
+        }
+
+        [TestMethod]
+        public void ListsAssignmentDescriptions_ListParametersFilled_ContainsAssignmentDescriptionDataFromDatabase()
+        {
+            // Arrange
+            List<string> filepaths = new List<string>();
+
+            Creator.CreateCourse(Instances.Name, Instances.Description);
+            Course course = Getters.GetLatestCourses(1).Single();
+            Creator.CreateAssignmentDescription(course, Instances.Description, Instances.Date, filepaths);
+
+            // Act
+            AssignmentDescription assignmentdescription = Lists.AssignmentDescriptions.Single();
+
+            // Assert
+            Assert.AreEqual(Instances.Description, assignmentdescription.Description);
+        }
+
+        [TestMethod]
+        public void ListsCourse_ListParametersFilled_ContainsCourseDataFromDatabase()
+        {
+            // Arrange
+            Creator.CreateCourse(Instances.Name, Instances.Description);
+
+            // Act
+            Course course = Getters.GetLatestCourses(1).Single();
+
+            // Assert
+            Assert.AreEqual(Instances.Description, course.Description);
+        }
+
+        public void ListsRoom_ListParameterFilled_ContainsCourseDataFromDatabase()
+        {
+            // Arrange
+            Creator.CreateRoom(Instances.Name);
+
+            // Act
+            Room room = Getters.GetLatestRooms(1).Single();
+
+            // Assert
+            Assert.AreEqual(Instances.Name, room.Name);
+        }
+
+        public void ListsLessons()
+        {
+            // Arrange
+            List<Room> rooms = new List<Room>();
+            List<string> filepaths = new List<string>();
+
+            Creator.CreateCourse(Instances.Name, Instances.Description);
+            Course course = Getters.GetLatestCourses(1).Single();
+
+            Creator.CreateLesson(Instances.Date, Instances.Description, Instances.Online,
+                Instances.Active, rooms, filepaths, course);
+
+            // Act
+            Lesson lesson = Getters.GetLatestLessons(1).Single();
+
+            // Assert
+            Assert.AreEqual(Instances.Description, lesson.Description);
+            Assert.AreEqual(course, lesson.Course);
+        }
+
+        public void ListsAssignment()
+        {
+            // Arrange
+            List<string> filepaths = new List<string>();
+
+            Creator.CreateCourse(Instances.Name, Instances.Description);
+            Course course = Getters.GetLatestCourses(1).Single();
+
+            Creator.CreateAssignmentDescription(course, Instances.Description, Instances.Date, filepaths);
+            AssignmentDescription assignmentdescription = Getters.GetLatestAssignmentDescriptions(1).Single();
+
+            Creator.CreateAssignment(assignmentdescription, Instances.Student, Instances.Comment, filepaths);
+
+            // Act
+            Assignment assignment = Getters.GetLatestAssignments(1).Single();
+
+            // Assert
+            Assert.AreEqual(Instances.Comment, assignment.Comment);
+            Assert.AreEqual(course.AssignmentDescription, assignment.AssignmentDescription);
         }
     }
 }

@@ -7,13 +7,11 @@ namespace StudyPlatform.Classes.Database
     {
         public static void RemovePerson(Person person)
         {
-            Commands.DeleteFrom("persons", "id=" + person.ID);
 
-            foreach (Message message in person.SentMessages)
-                RemoveMessage(message);
             foreach (Message message in person.RecievedMessages)
                 Commands.DeleteFrom("messagerecipients" + message.ID, "personid=" + person.ID);
-            
+            foreach (Message message in person.SentMessages)
+                RemoveMessage(message);
             Commands.DropTable("personsentmessages" + person.ID);
             Commands.DropTable("personrecievedmessages" + person.ID);
             
@@ -36,21 +34,20 @@ namespace StudyPlatform.Classes.Database
 
                 Commands.DropTable("personcourses" + person.ID);
             }
+            Commands.DeleteFrom("persons", "id=" + person.ID);
             person = null;
         }
         public static void RemoveMessage(Message message)
         {
             Commands.DeleteFrom("messages", "id=" + message.ID);
-            Commands.DropTable("messagerecipients" + message.ID);
-            Commands.DropTable("messageattachments" + message.ID);
 
             foreach (Person recipient in message.Recipients)
-            {
-                Commands.DeleteFrom("personrecievedmessages" + recipient.ID, "id=" + message.ID);
-            }
+                Commands.DeleteFrom("personrecievedmessages" + recipient.ID, "messageid=" + message.ID);
 
-            Commands.DeleteFrom("personsentmessages" + message.Sender.ID, "id=" + message.ID);
-            Commands.DeleteFrom("personrecievedmessages" + message.Sender.ID, "id=" + message.ID);
+            Commands.DropTable("messagerecipients" + message.ID);
+            Commands.DropTable("messageattachments" + message.ID);
+            Commands.DeleteFrom("personsentmessages" + message.Sender.ID, "messageid=" + message.ID);
+            Commands.DeleteFrom("personrecievedmessages" + message.Sender.ID, "messageid=" + message.ID);
         }
         public static void RemoveNews(News news)
         {
