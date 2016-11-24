@@ -1,10 +1,7 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StudyPlatform.Classes.Database;
 using StudyPlatform.Classes.Model;
-using System.Linq;
+using System.Collections.Generic;
 
 namespace StudyPlatform.Tests.ModelTests
 {
@@ -25,14 +22,14 @@ namespace StudyPlatform.Tests.ModelTests
 
             Creator.CreateMessage(Getters.GetPersonByID(1), Instances.Title, Instances.Text, recipients, filepaths);
 
-            List<Message> messages = Lists.Messages;
+
 
             uint id = Instances.ID;
             uint _id = Instances.ID;
-            string title = Instances.Title;
+            string title = "Title";
             string text = Instances.Text;
             Message message = new Message(id, _id, title, text);
-
+            List<Message> messages = Lists.Messages;
             foreach (Message item in messages)
             {
                 if (item.Title == "Title")
