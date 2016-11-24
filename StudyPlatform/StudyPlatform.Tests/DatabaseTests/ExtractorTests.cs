@@ -10,7 +10,7 @@ namespace StudyPlatform.Tests.DatabaseTests
     public class ExtractorTests
     {
 
-        // Only ExtractIDs and ExtractFilepaths
+        // Only ExtractIDs and ExtractFilepaths, since rest are tested indirectly by ListsTests
         public ExtractorTests()
         {
             Common.ResetTables();
@@ -29,9 +29,9 @@ namespace StudyPlatform.Tests.DatabaseTests
             uint[] ids = Extractor.ExtractIDs(query.Execute());
 
             // Assert
-            Assert.AreEqual(1, ids[0]);
-            Assert.AreEqual(2, ids[1]);
-            Assert.AreEqual(3, ids[2]);
+            Assert.AreEqual(1u, ids[0]);
+            Assert.AreEqual(2u, ids[1]);
+            Assert.AreEqual(3u, ids[2]);
         }
         [TestMethod]
         public void ExtractorExtractFilepathss_ValidParameters_InputFilepathsReturned()

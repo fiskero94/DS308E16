@@ -97,9 +97,14 @@ namespace StudyPlatform.Tests.DatabaseTests
             Common.TestActionForExceptionThrown(new ArgumentNullException(),
             new Action<string, string>(Creator.CreateCourse), null, null);
         [TestMethod]
-        public void CreatorCreateLesson_ValidParameters_NoExceptionThrown() =>
-            Creator.CreateLesson(Instances.Date, Instances.Description, Instances.Online, 
-            Instances.Active, Instances.Rooms, Instances.Filepaths, Instances.Course);
+        public void CreatorCreateLesson_ValidParameters_NoExceptionThrown()
+        {
+            // Dependencies: CreateCourse
+            Creator.CreateCourse(Instances.Name, Instances.Description);
+            Course course = Getters.GetLatestCourses(1).Single();
+            Creator.CreateLesson(Instances.Date, Instances.Description, Instances.Online,
+                Instances.Active, Instances.Rooms, Instances.Filepaths, course);
+        } 
         [TestMethod]
         public void CreatorCreateLesson_NullParameters_ArgumentNullExceptionThrown() =>
             Common.TestActionForExceptionThrown(new ArgumentNullException(),
@@ -117,18 +122,33 @@ namespace StudyPlatform.Tests.DatabaseTests
             Common.TestActionForExceptionThrown(new ArgumentNullException(),
             new Action<string>(Creator.CreateRoom), null);
         [TestMethod]
-        public void CreatorCreateAssignmentDescription_ValidParameters_NoExceptionThrown() =>
-            Creator.CreateAssignmentDescription(Instances.Course, 
-            Instances.Description, Instances.Date, Instances.Filepaths);
+        public void CreatorCreateAssignmentDescription_ValidParameters_NoExceptionThrown()
+        {
+            // Dependencies: CreateCourse
+            Creator.CreateCourse(Instances.Name, Instances.Description);
+            Course course = Getters.GetLatestCourses(1).Single();
+            Creator.CreateAssignmentDescription(course,
+                Instances.Description, Instances.Date, Instances.Filepaths);
+        }  
         [TestMethod]
         public void CreatorCreateAssignmentDescription_NullParameters_ArgumentNullExceptionThrown() =>
             Common.TestActionForExceptionThrown(new ArgumentNullException(),
             new Action<Course, string, DateTime, List<string>>(Creator.CreateAssignmentDescription),
             null, null, DateTime.Now, null);
         [TestMethod]
-        public void CreatorCreateAssignment_ValidParameters_NoExceptionThrown() =>
-            Creator.CreateAssignment(Instances.AssignmentDescription, 
-            Instances.Student, Instances.Comment, Instances.Filepaths);
+        public void CreatorCreateAssignment_ValidParameters_NoExceptionThrown()
+        {
+            // Dependencies: CreateAssignmentDescription, CreateCourse, CreateStudent
+            Creator.CreateCourse(Instances.Name, Instances.Description);
+            Course course = Getters.GetLatestCourses(1).Single();
+            Creator.CreateAssignmentDescription(course, Instances.Description, 
+                Instances.Date, Instances.Filepaths);
+            AssignmentDescription assignmentDescription = Getters.GetLatestAssignmentDescriptions(1).Single();
+            Creator.CreateStudent(Instances.Name, Instances.Username, Instances.Password);
+            Student student = Getters.GetLatestPersons(1).Single() as Student;
+            Creator.CreateAssignment(assignmentDescription,
+                student, Instances.Comment, Instances.Filepaths);
+        }
         [TestMethod]
         public void CreatorCreateAssignment_NullParameters_ArgumentNullExceptionThrown() =>
             Common.TestActionForExceptionThrown(new ArgumentNullException(),
@@ -148,9 +168,14 @@ namespace StudyPlatform.Tests.DatabaseTests
             new Action<string, string, Assignment>(Creator.CreateAssignmentGrade),
             "11", Instances.Comment, Instances.Assignment);
         [TestMethod]
-        public void CreatorCreateCourseGrade_ValidParameters_NoExceptionThrown() =>
-            Creator.CreateCourseGrade(Instances.Grade, 
-            Instances.Comment, Instances.Course, Instances.Student);
+        public void CreatorCreateCourseGrade_ValidParameters_NoExceptionThrown()
+        {
+            // Dependencies: CreateCourse
+            Creator.CreateCourse(Instances.Name, Instances.Description);
+            Course course = Getters.GetLatestCourses(1).Single();
+            Creator.CreateCourseGrade(Instances.Grade,
+                Instances.Comment, course, Instances.Student);
+        }  
         [TestMethod]
         public void CreatorCreateCourseGrade_NullParameters_ArgumentNullExceptionThrown() =>
             Common.TestActionForExceptionThrown(new ArgumentNullException(),

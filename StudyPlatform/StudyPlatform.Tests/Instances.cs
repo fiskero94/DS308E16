@@ -97,7 +97,7 @@ namespace StudyPlatform.Tests
         {
             get
             {
-                return 2;
+                return 1;
             }
         }
         public static DateTime Date

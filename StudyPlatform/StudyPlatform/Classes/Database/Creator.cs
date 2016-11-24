@@ -45,6 +45,8 @@ namespace StudyPlatform.Classes.Database
         {
             Common.EnsureNotNull(sender, title, text, recipients, filepaths);
             Common.EnsureNotEmpty(title);
+            if (recipients.Count == 0)
+                throw new NoRecipientsException();
             Commands.InsertInto("messages", "NULL", sender.ID.ToString(), title, text, "NOW()");
             Message message = Getters.GetLatestMessages(1).Single();
             Commands.CreateTable("messagerecipients" + message.ID, "personid INT UNSIGNED NOT NULL");
