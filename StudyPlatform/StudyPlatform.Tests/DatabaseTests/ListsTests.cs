@@ -15,6 +15,40 @@ namespace StudyPlatform.Tests.ModelTests
         }
 
         [TestMethod]
+        public void ListsAssignmentGrades_ListsParametersFilled_ContainsAssignmentGradesData()
+        {
+            // Arrange
+            List<string> filepaths = new List<string>();
+            Creator.CreateAssignmentDescription(Instances.Course, Instances.Description, Instances.Date, filepaths);
+            AssignmentDescription assignmentdescription = Getters.GetLatestAssignmentDescriptions(1).Single();
+            Creator.CreateAssignment(Instances.AssignmentDescription, Instances.Student, Instances.Comment, filepaths);
+            Assignment assignment = Getters.GetLatestAssignments(1).Single();
+
+            Creator.CreateAssignmentGrade(Instances.Grade, Instances.Comment, assignment);
+
+            // Act
+            AssignmentGrade assignmentgrade = Lists.AssignmentGrades.Single();
+
+            // Assert
+            Assert.AreEqual(Instances.Comment, assignmentgrade.Comment);
+        }
+
+        [TestMethod]
+        public void ListsNews_ListsParametersFilled_ContainsNewsData()
+        {
+            // Arrange
+
+            Creator.CreateSecretary(Instances.Name, Instances.Username, Instances.Password);
+            Secretary secretary = Getters.GetLatestPersons(1).Single() as Secretary;
+            Creator.CreateNews(secretary, Instances.Title, Instances.Text);
+            // Act
+            News news = Lists.News.Single();
+
+            // Assert
+            Assert.AreEqual(Instances.Title, news.Title);
+        }
+
+        [TestMethod]
         public void ListsMessage_ListsParametersFilled_ContainsMessageData()
         {
             // Arrange
@@ -90,7 +124,7 @@ namespace StudyPlatform.Tests.ModelTests
         {
             // Arrange
             List<string> filepaths = new List<string>();
-            
+
             Creator.CreateCourse(Instances.Name, Instances.Description);
             Course course = Getters.GetLatestCourses(1).Single();
             Creator.CreateAssignmentDescription(course, Instances.Description, Instances.Date, filepaths);
@@ -100,6 +134,51 @@ namespace StudyPlatform.Tests.ModelTests
 
             // Assert
             Assert.AreEqual(Instances.Description, assignmentdescription.Description);
+        }
+
+        [TestMethod]
+        public void ListsCourse_ListParametersFilled_ContainsCourseDataFromDatabase()
+        {
+            // Arrange
+            Creator.CreateCourse(Instances.Name, Instances.Description);
+
+            // Act
+            Course course = Getters.GetLatestCourses(1).Single();
+
+            // Assert
+            Assert.AreEqual(Instances.Description, course.Description);
+        }
+
+        public void ListsRoom_ListParameterFilled_ContainsCourseDataFromDatabase()
+        {
+            // Arrange
+            Creator.CreateRoom(Instances.Name);
+
+            // Act
+            Room room = Getters.GetLatestRooms(1).Single();
+
+            // Assert
+            Assert.AreEqual(Instances.Name, room.Name);
+        }
+
+        public void ListsLessons()
+        {
+            // Arrange
+            List<Room> rooms = new List<Room>();
+            List<string> filepaths = new List<string>();
+
+            Creator.CreateCourse(Instances.Name, Instances.Description);
+            Course course = Getters.GetLatestCourses(1).Single();
+
+            Creator.CreateLesson(Instances.Date, Instances.Description, Instances.Online,
+                Instances.Active, rooms, filepaths, course);
+
+            // Act
+            Lesson lesson = Getters.GetLatestLessons(1).Single();
+
+            // Assert
+            Assert.AreEqual(Instances.Description, lesson.Description);
+            Assert.AreEqual(course, lesson.Course);
         }
 
     }
