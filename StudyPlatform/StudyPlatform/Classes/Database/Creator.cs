@@ -47,8 +47,8 @@ namespace StudyPlatform.Classes.Database
             Common.EnsureNotEmpty(title);
             Commands.InsertInto("messages", "NULL", sender.ID.ToString(), title, text, "NOW()");
             Message message = Getters.GetLatestMessages(1).Single();
-            Commands.CreateTable("messagerecipients" + message.ID, "messageid INT UNSIGNED NOT NULL");
-            Commands.CreateTable("messageattachments" + message.ID, "messageid INT UNSIGNED NOT NULL");
+            Commands.CreateTable("messagerecipients" + message.ID, "personid INT UNSIGNED NOT NULL");
+            Commands.CreateTable("messageattachments" + message.ID, "filepath TEXT NOT NULL");
             Commands.InsertInto("personsentmessages" + sender.ID, message.ID.ToString());
             Commands.InsertInto("personrecievedmessages" + sender.ID, message.ID.ToString());
             foreach (Person recipient in recipients)

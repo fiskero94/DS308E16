@@ -6,6 +6,7 @@ using StudyPlatform.Classes.Database;
 using StudyPlatform.Classes.Model;
 using StudyPlatform.Classes.Exceptions;
 using System.Linq;
+using System.Data.SqlClient;
 
 namespace StudyPlatform.Tests.DatabaseTests
 {
@@ -52,42 +53,51 @@ namespace StudyPlatform.Tests.DatabaseTests
             //person = null;
 
             //STUDENT DELETION
+
+            //SETUP
             Creator.CreateStudent(Instances.Name, Instances.Username, Instances.Password);
             List<Person> allUsers = Lists.Persons;
             Student student = Getters.GetLatestPersons(1).Single() as Student;
-            bool messageTest = false;
+            List<string> filepaths = new List<string>();
+            filepaths.Add("");
+            List<Person> recipients = new List<Person>();
+            recipients.Add(Getters.GetPersonByID(1));
+            Creator.CreateMessage(student, Instances.Title, Instances.Text, recipients, filepaths);
+            recipients.Clear();
+            recipients.Add(student);
+            Creator.CreateMessage(Getters.GetPersonByID(1), Instances.Title, Instances.Text, allUsers, filepaths);
             Remover.RemovePerson(student);
-            List<Person> allUsersTest = Lists.Persons;
-            try
+
+            //MESSAGE RECIPIENTS
+            foreach (Message item in Lists.Messages)
             {
-                List<Message> messages = student.SentMessages;
-            }
-            catch
-            {
-                messageTest = true;
-            }
-            try
-            {
-                List<Message> messages = student.RecievedMessages;
-            }
-            catch
-            {
-                messageTest = true;
-            }
-            foreach (Message message in Lists.Messages)
-            {
-                if(message.Sender.ID == student.ID || message.Recipients.Contains(student))
+                List<Person> items = item.Recipients;
+                foreach (Person recipient in items)
                 {
-                    messageTest = true;
+                    if(student.ID == recipient.ID)
+                    {
+                        Assert.Fail("deleted person still in recipients");
+                    }
                 }
             }
+
+            //PERSON SENT/RECIEVED MESSAGES
+            try
+            {
+                List<Message> sentMessages = student.SentMessages;
+                List<Message> recievedMessages = student.RecievedMessages;
+            }
+            catch (SqlException exception)
+            {
+                if (exception.Number == 1146)
+                { } //tables er deleted
+                else
+                    Assert.Fail("person.sent/recievedmessages tables eksisterer");
+            }
+
+            //PERSON DELETION
+            List<Person> allUsersTest = Lists.Persons;
             Assert.AreEqual(allUsersTest.Count, allUsers.Count - 1);
-            //Assert.AreEqual(0, student.RecievedMessages.Count);
-            //Assert.AreEqual(0, student.SentMessages.Count);
-            //Assert.AreEqual(0, student.Courses.Count);
-            //Assert.AreEqual(0, student.Absences.Count);
-            //Assert.AreEqual(0, student.Assignments.Count);
-            Assert.AreEqual(false, messageTest);
 
             //TEACHER DELETION
             Creator.CreateTeacher(Instances.Name, Instances.Username, Instances.Password);
