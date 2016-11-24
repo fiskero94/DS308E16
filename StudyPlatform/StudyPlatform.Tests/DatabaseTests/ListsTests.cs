@@ -2,6 +2,7 @@
 using StudyPlatform.Classes.Database;
 using StudyPlatform.Classes.Model;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace StudyPlatform.Tests.ModelTests
 {
