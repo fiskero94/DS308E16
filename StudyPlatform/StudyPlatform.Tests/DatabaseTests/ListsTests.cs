@@ -1,10 +1,7 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StudyPlatform.Classes.Database;
 using StudyPlatform.Classes.Model;
-using System.Linq;
+using System.Collections.Generic;
 
 namespace StudyPlatform.Tests.ModelTests
 {
@@ -15,6 +12,7 @@ namespace StudyPlatform.Tests.ModelTests
         {
             Common.ResetTables();
         }
+
         [TestMethod]
         public void ListsMessage_ListsParametersFilled_ContainsMessageData()
         {
@@ -25,14 +23,14 @@ namespace StudyPlatform.Tests.ModelTests
 
             Creator.CreateMessage(Getters.GetPersonByID(1), Instances.Title, Instances.Text, recipients, filepaths);
 
-            List<Message> messages = Lists.Messages;
+
 
             uint id = Instances.ID;
             uint _id = Instances.ID;
-            string title = Instances.Title;
+            string title = "Title";
             string text = Instances.Text;
             Message message = new Message(id, _id, title, text);
-
+            List<Message> messages = Lists.Messages;
             foreach (Message item in messages)
             {
                 if (item.Title == "Title")
@@ -46,8 +44,7 @@ namespace StudyPlatform.Tests.ModelTests
             Assert.AreEqual(message.Title, actualMessage.Title);
             Assert.AreEqual(message.ID, actualMessage.ID);
         }
-
-
+        
         Message actualMessage;
         Student actualStudent;
         Person actualPerson;
@@ -79,30 +76,18 @@ namespace StudyPlatform.Tests.ModelTests
             Assert.AreEqual(student.ID, actualPerson.ID);
 
         }
-
         [TestMethod]
         public void ListsStudents_ListParametersFilled_ContainsStudentDataFromDatabase()
         {
             // Arrange
             Creator.CreateStudent(Instances.Name, Instances.Username, Instances.Password);
-            List<Student> students = Lists.Students;
-
-            uint id = Instances.ID;
-            string name = Instances.Name;
-            Student student = new Student(id, name);
-
-            foreach (Student item in students)
-            {
-                if (item.Name == "Name")
-                    actualStudent = item;
-                break;
-            }
 
             // Act
-            Assert.AreEqual(student.Name, actualStudent.Name);
-            Assert.AreEqual(student.ID, actualStudent.ID);
-        }
+            Student student = Lists.Students.Single();
 
+            // Assert
+            Assert.AreEqual(Instances.Name, student.Name);
+        }
         [TestMethod]
         public void ListsTeachers_ListParametersFilled_ContainsTeacherDataFromDatabase()
         {
@@ -125,7 +110,6 @@ namespace StudyPlatform.Tests.ModelTests
             Assert.AreEqual(teacher.Name, actualTeacher.Name);
             Assert.AreEqual(teacher.ID, actualTeacher.ID);
         }
-
         [TestMethod]
         public void ListsSecretaries_ListParametersFilled_ContainsSecretaryDataFromDatabase()
         {
