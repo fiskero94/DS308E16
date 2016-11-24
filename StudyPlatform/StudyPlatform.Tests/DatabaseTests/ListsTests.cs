@@ -15,13 +15,22 @@ namespace StudyPlatform.Tests.ModelTests
         }
 
         [TestMethod]
-        public void ListsAssignmentGrades_ListsParametersFilled_ContainsAssignmentGradesData()
+        public void ListsCourseGrades_ListsParametersFilled_ContainsCourseGradesData()
         {
+
             // Arrange
             List<string> filepaths = new List<string>();
-            Creator.CreateAssignmentDescription(Instances.Course, Instances.Description, Instances.Date, filepaths);
+
+            Creator.CreateStudent(Instances.Name, Instances.Username, Instances.Password);
+            Person person = Getters.GetLatestPersons(1).Single();
+
+            Creator.CreateCourse(Instances.Name, Instances.Description);
+            Course course = Getters.GetLatestCourses(1).Single();
+
+            Creator.CreateAssignmentDescription(course, Instances.Description, Instances.Date, filepaths);
             AssignmentDescription assignmentdescription = Getters.GetLatestAssignmentDescriptions(1).Single();
-            Creator.CreateAssignment(Instances.AssignmentDescription, Instances.Student, Instances.Comment, filepaths);
+
+            Creator.CreateAssignment(assignmentdescription, Instances.Student, Instances.Comment, filepaths);
             Assignment assignment = Getters.GetLatestAssignments(1).Single();
 
             Creator.CreateAssignmentGrade(Instances.Grade, Instances.Comment, assignment);
@@ -31,6 +40,27 @@ namespace StudyPlatform.Tests.ModelTests
 
             // Assert
             Assert.AreEqual(Instances.Comment, assignmentgrade.Comment);
+        }
+
+        [TestMethod]
+        public void ListsAssignmentGrades_ListsParametersFilled_ContainsAssignmentGradesData()
+        {
+            // Arrange
+
+            Creator.CreateStudent(Instances.Name, Instances.Username, Instances.Password);
+            Student student = Getters.GetLatestPersons(1).Single() as Student;
+
+            Creator.CreateCourse(Instances.Name, Instances.Description);
+            Course course = Getters.GetLatestCourses(1).Single();
+
+
+            Creator.CreateCourseGrade(Instances.Grade, Instances.Comment, course, student);
+
+            // Act
+            CourseGrade coursegrade = Lists.CourseGrades.Single();
+
+            // Assert
+            Assert.AreEqual(Instances.Comment, coursegrade.Comment);
         }
 
         [TestMethod]
