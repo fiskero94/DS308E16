@@ -129,6 +129,13 @@ namespace StudyPlatform.Classes.Model
                 return filepaths.ToList();
             }
         }
+
+        public static Course New(string name, string description)
+        {
+            Creator.CreateCourse(name, description);
+            return Getters.GetLatestCourses(1).Single();
+        }
+        public void Remove() => Remover.RemoveCourse(this);
         public void AddStudent(Student student)
         {
             Commands.InsertInto("personcourses" + student.ID.ToString(), ID.ToString());

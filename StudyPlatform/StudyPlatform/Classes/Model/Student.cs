@@ -49,5 +49,11 @@ namespace StudyPlatform.Classes.Model
                 return absences;
             }
         }
+
+        public static Student New(string name, string username, string password)
+        {
+            Creator.CreateStudent(name, username, password);
+            return Getters.GetLatestPersons(1).Single() as Student;
+        }
     }
 }

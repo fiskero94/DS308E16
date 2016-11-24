@@ -55,5 +55,18 @@ namespace StudyPlatform.Classes.Model
                 return lessons;
             }
         }
+
+        public static Room New(string name)
+        {
+            Creator.CreateRoom(name);
+            return Getters.GetLatestRooms(1).Single();
+        }
+        public void Remove() => Remover.RemoveRoom(this);
+        public bool CheckAvailability(DateTime date)
+        {
+            // Should check the reservations to see if the date given is available. 
+            // Use Lesson.LessonLength as TimeSpan of the reservations.
+            throw new NotImplementedException();
+        }
     }
 }
