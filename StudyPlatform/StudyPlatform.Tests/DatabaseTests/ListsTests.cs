@@ -1,7 +1,9 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StudyPlatform.Classes.Database;
 using StudyPlatform.Classes.Model;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace StudyPlatform.Tests.ModelTests
 {
@@ -44,7 +46,7 @@ namespace StudyPlatform.Tests.ModelTests
             Assert.AreEqual(message.Title, actualMessage.Title);
             Assert.AreEqual(message.ID, actualMessage.ID);
         }
-        
+
         Message actualMessage;
         Student actualStudent;
         Person actualPerson;
@@ -137,28 +139,14 @@ namespace StudyPlatform.Tests.ModelTests
         {
             // Arrange
             List<string> filepaths = new List<string>();
-
             Creator.CreateAssignmentDescription(Instances.Course, Instances.Description, Instances.Date, filepaths);
-
             List<AssignmentDescription> assignmentdescriptions = Lists.AssignmentDescriptions;
 
-            uint id = Instances.ID;
-            DateTime date = Instances.Date;
-            string description = Instances.Description;
-
-            AssignmentDescription assignmentDescripton = new AssignmentDescription(id, id, description, date);
-            AssignmentDescription actualAssignmentDescription
-
             // Act
-            foreach (AssignmentDescription item in assignmentdescriptions)
-            {
-                if (item.ID == id)
-                    actualAssignmentDescription = item;
-            }
+            AssignmentDescription assignmentdescription = Lists.AssignmentDescriptions.Single();
 
             // Assert
-            Assert.AreEqual(assignmentDescripton.ID, actualAssignmentDescription.ID);
-            Assert.AreEqual(assignmentDescripton.ID, actualSecretary.ID);
+            Assert.AreEqual(Instances.ID, assignmentdescription.ID);
         }
 
     }
