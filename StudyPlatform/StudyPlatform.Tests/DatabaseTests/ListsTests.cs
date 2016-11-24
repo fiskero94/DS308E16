@@ -124,7 +124,7 @@ namespace StudyPlatform.Tests.ModelTests
         {
             // Arrange
             List<string> filepaths = new List<string>();
-            
+
             Creator.CreateCourse(Instances.Name, Instances.Description);
             Course course = Getters.GetLatestCourses(1).Single();
             Creator.CreateAssignmentDescription(course, Instances.Description, Instances.Date, filepaths);
@@ -134,6 +134,51 @@ namespace StudyPlatform.Tests.ModelTests
 
             // Assert
             Assert.AreEqual(Instances.Description, assignmentdescription.Description);
+        }
+
+        [TestMethod]
+        public void ListsCourse_ListParametersFilled_ContainsCourseDataFromDatabase()
+        {
+            // Arrange
+            Creator.CreateCourse(Instances.Name, Instances.Description);
+
+            // Act
+            Course course = Getters.GetLatestCourses(1).Single();
+
+            // Assert
+            Assert.AreEqual(Instances.Description, course.Description);
+        }
+
+        public void ListsRoom_ListParameterFilled_ContainsCourseDataFromDatabase()
+        {
+            // Arrange
+            Creator.CreateRoom(Instances.Name);
+
+            // Act
+            Room room = Getters.GetLatestRooms(1).Single();
+
+            // Assert
+            Assert.AreEqual(Instances.Name, room.Name);
+        }
+
+        public void ListsLessons()
+        {
+            // Arrange
+            List<Room> rooms = new List<Room>();
+            List<string> filepaths = new List<string>();
+
+            Creator.CreateCourse(Instances.Name, Instances.Description);
+            Course course = Getters.GetLatestCourses(1).Single();
+
+            Creator.CreateLesson(Instances.Date, Instances.Description, Instances.Online,
+                Instances.Active, rooms, filepaths, course);
+
+            // Act
+            Lesson lesson = Getters.GetLatestLessons(1).Single();
+
+            // Assert
+            Assert.AreEqual(Instances.Description, lesson.Description);
+            Assert.AreEqual(course, lesson.Course);
         }
 
     }
