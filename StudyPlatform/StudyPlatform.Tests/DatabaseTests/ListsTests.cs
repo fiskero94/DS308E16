@@ -39,10 +39,11 @@ namespace StudyPlatform.Tests.ModelTests
             Creator.CreateStudent(Instances.Name, Instances.Username, Instances.Password);
 
             // Act
-            Person person = Lists.Persons.Single();
+            List<Person> person = Lists.Persons;
 
             // Assert
-            Assert.AreEqual(Instances.Name, person.Name);
+            Assert.AreEqual("Admin", person[0].Name);
+            Assert.AreEqual(Instances.Name, person[1].Name);
 
         }
         [TestMethod]
@@ -77,10 +78,11 @@ namespace StudyPlatform.Tests.ModelTests
             Creator.CreateSecretary(Instances.Name, Instances.Username, Instances.Password);
 
             // Act
-            Secretary secretary = Lists.Secretaries.Single();
+            List<Secretary> secretary = Lists.Secretaries;
 
             // Assert
-            Assert.AreEqual(Instances.Name, secretary.Name);
+            Assert.AreEqual("Admin", secretary[0].Name);
+            Assert.AreEqual(Instances.Name, secretary[1].Name);
         }
 
         [TestMethod]
@@ -88,14 +90,16 @@ namespace StudyPlatform.Tests.ModelTests
         {
             // Arrange
             List<string> filepaths = new List<string>();
-            Creator.CreateAssignmentDescription(Instances.Course, Instances.Description, Instances.Date, filepaths);
-            List<AssignmentDescription> assignmentdescriptions = Lists.AssignmentDescriptions;
+            
+            Creator.CreateCourse(Instances.Name, Instances.Description);
+            Course course = Getters.GetLatestCourses(1).Single();
+            Creator.CreateAssignmentDescription(course, Instances.Description, Instances.Date, filepaths);
 
             // Act
             AssignmentDescription assignmentdescription = Lists.AssignmentDescriptions.Single();
 
             // Assert
-            Assert.AreEqual(Instances.ID, assignmentdescription.ID);
+            Assert.AreEqual(Instances.Description, assignmentdescription.Description);
         }
 
     }
