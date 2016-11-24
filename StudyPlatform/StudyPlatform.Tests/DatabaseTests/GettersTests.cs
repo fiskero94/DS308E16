@@ -99,7 +99,5 @@ namespace StudyPlatform.Tests.ModelTests
                     Assert.Fail(); // Exception thrown is not an ArgumentNullException
             }
         }
-
-
     }
 }
