@@ -7,6 +7,7 @@ using StudyPlatform.Classes.Model;
 using StudyPlatform.Classes.Exceptions;
 using System.Linq;
 using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 
 namespace StudyPlatform.Tests.DatabaseTests
 {
@@ -65,7 +66,7 @@ namespace StudyPlatform.Tests.DatabaseTests
             Creator.CreateMessage(student, Instances.Title, Instances.Text, recipients, filepaths);
             recipients.Clear();
             recipients.Add(student);
-            Creator.CreateMessage(Getters.GetPersonByID(1), Instances.Title, Instances.Text, allUsers, filepaths);
+            Creator.CreateMessage(Getters.GetPersonByID(1), Instances.Title, Instances.Text, recipients, filepaths);
             Remover.RemovePerson(student);
 
             //MESSAGE RECIPIENTS
@@ -87,12 +88,10 @@ namespace StudyPlatform.Tests.DatabaseTests
                 List<Message> sentMessages = student.SentMessages;
                 List<Message> recievedMessages = student.RecievedMessages;
             }
-            catch (SqlException exception)
+            catch (Exception ex)
             {
-                if (exception.Number == 1146)
-                { } //tables er deleted
-                else
-                    Assert.Fail("person.sent/recievedmessages tables eksisterer");
+                if (!(ex is MySqlException && ((MySqlException)ex).Number == 1146))
+                    Assert.Fail(ex.Message);
             }
 
             //PERSON DELETION
