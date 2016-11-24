@@ -184,5 +184,26 @@ namespace StudyPlatform.Tests
                 return true;
             }
         }
+        public static List<string> Filepaths
+        {
+            get
+            {
+                return new List<string>();
+            }
+        }
+        public static List<Person> Recipients
+        {
+            get
+            {
+                return new List<Person>();
+            }
+        }
+        public static List<Room> Rooms
+        {
+            get
+            {
+                return new List<Room>();
+            }
+        }
     }
 }

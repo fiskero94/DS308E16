@@ -116,6 +116,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\Common.cs" />
+    <Compile Include="Classes\Exceptions\NoRecipientsException.cs" />
     <Compile Include="Classes\Exceptions\InvalidIDException.cs" />
     <Compile Include="Classes\Exceptions\NoConnectionException.cs" />
     <Compile Include="Pages\Admin.aspx.cs">
