@@ -65,7 +65,7 @@ namespace StudyPlatform.Classes.Database
                 throw new InvalidIDException();
             }
         }
-        private static List<T> GetLatestRecords<T>(int count)
+        private static List<T> GetLatestRecords<T>(uint count)
         {
             return (List<T>)ExtractMethodsByType[typeof(T)].Invoke(Commands.GetLatestRows(TablesByType[typeof(T)],count));
         }
@@ -92,15 +92,15 @@ namespace StudyPlatform.Classes.Database
         public static List<AssignmentGrade> GetAssignmentGradesByConditions(params string[] conditions) => GetRecordsByPredicates<AssignmentGrade>(conditions);
         public static List<CourseGrade> GetCourseGradesByConditions(params string[] conditions) => GetRecordsByPredicates<CourseGrade>(conditions);
 
-        public static List<Person> GetLatestPersons(int count) => GetLatestRecords<Person>(count);
-        public static List<Message> GetLatestMessages(int count) => GetLatestRecords<Message>(count);
-        public static List<News> GetLatestNews(int count) => GetLatestRecords<News>(count);
-        public static List<Course> GetLatestCourses(int count) => GetLatestRecords<Course>(count);
-        public static List<Lesson> GetLatestLessons(int count) => GetLatestRecords<Lesson>(count);
-        public static List<Room> GetLatestRooms(int count) => GetLatestRecords<Room>(count);
-        public static List<AssignmentDescription> GetLatestAssignmentDescriptions(int count) => GetLatestRecords<AssignmentDescription>(count);
-        public static List<Assignment> GetLatestAssignments(int count) => GetLatestRecords<Assignment>(count);
-        public static List<AssignmentGrade> GetLatestAssignmentGrades(int count) => GetLatestRecords<AssignmentGrade>(count);
-        public static List<CourseGrade> GetLatestCourseGrades(int count) => GetLatestRecords<CourseGrade>(count);
+        public static List<Person> GetLatestPersons(uint count) => GetLatestRecords<Person>(count);
+        public static List<Message> GetLatestMessages(uint count) => GetLatestRecords<Message>(count);
+        public static List<News> GetLatestNews(uint count) => GetLatestRecords<News>(count);
+        public static List<Course> GetLatestCourses(uint count) => GetLatestRecords<Course>(count);
+        public static List<Lesson> GetLatestLessons(uint count) => GetLatestRecords<Lesson>(count);
+        public static List<Room> GetLatestRooms(uint count) => GetLatestRecords<Room>(count);
+        public static List<AssignmentDescription> GetLatestAssignmentDescriptions(uint count) => GetLatestRecords<AssignmentDescription>(count);
+        public static List<Assignment> GetLatestAssignments(uint count) => GetLatestRecords<Assignment>(count);
+        public static List<AssignmentGrade> GetLatestAssignmentGrades(uint count) => GetLatestRecords<AssignmentGrade>(count);
+        public static List<CourseGrade> GetLatestCourseGrades(uint count) => GetLatestRecords<CourseGrade>(count);
     } 
 }

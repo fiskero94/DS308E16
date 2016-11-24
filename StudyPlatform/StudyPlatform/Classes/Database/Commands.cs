@@ -45,7 +45,7 @@ namespace StudyPlatform.Classes.Database
         {
             Query.ExecuteQueryString("DROP TABLE studyplatform." + tableName + ";");
         }
-        public static MySqlConnectionReader GetLatestRows(string tableName, int count)
+        public static MySqlConnectionReader GetLatestRows(string tableName, uint count)
         {
             Query query = new Query("SELECT * FROM studyplatform." + tableName + " ORDER BY id DESC LIMIT " + count + ";");
             return query.Execute();
