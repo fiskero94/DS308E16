@@ -19,572 +19,147 @@ namespace StudyPlatform.Tests.DatabaseTests
         }
 
         [TestMethod]
-        public void CreatorCreateStudent_ValidParameters_NoExceptionThrown()
-        {
-            // Arrange
-            string name = Instances.Name;
-            string username = Instances.Username;
-            string password = Instances.Password;
-
-            // Act
-            Creator.CreateStudent(name, username, password);
-        }
+        public void CreatorCreateStudent_ValidParameters_NoExceptionThrown() =>
+            Creator.CreateStudent(Instances.Name, Instances.Username, Instances.Password);
         [TestMethod]
-        public void CreatorCreateStudent_EmptyStringParameters_ArgumentExceptionThrown()
-        {
-            // Arrange
-            string name = Instances.EmptyString;
-            string username = Instances.EmptyString;
-            string password = Instances.EmptyString;
-
-            // Act & Assert
-            try
-            {
-                Creator.CreateStudent(name, username, password);
-                Assert.Fail(); // No exception thrown
-            }
-            catch (Exception ex)
-            {
-                if (!(ex is ArgumentException))
-                    Assert.Fail(); // Exception thrown is not an ArgumentException
-            }
-        }
+        public void CreatorCreateStudent_EmptyStringParameters_ArgumentExceptionThrown() =>
+            Common.TestActionForExceptionThrown(new ArgumentException(),
+            new Action<string, string, string>(Creator.CreateStudent), "", "", "");
         [TestMethod]
-        public void CreatorCreateStudent_NullParameters_ArgumentNullExceptionThrown()
-        {
-            // Arrange
-            string name = null;
-            string username = null;
-            string password = null;
-
-            // Act & Assert
-            try
-            {
-                Creator.CreateStudent(name, username, password);
-                Assert.Fail(); // No exception thrown
-            }
-            catch (Exception ex)
-            {
-                if (!(ex is ArgumentNullException))
-                    Assert.Fail(); // Exception thrown is not an ArgumentNullException
-            }
-        }
+        public void CreatorCreateStudent_NullParameters_ArgumentNullExceptionThrown() =>
+            Common.TestActionForExceptionThrown(new ArgumentNullException(), 
+            new Action<string, string, string>(Creator.CreateStudent), null, null, null);
         [TestMethod]
-        public void CreatorCreateTeacher_ValidParameters_NoExceptionThrown()
-        {
-            // Arrange
-            string name = Instances.Name;
-            string username = Instances.Username;
-            string password = Instances.Password;
-
-            // Act
-            Creator.CreateTeacher(name, username, password);
-        }
+        public void CreatorCreateTeacher_ValidParameters_NoExceptionThrown() =>
+            Creator.CreateTeacher(Instances.Name, Instances.Username, Instances.Password);
         [TestMethod]
-        public void CreatorCreateTeacher_EmptyStringParameters_ArgumentExceptionThrown()
-        {
-            // Arrange
-            string name = Instances.EmptyString;
-            string username = Instances.EmptyString;
-            string password = Instances.EmptyString;
-
-            // Act & Assert
-            try
-            {
-                Creator.CreateTeacher(name, username, password);
-                Assert.Fail(); // No exception thrown
-            }
-            catch (Exception ex)
-            {
-                if (!(ex is ArgumentException))
-                    Assert.Fail(); // Exception thrown is not an ArgumentException
-            }
-        }
+        public void CreatorCreateTeacher_EmptyStringParameters_ArgumentExceptionThrown() =>
+            Common.TestActionForExceptionThrown(new ArgumentException(),
+            new Action<string, string, string>(Creator.CreateTeacher), "", "", "");
         [TestMethod]
-        public void CreatorCreateTeacher_NullParameters_ArgumentNullExceptionThrown()
-        {
-            // Arrange
-            string name = null;
-            string username = null;
-            string password = null;
-
-            // Act & Assert
-            try
-            {
-                Creator.CreateTeacher(name, username, password);
-                Assert.Fail(); // No exception thrown
-            }
-            catch (Exception ex)
-            {
-                if (!(ex is ArgumentNullException))
-                    Assert.Fail(); // Exception thrown is not an ArgumentNullException
-            }
-        }
+        public void CreatorCreateTeacher_NullParameters_ArgumentNullExceptionThrown() =>
+            Common.TestActionForExceptionThrown(new ArgumentNullException(),
+            new Action<string, string, string>(Creator.CreateTeacher), null, null, null);
         [TestMethod]
-        public void CreatorCreateSecretary_ValidParameters_NoExceptionThrown()
-        {
-            // Arrange
-            string name = Instances.Name;
-            string username = Instances.Username;
-            string password = Instances.Password;
-
-            // Act
-            Creator.CreateSecretary(name, username, password);
-        }
+        public void CreatorCreateSecretary_ValidParameters_NoExceptionThrown() =>
+            Creator.CreateSecretary(Instances.Name, Instances.Username, Instances.Password);
         [TestMethod]
-        public void CreatorCreateSecretary_EmptyStringParameters_ArgumentExceptionThrown()
-        {
-            // Arrange
-            string name = Instances.EmptyString;
-            string username = Instances.EmptyString;
-            string password = Instances.EmptyString;
-
-            // Act & Assert
-            try
-            {
-                Creator.CreateSecretary(name, username, password);
-                Assert.Fail(); // No exception thrown
-            }
-            catch (Exception ex)
-            {
-                if (!(ex is ArgumentException))
-                    Assert.Fail(); // Exception thrown is not an ArgumentException
-            }
-        }
+        public void CreatorCreateSecretary_EmptyStringParameters_ArgumentExceptionThrown() =>
+            Common.TestActionForExceptionThrown(new ArgumentException(),
+            new Action<string, string, string>(Creator.CreateSecretary), "", "", "");
         [TestMethod]
-        public void CreatorCreateSecretary_NullParameters_ArgumentNullExceptionThrown()
-        {
-            // Arrange
-            string name = null;
-            string username = null;
-            string password = null;
-
-            // Act & Assert
-            try
-            {
-                Creator.CreateSecretary(name, username, password);
-                Assert.Fail(); // No exception thrown
-            }
-            catch (Exception ex)
-            {
-                if (!(ex is ArgumentNullException))
-                    Assert.Fail(); // Exception thrown is not an ArgumentNullException
-            }
-        }
+        public void CreatorCreateSecretary_NullParameters_ArgumentNullExceptionThrown() =>
+            Common.TestActionForExceptionThrown(new ArgumentNullException(),
+            new Action<string, string, string>(Creator.CreateSecretary), null, null, null);
         [TestMethod]
         public void CreatorCreateMessage_ValidParameters_NoExceptionThrown()
         {
-
-            // Arrange
-            Person sender = Lists.Secretaries.First();
-            string title = Instances.Title;
-            string text = Instances.Text;
-            List<Person> recipients = new List<Person>();
-            recipients.Add(sender);
-            List<string> filepaths = new List<string>();
-
-            // Act
-            Creator.CreateMessage(sender, title, text, recipients, filepaths);
+            List<Person> recipients = Instances.Recipients;
+            recipients.Add(Instances.Secretary);
+            Creator.CreateMessage(Instances.Secretary, Instances.Title, 
+            Instances.Text, Instances.Recipients, Instances.Filepaths);
         }
         [TestMethod]
-        public void CreatorCreateMessage_EmptyStringParameters_ArgumentExceptionThrown()
-        {
-            // Arrange
-            Person sender = Instances.Student;
-            string title = Instances.EmptyString;
-            string text = Instances.EmptyString;
-            List<Person> recipients = new List<Person>();
-            recipients.Add(sender);
-            List<string> filepaths = new List<string>();
-
-            // Act & Assert
-            try
-            {
-                Creator.CreateMessage(sender, title, text, recipients, filepaths);
-                Assert.Fail(); // No exception thrown
-            }
-            catch (Exception ex)
-            {
-                if (!(ex is ArgumentException))
-                    Assert.Fail(); // Exception thrown is not an ArgumentException
-            }
-        }
+        public void CreatorCreateMessage_EmptyStringParameters_ArgumentExceptionThrown() =>
+            Common.TestActionForExceptionThrown(new ArgumentException(),
+            new Action<Person, string, string, List<Person>, List<string>>(Creator.CreateMessage), 
+            Instances.Student, "", "", Instances.Recipients, Instances.Filepaths);
         [TestMethod]
-        public void CreatorCreateMessage_NullParameters_ArgumentNullExceptionThrown()
-        {
-            // Arrange
-            Person sender = null;
-            string title = null;
-            string text = null;
-            List<Person> recipients = null;
-            List<string> filepaths = null;
-
-            // Act & Assert
-            try
-            {
-                Creator.CreateMessage(sender, title, text, recipients, filepaths);
-                Assert.Fail(); // No exception thrown
-            }
-            catch (Exception ex)
-            {
-                if (!(ex is ArgumentNullException))
-                    Assert.Fail(); // Exception thrown is not an ArgumentNullException
-            }
-        }
-        // TODO: Add No Recipients
+        public void CreatorCreateMessage_NullParameters_ArgumentNullExceptionThrown() =>
+            Common.TestActionForExceptionThrown(new ArgumentNullException(),
+            new Action<Person, string, string, List<Person>, List<string>>(Creator.CreateMessage),
+            null, null, null, null, null);
         [TestMethod]
-        public void CreatorCreateNews_ValidParameters_NoExceptionThrown()
-        {
-            // Arrange
-            Secretary author = Instances.Secretary;
-            string title = Instances.Title;
-            string text = Instances.Text;
-
-            // Act
-            Creator.CreateNews(author, title, text);
-        }
+        public void CreatorCreateMessage_NoRecipients_NoRecipientsExceptionThrown() =>
+            Common.TestActionForExceptionThrown(new NoRecipientsException(),
+            new Action<Person, string, string, List<Person>, List<string>>(Creator.CreateMessage), 
+            Instances.Student, Instances.Title, Instances.Text, Instances.Recipients, Instances.Filepaths);
         [TestMethod]
-        public void CreatorCreateNews_EmptyStringParameters_ArgumentExceptionThrown()
-        {
-            // Arrange
-            Secretary author = Instances.Secretary;
-            string title = Instances.EmptyString;
-            string text = Instances.EmptyString;
-
-            // Act & Assert
-            try
-            {
-                Creator.CreateNews(author, title, text);
-                Assert.Fail(); // No exception thrown
-            }
-            catch (Exception ex)
-            {
-                if (!(ex is ArgumentException))
-                    Assert.Fail(); // Exception thrown is not an ArgumentException
-            }
-        }
+        public void CreatorCreateNews_ValidParameters_NoExceptionThrown() =>
+            Creator.CreateNews(Instances.Secretary, Instances.Title, Instances.Text);
         [TestMethod]
-        public void CreatorCreateNews_NullParameters_ArgumentNullExceptionThrown()
-        {
-            // Arrange
-            Secretary author = null;
-            string title = null;
-            string text = null;
-
-            // Act & Assert
-            try
-            {
-                Creator.CreateNews(author, title, text);
-                Assert.Fail(); // No exception thrown
-            }
-            catch (Exception ex)
-            {
-                if (!(ex is ArgumentNullException))
-                    Assert.Fail(); // Exception thrown is not an ArgumentNullException
-            }
-        }
+        public void CreatorCreateNews_EmptyStringParameters_ArgumentExceptionThrown() =>
+            Common.TestActionForExceptionThrown(new ArgumentException(),
+            new Action<Secretary, string, string>(Creator.CreateNews), Instances.Secretary, "", "");
         [TestMethod]
-        public void CreatorCreateCourse_ValidParameters_NoExceptionThrown()
-        {
-            // Arrange
-            string name = Instances.Name;
-            string description = Instances.Description;
-
-            // Act
-            Creator.CreateCourse(name, description);
-        }
+        public void CreatorCreateNews_NullParameters_ArgumentNullExceptionThrown() =>
+            Common.TestActionForExceptionThrown(new ArgumentNullException(),
+            new Action<Secretary, string, string>(Creator.CreateNews), null, null, null);
         [TestMethod]
-        public void CreatorCreateCourse_EmptyStringParameters_ArgumentExceptionThrown()
-        {
-            // Arrange
-            string name = Instances.EmptyString;
-            string description = Instances.EmptyString;
-
-            // Act & Assert
-            try
-            {
-                Creator.CreateCourse(name, description);
-                Assert.Fail(); // No exception thrown
-            }
-            catch (Exception ex)
-            {
-                if (!(ex is ArgumentException))
-                    Assert.Fail(); // Exception thrown is not an ArgumentException
-            }
-        }
+        public void CreatorCreateCourse_ValidParameters_NoExceptionThrown() =>
+            Creator.CreateCourse(Instances.Name, Instances.Description);
         [TestMethod]
-        public void CreatorCreateCourse_NullParameters_ArgumentNullExceptionThrown()
-        {
-            // Arrange
-            string name = null;
-            string description = null;
-
-            // Act & Assert
-            try
-            {
-                Creator.CreateCourse(name, description);
-                Assert.Fail(); // No exception thrown
-            }
-            catch (Exception ex)
-            {
-                if (!(ex is ArgumentNullException))
-                    Assert.Fail(); // Exception thrown is not an ArgumentNullException
-            }
-        }
+        public void CreatorCreateCourse_EmptyStringParameters_ArgumentExceptionThrown() =>
+            Common.TestActionForExceptionThrown(new ArgumentException(),
+            new Action<string, string>(Creator.CreateCourse), "", "");
         [TestMethod]
-        public void CreatorCreateLesson_ValidParameters_NoExceptionThrown()
-        {
-            // Arrange
-            DateTime date = Instances.Date;
-            string description = Instances.Description;
-            bool online = Instances.Online;
-            bool active = Instances.Active;
-            List<Room> rooms = new List<Room>();
-            List<string> filepaths = new List<string>();
-            Course course = Instances.Course;
-
-            // Act
-            Creator.CreateLesson(date, description, online, active, rooms, filepaths, course);
-        }
+        public void CreatorCreateCourse_NullParameters_ArgumentNullExceptionThrown() =>
+            Common.TestActionForExceptionThrown(new ArgumentNullException(),
+            new Action<string, string>(Creator.CreateCourse), null, null);
         [TestMethod]
-        public void CreatorCreateLesson_NullParameters_ArgumentNullExceptionThrown()
-        {
-            // Arrange
-            DateTime date = Instances.Date;
-            string description = null;
-            bool online = Instances.Online;
-            bool active = Instances.Active;
-            List<Room> rooms = null;
-            List<string> filepaths = null;
-            Course course = null;
-
-            // Act & Assert
-            try
-            {
-                Creator.CreateLesson(date, description, online, active, rooms, filepaths, course);
-                Assert.Fail(); // No exception thrown
-            }
-            catch (Exception ex)
-            {
-                if (!(ex is ArgumentNullException))
-                    Assert.Fail(); // Exception thrown is not an ArgumentNullException
-            }
-        }
+        public void CreatorCreateLesson_ValidParameters_NoExceptionThrown() =>
+            Creator.CreateLesson(Instances.Date, Instances.Description, Instances.Online, 
+            Instances.Active, Instances.Rooms, Instances.Filepaths, Instances.Course);
         [TestMethod]
-        public void CreatorCreateRoom_ValidParameters_InputNameEqualsRoomName()
-        {
-            // Arrange
-            string name = Instances.Name;
-
-            // Act
-            Creator.CreateRoom(name);
-        }
+        public void CreatorCreateLesson_NullParameters_ArgumentNullExceptionThrown() =>
+            Common.TestActionForExceptionThrown(new ArgumentNullException(),
+            new Action<DateTime, string, bool, bool, List<Room>, List<string>, Course>(Creator.CreateLesson), 
+            DateTime.Now, null, true, true, null, null, null);
         [TestMethod]
-        public void CreatorCreateRoom_EmptyStringParameters_ArgumentExceptionThrown()
-        {
-            // Arrange
-            string name = Instances.EmptyString;
-
-            // Act & Assert
-            try
-            {
-                Creator.CreateRoom(name);
-                Assert.Fail(); // No exception thrown
-            }
-            catch (Exception ex)
-            {
-                if (!(ex is ArgumentException))
-                    Assert.Fail(); // Exception thrown is not an ArgumentException
-            }
-        }
+        public void CreatorCreateRoom_ValidParameters_InputNameEqualsRoomName() =>
+            Creator.CreateRoom(Instances.Name);
         [TestMethod]
-        public void CreatorCreateRoom_NullParameters_ArgumentNullExceptionThrown()
-        {
-            // Arrange
-            string name = null;
-
-            // Act & Assert
-            try
-            {
-                Creator.CreateRoom(name);
-                Assert.Fail(); // No exception thrown
-            }
-            catch (Exception ex)
-            {
-                if (!(ex is ArgumentNullException))
-                    Assert.Fail(); // Exception thrown is not an ArgumentNullException
-            }
-        }
+        public void CreatorCreateRoom_EmptyStringParameters_ArgumentExceptionThrown() =>
+            Common.TestActionForExceptionThrown(new ArgumentException(),
+            new Action<string>(Creator.CreateRoom), "");
         [TestMethod]
-        public void CreatorCreateAssignmentDescription_ValidParameters_NoExceptionThrown()
-        {
-            // Arrange
-            Course course = Instances.Course;
-            string description = Instances.Description;
-            DateTime deadline = Instances.Date;
-            List<string> filepaths = new List<string>();
-
-            // Act
-            Creator.CreateAssignmentDescription(course, description, deadline, filepaths);
-        }
+        public void CreatorCreateRoom_NullParameters_ArgumentNullExceptionThrown() =>
+            Common.TestActionForExceptionThrown(new ArgumentNullException(),
+            new Action<string>(Creator.CreateRoom), null);
         [TestMethod]
-        public void CreatorCreateAssignmentDescription_NullParameters_ArgumentNullExceptionThrown()
-        {
-            // Arrange
-            Course course = null;
-            string description = null;
-            DateTime deadline = Instances.Date;
-            List<string> filepaths = null;
-
-            // Act & Assert
-            try
-            {
-                Creator.CreateAssignmentDescription(course, description, deadline, filepaths);
-                Assert.Fail(); // No exception thrown
-            }
-            catch (Exception ex)
-            {
-                if (!(ex is ArgumentNullException))
-                    Assert.Fail(); // Exception thrown is not an ArgumentNullException
-            }
-        }
+        public void CreatorCreateAssignmentDescription_ValidParameters_NoExceptionThrown() =>
+            Creator.CreateAssignmentDescription(Instances.Course, 
+            Instances.Description, Instances.Date, Instances.Filepaths);
         [TestMethod]
-        public void CreatorCreateAssignment_ValidParameters_NoExceptionThrown()
-        {
-            // Arrange
-            AssignmentDescription assignmentDescription = Instances.AssignmentDescription;
-            Student student = Lists.Students.Last();
-            string comment = "comment";
-            List<string> filepaths = new List<string>();
-
-            // Act
-            Creator.CreateAssignment(assignmentDescription, student, comment, filepaths);
-        }
+        public void CreatorCreateAssignmentDescription_NullParameters_ArgumentNullExceptionThrown() =>
+            Common.TestActionForExceptionThrown(new ArgumentNullException(),
+            new Action<Course, string, DateTime, List<string>>(Creator.CreateAssignmentDescription),
+            null, null, DateTime.Now, null);
         [TestMethod]
-        public void CreatorCreateAssignment_NullParameters_ArgumentNullExceptionThrown()
-        {
-            // Arrange
-            AssignmentDescription assignmentDescription = null;
-            Student student = null;
-            string comment = null;
-            List<string> filepaths = null;
-
-            // Act & Assert
-            try
-            {
-                Creator.CreateAssignment(assignmentDescription, student, comment, filepaths);
-                Assert.Fail(); // No exception thrown
-            }
-            catch (Exception ex)
-            {
-                if (!(ex is ArgumentNullException))
-                    Assert.Fail(); // Exception thrown is not an ArgumentNullException
-            }
-        }
+        public void CreatorCreateAssignment_ValidParameters_NoExceptionThrown() =>
+            Creator.CreateAssignment(Instances.AssignmentDescription, 
+            Instances.Student, Instances.Comment, Instances.Filepaths);
         [TestMethod]
-        public void CreatorCreateAssignmentGrade_ValidParameters_NoExceptionThrown()
-        {
-            // Arrange
-            string grade = Instances.Grade;
-            string comment = Instances.Comment;
-            Assignment assignment = Instances.Assignment;
-
-            // Act
-            Creator.CreateAssignmentGrade(grade, comment, assignment);
-        }
+        public void CreatorCreateAssignment_NullParameters_ArgumentNullExceptionThrown() =>
+            Common.TestActionForExceptionThrown(new ArgumentNullException(),
+            new Action<AssignmentDescription, Student, string, List<string>>(Creator.CreateAssignment),
+            null, null, null, null);
         [TestMethod]
-        public void CreatorCreateAssignmentGrade_NullParameters_ArgumentNullExceptionThrown()
-        {
-            // Arrange
-            string grade = null;
-            string comment = null;
-            Assignment assignment = null;
-
-            // Act & Assert
-            try
-            {
-                Creator.CreateAssignmentGrade(grade, comment, assignment);
-                Assert.Fail(); // No exception thrown
-            }
-            catch (Exception ex)
-            {
-                if (!(ex is ArgumentNullException))
-                    Assert.Fail(); // Exception thrown is not an ArgumentNullException
-            }
-        }
+        public void CreatorCreateAssignmentGrade_ValidParameters_NoExceptionThrown() =>
+            Creator.CreateAssignmentGrade(Instances.Grade, Instances.Comment, Instances.Assignment);
         [TestMethod]
-        public void CreatorCreateAssignmentGrade_11AsGrade_InvalidGradeExceptionThrown()
-        {
-            // Arrange
-            string grade = "11";
-            string comment = Instances.Comment;
-            Assignment assignment = Instances.Assignment;
-
-            // Act & Assert
-            try
-            {
-                Creator.CreateAssignmentGrade(grade, comment, assignment);
-                Assert.Fail(); // No exception thrown
-            }
-            catch (Exception ex)
-            {
-                if (!(ex is InvalidGradeException))
-                    Assert.Fail(); // Exception thrown is not an InvalidGradeException
-            }
-        }
+        public void CreatorCreateAssignmentGrade_NullParameters_ArgumentNullExceptionThrown() =>
+            Common.TestActionForExceptionThrown(new ArgumentNullException(),
+            new Action<string, string, Assignment>(Creator.CreateAssignmentGrade),
+            null, null, null);
         [TestMethod]
-        public void CreatorCreateCourseGrade_ValidParameters_NoExceptionThrown()
-        {
-            // Arrange
-            string grade = Instances.Grade;
-            string comment = Instances.Comment;
-            Course course = Instances.Course;
-            Student student = Instances.Student;
-
-            // Act
-            Creator.CreateCourseGrade(grade, comment, course, student);
-        }
+        public void CreatorCreateAssignmentGrade_11AsGrade_InvalidGradeExceptionThrown() =>
+            Common.TestActionForExceptionThrown(new InvalidGradeException(),
+            new Action<string, string, Assignment>(Creator.CreateAssignmentGrade),
+            "11", Instances.Comment, Instances.Assignment);
         [TestMethod]
-        public void CreatorCreateCourseGrade_NullParameters_ArgumentNullExceptionThrown()
-        {
-            // Arrange
-            Course course = null;
-            Student student = null;
-            string grade = null;
-            string comment = null;
-
-            // Act & Assert
-            try
-            {
-                Creator.CreateCourseGrade(grade, comment, course, student);
-                Assert.Fail(); // No exception thrown
-            }
-            catch (Exception ex)
-            {
-                if (!(ex is ArgumentNullException))
-                    Assert.Fail(); // Exception thrown is not an ArgumentNullException
-            }
-        }
+        public void CreatorCreateCourseGrade_ValidParameters_NoExceptionThrown() =>
+            Creator.CreateCourseGrade(Instances.Grade, 
+            Instances.Comment, Instances.Course, Instances.Student);
         [TestMethod]
-        public void CreatorCreateCourseGrade_11AsGrade_InvalidGradeExceptionThrown()
-        {
-            // Arrange
-            string grade = "11";
-            string comment = Instances.Comment;
-            Course course = Instances.Course;
-            Student student = Instances.Student;
-
-            // Act & Assert
-            try
-            {
-                Creator.CreateCourseGrade(grade, comment, course, student);
-                Assert.Fail(); // No exception thrown
-            }
-            catch (Exception ex)
-            {
-                if (!(ex is InvalidGradeException))
-                    Assert.Fail(); // Exception thrown is not an InvalidGradeException
-            }
-        }
+        public void CreatorCreateCourseGrade_NullParameters_ArgumentNullExceptionThrown() =>
+            Common.TestActionForExceptionThrown(new ArgumentNullException(),
+            new Action<string, string, Course, Student>(Creator.CreateCourseGrade),
+            null, null, null, null);
+        [TestMethod]
+        public void CreatorCreateCourseGrade_11AsGrade_InvalidGradeExceptionThrown() =>
+            Common.TestActionForExceptionThrown(new InvalidGradeException(),
+            new Action<string, string, Course, Student>(Creator.CreateCourseGrade),
+            "11", Instances.Comment, Instances.Course, Instances.Student);
     }
 }

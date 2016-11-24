@@ -129,5 +129,25 @@ namespace StudyPlatform.Classes.Model
                 return filepaths.ToList();
             }
         }
+        public void AddStudent(Student student)
+        {
+            Commands.InsertInto("personcourses" + student.ID.ToString(), ID.ToString());
+            Commands.InsertInto("coursestudents" + ID.ToString(), student.ID.ToString());
+        }
+        public void AddTeacher(Teacher teacher)
+        {
+            Commands.InsertInto("personcourses" + teacher.ID, ID.ToString());
+            Commands.InsertInto("courseteachers" + ID.ToString(), teacher.ID.ToString());
+        }
+        public void RemoveStudent(Student student)
+        {
+            Commands.DeleteFrom("personcourses" + student.ID, "courseid=" + ID);
+            Commands.DeleteFrom("coursestudents" + ID, "studentid=" + student.ID);
+        }
+        public void RemoveTeacher(Teacher teacher)
+        {
+            Commands.DeleteFrom("personcourses" + teacher.ID, "courseid=" + ID);
+            Commands.DeleteFrom("courseteachers" + ID, "teacher=" + teacher.ID);
+        }
     }
 }
