@@ -132,5 +132,10 @@ namespace StudyPlatform.Classes.Model
                 return filepaths.ToList();
             }
         }
+        public void GiveAbsence(Student student)
+        {
+            Commands.InsertInto("personabsences" + student.ID.ToString(), ID.ToString());
+            Commands.InsertInto("lessonabsences" + ID.ToString(), student.ID.ToString());
+        }
     }
 }

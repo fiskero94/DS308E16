@@ -45,14 +45,18 @@ namespace StudyPlatform.Classes.Database
         {
             Common.EnsureNotNull(sender, title, text, recipients, filepaths);
             Common.EnsureNotEmpty(title);
+            if (recipients.Count == 0)
+                throw new NoRecipientsException();
             Commands.InsertInto("messages", "NULL", sender.ID.ToString(), title, text, "NOW()");
             Message message = Getters.GetLatestMessages(1).Single();
-            Commands.CreateTable("messagerecipients" + message.ID, "messageid INT UNSIGNED NOT NULL");
-            Commands.CreateTable("messageattachments" + message.ID, "messageid INT UNSIGNED NOT NULL");
+            Commands.CreateTable("messagerecipients" + message.ID, "personid INT UNSIGNED NOT NULL");
+            Commands.CreateTable("messageattachments" + message.ID, "filepath TEXT NOT NULL");
             Commands.InsertInto("personsentmessages" + sender.ID, message.ID.ToString());
-            Commands.InsertInto("personrecievedmessages" + sender.ID, message.ID.ToString());
             foreach (Person recipient in recipients)
+            {
                 Commands.InsertInto("messagerecipients" + message.ID, recipient.ID.ToString());
+                Commands.InsertInto("personrecievedmessages" + recipient.ID, message.ID.ToString());
+            }
             foreach (var filepath in filepaths)
                 Commands.InsertInto("messageattachments" + message.ID, filepath);
         }
