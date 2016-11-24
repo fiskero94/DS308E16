@@ -89,7 +89,7 @@ namespace StudyPlatform.Tests.ModelTests
             Student student = Lists.Students.Single();
 
             // Assert
-            Assert.AreEqual(Instances.Name, student.Name);
+             Assert.AreEqual(Instances.Name, student.Name);
         }
         [TestMethod]
         public void ListsTeachers_ListParametersFilled_ContainsTeacherDataFromDatabase()
@@ -134,6 +134,5 @@ namespace StudyPlatform.Tests.ModelTests
             Assert.AreEqual(secretary.Name, actualSecretary.Name);
             Assert.AreEqual(secretary.ID, actualSecretary.ID);
         }
-
     }
 }
