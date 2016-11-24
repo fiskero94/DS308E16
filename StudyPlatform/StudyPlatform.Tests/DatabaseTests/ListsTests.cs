@@ -148,5 +148,34 @@ namespace StudyPlatform.Tests.ModelTests
             Assert.AreEqual(secretary.ID, actualSecretary.ID);
         }
 
+        [TestMethod]
+        public void ListsAssignmentDescriptions_ListParametersFilled_ContainsAssignmentDescriptionDataFromDatabase()
+        {
+            // Arrange
+            List<string> filepaths = new List<string>();
+
+            Creator.CreateAssignmentDescription(Instances.Course, Instances.Description, Instances.Date, filepaths);
+
+            List<AssignmentDescription> assignmentdescriptions = Lists.AssignmentDescriptions;
+
+            uint id = Instances.ID;
+            DateTime date = Instances.Date;
+            string description = Instances.Description;
+
+            AssignmentDescription assignmentDescripton = new AssignmentDescription(id, id, description, date);
+            AssignmentDescription actualAssignmentDescription
+
+            // Act
+            foreach (AssignmentDescription item in assignmentdescriptions)
+            {
+                if (item.ID == id)
+                    actualAssignmentDescription = item;
+            }
+
+            // Assert
+            Assert.AreEqual(assignmentDescripton.ID, actualAssignmentDescription.ID);
+            Assert.AreEqual(assignmentDescripton.ID, actualSecretary.ID);
+        }
+
     }
 }
