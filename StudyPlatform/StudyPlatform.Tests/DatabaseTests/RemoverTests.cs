@@ -22,37 +22,6 @@ namespace StudyPlatform.Tests.DatabaseTests
         [TestMethod]
         public void RemoverRemovePerson_Removed()
         {
-            //Commands.DeleteFrom("persons", "id=" + person.ID);
-
-            //foreach (Message message in person.SentMessages)
-            //    RemoveMessage(message);
-            //foreach (Message message in person.RecievedMessages)
-            //    Commands.DeleteFrom("messagerecipients" + message.ID, "personid=" + person.ID);
-
-            //Commands.DropTable("personsentmessages" + person.ID);
-            //Commands.DropTable("personrecievedmessages" + person.ID);
-
-            //if (person is Student)
-            //{
-            //    foreach (Course course in ((Student)person).Courses)
-            //        Commands.DeleteFrom("coursestudents" + course.ID, "studentid=" + person.ID);
-
-            //    foreach (Lesson lesson in ((Student)person).Absences)
-            //        Commands.DeleteFrom("lessonabscences" + lesson.ID, "studentid=" + person.ID);
-
-            //    Commands.DropTable("personcourses" + person.ID);
-            //    Commands.DropTable("personassignments" + person.ID);
-            //    Commands.DropTable("personabscences" + person.ID);
-            //}
-            //else if (person is Teacher)
-            //{
-            //    foreach (Course course in ((Teacher)person).Courses)
-            //        Commands.DeleteFrom("courseteachers" + course.ID, "teacherid=" + person.ID);
-
-            //    Commands.DropTable("personcourses" + person.ID);
-            //}
-            //person = null;
-
             //STUDENT DELETION
             //SETUP
             Creator.CreateStudent(Instances.Name, Instances.Username, Instances.Password);
@@ -121,9 +90,6 @@ namespace StudyPlatform.Tests.DatabaseTests
                         Assert.Fail("Student still has absence");
                 }
             }
-            //    Commands.DropTable("personcourses" + person.ID);
-            //    Commands.DropTable("personassignments" + person.ID);
-            //    Commands.DropTable("personabscences" + person.ID);
             try
             {
                 List<Course> courses = student.Courses;
@@ -156,6 +122,23 @@ namespace StudyPlatform.Tests.DatabaseTests
             Assert.AreEqual(allUsersTest.Count, allUsers.Count - 1);
             //TEACHER DELETION
             Creator.CreateTeacher(Instances.Name, Instances.Username, Instances.Password);
+            Teacher teacher = Getters.GetLatestPersons(1).Single() as Teacher;
+            course.AddTeacher(teacher);
+            Remover.RemovePerson(teacher);
+            foreach (Teacher testTeacher in course.Teachers)
+            {
+                if (teacher.ID == testTeacher.ID)
+                    Assert.Fail("Teacher still in course");
+            }
+            try
+            {
+                List<Course> courses = teacher.Courses;
+            }
+            catch (Exception ex)
+            {
+                if (!(ex is MySqlException && ((MySqlException)ex).Number == 1146))
+                    Assert.Fail(ex.Message);
+            }
         }
         public void RemoverRemoveMessage_Removed()
         {
