@@ -181,5 +181,25 @@ namespace StudyPlatform.Tests.ModelTests
             Assert.AreEqual(course, lesson.Course);
         }
 
+        public void ListsAssignment()
+        {
+            // Arrange
+            List<string> filepaths = new List<string>();
+
+            Creator.CreateCourse(Instances.Name, Instances.Description);
+            Course course = Getters.GetLatestCourses(1).Single();
+
+            Creator.CreateAssignmentDescription(course, Instances.Description, Instances.Date, filepaths);
+            AssignmentDescription assignmentdescription = Getters.GetLatestAssignmentDescriptions(1).Single();
+
+            Creator.CreateAssignment(assignmentdescription, Instances.Student, Instances.Comment, filepaths);
+
+            // Act
+            Assignment assignment = Getters.GetLatestAssignments(1).Single();
+
+            // Assert
+            Assert.AreEqual(Instances.Comment, assignment.Comment);
+            Assert.AreEqual(course.AssignmentDescription, assignment.AssignmentDescription);
+        }
     }
 }
