@@ -54,7 +54,6 @@ namespace StudyPlatform.Tests.DatabaseTests
             //person = null;
 
             //STUDENT DELETION
-
             //SETUP
             Creator.CreateStudent(Instances.Name, Instances.Username, Instances.Password);
             List<Person> allUsers = Lists.Persons;
@@ -67,8 +66,16 @@ namespace StudyPlatform.Tests.DatabaseTests
             recipients.Clear();
             recipients.Add(student);
             Creator.CreateMessage(Getters.GetPersonByID(1), Instances.Title, Instances.Text, recipients, filepaths);
+            Creator.CreateCourse(Instances.Name, Instances.Description);
+            Course course = Getters.GetLatestCourses(1).Single();
+            course.AddStudent(student);
+            Creator.CreateRoom(Instances.Name);
+            List<Room> rooms = new List<Room>();
+            Room room = Getters.GetLatestRooms(1).Single();
+            rooms.Add(room);
+            Creator.CreateLesson(Instances.Date, Instances.Description, Instances.Online, Instances.Active, rooms, filepaths, course);
+            Lesson lesson = Getters.GetLatestLessons(1).Single();
             Remover.RemovePerson(student);
-
             //MESSAGE RECIPIENTS
             foreach (Message item in Lists.Messages)
             {
@@ -76,16 +83,21 @@ namespace StudyPlatform.Tests.DatabaseTests
                 foreach (Person recipient in items)
                 {
                     if(student.ID == recipient.ID)
-                    {
                         Assert.Fail("deleted person still in recipients");
-                    }
                 }
             }
-
             //PERSON SENT/RECIEVED MESSAGES
             try
             {
                 List<Message> sentMessages = student.SentMessages;
+            }
+            catch (Exception ex)
+            {
+                if (!(ex is MySqlException && ((MySqlException)ex).Number == 1146))
+                    Assert.Fail(ex.Message);
+            }
+            try
+            {
                 List<Message> recievedMessages = student.RecievedMessages;
             }
             catch (Exception ex)
@@ -93,16 +105,57 @@ namespace StudyPlatform.Tests.DatabaseTests
                 if (!(ex is MySqlException && ((MySqlException)ex).Number == 1146))
                     Assert.Fail(ex.Message);
             }
-
+            course = Getters.GetCourseByID(course.ID);
+            foreach (Student coursestudents in course.Students)
+            {
+                if(student.ID == coursestudents.ID)
+                {
+                    Assert.Fail("student is still in course");
+                }
+            }
+            foreach (Lesson testLesson in course.Lessons)
+            {
+                foreach (Student item in testLesson.Absences)
+                {
+                    if (item.ID == student.ID)
+                        Assert.Fail("Student still has absence");
+                }
+            }
+            //    Commands.DropTable("personcourses" + person.ID);
+            //    Commands.DropTable("personassignments" + person.ID);
+            //    Commands.DropTable("personabscences" + person.ID);
+            try
+            {
+                List<Course> courses = student.Courses;
+            }
+            catch (Exception ex)
+            {
+                if (!(ex is MySqlException && ((MySqlException)ex).Number == 1146))
+                    Assert.Fail(ex.Message);
+            }
+            try
+            {
+                List<Assignment> assignments = student.Assignments;
+            }
+            catch (Exception ex)
+            {
+                if (!(ex is MySqlException && ((MySqlException)ex).Number == 1146))
+                    Assert.Fail(ex.Message);
+            }
+            try
+            {
+                List<Lesson> absences = student.Absences;
+            }
+            catch (Exception ex)
+            {
+                if (!(ex is MySqlException && ((MySqlException)ex).Number == 1146))
+                    Assert.Fail(ex.Message);
+            }
             //PERSON DELETION
             List<Person> allUsersTest = Lists.Persons;
             Assert.AreEqual(allUsersTest.Count, allUsers.Count - 1);
-
             //TEACHER DELETION
             Creator.CreateTeacher(Instances.Name, Instances.Username, Instances.Password);
-
-            //SECRETARY DELETION
-            Creator.CreateSecretary(Instances.Name, Instances.Username, Instances.Password);
         }
         public void RemoverRemoveMessage_Removed()
         {
