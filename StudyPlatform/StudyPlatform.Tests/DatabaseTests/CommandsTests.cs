@@ -89,5 +89,15 @@ namespace StudyPlatform.Tests.DatabaseTests
             Assert.AreEqual("3", Rooms[1].Name);
             Assert.AreEqual("2", Rooms[2].Name);
         }
+        [TestMethod]
+        public void CommandsCheckNull_NullVariable_TrueReturned()
+        {
+            throw new NotImplementedException();
+        }
+        [TestMethod]
+        public void CommandsCheckNull_NonNullVariable_FalseReturned()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
