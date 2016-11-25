@@ -248,7 +248,7 @@ namespace StudyPlatform.Tests.DatabaseTests
             Assert.AreEqual(0, Lists.AssignmentDescriptions.Count);
             Common.TestTableExists("assignmentdescriptionassignments1", false);
             Common.TestTableExists("assignmentdescriptiondocuments1", false);
-            Assert.AreEqual(0, course.AssignmentDescriptions);
+            Assert.AreEqual(0, course.AssignmentDescriptions.Count);
         }
         [TestMethod]
         public void RemoverRemoveAssignment_ValidParameters_AssignmentRemoved()
