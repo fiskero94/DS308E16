@@ -61,55 +61,40 @@ namespace StudyPlatformSQLSetup
             if (externalConnectionString != null)
                 connectionString = externalConnectionString;
 
-            CreateTable("persons", "id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY",
-                                   "username TEXT NOT NULL",
-                                   "password TEXT NOT NULL",
-                                   "name TEXT NOT NULL",
-                                   "type ENUM('student','teacher','secretary') NOT NULL");
-            CreateTable("personcourse", "id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY",
-                                   "username TEXT NOT NULL",
-                                   "password TEXT NOT NULL",
-                                   "name TEXT NOT NULL",
-                                   "type ENUM('student','teacher','secretary') NOT NULL");
-            CreateTable("studentabsence", "id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY",
-                                   "username TEXT NOT NULL",
-                                   "password TEXT NOT NULL",
-                                   "name TEXT NOT NULL",
-                                   "type ENUM('student','teacher','secretary') NOT NULL");
-            CreateTable("messages", "id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY",
-                                    "senderid INT UNSIGNED NOT NULL",
-                                    "title TEXT NOT NULL",
-                                    "text TEXT NOT NULL",
-                                    "date DATETIME NOT NULL");
-            CreateTable("messagereci", "id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY",
-                                   "username TEXT NOT NULL",
-                                   "password TEXT NOT NULL",
-                                   "name TEXT NOT NULL",
-                                   "type ENUM('student','teacher','secretary') NOT NULL");
-            CreateTable("messagefile", "id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY",
-                                   "username TEXT NOT NULL",
-                                   "password TEXT NOT NULL",
-                                   "name TEXT NOT NULL",
-                                   "type ENUM('student','teacher','secretary') NOT NULL");
-            CreateTable("news", "id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY",
-                                "authorid INT UNSIGNED NOT NULL",
-                                "title TEXT NOT NULL",
-                                "text TEXT NOT NULL",
-                                "date DATETIME NOT NULL");
-            CreateTable("courses", "id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY",
-                                   "name TEXT NOT NULL",
-                                   "description TEXT NOT NULL");
-            CreateTable("coursefile", "id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY",
-                                   "username TEXT NOT NULL",
-                                   "password TEXT NOT NULL",
-                                   "name TEXT NOT NULL",
-                                   "type ENUM('student','teacher','secretary') NOT NULL");
-            CreateTable("lessons", "id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY",
-                                   "courseid INT UNSIGNED NOT NULL",
-                                   "date DATETIME NOT NULL",
-                                   "description TEXT NOT NULL",
-                                   "online BOOL NOT NULL",
-                                   "active BOOL NOT NULL");
+            CreateTable("Person", "ID INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY",
+                                   "Name TEXT NOT NULL",
+                                   "Username TEXT NOT NULL",
+                                   "Password TEXT NOT NULL",
+                                   "Type ENUM('Student','Teacher','Secretary') NOT NULL");
+            CreateTable("PersonCourse", "PersonID INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY",
+                                   "CourseID INT UNSIGNED NOT NULL");
+            CreateTable("StudentAbsence", "StudentID INT UNSIGNED NOT NULL",
+                                   "LessonID INT UNSIGNED NOT NULL");
+            CreateTable("Message", "ID INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY",
+                                    "SenderID INT UNSIGNED NOT NULL",
+                                    "Title TEXT NOT NULL",
+                                    "Text TEXT NOT NULL",
+                                    "DateTime DATETIME NOT NULL");
+            CreateTable("MessageRecipient", "MessageID INT UNSIGNED NOT NULL",
+                                   "PersonID INT UNSIGNED NOT NULL");
+            CreateTable("MessageFile", "MessageID INT UNSIGNED NOT NULL",
+                                   "Filepath TEXT NOT NULL");
+            CreateTable("News", "ID INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY",
+                                "AuthorID INT UNSIGNED NOT NULL",
+                                "Title TEXT NOT NULL",
+                                "Text TEXT NOT NULL",
+                                "DateTime DATETIME NOT NULL");
+            CreateTable("Course", "ID INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY",
+                                   "Name TEXT NOT NULL",
+                                   "Description TEXT NOT NULL");
+            CreateTable("CourseFile", "CourseID INT UNSIGNED NOT NULL",
+                                   "Filepath TEXT NOT NULL");
+            CreateTable("Lesson", "ID INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY",
+                                   "CourseID INT UNSIGNED NOT NULL",
+                                   "Description TEXT NOT NULL",
+                                   "Online BOOL NOT NULL",
+                                   "Cancelled BOOL NOT NULL",
+                                   "DateTime DATETIME NOT NULL");
             CreateTable("lessonroom", "id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY",
                                    "username TEXT NOT NULL",
                                    "password TEXT NOT NULL",
