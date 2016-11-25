@@ -26,9 +26,7 @@ namespace StudyPlatform.Classes.Model
         }
         
         public uint ID => _id;
-
         public Course Course => Getters.GetCourseByID(_courseid);
-
         public DateTime DateTime
         {
             get
@@ -115,22 +113,17 @@ namespace StudyPlatform.Classes.Model
         public static TimeSpan LessonLength => new TimeSpan(0, 45, 0);
 
         public void Remove() => Remover.RemoveLesson(this);
-        public void GiveAbsence(Student student)
-        {
-            Commands.InsertInto("personabsences" + student.ID.ToString(), ID.ToString());
-            Commands.InsertInto("lessonabsences" + ID.ToString(), student.ID.ToString());
-        }
-
+        public void GiveAbsence(Student student) =>
+            Commands.InsertInto("StudentAbsence", student.ID.ToString(), ID.ToString());
         
-        
-        public static Lesson New(Course course, string description, bool online, 
+        public static Lesson GetByID(uint id) => Getters.GetLessonByID(id);
+        public static List<Lesson> Find(params string[] conditions) => Getters.GetLessonsByConditions(conditions);
+        public static List<Lesson> AllLessons => Lists.Lessons;
+        public static Lesson New(Course course, string description, bool online,
             DateTime dateTime, List<Room> rooms, List<string> filepaths)
         {
             Creator.CreateLesson(course, description, online, dateTime, rooms, filepaths);
             return Getters.GetLatestLessons(1).Single();
         }
-        public static Lesson GetByID(uint id) => Getters.GetLessonByID(id);
-        public static List<Lesson> Find(params string[] conditions) => Getters.GetLessonsByConditions(conditions);
-        public static List<Lesson> AllLessons => Lists.Lessons;
     }
 }

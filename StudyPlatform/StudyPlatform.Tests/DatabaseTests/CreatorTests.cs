@@ -102,13 +102,13 @@ namespace StudyPlatform.Tests.DatabaseTests
             // Dependencies: CreateCourse
             Creator.CreateCourse(Instances.Name, Instances.Description);
             Course course = Getters.GetLatestCourses(1).Single();
-            Creator.CreateLesson(Instances.Date, Instances.Description, Instances.Online, Instances.Rooms, Instances.Filepaths, course);
+            Creator.CreateLesson(Instances.Date, Instances.Description, Instances.Online,, Instances.Rooms, Instances.Filepaths, course);
         } 
         [TestMethod]
         public void CreatorCreateLesson_NullParameters_ArgumentNullExceptionThrown() =>
             Common.TestActionForExceptionThrown(new ArgumentNullException(),
-            new Action<DateTime, string, bool, bool, List<Room>, List<string>, Course>(Creator.CreateLesson), 
-            DateTime.Now, null, true, true, null, null, null);
+            new Action<Course, string, bool, DateTime, List<Room>, List<string>>(Creator.CreateLesson),
+            null, null, true, DateTime.Now, null, null);
         [TestMethod]
         public void CreatorCreateRoom_ValidParameters_InputNameEqualsRoomName() =>
             Creator.CreateRoom(Instances.Name);
@@ -172,8 +172,8 @@ namespace StudyPlatform.Tests.DatabaseTests
             // Dependencies: CreateCourse
             Creator.CreateCourse(Instances.Name, Instances.Description);
             Course course = Getters.GetLatestCourses(1).Single();
-            Creator.CreateCourseGrade(Instances.Grade,
-                Instances.Comment, course, Instances.Student);
+            Creator.CreateCourseGrade(course, Instances.Student, Instances.Grade,
+                Instances.Comment);
         }  
         [TestMethod]
         public void CreatorCreateCourseGrade_NullParameters_ArgumentNullExceptionThrown() =>
