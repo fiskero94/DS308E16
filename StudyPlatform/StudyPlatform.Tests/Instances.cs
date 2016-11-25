@@ -10,27 +10,16 @@ namespace StudyPlatform.Tests
     static class Instances
     {
         public static Assignment Assignment => new Assignment(ID, ID, ID, Comment, ID, Date);
-
         public static AssignmentDescription AssignmentDescription => new AssignmentDescription(ID, ID, Description, Date);
-
         public static AssignmentGrade AssignmentGrade => new AssignmentGrade(ID, Grade, Comment, ID);
-
         public static Course Course => new Course(ID, Name, Description);
-
         public static CourseGrade CourseGrade => new CourseGrade(ID, Grade, Comment, ID, ID);
-
-        public static Lesson Lesson => new Lesson(ID, ID, Date, Description, Online);
-
+        public static Lesson Lesson => new Lesson(ID, ID, Description, Online, Cancel ,Date);
         public static Message Message => new Message(ID, ID, Title, Text);
-
         public static News News => new News(ID, ID, Title, Text, Date);
-
         public static Room Room => new Room(ID, Name);
-
         public static Secretary Secretary => new Secretary(ID, Name);
-
         public static Teacher Teacher => new Teacher(ID, Name);
-
         public static Student Student => new Student(ID, Name);
         public static uint ID => 1;
         public static DateTime Date => DateTime.Now;
@@ -44,6 +33,7 @@ namespace StudyPlatform.Tests
         public static string Password => "Password";
         public static string EmptyString => "";
         public static bool Online => true;
+        public static bool Cancel => true;
         public static List<string> Filepaths => new List<string>();
         public static List<Person> Recipients => new List<Person>();
         public static List<Room> Rooms => new List<Room>();
