@@ -34,6 +34,16 @@ namespace StudyPlatform.Classes.Database
 
                 Commands.DropTable("personcourses" + person.ID);
             }
+            else if(person is Secretary)
+            {
+                foreach (News item in Lists.News)
+                {
+                    if(item.Author.ID == person.ID)
+                    {
+                        RemoveNews(item);
+                    }
+                }
+            }
             Commands.DeleteFrom("persons", "id=" + person.ID);
             person = null;
         }
