@@ -36,16 +36,7 @@ namespace StudyPlatform.Tests.DatabaseTests
             Commands.CreateTable("testtable", "testvariable TEXT");
 
             // Assert
-            Query query = new Query("SHOW TABLES;");
-            MySqlConnectionReader connectionReader = query.Execute();
-
-            bool success = false;
-            while (connectionReader.Reader.Read())
-                if (connectionReader.Reader.GetString(0) == "testtable")
-                    success = true;
-
-            connectionReader.Connection.Close();
-            Assert.IsTrue(success);
+            Common.TestTableExists("testtable", true);
         }
         [TestMethod]
         public void CommandsInsertInto_ValidParameters_RoomInserted()
@@ -79,16 +70,7 @@ namespace StudyPlatform.Tests.DatabaseTests
             Commands.DropTable("persons");
 
             // Assert
-            Query query = new Query("SHOW TABLES;");
-            MySqlConnectionReader connectionReader = query.Execute();
-
-            bool success = true;
-            while (connectionReader.Reader.Read())
-                if (connectionReader.Reader.GetString(0) == "persons")
-                    success = false;
-
-            connectionReader.Connection.Close();
-            Assert.IsTrue(success);
+            Common.TestTableExists("persons", false);
         }
         [TestMethod]
         public void CommandsGetLatestRows_FourRoomsCreated_RoomsReturnedInReverseOrder()

@@ -188,12 +188,40 @@ namespace StudyPlatform.Tests.DatabaseTests
         [TestMethod]
         public void RemoverRemoveAssignmentGrade_ValidParameters_AssignmentGradeRemoved()
         {
-            throw new NotImplementedException();
+            // Arrange
+            Creator.CreateCourse(Instances.Name, Instances.Description);
+            Course course = Getters.GetCourseByID(1);
+            Creator.CreateAssignmentDescription(course, Instances.Description, Instances.Date, Instances.Filepaths);
+            Creator.CreateStudent(Instances.Name, Instances.Username, Instances.Password);
+            AssignmentDescription assignmentDescription = Getters.GetAssignmentDescriptionByID(1);
+            Student student = Getters.GetPersonByID(2) as Student;
+            Creator.CreateAssignment(assignmentDescription, student, Instances.Comment, Instances.Filepaths);
+            Assignment assignment = Getters.GetAssignmentByID(1);
+            Creator.CreateAssignmentGrade(Instances.Grade, Instances.Comment, assignment);
+            AssignmentGrade assignmentGrade = Getters.GetAssignmentGradeByID(1);
+
+            // Act
+            Remover.RemoveAssignmentGrade(assignmentGrade);
+
+            // Assert
+            Assert.AreEqual(null, assignment.Grade);
+            Assert.AreEqual(0, Lists.AssignmentGrades.Count);
         }
         [TestMethod]
         public void RemoverRemoveCourseGrade_ValidParameters_CourseGradeRemoved()
         {
-            throw new NotImplementedException();
+            // Arrange
+            Creator.CreateCourse(Instances.Name, Instances.Description);
+            Course course = Getters.GetCourseByID(1);
+            Creator.CreateCourseGrade(Instances.Grade, Instances.Comment, course, Instances.Student);
+            CourseGrade courseGrade = Getters.GetCourseGradeByID(1);
+
+            // Act
+            Remover.RemoveCourseGrade(courseGrade);
+
+            // Assert
+            Assert.AreEqual(0, course.CourseGrades.Count);
+            Assert.AreEqual(0, Lists.CourseGrades.Count);
         }
     }
 }

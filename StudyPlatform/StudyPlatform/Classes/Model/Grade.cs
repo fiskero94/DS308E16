@@ -26,7 +26,7 @@ namespace StudyPlatform.Classes.Model
                 return _id;
             }
         }
-        public string AssignedGrade
+        public string Value
         {
             get
             {
