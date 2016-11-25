@@ -7,11 +7,11 @@ namespace StudyPlatform.Classes.Database
     {
         public static void RemovePerson(Person person)
         {
-
             foreach (Message message in person.RecievedMessages)
                 Commands.DeleteFrom("messagerecipients" + message.ID, "personid=" + person.ID);
             foreach (Message message in person.SentMessages)
                 RemoveMessage(message);
+
             Commands.DropTable("personsentmessages" + person.ID);
             Commands.DropTable("personrecievedmessages" + person.ID);
             
@@ -66,30 +66,26 @@ namespace StudyPlatform.Classes.Database
         }
         public static void RemoveCourse(Course course)
         {
-            //course
             Commands.DeleteFrom("courses", "id=" + course.ID);
-            //people
-            Commands.DropTable("courseteachers" + course.ID);
+            
+            foreach (Student student in course.Students)
+                RemovePerson(student);
+            foreach (Teacher teacher in course.Teachers)
+                RemovePerson(teacher);
+            foreach (Lesson lesson in course.Lessons)
+                RemoveLesson(lesson);
+            foreach (AssignmentDescription assignmentDescription in course.AssignmentDescriptions)
+                RemoveAssignmentDescription(assignmentDescription);
+            foreach (CourseGrade courseGrade in course.CourseGrades)
+                RemoveCourseGrade(courseGrade);
+
             Commands.DropTable("coursestudents" + course.ID);
-            foreach (Person person in Lists.Persons)
-                Commands.DeleteFrom("personcourses" + person.ID, "courseid=" + course.ID);
-            //lessons
-            //Commands.DropTable("courselessons" + course.ID); ---- metoden burde gerne fjerne dette?
-            foreach (Lesson lesson in Lists.Lessons)
-                if (lesson.Course.ID == course.ID)
-                    RemoveLesson(lesson);
-            //assignmentdescription
-            //Commands.DropTable("courseassignmentdescriptions" + course.ID); ---- metoden burde gerne fjerne dette?
-            foreach (AssignmentDescription assignmentdescription in Lists.AssignmentDescriptions)
-                if (assignmentdescription.Course.ID == course.ID)
-                    RemoveAssignmentDescription(assignmentdescription);
-            //coursegrades
+            Commands.DropTable("courseteachers" + course.ID);
+            Commands.DropTable("courselessons" + course.ID);
+            Commands.DropTable("courseassignmentdescriptions" + course.ID);
             Commands.DropTable("coursegrades" + course.ID);
-            Commands.DeleteFrom("coursegrades", "courseid=" + course.ID);
-            //coursedocuments
             Commands.DropTable("coursedocuments" + course.ID);
             course = null;
-            //brug for måde at fjerne selve dokumentet. generisk metode som tager filepath som vi kan bruge til alle slags dokumenter?
         }
         public static void RemoveLesson(Lesson lesson)
         {
@@ -112,6 +108,9 @@ namespace StudyPlatform.Classes.Database
         }
         public static void RemoveRoom(Room room)
         {
+            foreach (Lesson lesson in room.Reservations)
+                Commands.DeleteFrom("lessonrooms" + lesson.ID, "roomid=" + room.ID);
+
             Commands.DeleteFrom("rooms", "id=" + room.ID);
             Commands.DropTable("roomreservations" + room.ID);
             room = null;
