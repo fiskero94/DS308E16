@@ -21,11 +21,11 @@ namespace StudyPlatform.Classes.Database
                     Commands.DeleteFrom("coursestudents" + course.ID, "studentid=" + person.ID);
 
                 foreach (Lesson lesson in ((Student)person).Absences)
-                    Commands.DeleteFrom("lessonabscences" + lesson.ID, "studentid=" + person.ID);
+                    Commands.DeleteFrom("lessonabsences" + lesson.ID, "studentid=" + person.ID);
 
                 Commands.DropTable("personcourses" + person.ID);
                 Commands.DropTable("personassignments" + person.ID);
-                Commands.DropTable("personabscences" + person.ID);
+                Commands.DropTable("personabsences" + person.ID);
             }
             else if (person is Teacher)
             {

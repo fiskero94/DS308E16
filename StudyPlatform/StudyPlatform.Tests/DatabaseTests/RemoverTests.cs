@@ -179,8 +179,8 @@ namespace StudyPlatform.Tests.DatabaseTests
 
             // Assert
             Assert.AreEqual(0, Lists.Lessons.Count);
-            Common.TestTableExists("lessonsrooms1", false);
-            Common.TestTableExists("lessonsabscenes1", false);
+            Common.TestTableExists("lessonrooms1", false);
+            Common.TestTableExists("lessonabsences1", false);
             Common.TestTableExists("lessondocuments1", false);
             Assert.AreEqual(0, course.Lessons.Count);
             Assert.AreEqual(0, student.Absences.Count);
