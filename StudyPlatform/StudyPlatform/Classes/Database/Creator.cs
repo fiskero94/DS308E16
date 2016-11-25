@@ -9,142 +9,108 @@ namespace StudyPlatform.Classes.Database
     public static class Creator
     {
         private static void CreatePerson(string name, string username, string password, string type) =>
-            Commands.InsertInto("persons", "NULL", username, password, name, type);
+            Commands.InsertInto("Person", "NULL", name, username, password, type);
         public static void CreateStudent(string name, string username, string password)
         {
             Common.EnsureNotNull(name, username, password);
             Common.EnsureNotEmpty(name, username, password);
-            CreatePerson(name, username, password, "student");
-            Student student = Getters.GetLatestPersons(1).Single() as Student;
-            Commands.CreateTable("personsentmessages" + student.ID, "messageid INT UNSIGNED NOT NULL");
-            Commands.CreateTable("personrecievedmessages" + student.ID, "messageid INT UNSIGNED NOT NULL");
-            Commands.CreateTable("personcourses" + student.ID, "courseid INT UNSIGNED NOT NULL");
-            Commands.CreateTable("personassignments" + student.ID, "assignmentid INT UNSIGNED NOT NULL");
-            Commands.CreateTable("personabsences" + student.ID, "lessonid INT UNSIGNED NOT NULL");
+            CreatePerson(name, username, password, "Student");
         }
         public static void CreateTeacher(string name, string username, string password)
         {
             Common.EnsureNotNull(name, username, password);
             Common.EnsureNotEmpty(name, username, password);
-            CreatePerson(name, username, password, "teacher");
-            Teacher teacher = Getters.GetLatestPersons(1).Single() as Teacher;
-            Commands.CreateTable("personsentmessages" + teacher.ID, "messageid INT UNSIGNED NOT NULL");
-            Commands.CreateTable("personrecievedmessages" + teacher.ID, "messageid INT UNSIGNED NOT NULL");
-            Commands.CreateTable("personcourses" + teacher.ID, "courseid INT UNSIGNED NOT NULL");
+            CreatePerson(name, username, password, "Teacher");
         }
         public static void CreateSecretary(string name, string username, string password)
         {
             Common.EnsureNotNull(name, username, password);
             Common.EnsureNotEmpty(name, username, password);
-            CreatePerson(name, username, password, "secretary");
-            Secretary secretary = Getters.GetLatestPersons(1).Single() as Secretary;
-            Commands.CreateTable("personsentmessages" + secretary.ID, "messageid INT UNSIGNED NOT NULL");
-            Commands.CreateTable("personrecievedmessages" + secretary.ID, "messageid INT UNSIGNED NOT NULL");
+            CreatePerson(name, username, password, "Secretary");
         }
-        public static void CreateMessage(Person sender, string title, string text, List<Person> recipients, List<string> filepaths)
+        public static void CreateMessage(Person sender, string title, string text, 
+            List<Person> recipients, List<string> filepaths)
         {
             Common.EnsureNotNull(sender, title, text, recipients, filepaths);
             Common.EnsureNotEmpty(title);
             if (recipients.Count == 0)
                 throw new NoRecipientsException();
-            Commands.InsertInto("messages", "NULL", sender.ID.ToString(), title, text, "NOW()");
+            Commands.InsertInto("Message", "NULL", sender.ID.ToString(), title, text, "NOW()");
             Message message = Getters.GetLatestMessages(1).Single();
-            Commands.CreateTable("messagerecipients" + message.ID, "personid INT UNSIGNED NOT NULL");
-            Commands.CreateTable("messageattachments" + message.ID, "filepath TEXT NOT NULL");
-            Commands.InsertInto("personsentmessages" + sender.ID, message.ID.ToString());
             foreach (Person recipient in recipients)
-            {
-                Commands.InsertInto("messagerecipients" + message.ID, recipient.ID.ToString());
-                Commands.InsertInto("personrecievedmessages" + recipient.ID, message.ID.ToString());
-            }
-            foreach (var filepath in filepaths)
-                Commands.InsertInto("messageattachments" + message.ID, filepath);
+                Commands.InsertInto("MessageRecipient", message.ID.ToString(), recipient.ID.ToString());
+            foreach (string filepath in filepaths)
+                Commands.InsertInto("MessageFile", message.ID.ToString(), filepath);
         }
         public static void CreateNews(Secretary author, string title, string text)
         {
             Common.EnsureNotNull(author, title, text);
             Common.EnsureNotEmpty(title);
-            Commands.InsertInto("news", "NULL", author.ID.ToString(), title, text, "NOW()");
+            Commands.InsertInto("News", "NULL", author.ID.ToString(), title, text, "NOW()");
         }
         public static void CreateCourse(string name, string description)
         {
             Common.EnsureNotNull(name, description);
             Common.EnsureNotEmpty(name);
-            Commands.InsertInto("courses", "NULL", name, description);
-            Course course = Getters.GetLatestCourses(1).Single();
-            Commands.CreateTable("courseteachers" + course.ID, "teacherid INT UNSIGNED NOT NULL");
-            Commands.CreateTable("coursestudents" + course.ID, "studentid INT UNSIGNED NOT NULL");
-            Commands.CreateTable("courselessons" + course.ID, "lessonid INT UNSIGNED NOT NULL");
-            Commands.CreateTable("courseassignmentdescriptions" + course.ID, "assignmentdescriptionid INT UNSIGNED NOT NULL");
-            Commands.CreateTable("coursegrades" + course.ID, "gradeid INT UNSIGNED NOT NULL");
-            Commands.CreateTable("coursedocuments" + course.ID, "filepath TEXT NOT NULL");
+            Commands.InsertInto("Course", "NULL", name, description);
         }
-        public static void CreateLesson(DateTime date, string description, bool online, bool active, List<Room> rooms, List<string> filepaths, Course course)
+        public static void CreateLesson(Course course, string description, bool online, 
+            DateTime dateTime, List<Room> rooms, List<string> filepaths)
         {
-            Common.EnsureNotNull(date, description, online, active, rooms, filepaths, course);
-            Commands.InsertInto("lessons", "NULL", course.ID.ToString(), date.ToString("yyyy-MM-dd HH:mm:ss"), description, 
-                                online.ToString().ToUpper(), active.ToString().ToUpper());
-            Lesson lesson = Getters.GetLatestLessons(1).Single();
-            Commands.CreateTable("lessonrooms" + lesson.ID, "roomid INT UNSIGNED NOT NULL");
-            Commands.CreateTable("lessonabsences" + lesson.ID, "studentid INT UNSIGNED NOT NULL");
-            Commands.CreateTable("lessondocuments" + lesson.ID, "filepath TEXT NOT NULL");
-            Commands.InsertInto("courselessons" + course.ID, lesson.ID.ToString());
+            Common.EnsureNotNull(dateTime, description, online, rooms, filepaths, course);
             foreach (Room room in rooms)
-            {
-                Commands.InsertInto("lessonrooms" + lesson.ID, room.ID.ToString());
-                Commands.InsertInto("roomreservations" + room.ID, lesson.ID.ToString());
-            }
+                room.CheckAvailability(dateTime);
+            Commands.InsertInto("Lesson", "NULL", course.ID.ToString(), description, 
+                online.ToString().ToUpper(), "FALSE", dateTime.ToString("yyyy-MM-dd HH:mm:ss"));
+            Lesson lesson = Getters.GetLatestLessons(1).Single();
+            foreach (Room room in rooms)
+                Commands.InsertInto("LessonRoom", lesson.ID.ToString(), room.ID.ToString());
             foreach (string filepath in filepaths)
-                Commands.InsertInto("lessondocuments" + lesson.ID, filepath);
+                Commands.InsertInto("LessonFile", lesson.ID.ToString(), filepath);
         }
         public static void CreateRoom(string name)
         {
             Common.EnsureNotNull(name);
             Common.EnsureNotEmpty(name);
-            Commands.InsertInto("rooms", "NULL", name);
-            Room room = Getters.GetLatestRooms(1).Single();
-            Commands.CreateTable("roomreservations" + room.ID, "lessonid INT UNSIGNED NOT NULL");
+            Commands.InsertInto("Room", "NULL", name);
         }
-        public static void CreateAssignmentDescription(Course course, string description, DateTime deadline, List<string> filepaths)
+        public static void CreateAssignmentDescription(Course course, string description, 
+            DateTime deadline, List<string> filepaths)
         {
             Common.EnsureNotNull(course, description, deadline, filepaths);
-            Commands.InsertInto("assignmentdescriptions", "NULL", course.ID.ToString(), description, deadline.ToString("yyyy-MM-dd HH:mm:ss"));
+            Commands.InsertInto("AssignmentDescription", "NULL", course.ID.ToString(), description, 
+                deadline.ToString("yyyy-MM-dd HH:mm:ss"));
             AssignmentDescription assignmentDescription = Getters.GetLatestAssignmentDescriptions(1).Single();
-            Commands.CreateTable("assignmentdescriptionassignments" + assignmentDescription.ID, "assignmentid INT UNSIGNED NOT NULL");
-            Commands.CreateTable("assignmentdescriptiondocuments" + assignmentDescription.ID, "filepath TEXT NOT NULL");
-            Commands.InsertInto("courseassignmentdescriptions" + course.ID, assignmentDescription.ID.ToString());
             foreach (string filepath in filepaths)
-                Commands.InsertInto("assignentdescriptiondocuments" + assignmentDescription.ID, filepath);
+                Commands.InsertInto("AssignentDescriptionFile", assignmentDescription.ID.ToString(), filepath);
         }
-        public static void CreateAssignment(AssignmentDescription assignmentDescription, Student student, string comment, List<string> filepaths)
+        public static void CreateAssignment(AssignmentDescription assignmentDescription, 
+            Student student, string comment, List<string> filepaths)
         {
             Common.EnsureNotNull(assignmentDescription, student, comment, filepaths);
-            Commands.InsertInto("assignments", "NULL", assignmentDescription.ID.ToString(), student.ID.ToString(), comment, "NULL", "NOW()");
+            Commands.InsertInto("Assignment", "NULL", assignmentDescription.ID.ToString(), 
+                student.ID.ToString(), "NULL", comment, "FALSE", "NOW()");
             Assignment assignment = Getters.GetLatestAssignments(1).Single();
-            Commands.CreateTable("assignmentdocuments" + assignment.ID, "filepath TEXT NOT NULL");
             foreach (string filepath in filepaths)
-                Commands.InsertInto("assignmentdocuments" + assignment.ID, filepath);
-            Commands.InsertInto("assignmentdescriptionassignments" + assignmentDescription.ID, assignment.ID.ToString());
-            Commands.InsertInto("personassignments" + student.ID, assignment.ID.ToString());
+                Commands.InsertInto("AssignmentFile", assignment.ID.ToString(), filepath);
         }
         public static void CreateAssignmentGrade(string grade, string comment, Assignment assignment)
         {
             Common.EnsureNotNull(grade, comment, assignment);
             if (!Grade.ValidGrades.Contains(grade))
                 throw new InvalidGradeException();
-            Commands.InsertInto("assignmentgrades", "NULL", grade, comment, assignment.ID.ToString());
+            Commands.InsertInto("AssignmentGrade", "NULL", assignment.ID.ToString(), grade, comment);
             AssignmentGrade assignmentGrade = Getters.GetLatestAssignmentGrades(1).Single();
-            Commands.SetValue("assignments", assignment.ID, "gradeid", assignmentGrade.ID.ToString());
+            Commands.SetValue("Assignment", assignment.ID, "GradeID", assignmentGrade.ID.ToString());
           
         }
-        public static void CreateCourseGrade(string grade, string comment, Course course, Student student)
+        public static void CreateCourseGrade(Course course, Student student, string grade, string comment)
         {
             Common.EnsureNotNull(grade, comment, course, student);
             if (!Grade.ValidGrades.Contains(grade))
                 throw new InvalidGradeException();
-            Commands.InsertInto("coursegrades", "NULL", grade, comment, course.ID.ToString(), student.ID.ToString());
-            CourseGrade courseGrade = Getters.GetLatestCourseGrades(1).Single();
-            Commands.InsertInto("coursegrades" + course.ID, courseGrade.ID.ToString());
+            Commands.InsertInto("CourseGrade", "NULL", course.ID.ToString(), 
+                student.ID.ToString(), grade, comment);
         }
     }
 }

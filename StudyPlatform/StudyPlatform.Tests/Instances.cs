@@ -48,7 +48,7 @@ namespace StudyPlatform.Tests
         {
             get
             {
-                return new Lesson(ID, ID, Date, Description, Online, Active);
+                return new Lesson(ID, ID, Date, Description, Online);
             }
         }
         public static Message Message
@@ -171,13 +171,6 @@ namespace StudyPlatform.Tests
             }
         }
         public static bool Online
-        {
-            get
-            {
-                return true;
-            }
-        }
-        public static bool Active
         {
             get
             {

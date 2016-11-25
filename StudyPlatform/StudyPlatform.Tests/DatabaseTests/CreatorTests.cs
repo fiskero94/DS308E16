@@ -102,8 +102,7 @@ namespace StudyPlatform.Tests.DatabaseTests
             // Dependencies: CreateCourse
             Creator.CreateCourse(Instances.Name, Instances.Description);
             Course course = Getters.GetLatestCourses(1).Single();
-            Creator.CreateLesson(Instances.Date, Instances.Description, Instances.Online,
-                Instances.Active, Instances.Rooms, Instances.Filepaths, course);
+            Creator.CreateLesson(Instances.Date, Instances.Description, Instances.Online, Instances.Rooms, Instances.Filepaths, course);
         } 
         [TestMethod]
         public void CreatorCreateLesson_NullParameters_ArgumentNullExceptionThrown() =>

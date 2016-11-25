@@ -66,6 +66,8 @@ namespace StudyPlatform.Classes.Model
         {
             // Should check the reservations to see if the date given is available. 
             // Use Lesson.LessonLength as TimeSpan of the reservations.
+
+            // Throw RoomUnavailableException if not available.
             throw new NotImplementedException();
         }
     }

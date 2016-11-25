@@ -10,19 +10,19 @@ namespace StudyPlatform.Classes.Model
     {
         private uint _id;
         private uint _courseid;
-        private DateTime _date;
         private string _description;
         private bool _online;
-        private bool _active;
+        private bool _cancelled;
+        private DateTime _dateTime;
 
-        public Lesson(uint id, uint courseid, DateTime date, string description, bool online, bool active)
+        public Lesson(uint id, uint courseid, string description, bool online, bool cancelled, DateTime dateTime)
         {
             _id = id;
             _courseid = courseid;
-            _date = date;
             _description = description;
             _online = online;
-            _active = active;
+            _cancelled = cancelled;
+            _dateTime = dateTime;
         }
         
         public uint ID
@@ -39,11 +39,11 @@ namespace StudyPlatform.Classes.Model
                 return Getters.GetCourseByID(_courseid);
             }
         }
-        public DateTime Date
+        public DateTime DateTime
         {
             get
             {
-                return _date;
+                return _dateTime;
             }
             set
             {
@@ -51,8 +51,10 @@ namespace StudyPlatform.Classes.Model
                     throw new ArgumentNullException();
                 else
                 {
-                    Commands.SetValue("lessons", ID, "date", value.ToString("yyyy-MM-dd HH:mm:ss"));
-                    _date = value;
+                    foreach (Room room in Rooms)
+                        room.CheckAvailability(value);
+                    Commands.SetValue("Lesson", ID, "DateTime", value.ToString("yyyy-MM-dd HH:mm:ss"));
+                    _dateTime = value;
                 }
             }
         }
@@ -68,7 +70,7 @@ namespace StudyPlatform.Classes.Model
                     throw new ArgumentNullException();
                 else
                 {
-                    Commands.SetValue("lessons", ID, "description", value);
+                    Commands.SetValue("Lesson", ID, "Description", value);
                     _description = value;
                 }
             }
@@ -83,53 +85,41 @@ namespace StudyPlatform.Classes.Model
             set
             {
 
-                Commands.SetValue("lessons", ID, "online", value.ToString().ToUpper());
+                Commands.SetValue("Lesson", ID, "Online", value.ToString().ToUpper());
                 _online = value;
             }
         }
-        public bool Active
+        public bool Cancelled
         {
             get
             {
-                return _active;
+                return _cancelled;
             }
             set
             {
-                Commands.SetValue("lessons", ID, "active", value.ToString().ToUpper());
-                _active = value;
+                Commands.SetValue("Lesson", ID, "Cancelled", value.ToString().ToUpper());
+                _cancelled = value;
             }
         }
         public List<Room> Rooms
         {
             get
             {
-                Query query = new Query("SELECT * FROM studyplatform.lessonrooms" + ID);
-                uint[] ids = Extractor.ExtractIDs(query.Execute());
-                List<Room> rooms = new List<Room>();
-                foreach (uint id in ids)
-                    rooms.Add(Getters.GetRoomByID(id));
-                return rooms;
+                throw new NotImplementedException();
             }
         }
         public List<Student> Absences
         {
             get
             {
-                Query query = new Query("SELECT * FROM studyplatform.lessonabsences" + ID);
-                uint[] ids = Extractor.ExtractIDs(query.Execute());
-                List<Student> students = new List<Student>();
-                foreach (uint id in ids)
-                    students.Add(Getters.GetPersonByID(id) as Student);
-                return students;
+                throw new NotImplementedException();
             }
         }
         public List<string> Documents
         {
             get
             {
-                Query query = new Query("SELECT * FROM studyplatform.lessondocuments" + ID);
-                string[] filepaths = Extractor.ExtractFilepaths(query.Execute());
-                return filepaths.ToList();
+                throw new NotImplementedException();
             }
         }
         public static TimeSpan LessonLength
@@ -139,18 +129,30 @@ namespace StudyPlatform.Classes.Model
                 return new TimeSpan(0, 45, 0);
             }
         }
-        
-        public static Lesson New(DateTime date, string description, bool online, 
-            bool active, List<Room> rooms, List<string> filepaths, Course course)
-        {
-            Creator.CreateLesson(date, description, online, active, rooms, filepaths, course);
-            return Getters.GetLatestLessons(1).Single();
-        }
+
         public void Remove() => Remover.RemoveLesson(this);
         public void GiveAbsence(Student student)
         {
             Commands.InsertInto("personabsences" + student.ID.ToString(), ID.ToString());
             Commands.InsertInto("lessonabsences" + ID.ToString(), student.ID.ToString());
+        }
+
+        
+        
+        public static Lesson New(Course course, string description, bool online, 
+            DateTime dateTime, List<Room> rooms, List<string> filepaths)
+        {
+            Creator.CreateLesson(course, description, online, dateTime, rooms, filepaths);
+            return Getters.GetLatestLessons(1).Single();
+        }
+        public static Lesson GetByID(uint id) => Getters.GetLessonByID(id);
+        public static List<Lesson> Find(params string[] conditions) => Getters.GetLessonsByConditions(conditions);
+        public static List<Lesson> AllLessons
+        {
+            get
+            {
+                return Lists.Lessons;
+            }
         }
     }
 }

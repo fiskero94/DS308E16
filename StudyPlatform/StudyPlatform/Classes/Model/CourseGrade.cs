@@ -32,9 +32,9 @@ namespace StudyPlatform.Classes.Model
             }
         }
 
-        public static CourseGrade New(string grade, string comment, Course course, Student student)
+        public static CourseGrade New(Course course, Student student, string grade, string comment)
         {
-            Creator.CreateCourseGrade(grade, comment, course, student);
+            Creator.CreateCourseGrade(course, student, grade, comment);
             return Getters.GetLatestCourseGrades(1).Single();
         }
         public void Remove() => Remover.RemoveCourseGrade(this);

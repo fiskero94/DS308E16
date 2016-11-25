@@ -12,16 +12,16 @@ namespace StudyPlatform.Classes.Database
     {
         private static Dictionary<Type, string> TablesByType = new Dictionary<Type, string>()
         {
-            { typeof(Person), "persons" },
-            { typeof(Message), "messages" },
-            { typeof(News), "news" },
-            { typeof(Course), "courses" },
-            { typeof(Lesson), "lessons" },
-            { typeof(Room), "rooms" },
-            { typeof(AssignmentDescription), "assignmentdescriptions" },
-            { typeof(Assignment), "assignments" },
-            { typeof(AssignmentGrade), "assignmentgrades" },
-            { typeof(CourseGrade), "coursegrades" }
+            { typeof(Person), "Person" },
+            { typeof(Message), "Message" },
+            { typeof(News), "News" },
+            { typeof(Course), "Course" },
+            { typeof(Lesson), "Lesson" },
+            { typeof(Room), "Room" },
+            { typeof(AssignmentDescription), "AssignmentDescription" },
+            { typeof(Assignment), "Assignment" },
+            { typeof(AssignmentGrade), "AssignmentGrade" },
+            { typeof(CourseGrade), "CourseGrade" }
         };
         private static Dictionary<Type, Func<MySqlConnectionReader, object>> ExtractMethodsByType = 
             new Dictionary<Type, Func<MySqlConnectionReader, object>>()
