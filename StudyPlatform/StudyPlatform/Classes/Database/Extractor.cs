@@ -8,12 +8,12 @@ namespace StudyPlatform.Classes.Database
 {
     public static class Extractor
     {
-        public static uint[] ExtractIDs(MySqlConnectionReader connectionReader)
+        public static uint[] ExtractIDs(MySqlConnectionReader connectionReader, string field)
         {
             MySqlDataReader reader = connectionReader.Reader;
             List<uint> ids = new List<uint>();
             while (reader.HasRows && reader.Read())
-                ids.Add(reader.GetUInt32(0));
+                ids.Add(reader.GetUInt32(reader.GetOrdinal(field)));
             connectionReader.Connection.Close();
             return ids.ToArray();
         }
@@ -111,7 +111,7 @@ namespace StudyPlatform.Classes.Database
                 DateTime date = reader.GetDateTime(reader.GetOrdinal("date"));
                 bool online = reader.GetBoolean(reader.GetOrdinal("online"));
                 bool active = reader.GetBoolean(reader.GetOrdinal("active"));
-                lessons.Add(new Lesson(id, courseid, date, description, online, active));
+                lessons.Add(new Lesson(id, courseid, description, online, active, date));
             }
             connectionReader.Connection.Close();
             return lessons;

@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using StudyPlatform.Classes.Model;
-using MySql.Data.MySqlClient;
 using StudyPlatform.Classes.Exceptions;
+using StudyPlatform.Classes.Model;
 
 namespace StudyPlatform.Classes.Database
 {
     public static class Getters
     {
-        private static Dictionary<Type, string> TablesByType = new Dictionary<Type, string>()
+        private static Dictionary<Type, string> TablesByType = new Dictionary<Type, string>
         {
             { typeof(Person), "Person" },
             { typeof(Message), "Message" },
@@ -24,18 +22,18 @@ namespace StudyPlatform.Classes.Database
             { typeof(CourseGrade), "CourseGrade" }
         };
         private static Dictionary<Type, Func<MySqlConnectionReader, object>> ExtractMethodsByType = 
-            new Dictionary<Type, Func<MySqlConnectionReader, object>>()
-        {
-            { typeof(Person), new Func<MySqlConnectionReader,List<Person>>(Extractor.ExtractPersons) },
-            { typeof(Message), new Func<MySqlConnectionReader,List<Message>>(Extractor.ExtractMessages) },
-            { typeof(News), new Func<MySqlConnectionReader,List<News>>(Extractor.ExtractNews) },
-            { typeof(Course), new Func<MySqlConnectionReader,List<Course>>(Extractor.ExtractCourses) },
-            { typeof(Lesson), new Func<MySqlConnectionReader,List<Lesson>>(Extractor.ExtractLessons) },
-            { typeof(Room), new Func<MySqlConnectionReader,List<Room>>(Extractor.ExtractRooms) },
-            { typeof(AssignmentDescription), new Func<MySqlConnectionReader,List<AssignmentDescription>>(Extractor.ExtractAssignmentDescriptions) },
-            { typeof(Assignment), new Func<MySqlConnectionReader,List<Assignment>>(Extractor.ExtractAssignments) },
-            { typeof(AssignmentGrade), new Func<MySqlConnectionReader,List<AssignmentGrade>>(Extractor.ExtractAssignmentGrades) },
-            { typeof(CourseGrade), new Func<MySqlConnectionReader,List<CourseGrade>>(Extractor.ExtractCourseGrades) }
+            new Dictionary<Type, Func<MySqlConnectionReader, object>>
+            {
+            { typeof(Person), Extractor.ExtractPersons },
+            { typeof(Message), Extractor.ExtractMessages },
+            { typeof(News), Extractor.ExtractNews },
+            { typeof(Course), Extractor.ExtractCourses },
+            { typeof(Lesson), Extractor.ExtractLessons },
+            { typeof(Room), Extractor.ExtractRooms },
+            { typeof(AssignmentDescription), Extractor.ExtractAssignmentDescriptions },
+            { typeof(Assignment), Extractor.ExtractAssignments },
+            { typeof(AssignmentGrade), Extractor.ExtractAssignmentGrades },
+            { typeof(CourseGrade), Extractor.ExtractCourseGrades }
         };
 
         private static T GetRecordByID<T>(uint id)

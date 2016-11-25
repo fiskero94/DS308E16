@@ -37,7 +37,7 @@ namespace StudyPlatform.Classes.Model
             get
             {
                 Query query = new Query("SELECT * FROM studyplatform.MessageRecipient" );
-                uint[] ids = Extractor.ExtractIDs(query.Execute());
+                uint[] ids = Extractor.ExtractIDs(query.Execute(), "field");
                 List<Person> recipients = new List<Person>();
                 foreach (uint id in ids)
                     recipients.Add(Getters.GetPersonByID(id));
