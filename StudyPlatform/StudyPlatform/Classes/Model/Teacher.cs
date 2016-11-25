@@ -31,6 +31,5 @@ namespace StudyPlatform.Classes.Model
             Creator.CreateTeacher(name, username, password);
             return Getters.GetLatestPersons(1).Single() as Teacher;
         }
-        public void Remove() => Remover.RemovePerson(this);
     }
 }

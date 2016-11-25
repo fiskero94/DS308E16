@@ -96,7 +96,7 @@ namespace StudyPlatform.Classes.Model
                 return lessons;
             }
         }
-        public List<AssignmentDescription> AssignmentDescription
+        public List<AssignmentDescription> AssignmentDescriptions
         {
             get
             {

@@ -168,22 +168,91 @@ namespace StudyPlatform.Tests.DatabaseTests
         [TestMethod]
         public void RemoverRemoveLesson_ValidParameters_LessonRemoved()
         {
-            throw new NotImplementedException();
+            // Arrange
+            Creator.CreateCourse(Instances.Name, Instances.Description);
+            Course course = Getters.GetCourseByID(1);
+            Creator.CreateStudent(Instances.Name, Instances.Username, Instances.Password);
+            Student student = Getters.GetPersonByID(2) as Student;
+            course.AddStudent(student);
+            Creator.CreateRoom(Instances.Name);
+            List<Room> rooms = new List<Room>();
+            rooms.Add(Getters.GetRoomByID(1));
+            Creator.CreateLesson(Instances.Date, Instances.Description, Instances.Online, Instances.Active, rooms, Instances.Filepaths, course);
+            Lesson lesson = Getters.GetLessonByID(1);
+            lesson.GiveAbsence(student);
+
+            // Act
+            Remover.RemoveLesson(lesson);
+
+            // Assert
+            Assert.AreEqual(0, Lists.Lessons.Count);
+            Common.TestTableExists("lessonsrooms1", false);
+            Common.TestTableExists("lessonsabscenes1", false);
+            Common.TestTableExists("lessonsrooms1", false);
+            Assert.AreEqual(0, course.Lessons.Count);
+            Assert.AreEqual(0, student.Absences.Count);
+            Assert.AreEqual(0, rooms[0].Reservations.Count);
         }
         [TestMethod]
         public void RemoverRemoveRoom_ValidParameters_RoomRemoved()
         {
-            throw new NotImplementedException();
+            // Arrange
+            Creator.CreateRoom(Instances.Name);
+            Room room = Getters.GetRoomByID(1);
+            List<Room> rooms = new List<Room>();
+            rooms.Add(room);
+            Creator.CreateCourse(Instances.Name, Instances.Description);
+            Course course = Getters.GetCourseByID(1);
+            Creator.CreateLesson(Instances.Date, Instances.Description, Instances.Online, Instances.Active, rooms, Instances.Filepaths, course);
+            Lesson lesson = Getters.GetLessonByID(1);
+
+            // Act
+            Remover.RemoveRoom(room);
+
+            // Assert
+            Assert.AreEqual(0, Lists.Rooms.Count);
+            Common.TestTableExists("roomreservations1", false);
+            Assert.AreEqual(0, lesson.Rooms.Count);
         }
         [TestMethod]
         public void RemoverRemoveAssignmentDescription_ValidParameters_AssignmentDescriptionRemoved()
         {
-            throw new NotImplementedException();
+            // Arrange
+            Creator.CreateCourse(Instances.Name, Instances.Description);
+            Course course = Getters.GetCourseByID(1);
+            Creator.CreateAssignmentDescription(course, Instances.Description, Instances.Date, Instances.Filepaths);
+            AssignmentDescription assignmentDescription = Getters.GetAssignmentDescriptionByID(1);
+
+            // Act
+            Remover.RemoveAssignmentDescription(assignmentDescription);
+
+            // Assert
+            Assert.AreEqual(0, Lists.AssignmentDescriptions.Count);
+            Common.TestTableExists("assignmentdescriptionassignments1", false);
+            Common.TestTableExists("assignmentdescriptiondocuments1", false);
+            Assert.AreEqual(0, course.AssignmentDescriptions);
         }
         [TestMethod]
         public void RemoverRemoveAssignment_ValidParameters_AssignmentRemoved()
         {
-            throw new NotImplementedException();
+            // Arrange
+            Creator.CreateCourse(Instances.Name, Instances.Description);
+            Course course = Getters.GetCourseByID(1);
+            Creator.CreateAssignmentDescription(course, Instances.Description, Instances.Date, Instances.Filepaths);
+            Creator.CreateStudent(Instances.Name, Instances.Username, Instances.Password);
+            AssignmentDescription assignmentDescription = Getters.GetAssignmentDescriptionByID(1);
+            Student student = Getters.GetPersonByID(2) as Student;
+            Creator.CreateAssignment(assignmentDescription, student, Instances.Comment, Instances.Filepaths);
+            Assignment assignment = Getters.GetAssignmentByID(1);
+
+            // Act
+            Remover.RemoveAssignment(assignment);
+
+            // Assert
+            Assert.AreEqual(0, Lists.Assignments.Count);
+            Common.TestTableExists("assignmentdocuments1", false);
+            Assert.AreEqual(0, assignmentDescription.Assignments.Count);
+            Assert.AreEqual(0, student.Assignments.Count);
         }
         [TestMethod]
         public void RemoverRemoveAssignmentGrade_ValidParameters_AssignmentGradeRemoved()

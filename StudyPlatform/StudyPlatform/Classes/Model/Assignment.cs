@@ -72,7 +72,10 @@ namespace StudyPlatform.Classes.Model
         {
             get
             {
-                return Getters.GetAssignmentGradeByID(_gradeid);
+                if (Commands.CheckNull("assignments", ID, "gradeid"))
+                    return null;
+                else
+                    return Getters.GetAssignmentGradeByID(_gradeid);
             }
         }
         public DateTime Deadline
