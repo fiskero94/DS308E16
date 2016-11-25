@@ -110,47 +110,45 @@ namespace StudyPlatformSQLSetup
                                    "description TEXT NOT NULL",
                                    "online BOOL NOT NULL",
                                    "active BOOL NOT NULL");
-            CreateTable("lessonroom", "id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY",
-                                   "username TEXT NOT NULL",
-                                   "password TEXT NOT NULL",
-                                   "name TEXT NOT NULL",
-                                   "type ENUM('student','teacher','secretary') NOT NULL");
-            CreateTable("lessonfile", "id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY",
-                                   "username TEXT NOT NULL",
-                                   "password TEXT NOT NULL",
-                                   "name TEXT NOT NULL",
-                                   "type ENUM('student','teacher','secretary') NOT NULL");
-            CreateTable("rooms", "id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY",
-                                 "name TEXT NOT NULL");
-            CreateTable("assignmentdescriptions", "id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY",
-                                                  "courseid INT UNSIGNED NOT NULL",
-                                                  "description TEXT NOT NULL",
-                                                  "deadline DATETIME NOT NULL");
-            CreateTable("assignmentdescriptionfile", "id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY",
-                                   "username TEXT NOT NULL",
-                                   "password TEXT NOT NULL",
-                                   "name TEXT NOT NULL",
-                                   "type ENUM('student','teacher','secretary') NOT NULL");
-            CreateTable("assignments", "id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY",
-                                       "assignmentdescriptionid INT UNSIGNED NOT NULL",
-                                       "studentid INT UNSIGNED NOT NULL",
-                                       "comment TEXT NOT NULL",
-                                       "gradeid INT UNSIGNED",
-                                       "date DATETIME NOT NULL");
-            CreateTable("assignmentfile", "id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY",
-                                   "username TEXT NOT NULL",
-                                   "password TEXT NOT NULL",
-                                   "name TEXT NOT NULL",
-                                   "type ENUM('student','teacher','secretary') NOT NULL");
-            CreateTable("assignmentgrades", "id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY",
-                                            "grade ENUM('12','10','7','4','02','00','-3') NOT NULL",
-                                            "comment TEXT NOT NULL",
-                                            "assignmentid INT UNSIGNED NOT NULL");
-            CreateTable("coursegrades", "id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY",
-                                        "grade ENUM('12','10','7','4','02','00','-3') NOT NULL",
-                                        "comment TEXT NOT NULL",
-                                        "courseid INT UNSIGNED NOT NULL",
-                                        "studentid INT UNSIGNED NOT NULL");
+            CreateTable("LessonRoom",
+                "LessonID INT UNSIGNED NOT NULL",
+                "RoomID INT UNSIGNED NOT NULL");
+            CreateTable("LessonFile",
+                "LessonID INT UNSIGNED NOT NULL",
+                "Filepath TEXT NOT NULL");
+            CreateTable("Room", 
+                "ID INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY",
+                "Name TEXT NOT NULL");
+            CreateTable("AssignmentDescription", 
+                "ID INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY",
+                "CourseID INT UNSIGNED NOT NULL",
+                "Description TEXT NOT NULL",
+                "Deadline DATETIME NOT NULL");
+            CreateTable("AssignmentDescriptionFile",
+                "AssignmentDescriptionID INT UNSIGNED NOT NULL",
+                "Filepath TEXT NOT NULL");
+            CreateTable("Assignment", 
+                "ID INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY",
+                "AssignmentDescriptionID INT UNSIGNED NOT NULL",
+                "StudentID INT UNSIGNED NOT NULL",
+                "GradeID INT UNSIGNED",
+                "Comment TEXT NOT NULL",
+                "Cancelled BOOL NOT NULL",
+                "DateTime DATETIME NOT NULL");
+            CreateTable("AssignmentFile",
+                "AssignmentID INT UNSIGNED NOT NULL",
+                "Filepath TEXT NOT NULL");
+            CreateTable("AssignmentGrade", 
+                "ID INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY",
+                "AssignmentID INT UNSIGNED NOT NULL",
+                "Grade ENUM('12','10','7','4','02','00','-3') NOT NULL",
+                "Comment TEXT NOT NULL");
+            CreateTable("CourseGrade", 
+                "ID INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY",
+                "CourseID INT UNSIGNED NOT NULL",
+                "StudentID INT UNSIGNED NOT NULL",
+                "Grade ENUM('12','10','7','4','02','00','-3') NOT NULL",
+                "Comment TEXT NOT NULL");
         }
         public static void SetupAdmin(string externalConnectionString)
         {
