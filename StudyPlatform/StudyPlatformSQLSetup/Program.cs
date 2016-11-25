@@ -116,7 +116,7 @@ namespace StudyPlatformSQLSetup
                 "ID INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY",
                 "AssignmentDescriptionID INT UNSIGNED NOT NULL",
                 "StudentID INT UNSIGNED NOT NULL",
-                "GradeID INT UNSIGNED",
+                "GradeID INT UNSIGNED NOT NULL",
                 "Comment TEXT NOT NULL",
                 "Cancelled BOOL NOT NULL",
                 "DateTime DATETIME NOT NULL");

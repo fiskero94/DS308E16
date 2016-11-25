@@ -150,6 +150,8 @@ namespace StudyPlatform.Classes.Model
         {
             Commands.DeleteFrom("personcourses" + student.ID, "courseid=" + ID);
             Commands.DeleteFrom("coursestudents" + ID, "studentid=" + student.ID);
+            //DELETE FROM ASSIGNMENTS IN COURSE
+            //DELETE ABSENCE FROM LESSONS IN COURSE
         }
         public void RemoveTeacher(Teacher teacher)
         {
