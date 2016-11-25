@@ -18,7 +18,7 @@ namespace StudyPlatform.Classes.Model
             get
             {
                 Query query = new Query("SELECT * FROM studyplatform.personcourses" + ID);
-                uint[] ids = Extractor.ExtractIDs(query.Execute());
+                uint[] ids = Extractor.ExtractIDs(query.Execute(), "field");
                 List<Course> courses = new List<Course>();
                 foreach (uint id in ids)
                     courses.Add(Getters.GetCourseByID(id));
@@ -30,7 +30,7 @@ namespace StudyPlatform.Classes.Model
             get
             {
                 Query query = new Query("SELECT * FROM studyplatform.personassignments" + ID);
-                uint[] ids = Extractor.ExtractIDs(query.Execute());
+                uint[] ids = Extractor.ExtractIDs(query.Execute(), "field");
                 List<Assignment> assignments = new List<Assignment>();
                 foreach (uint id in ids)
                     assignments.Add(Getters.GetAssignmentByID(id));
@@ -42,7 +42,7 @@ namespace StudyPlatform.Classes.Model
             get
             {
                 Query query = new Query("SELECT * FROM studyplatform.personabsences" + ID);
-                uint[] ids = Extractor.ExtractIDs(query.Execute());
+                uint[] ids = Extractor.ExtractIDs(query.Execute(), "field");
                 List<Lesson> absences = new List<Lesson>();
                 foreach (uint id in ids)
                     absences.Add(Getters.GetLessonByID(id));

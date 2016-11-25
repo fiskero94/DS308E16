@@ -60,7 +60,7 @@ namespace StudyPlatform.Classes.Model
             get
             {
                 Query query = new Query("SELECT * FROM studyplatform.courseteachers" + ID);
-                uint[] ids = Extractor.ExtractIDs(query.Execute());
+                uint[] ids = Extractor.ExtractIDs(query.Execute(), "field");
                 List<Teacher> teachers = new List<Teacher>();
                 foreach (uint id in ids)
                     teachers.Add(Getters.GetPersonByID(id) as Teacher);
@@ -72,7 +72,7 @@ namespace StudyPlatform.Classes.Model
             get
             {
                 Query query = new Query("SELECT * FROM studyplatform.coursestudents" + ID);
-                uint[] ids = Extractor.ExtractIDs(query.Execute());
+                uint[] ids = Extractor.ExtractIDs(query.Execute(), "field");
                 List<Student> students = new List<Student>();
                 foreach (uint id in ids)
                     students.Add(Getters.GetPersonByID(id) as Student);
@@ -84,7 +84,7 @@ namespace StudyPlatform.Classes.Model
             get
             {
                 Query query = new Query("SELECT * FROM studyplatform.courselessons" + ID);
-                uint[] ids = Extractor.ExtractIDs(query.Execute());
+                uint[] ids = Extractor.ExtractIDs(query.Execute(), "field");
                 List<Lesson> lessons = new List<Lesson>();
                 foreach (uint id in ids)
                     lessons.Add(Getters.GetLessonByID(id));
@@ -96,7 +96,7 @@ namespace StudyPlatform.Classes.Model
             get
             {
                 Query query = new Query("SELECT * FROM studyplatform.courseassignmentdescriptions" + ID);
-                uint[] ids = Extractor.ExtractIDs(query.Execute());
+                uint[] ids = Extractor.ExtractIDs(query.Execute(), "field");
                 List<AssignmentDescription> assignmentdescriptions = new List<AssignmentDescription>();
                 foreach (uint id in ids)
                     assignmentdescriptions.Add(Getters.GetAssignmentDescriptionByID(id));
@@ -108,7 +108,7 @@ namespace StudyPlatform.Classes.Model
             get
             {
                 Query query = new Query("SELECT * FROM studyplatform.coursegrades" + ID);
-                uint[] ids = Extractor.ExtractIDs(query.Execute());
+                uint[] ids = Extractor.ExtractIDs(query.Execute(), "field");
                 List<CourseGrade> coursegrades = new List<CourseGrade>();
                 foreach (uint id in ids)
                     coursegrades.Add(Getters.GetCourseGradeByID(id));

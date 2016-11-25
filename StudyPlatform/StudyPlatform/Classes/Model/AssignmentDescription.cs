@@ -64,7 +64,7 @@ namespace StudyPlatform.Classes.Model
             get
             {
                 Query query = new Query("SELECT * FROM studyplatform.assignmentdescriptionassignments" + ID);
-                uint[] ids = Extractor.ExtractIDs(query.Execute());
+                uint[] ids = Extractor.ExtractIDs(query.Execute(), "field");
                 List<Assignment> assignments = new List<Assignment>();
                 foreach (uint id in ids)
                     assignments.Add(Getters.GetAssignmentByID(id));
