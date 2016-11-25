@@ -14,7 +14,7 @@ namespace StudyPlatform.Tests
         public static AssignmentGrade AssignmentGrade => new AssignmentGrade(ID, Grade, Comment, ID);
         public static Course Course => new Course(ID, Name, Description);
         public static CourseGrade CourseGrade => new CourseGrade(ID, Grade, Comment, ID, ID);
-        public static Lesson Lesson => new Lesson(ID, ID, Description, Online, Cancel ,Date);
+        public static Lesson Lesson => new Lesson(ID, ID, Description, Online, Cancelled, Date);
         public static Message Message => new Message(ID, ID, Title, Text);
         public static News News => new News(ID, ID, Title, Text, Date);
         public static Room Room => new Room(ID, Name);
@@ -33,7 +33,7 @@ namespace StudyPlatform.Tests
         public static string Password => "Password";
         public static string EmptyString => "";
         public static bool Online => true;
-        public static bool Cancel => true;
+        public static bool Cancelled => true;
         public static List<string> Filepaths => new List<string>();
         public static List<Person> Recipients => new List<Person>();
         public static List<Room> Rooms => new List<Room>();

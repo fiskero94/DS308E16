@@ -27,7 +27,7 @@ namespace StudyPlatform.Tests.DatabaseTests
             Student student = Getters.GetLatestPersons(1).Single() as Student;
             Creator.CreateCourse(Instances.Name, Instances.Description);
             Course course = Getters.GetLatestCourses(1).Single();
-            Creator.CreateLesson(Instances.Date, Instances.Description, Instances.Online, Instances.Active, Instances.Rooms, Instances.Filepaths, course);
+            Creator.CreateLesson(course, Instances.Description, Instances.Online, Instances.Date, Instances.Rooms, Instances.Filepaths);
             Lesson lesson = Getters.GetLatestLessons(1).Single();
 
             List<Person> recipients = new List<Person>();
@@ -157,12 +157,12 @@ namespace StudyPlatform.Tests.DatabaseTests
             Creator.CreateTeacher(Instances.Name, Instances.Username, Instances.Password);
             Teacher teacher = Getters.GetPersonByID(3) as Teacher;
             course.AddTeacher(teacher);
-            Creator.CreateLesson(Instances.Date, Instances.Description, Instances.Online, 
-                Instances.Active, Instances.Rooms, Instances.Filepaths, course);
+            Creator.CreateLesson(course, Instances.Description, Instances.Online,
+                Instances.Date, Instances.Rooms, Instances.Filepaths);
             Lesson lesson = Getters.GetLessonByID(1);
             Creator.CreateAssignmentDescription(course, Instances.Description, Instances.Date, Instances.Filepaths);
             AssignmentDescription assignmentDescription = Getters.GetAssignmentDescriptionByID(1);
-            Creator.CreateCourseGrade(Instances.Grade, Instances.Comment, course, student);
+            Creator.CreateCourseGrade(course, student, Instances.Grade, Instances.Comment);
             CourseGrade courseGrade = Getters.GetCourseGradeByID(1);
 
             // Act
@@ -194,8 +194,8 @@ namespace StudyPlatform.Tests.DatabaseTests
             Creator.CreateRoom(Instances.Name);
             List<Room> rooms = new List<Room>();
             rooms.Add(Getters.GetRoomByID(1));
-            Creator.CreateLesson(Instances.Date, Instances.Description, Instances.Online, 
-                Instances.Active, rooms, Instances.Filepaths, course);
+            Creator.CreateLesson(course, Instances.Description, Instances.Online,
+                Instances.Date, rooms, Instances.Filepaths);
             Lesson lesson = Getters.GetLessonByID(1);
             lesson.GiveAbsence(student);
 
@@ -221,7 +221,7 @@ namespace StudyPlatform.Tests.DatabaseTests
             rooms.Add(room);
             Creator.CreateCourse(Instances.Name, Instances.Description);
             Course course = Getters.GetCourseByID(1);
-            Creator.CreateLesson(Instances.Date, Instances.Description, Instances.Online, Instances.Active, rooms, Instances.Filepaths, course);
+            Creator.CreateLesson(course, Instances.Description, Instances.Online, Instances.Date, rooms, Instances.Filepaths);
             Lesson lesson = Getters.GetLessonByID(1);
 
             // Act
@@ -300,7 +300,7 @@ namespace StudyPlatform.Tests.DatabaseTests
             // Arrange
             Creator.CreateCourse(Instances.Name, Instances.Description);
             Course course = Getters.GetCourseByID(1);
-            Creator.CreateCourseGrade(Instances.Grade, Instances.Comment, course, Instances.Student);
+            Creator.CreateCourseGrade(course, Instances.Student, Instances.Grade, Instances.Comment);
             CourseGrade courseGrade = Getters.GetCourseGradeByID(1);
 
             // Act

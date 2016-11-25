@@ -102,7 +102,7 @@ namespace StudyPlatform.Tests.DatabaseTests
             // Dependencies: CreateCourse
             Creator.CreateCourse(Instances.Name, Instances.Description);
             Course course = Getters.GetLatestCourses(1).Single();
-            Creator.CreateLesson(Instances.Date, Instances.Description, Instances.Online,, Instances.Rooms, Instances.Filepaths, course);
+            Creator.CreateLesson(course, Instances.Description, Instances.Online, Instances.Date, Instances.Rooms, Instances.Filepaths);
         } 
         [TestMethod]
         public void CreatorCreateLesson_NullParameters_ArgumentNullExceptionThrown() =>
@@ -178,12 +178,12 @@ namespace StudyPlatform.Tests.DatabaseTests
         [TestMethod]
         public void CreatorCreateCourseGrade_NullParameters_ArgumentNullExceptionThrown() =>
             Common.TestActionForExceptionThrown(new ArgumentNullException(),
-            new Action<string, string, Course, Student>(Creator.CreateCourseGrade),
+            new Action<Course, Student, string, string>(Creator.CreateCourseGrade),
             null, null, null, null);
         [TestMethod]
         public void CreatorCreateCourseGrade_11AsGrade_InvalidGradeExceptionThrown() =>
             Common.TestActionForExceptionThrown(new InvalidGradeException(),
-            new Action<string, string, Course, Student>(Creator.CreateCourseGrade),
-            "11", Instances.Comment, Instances.Course, Instances.Student);
+            new Action<Course, Student, string, string>(Creator.CreateCourseGrade),
+            Instances.Course, Instances.Student, "11", Instances.Comment);
     }
 }

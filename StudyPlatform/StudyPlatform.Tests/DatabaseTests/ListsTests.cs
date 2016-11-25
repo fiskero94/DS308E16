@@ -53,7 +53,7 @@ namespace StudyPlatform.Tests.ModelTests
             Course course = Getters.GetLatestCourses(1).Single();
 
 
-            Creator.CreateCourseGrade(Instances.Grade, Instances.Comment, course, student);
+            Creator.CreateCourseGrade(course, student, Instances.Grade, Instances.Comment);
 
             // Act
             CourseGrade coursegrade = Lists.CourseGrades.Single();
@@ -199,8 +199,8 @@ namespace StudyPlatform.Tests.ModelTests
             Creator.CreateCourse(Instances.Name, Instances.Description);
             Course course = Getters.GetLatestCourses(1).Single();
 
-            Creator.CreateLesson(Instances.Date, Instances.Description, Instances.Online,
-                Instances.Active, rooms, filepaths, course);
+            Creator.CreateLesson(course, Instances.Description, 
+                Instances.Online, Instances.Date, rooms, filepaths);
 
             // Act
             Lesson lesson = Getters.GetLatestLessons(1).Single();
