@@ -72,7 +72,10 @@ namespace StudyPlatform.Classes.Model
         {
             get
             {
-                return Getters.GetAssignmentGradeByID(_gradeid);
+                if (Commands.CheckNull("assignments", ID, "gradeid"))
+                    return null;
+                else
+                    return Getters.GetAssignmentGradeByID(_gradeid);
             }
         }
         public DateTime Deadline
@@ -91,5 +94,12 @@ namespace StudyPlatform.Classes.Model
                 return filepaths.ToList();
             }
         }
+
+        public static Assignment New(AssignmentDescription assignmentDescription, Student student, string comment, List<string> filepaths)
+        {
+            Creator.CreateAssignment(assignmentDescription, student, comment, filepaths);
+            return Getters.GetLatestAssignments(1).Single();
+        }
+        public void Remove() => Remover.RemoveAssignment(this);
     }
 }

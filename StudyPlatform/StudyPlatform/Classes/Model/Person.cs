@@ -66,5 +66,7 @@ namespace StudyPlatform.Classes.Model
                 return recievedMessages;
             }
         }
+
+        public void Remove() => Remover.RemovePerson(this);
     }
 }

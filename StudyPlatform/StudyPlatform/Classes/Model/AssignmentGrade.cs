@@ -21,6 +21,13 @@ namespace StudyPlatform.Classes.Model
             {
                 return Getters.GetAssignmentByID(_assignmentid);
             }
-        }  
+        }
+
+        public static AssignmentGrade New(string grade, string comment, Assignment assignment)
+        {
+            Creator.CreateAssignmentGrade(grade, comment, assignment);
+            return Getters.GetLatestAssignmentGrades(1).Single();
+        }
+        public void Remove() => Remover.RemoveAssignmentGrade(this);
     }
 }

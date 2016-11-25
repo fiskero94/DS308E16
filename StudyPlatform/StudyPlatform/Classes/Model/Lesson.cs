@@ -132,5 +132,25 @@ namespace StudyPlatform.Classes.Model
                 return filepaths.ToList();
             }
         }
+        public static TimeSpan LessonLength
+        {
+            get
+            {
+                return new TimeSpan(0, 45, 0);
+            }
+        }
+        
+        public static Lesson New(DateTime date, string description, bool online, 
+            bool active, List<Room> rooms, List<string> filepaths, Course course)
+        {
+            Creator.CreateLesson(date, description, online, active, rooms, filepaths, course);
+            return Getters.GetLatestLessons(1).Single();
+        }
+        public void Remove() => Remover.RemoveLesson(this);
+        public void GiveAbsence(Student student)
+        {
+            Commands.InsertInto("personabsences" + student.ID.ToString(), ID.ToString());
+            Commands.InsertInto("lessonabsences" + ID.ToString(), student.ID.ToString());
+        }
     }
 }

@@ -79,5 +79,12 @@ namespace StudyPlatform.Classes.Model
                 return filepaths.ToList();
             }
         }
+
+        public static Message New(Person sender, string title, string text, List<Person> recipients, List<string> filepaths)
+        {
+            Creator.CreateMessage(sender, title, text, recipients, filepaths);
+            return Getters.GetLatestMessages(1).Single();
+        }
+        public void Remove() => Remover.RemoveMessage(this);
     }
 }

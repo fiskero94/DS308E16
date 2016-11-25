@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace StudyPlatform
+namespace StudyPlatform.Pages
 {
     public partial class Navigation : System.Web.UI.MasterPage
     {

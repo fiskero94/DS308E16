@@ -20,7 +20,7 @@ namespace StudyPlatform.Classes.Database
             Commands.CreateTable("personrecievedmessages" + student.ID, "messageid INT UNSIGNED NOT NULL");
             Commands.CreateTable("personcourses" + student.ID, "courseid INT UNSIGNED NOT NULL");
             Commands.CreateTable("personassignments" + student.ID, "assignmentdescriptionid INT UNSIGNED NOT NULL");
-            Commands.CreateTable("personabscences" + student.ID, "lessonid INT UNSIGNED NOT NULL");
+            Commands.CreateTable("personabsences" + student.ID, "lessonid INT UNSIGNED NOT NULL");
         }
         public static void CreateTeacher(string name, string username, string password)
         {
@@ -45,6 +45,8 @@ namespace StudyPlatform.Classes.Database
         {
             Common.EnsureNotNull(sender, title, text, recipients, filepaths);
             Common.EnsureNotEmpty(title);
+            if (recipients.Count == 0)
+                throw new NoRecipientsException();
             Commands.InsertInto("messages", "NULL", sender.ID.ToString(), title, text, "NOW()");
             Message message = Getters.GetLatestMessages(1).Single();
             Commands.CreateTable("messagerecipients" + message.ID, "personid INT UNSIGNED NOT NULL");
@@ -84,7 +86,7 @@ namespace StudyPlatform.Classes.Database
                                 online.ToString().ToUpper(), active.ToString().ToUpper());
             Lesson lesson = Getters.GetLatestLessons(1).Single();
             Commands.CreateTable("lessonrooms" + lesson.ID, "roomid INT UNSIGNED NOT NULL");
-            Commands.CreateTable("lessonabsences" + lesson.ID, "absenceid INT UNSIGNED NOT NULL");
+            Commands.CreateTable("lessonabsences" + lesson.ID, "studentid INT UNSIGNED NOT NULL");
             Commands.CreateTable("lessondocuments" + lesson.ID, "filepath TEXT NOT NULL");
             Commands.InsertInto("courselessons" + course.ID, lesson.ID.ToString());
             foreach (Room room in rooms)

@@ -41,13 +41,19 @@ namespace StudyPlatform.Classes.Model
         {
             get
             {
-                Query query = new Query("SELECT * FROM studyplatform.personabscences" + ID);
+                Query query = new Query("SELECT * FROM studyplatform.personabsences" + ID);
                 uint[] ids = Extractor.ExtractIDs(query.Execute());
                 List<Lesson> absences = new List<Lesson>();
                 foreach (uint id in ids)
                     absences.Add(Getters.GetLessonByID(id));
                 return absences;
             }
+        }
+
+        public static Student New(string name, string username, string password)
+        {
+            Creator.CreateStudent(name, username, password);
+            return Getters.GetLatestPersons(1).Single() as Student;
         }
     }
 }

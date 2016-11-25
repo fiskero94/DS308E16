@@ -229,7 +229,7 @@ namespace StudyPlatform.Tests.ModelTests
 
             // Assert
             Assert.AreEqual(Instances.Comment, assignment.Comment);
-            Assert.AreEqual(course.AssignmentDescription, assignment.AssignmentDescription);
+            Assert.AreEqual(course.AssignmentDescriptions, assignment.AssignmentDescription);
         }
     }
 }

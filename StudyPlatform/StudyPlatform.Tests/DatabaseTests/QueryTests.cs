@@ -3,6 +3,7 @@ using System.Text;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StudyPlatform.Classes.Database;
+using MySql.Data.MySqlClient;
 
 namespace StudyPlatform.Tests.DatabaseTests
 {
@@ -18,16 +19,26 @@ namespace StudyPlatform.Tests.DatabaseTests
         public void QueryExecuteQueryString_UseAsQueryString_NoExceptionsThrown()
         {
             // Act
-            Query.ExecuteQueryString("USE studyplatform;");
+            Query.ExecuteQueryString("DESCRIBE persons;");
+        }
+        [TestMethod]
+        public void QueryExecuteNonReader_DescribeAsQueryString_NoExceptionsThrown()
+        {
+            // Arrange
+            Query query = new Query("DESCRIBE persons;");
+
+            // Act
+            query.ExecuteNonReader();
         }
         [TestMethod]
         public void QueryExecute_DescribeAsQueryString_NoExceptionsThrown()
         {
             // Arrange
-            Query query = new Query("DESCRIBE persons");
+            Query query = new Query("DESCRIBE persons;");
 
             // Act
-            query.Execute();
+            MySqlConnectionReader connectionReader = query.Execute();
+            connectionReader.Connection.Close();
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
 using StudyPlatform.Classes;
+using MySql.Data.MySqlClient;
+using StudyPlatform.Classes.Exceptions;
 
 namespace StudyPlatform.Classes.Database
 {
@@ -15,12 +17,11 @@ namespace StudyPlatform.Classes.Database
             return strings;
         }
 
-        public static void SetValue(string table, uint id, string variable, string value)
+        public static void SetValue(string tableName, uint id, string variable, string value)
         {
-            if (table == null || variable == null || value == null)
-                throw new ArgumentNullException();
+            Common.EnsureNotNull(tableName, variable, value);
             value = AddApostrophes(value)[0];
-            Query.ExecuteQueryString("UPDATE " + table + " SET " + variable + "=" + value + " WHERE id='" + id + "';");
+            Query.ExecuteQueryString("UPDATE " + tableName + " SET " + variable + "=" + value + " WHERE id='" + id + "';");
         }
         public static void CreateTable(string tableName, params string[] variables)
         {
@@ -45,10 +46,28 @@ namespace StudyPlatform.Classes.Database
         {
             Query.ExecuteQueryString("DROP TABLE studyplatform." + tableName + ";");
         }
-        public static MySqlConnectionReader GetLatestRows(string tableName, int count)
+        public static MySqlConnectionReader GetLatestRows(string tableName, uint count)
         {
             Query query = new Query("SELECT * FROM studyplatform." + tableName + " ORDER BY id DESC LIMIT " + count + ";");
             return query.Execute();
+        }
+        public static bool CheckNull(string tableName, uint id, string variable)
+        {
+            Common.EnsureNotNull(tableName, variable);
+            Query query = new Query("SELECT * FROM " + tableName + " WHERE id='" + id + "';");
+            MySqlConnectionReader connectionReader = query.Execute();
+            MySqlDataReader reader = connectionReader.Reader;
+            if (reader.HasRows && reader.Read())
+            {
+                bool isNull = reader.IsDBNull(reader.GetOrdinal(variable));
+                connectionReader.Connection.Close();
+                return isNull;
+            }
+            else
+            {
+                connectionReader.Connection.Close();
+                throw new InvalidIDException();
+            }
         }
     }
 }

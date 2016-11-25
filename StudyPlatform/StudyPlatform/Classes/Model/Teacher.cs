@@ -26,6 +26,10 @@ namespace StudyPlatform.Classes.Model
             }
         }
 
-        
+        public static Teacher New(string name, string username, string password)
+        {
+            Creator.CreateTeacher(name, username, password);
+            return Getters.GetLatestPersons(1).Single() as Teacher;
+        }
     }
 }

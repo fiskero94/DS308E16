@@ -90,5 +90,12 @@ namespace StudyPlatform.Classes.Model
                 return filepaths.ToList();
             }
         }
+
+        public static AssignmentDescription New(Course course, string description, DateTime deadline, List<string> filepaths)
+        {
+            Creator.CreateAssignmentDescription(course, description, deadline, filepaths);
+            return Getters.GetLatestAssignmentDescriptions(1).Single();
+        }
+        public void Remove() => Remover.RemoveAssignmentDescription(this);
     }
 }

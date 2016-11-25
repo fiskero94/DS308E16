@@ -97,7 +97,7 @@ namespace StudyPlatform.Tests
         {
             get
             {
-                return 2;
+                return 1;
             }
         }
         public static DateTime Date
@@ -182,6 +182,27 @@ namespace StudyPlatform.Tests
             get
             {
                 return true;
+            }
+        }
+        public static List<string> Filepaths
+        {
+            get
+            {
+                return new List<string>();
+            }
+        }
+        public static List<Person> Recipients
+        {
+            get
+            {
+                return new List<Person>();
+            }
+        }
+        public static List<Room> Rooms
+        {
+            get
+            {
+                return new List<Room>();
             }
         }
     }

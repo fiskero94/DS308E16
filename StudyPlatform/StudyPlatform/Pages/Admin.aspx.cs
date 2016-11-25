@@ -15,10 +15,5 @@ namespace StudyPlatform.Classes
         {
 
         }
-
-        protected void Button_Click(object sender, EventArgs e)
-        {
-            
-        }
     }
 }

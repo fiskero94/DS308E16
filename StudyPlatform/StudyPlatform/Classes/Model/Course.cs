@@ -96,7 +96,7 @@ namespace StudyPlatform.Classes.Model
                 return lessons;
             }
         }
-        public List<AssignmentDescription> AssignmentDescription
+        public List<AssignmentDescription> AssignmentDescriptions
         {
             get
             {
@@ -128,6 +128,33 @@ namespace StudyPlatform.Classes.Model
                 string[] filepaths = Extractor.ExtractFilepaths(query.Execute());
                 return filepaths.ToList();
             }
+        }
+
+        public static Course New(string name, string description)
+        {
+            Creator.CreateCourse(name, description);
+            return Getters.GetLatestCourses(1).Single();
+        }
+        public void Remove() => Remover.RemoveCourse(this);
+        public void AddStudent(Student student)
+        {
+            Commands.InsertInto("personcourses" + student.ID.ToString(), ID.ToString());
+            Commands.InsertInto("coursestudents" + ID.ToString(), student.ID.ToString());
+        }
+        public void AddTeacher(Teacher teacher)
+        {
+            Commands.InsertInto("personcourses" + teacher.ID, ID.ToString());
+            Commands.InsertInto("courseteachers" + ID.ToString(), teacher.ID.ToString());
+        }
+        public void RemoveStudent(Student student)
+        {
+            Commands.DeleteFrom("personcourses" + student.ID, "courseid=" + ID);
+            Commands.DeleteFrom("coursestudents" + ID, "studentid=" + student.ID);
+        }
+        public void RemoveTeacher(Teacher teacher)
+        {
+            Commands.DeleteFrom("personcourses" + teacher.ID, "courseid=" + ID);
+            Commands.DeleteFrom("courseteachers" + ID, "teacher=" + teacher.ID);
         }
     }
 }

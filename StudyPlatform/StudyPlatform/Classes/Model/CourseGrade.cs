@@ -31,5 +31,12 @@ namespace StudyPlatform.Classes.Model
                 return Getters.GetPersonByID(_studentid) as Student;
             }
         }
+
+        public static CourseGrade New(string grade, string comment, Course course, Student student)
+        {
+            Creator.CreateCourseGrade(grade, comment, course, student);
+            return Getters.GetLatestCourseGrades(1).Single();
+        }
+        public void Remove() => Remover.RemoveCourseGrade(this);
     }
 }

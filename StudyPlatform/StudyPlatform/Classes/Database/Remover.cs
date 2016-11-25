@@ -21,11 +21,11 @@ namespace StudyPlatform.Classes.Database
                     Commands.DeleteFrom("coursestudents" + course.ID, "studentid=" + person.ID);
 
                 foreach (Lesson lesson in ((Student)person).Absences)
-                    Commands.DeleteFrom("lessonabscences" + lesson.ID, "studentid=" + person.ID);
+                    Commands.DeleteFrom("lessonabsences" + lesson.ID, "studentid=" + person.ID);
 
                 Commands.DropTable("personcourses" + person.ID);
                 Commands.DropTable("personassignments" + person.ID);
-                Commands.DropTable("personabscences" + person.ID);
+                Commands.DropTable("personabsences" + person.ID);
             }
             else if (person is Teacher)
             {
@@ -132,16 +132,14 @@ namespace StudyPlatform.Classes.Database
         }
         public static void RemoveAssignmentGrade(AssignmentGrade grade)
         {
+            Commands.SetValue("assignments", grade.Assignment.ID, "gradeid", "NULL");
             Commands.DeleteFrom("assignmentgrades", "id=" + grade.ID);
-            foreach (Assignment assignment in Lists.Assignments)
-                Commands.SetValue("assignments", assignment.ID, "gradeid", "NULL");
             grade = null;
         }
         public static void RemoveCourseGrade(CourseGrade grade)
         {
+            Commands.DeleteFrom("coursegrades" + grade.Course.ID, "gradeid=" + grade.ID);
             Commands.DeleteFrom("coursegrades", "id=" + grade.ID);
-            foreach (Course course in Lists.Courses)
-                Commands.DeleteFrom("coursegrades" + course.ID, "gradeid=" + grade.ID);
             grade = null;
         }
     }

@@ -78,5 +78,12 @@ namespace StudyPlatform.Classes.Model
                 return _date;
             }
         }
+
+        public static News New(Secretary author, string title, string text)
+        {
+            Creator.CreateNews(author, title, text);
+            return Getters.GetLatestNews(1).Single();
+        }
+        public void Remove() => Remover.RemoveNews(this);
     }
 }
