@@ -19,7 +19,7 @@ namespace StudyPlatform.Classes.Database
             Commands.CreateTable("personsentmessages" + student.ID, "messageid INT UNSIGNED NOT NULL");
             Commands.CreateTable("personrecievedmessages" + student.ID, "messageid INT UNSIGNED NOT NULL");
             Commands.CreateTable("personcourses" + student.ID, "courseid INT UNSIGNED NOT NULL");
-            Commands.CreateTable("personassignments" + student.ID, "assignmentdescriptionid INT UNSIGNED NOT NULL");
+            Commands.CreateTable("personassignments" + student.ID, "assignmentid INT UNSIGNED NOT NULL");
             Commands.CreateTable("personabsences" + student.ID, "lessonid INT UNSIGNED NOT NULL");
         }
         public static void CreateTeacher(string name, string username, string password)

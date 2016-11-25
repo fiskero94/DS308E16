@@ -93,21 +93,20 @@ namespace StudyPlatform.Classes.Database
         }
         public static void RemoveLesson(Lesson lesson)
         {
-            // Deleting the different tabels lessonrooms, lessonabsences and lessondocuments.
-            Commands.DropTable("lessonrooms" + lesson.ID);
-            Commands.DropTable("lessonabsences" + lesson.ID);
-            Commands.DropTable("lessondocuments" + lesson.ID);
-
             // Deleting the ID from lessons.
             Commands.DeleteFrom("lessons", "id=" + lesson.ID);
 
             // Deleting the lesson.ID from different classes/tabels.
-            foreach (Person person in Lists.Persons)
-                Commands.DeleteFrom("personabsences" + person.ID, "lessonid=" + lesson.ID);
-            foreach (Room room in Lists.Rooms)
+            foreach (Student student in lesson.Course.Students)
+                Commands.DeleteFrom("personabsences" + student.ID, "lessonid=" + lesson.ID);
+            foreach (Room room in lesson.Rooms)
                 Commands.DeleteFrom("roomreservations" + room.ID, "lessonid=" + lesson.ID);
             foreach (Course course in Lists.Courses)
                 Commands.DeleteFrom("courselessons" + course.ID, "lessonid=" + lesson.ID);
+
+            Commands.DropTable("lessonrooms" + lesson.ID);
+            Commands.DropTable("lessonabsences" + lesson.ID);
+            Commands.DropTable("lessondocuments" + lesson.ID);
 
             lesson = null;
         }
@@ -122,6 +121,7 @@ namespace StudyPlatform.Classes.Database
             Commands.DeleteFrom("assignmentdescriptions", "id=" + assignmentDescription.ID);
             Commands.DropTable("assignmentdescriptionassignments" + assignmentDescription.ID);
             Commands.DropTable("assignmentdescriptiondocuments" + assignmentDescription.ID);
+            Commands.DeleteFrom("courseassignmentdescriptions" + assignmentDescription.Course.ID, "assignmentdescriptionid=" + assignmentDescription.ID);
             foreach (Assignment assignment in Lists.Assignments)
                 if (assignment.AssignmentDescription.ID == assignmentDescription.ID)
                     RemoveAssignment(assignment);

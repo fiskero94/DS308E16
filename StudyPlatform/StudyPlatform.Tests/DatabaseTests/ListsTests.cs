@@ -17,12 +17,11 @@ namespace StudyPlatform.Tests.ModelTests
         [TestMethod]
         public void ListsCourseGrades_ListsParametersFilled_ContainsCourseGradesData()
         {
-
             // Arrange
             List<string> filepaths = new List<string>();
 
             Creator.CreateStudent(Instances.Name, Instances.Username, Instances.Password);
-            Person person = Getters.GetLatestPersons(1).Single();
+            Student student = Getters.GetLatestPersons(1).Single() as Student;
 
             Creator.CreateCourse(Instances.Name, Instances.Description);
             Course course = Getters.GetLatestCourses(1).Single();
@@ -30,7 +29,7 @@ namespace StudyPlatform.Tests.ModelTests
             Creator.CreateAssignmentDescription(course, Instances.Description, Instances.Date, filepaths);
             AssignmentDescription assignmentdescription = Getters.GetLatestAssignmentDescriptions(1).Single();
 
-            Creator.CreateAssignment(assignmentdescription, Instances.Student, Instances.Comment, filepaths);
+            Creator.CreateAssignment(assignmentdescription, student, Instances.Comment, filepaths);
             Assignment assignment = Getters.GetLatestAssignments(1).Single();
 
             Creator.CreateAssignmentGrade(Instances.Grade, Instances.Comment, assignment);
