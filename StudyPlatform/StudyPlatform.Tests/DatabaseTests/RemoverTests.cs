@@ -79,12 +79,37 @@ namespace StudyPlatform.Tests.DatabaseTests
         [TestMethod]
         public void RemoverRemovePerson_TeacherAsParameter_PersonRemoved()
         {
-            throw new NotImplementedException();
+            //ARRANGE
+            Creator.CreateTeacher(Instances.Name, Instances.Username, Instances.Password);
+            Teacher teacher = Getters.GetLatestPersons(1).Single() as Teacher;
+            Creator.CreateCourse(Instances.Name, Instances.Description);
+            Course course = Getters.GetLatestCourses(1).Single();
+            course.AddTeacher(teacher);
+            List<Teacher> courseTeachers = course.Teachers;
+
+            //ACT
+            Remover.RemovePerson(teacher);
+
+            //ASSERT
+            List<Teacher> courseTeachersTest = course.Teachers;
+            Assert.AreEqual(courseTeachersTest.Count, courseTeachers.Count - 1);
+            Common.TestTableExists("personcourses", false);
         }
         [TestMethod]
         public void RemoverRemovePerson_SecretaryAsParameter_PersonRemoved()
         {
-            throw new NotImplementedException();
+            //ARRANGE
+            Creator.CreateSecretary(Instances.Name, Instances.Username, Instances.Password);
+            Secretary secretary = Getters.GetLatestPersons(1).Single() as Secretary;
+            Creator.CreateNews(secretary, Instances.Title, Instances.Text);
+            List<News> allNews = Lists.News;
+
+            //ACT
+            Remover.RemovePerson(secretary);
+
+            //ASSERT
+            List<News> allNewsTest = Lists.News;
+            Assert.AreEqual(allNewsTest.Count, allNews.Count - 1);
         }
         [TestMethod]
         public void RemoverRemoveMessage_ValidParameters_MessageRemoved()
