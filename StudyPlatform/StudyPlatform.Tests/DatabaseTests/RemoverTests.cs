@@ -22,30 +22,33 @@ namespace StudyPlatform.Tests.DatabaseTests
         [TestMethod]
         public void RemoverRemovePerson_StudentAsParameter_PersonRemoved()
         {
-            //STUDENT DELETION
-            //SETUP
+            //ARRANGE
             Creator.CreateStudent(Instances.Name, Instances.Username, Instances.Password);
-            List<Person> allUsers = Lists.Persons;
             Student student = Getters.GetLatestPersons(1).Single() as Student;
-            List<string> filepaths = new List<string>();
-            filepaths.Add("");
-            List<Person> recipients = new List<Person>();
-            recipients.Add(Getters.GetPersonByID(1));
-            Creator.CreateMessage(student, Instances.Title, Instances.Text, recipients, filepaths);
-            recipients.Clear();
-            recipients.Add(student);
-            Creator.CreateMessage(Getters.GetPersonByID(1), Instances.Title, Instances.Text, recipients, filepaths);
             Creator.CreateCourse(Instances.Name, Instances.Description);
             Course course = Getters.GetLatestCourses(1).Single();
-            course.AddStudent(student);
-            Creator.CreateRoom(Instances.Name);
-            List<Room> rooms = new List<Room>();
-            Room room = Getters.GetLatestRooms(1).Single();
-            rooms.Add(room);
-            Creator.CreateLesson(Instances.Date, Instances.Description, Instances.Online, Instances.Active, rooms, filepaths, course);
+            Creator.CreateLesson(Instances.Date, Instances.Description, Instances.Online, Instances.Active, Instances.Rooms, Instances.Filepaths, course);
             Lesson lesson = Getters.GetLatestLessons(1).Single();
+
+            List<Person> recipients = new List<Person>();
+            recipients.Add(Getters.GetPersonByID(1));
+            Creator.CreateMessage(student, Instances.Title, Instances.Text, recipients, Instances.Filepaths);
+            recipients.Clear();
+            recipients.Add(student);
+            Creator.CreateMessage(Getters.GetPersonByID(1), Instances.Title, Instances.Text, recipients, Instances.Filepaths);
+
+            course.AddStudent(student);
+            lesson.GiveAbsence(student);
+
+            List<Student> absentStudents = lesson.Absences;
+            List<Student> courseStudents = course.Students;
+            List<Message> allMessages = Lists.Messages;
+            List<Person> allUsers = Lists.Persons;
+
+            //ACT
             Remover.RemovePerson(student);
-            //MESSAGE RECIPIENTS
+
+            //ASSERT
             foreach (Message item in Lists.Messages)
             {
                 List<Person> items = item.Recipients;
@@ -55,90 +58,23 @@ namespace StudyPlatform.Tests.DatabaseTests
                         Assert.Fail("deleted person still in recipients");
                 }
             }
-            //PERSON SENT/RECIEVED MESSAGES
-            try
-            {
-                List<Message> sentMessages = student.SentMessages;
-            }
-            catch (Exception ex)
-            {
-                if (!(ex is MySqlException && ((MySqlException)ex).Number == 1146))
-                    Assert.Fail(ex.Message);
-            }
-            try
-            {
-                List<Message> recievedMessages = student.RecievedMessages;
-            }
-            catch (Exception ex)
-            {
-                if (!(ex is MySqlException && ((MySqlException)ex).Number == 1146))
-                    Assert.Fail(ex.Message);
-            }
-            course = Getters.GetCourseByID(course.ID);
-            foreach (Student coursestudents in course.Students)
-            {
-                if(student.ID == coursestudents.ID)
-                {
-                    Assert.Fail("student is still in course");
-                }
-            }
-            foreach (Lesson testLesson in course.Lessons)
-            {
-                foreach (Student item in testLesson.Absences)
-                {
-                    if (item.ID == student.ID)
-                        Assert.Fail("Student still has absence");
-                }
-            }
-            try
-            {
-                List<Course> courses = student.Courses;
-            }
-            catch (Exception ex)
-            {
-                if (!(ex is MySqlException && ((MySqlException)ex).Number == 1146))
-                    Assert.Fail(ex.Message);
-            }
-            try
-            {
-                List<Assignment> assignments = student.Assignments;
-            }
-            catch (Exception ex)
-            {
-                if (!(ex is MySqlException && ((MySqlException)ex).Number == 1146))
-                    Assert.Fail(ex.Message);
-            }
-            try
-            {
-                List<Lesson> absences = student.Absences;
-            }
-            catch (Exception ex)
-            {
-                if (!(ex is MySqlException && ((MySqlException)ex).Number == 1146))
-                    Assert.Fail(ex.Message);
-            }
-            //PERSON DELETION
+            List<Message> allMessagesTest = Lists.Messages;
+            Assert.AreEqual(allMessagesTest.Count, allMessages.Count - 1);
+
+            List<Student> courseStudentsTest = course.Students;
+            Assert.AreEqual(courseStudentsTest.Count, courseStudents.Count - 1);
+
             List<Person> allUsersTest = Lists.Persons;
             Assert.AreEqual(allUsersTest.Count, allUsers.Count - 1);
-            //TEACHER DELETION
-            Creator.CreateTeacher(Instances.Name, Instances.Username, Instances.Password);
-            Teacher teacher = Getters.GetLatestPersons(1).Single() as Teacher;
-            course.AddTeacher(teacher);
-            Remover.RemovePerson(teacher);
-            foreach (Teacher testTeacher in course.Teachers)
-            {
-                if (teacher.ID == testTeacher.ID)
-                    Assert.Fail("Teacher still in course");
-            }
-            try
-            {
-                List<Course> courses = teacher.Courses;
-            }
-            catch (Exception ex)
-            {
-                if (!(ex is MySqlException && ((MySqlException)ex).Number == 1146))
-                    Assert.Fail(ex.Message);
-            }
+
+            List<Student> absentStudentsTest = lesson.Absences;
+            Assert.AreEqual(absentStudentsTest.Count, absentStudents.Count - 1);
+
+            Common.TestTableExists("personsentmessages2", false);
+            Common.TestTableExists("personrecievedmessages2", false);
+            Common.TestTableExists("personcourses2", false);
+            Common.TestTableExists("personassignments2", false);
+            Common.TestTableExists("personabsences2", false);
         }
         [TestMethod]
         public void RemoverRemovePerson_TeacherAsParameter_PersonRemoved()
