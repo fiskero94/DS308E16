@@ -67,11 +67,11 @@ namespace StudyPlatform.Classes.Database
         public static void RemoveCourse(Course course)
         {
             Commands.DeleteFrom("courses", "id=" + course.ID);
-            
+
             foreach (Student student in course.Students)
-                RemovePerson(student);
+                Commands.DeleteFrom("personcourses" + student.ID, "courseid=" + course.ID);
             foreach (Teacher teacher in course.Teachers)
-                RemovePerson(teacher);
+                Commands.DeleteFrom("personcourses" + teacher.ID, "courseid=" + course.ID);
             foreach (Lesson lesson in course.Lessons)
                 RemoveLesson(lesson);
             foreach (AssignmentDescription assignmentDescription in course.AssignmentDescriptions)
@@ -89,22 +89,15 @@ namespace StudyPlatform.Classes.Database
         }
         public static void RemoveLesson(Lesson lesson)
         {
-            // Deleting the different tabels lessonrooms, lessonabsences and lessondocuments.
+            Commands.DeleteFrom("lessons", "id=" + lesson.ID);
+            foreach (Student student in lesson.Course.Students)
+                Commands.DeleteFrom("personabsences" + student.ID, "lessonid=" + lesson.ID);
+            foreach (Room room in lesson.Rooms)
+                Commands.DeleteFrom("roomreservations" + room.ID, "lessonid=" + lesson.ID);
+            Commands.DeleteFrom("courselessons" + lesson.Course.ID, "lessonid=" + lesson.ID);
             Commands.DropTable("lessonrooms" + lesson.ID);
             Commands.DropTable("lessonabsences" + lesson.ID);
             Commands.DropTable("lessondocuments" + lesson.ID);
-
-            // Deleting the ID from lessons.
-            Commands.DeleteFrom("lessons", "id=" + lesson.ID);
-
-            // Deleting the lesson.ID from different classes/tabels.
-            foreach (Person person in Lists.Persons)
-                Commands.DeleteFrom("personabsences" + person.ID, "lessonid=" + lesson.ID);
-            foreach (Room room in Lists.Rooms)
-                Commands.DeleteFrom("roomreservations" + room.ID, "lessonid=" + lesson.ID);
-            foreach (Course course in Lists.Courses)
-                Commands.DeleteFrom("courselessons" + course.ID, "lessonid=" + lesson.ID);
-
             lesson = null;
         }
         public static void RemoveRoom(Room room)
