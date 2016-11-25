@@ -122,7 +122,7 @@ namespace StudyPlatform.Tests.DatabaseTests
         }
         public void RemoverRemoveRoom_Removed()
         {
-
+            
         }
         public void RemoverRemoveAssignmentDescription_Removed()
         {
