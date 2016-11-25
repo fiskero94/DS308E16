@@ -23,20 +23,10 @@ namespace StudyPlatform.Classes.Model
             _date = date;
         }
         
-        public uint ID
-        {
-            get
-            {
-                return _id;
-            }
-        }
-        public Secretary Author
-        {
-            get
-            {
-                return Getters.GetPersonByID(_authorid) as Secretary;
-            }
-        }
+        public uint ID => _id;
+
+        public Secretary Author => Getters.GetPersonByID(_authorid) as Secretary;
+
         public string Title
         {
             get
@@ -71,13 +61,7 @@ namespace StudyPlatform.Classes.Model
                 }
             }
         }
-        public DateTime Date
-        {
-            get
-            {
-                return _date;
-            }
-        }
+        public DateTime Date => _date;
 
         public static News New(Secretary author, string title, string text)
         {

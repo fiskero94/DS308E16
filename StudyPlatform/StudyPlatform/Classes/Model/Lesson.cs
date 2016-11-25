@@ -25,20 +25,10 @@ namespace StudyPlatform.Classes.Model
             _dateTime = dateTime;
         }
         
-        public uint ID
-        {
-            get
-            {
-                return _id;
-            }
-        }
-        public Course Course
-        {
-            get
-            {
-                return Getters.GetCourseByID(_courseid);
-            }
-        }
+        public uint ID => _id;
+
+        public Course Course => Getters.GetCourseByID(_courseid);
+
         public DateTime DateTime
         {
             get
@@ -122,13 +112,7 @@ namespace StudyPlatform.Classes.Model
                 throw new NotImplementedException();
             }
         }
-        public static TimeSpan LessonLength
-        {
-            get
-            {
-                return new TimeSpan(0, 45, 0);
-            }
-        }
+        public static TimeSpan LessonLength => new TimeSpan(0, 45, 0);
 
         public void Remove() => Remover.RemoveLesson(this);
         public void GiveAbsence(Student student)
@@ -147,12 +131,6 @@ namespace StudyPlatform.Classes.Model
         }
         public static Lesson GetByID(uint id) => Getters.GetLessonByID(id);
         public static List<Lesson> Find(params string[] conditions) => Getters.GetLessonsByConditions(conditions);
-        public static List<Lesson> AllLessons
-        {
-            get
-            {
-                return Lists.Lessons;
-            }
-        }
+        public static List<Lesson> AllLessons => Lists.Lessons;
     }
 }

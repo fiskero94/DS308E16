@@ -15,13 +15,7 @@ namespace StudyPlatform.Classes.Model
             _assignmentid = assignmentid;
         }
         
-        public Assignment Assignment
-        {
-            get
-            {
-                return Getters.GetAssignmentByID(_assignmentid);
-            }
-        }
+        public Assignment Assignment => Getters.GetAssignmentByID(_assignmentid);
 
         public static AssignmentGrade New(string grade, string comment, Assignment assignment)
         {

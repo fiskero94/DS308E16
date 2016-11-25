@@ -17,20 +17,9 @@ namespace StudyPlatform.Classes.Model
             _studentid = studentid;
         }
 
-        public Course Course
-        {
-            get
-            {
-                return Getters.GetCourseByID(_courseid);
-            }
-        }
-        public Student Student
-        {
-            get
-            {
-                return Getters.GetPersonByID(_studentid) as Student;
-            }
-        }
+        public Course Course => Getters.GetCourseByID(_courseid);
+
+        public Student Student => Getters.GetPersonByID(_studentid) as Student;
 
         public static CourseGrade New(Course course, Student student, string grade, string comment)
         {

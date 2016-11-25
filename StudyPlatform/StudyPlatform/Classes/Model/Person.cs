@@ -18,13 +18,8 @@ namespace StudyPlatform.Classes.Model
             Name = name;
         }
 
-        public uint ID
-        {
-            get
-            {
-                return _id;
-            }
-        }
+        public uint ID => _id;
+
         public string Name
         {
             get
@@ -42,18 +37,8 @@ namespace StudyPlatform.Classes.Model
                 }
             }
         }
-        public List<Message> SentMessages
-        {
-            get
-            {
-                Query query = new Query("SELECT * FROM studyplatform.personsentmessages" + ID);
-                uint[] ids = Extractor.ExtractIDs(query.Execute());
-                List<Message> sentMessages = new List<Message>();
-                foreach (uint id in ids)
-                    sentMessages.Add(Getters.GetMessageByID(id));
-                return sentMessages;
-            }
-        }
+        public List<Message> SentMessages => Getters.GetMessagesByConditions("SenderID=" + ID);
+
         public List<Message> RecievedMessages
         {
             get

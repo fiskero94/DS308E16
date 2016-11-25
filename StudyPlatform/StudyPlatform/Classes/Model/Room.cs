@@ -17,13 +17,8 @@ namespace StudyPlatform.Classes.Model
             _name = name;
         }
 
-        public uint ID
-        {
-            get
-            {
-                return _id;
-            }
-        }
+        public uint ID => _id;
+
         public string Name
         {
             get

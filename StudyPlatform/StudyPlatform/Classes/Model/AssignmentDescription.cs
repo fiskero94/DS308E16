@@ -21,20 +21,10 @@ namespace StudyPlatform.Classes.Model
             _date = date;
         }   
         
-        public uint ID
-        {
-            get
-            {
-                return _id;
-            }
-        }
-        public Course Course
-        {
-            get
-            {
-                return Getters.GetCourseByID(_courseid);
-            }
-        }
+        public uint ID => _id;
+
+        public Course Course => Getters.GetCourseByID(_courseid);
+
         public string Description
         {
             get

@@ -9,10 +9,7 @@ namespace StudyPlatform.Classes.Database
 {
     public class Query
     {
-        private string ConnectionString
-        {
-            get { return ConfigurationManager.ConnectionStrings["MySQLConnectionString"].ToString(); }
-        }
+        private string ConnectionString => ConfigurationManager.ConnectionStrings["MySQLConnectionString"].ToString();
         private string _queryString;
         public string QueryString
         {

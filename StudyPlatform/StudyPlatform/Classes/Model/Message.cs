@@ -23,41 +23,15 @@ namespace StudyPlatform.Classes.Model
             _date = DateTime.Now;
         }
 
-        public uint ID
-        {
-            get
-            {
-                return _id;
-            }
-        }
-        public Person Sender
-        {
-            get
-            {
-                return Getters.GetPersonByID(_senderid);
-            }
-        }
-        public string Title
-        {
-            get
-            {
-                return _title;
-            }
-        }
-        public string Text
-        {
-            get
-            {
-                return _text;
-            }
-        }
-        public DateTime Date
-        {
-            get
-            {
-                return _date;
-            }
-        }
+        public uint ID => _id;
+
+        public Person Sender => Getters.GetPersonByID(_senderid);
+        public string Title => _title;
+
+        public string Text => _text;
+
+        public DateTime Date => _date;
+
         public List<Person> Recipients
         {
             get

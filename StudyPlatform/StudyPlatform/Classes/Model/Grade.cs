@@ -19,26 +19,8 @@ namespace StudyPlatform.Classes.Model
             _comment = comment;
         }
 
-        public uint ID
-        {
-            get
-            {
-                return _id;
-            }
-        }
-        public string Value
-        {
-            get
-            {
-                return _grade;
-            }
-        }
-        public string Comment
-        {
-            get
-            {
-                return _comment;
-            }
-        }
+        public uint ID => _id;
+        public string Value => _grade;
+        public string Comment => _comment;
     }
 }

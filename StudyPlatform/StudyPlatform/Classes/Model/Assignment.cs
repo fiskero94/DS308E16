@@ -30,27 +30,12 @@ namespace StudyPlatform.Classes.Model
 
         }
 
-        public uint ID
-        {
-            get
-            {
-                return _id;
-            }
-        }
-        public AssignmentDescription AssignmentDescription
-        {
-            get
-            {
-                return Getters.GetAssignmentDescriptionByID(_assignmentdescriptionid);
-            }
-        }
-        public Student Student
-        {
-            get
-            {
-                return Getters.GetPersonByID(_studentid) as Student;
-            }
-        }
+        public uint ID => _id;
+
+        public AssignmentDescription AssignmentDescription => Getters.GetAssignmentDescriptionByID(_assignmentdescriptionid);
+
+        public Student Student => Getters.GetPersonByID(_studentid) as Student;
+
         public string Comment
         {
             get
@@ -78,13 +63,8 @@ namespace StudyPlatform.Classes.Model
                     return Getters.GetAssignmentGradeByID(_gradeid);
             }
         }
-        public DateTime Deadline
-        {
-            get
-            {
-                return _deadline;
-            }
-        }
+        public DateTime Deadline => _deadline;
+
         public List<string> Documents
         {
             get
