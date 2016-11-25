@@ -114,6 +114,7 @@ namespace StudyPlatform.Classes.Database
             Commands.DeleteFrom("assignmentdescriptions", "id=" + assignmentDescription.ID);
             Commands.DropTable("assignmentdescriptionassignments" + assignmentDescription.ID);
             Commands.DropTable("assignmentdescriptiondocuments" + assignmentDescription.ID);
+            Commands.DeleteFrom("courseassignmentdescriptions" + assignmentDescription.Course.ID, "assignmentdescriptionid=" + assignmentDescription.ID);
             foreach (Assignment assignment in Lists.Assignments)
                 if (assignment.AssignmentDescription.ID == assignmentDescription.ID)
                     RemoveAssignment(assignment);
