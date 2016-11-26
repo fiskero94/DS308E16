@@ -5,6 +5,7 @@ using System.Web;
 
 namespace StudyPlatform.Classes.Exceptions
 {
+    [Serializable]
     public class NoConnectionException : Exception
     {
         public NoConnectionException(string message) : base(message)

@@ -8,7 +8,7 @@ namespace StudyPlatform.Classes.Database
 {
     public static class Getters
     {
-        private static Dictionary<Type, string> TablesByType = new Dictionary<Type, string>
+        private static readonly Dictionary<Type, string> TablesByType = new Dictionary<Type, string>
         {
             { typeof(Person), "Person" },
             { typeof(Message), "Message" },
@@ -21,7 +21,7 @@ namespace StudyPlatform.Classes.Database
             { typeof(AssignmentGrade), "AssignmentGrade" },
             { typeof(CourseGrade), "CourseGrade" }
         };
-        private static Dictionary<Type, Func<MySqlConnectionReader, object>> ExtractMethodsByType = 
+        private static readonly Dictionary<Type, Func<MySqlConnectionReader, object>> ExtractMethodsByType = 
             new Dictionary<Type, Func<MySqlConnectionReader, object>>
             {
             { typeof(Person), Extractor.ExtractPersons },

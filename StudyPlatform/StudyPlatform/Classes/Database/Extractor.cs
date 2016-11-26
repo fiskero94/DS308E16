@@ -32,9 +32,9 @@ namespace StudyPlatform.Classes.Database
             List<Person> persons = new List<Person>();
             while (reader.HasRows && reader.Read())
             {
-                uint id = reader.GetUInt32(reader.GetOrdinal("id"));
-                string name = reader.GetString(reader.GetOrdinal("name"));
-                string type = reader.GetString(reader.GetOrdinal("type"));
+                uint id = reader.GetUInt32(reader.GetOrdinal("ID"));
+                string name = reader.GetString(reader.GetOrdinal("Name"));
+                string type = reader.GetString(reader.GetOrdinal("Type"));
                 switch (type)
                 {
                     case "Student":
@@ -59,11 +59,12 @@ namespace StudyPlatform.Classes.Database
             List<Message> messages = new List<Message>();
             while (reader.HasRows && reader.Read())
             {
-                uint id = reader.GetUInt32(reader.GetOrdinal("id"));
-                Person sender = Getters.GetPersonByID(reader.GetUInt32(reader.GetOrdinal("senderid")));
-                string title = reader.GetString(reader.GetOrdinal("title"));
-                string text = reader.GetString(reader.GetOrdinal("text"));    
-                messages.Add(new Message(id, sender.ID, title, text));
+                uint id = reader.GetUInt32(reader.GetOrdinal("ID"));
+                uint senderID = reader.GetUInt32(reader.GetOrdinal("SenderID"));
+                string title = reader.GetString(reader.GetOrdinal("Title"));
+                string text = reader.GetString(reader.GetOrdinal("Text"));
+                DateTime dateTime = reader.GetDateTime(reader.GetOrdinal("DateTime"));    
+                messages.Add(new Message(id, senderID, title, text, dateTime));
             }
             connectionReader.Connection.Close();
             return messages;
@@ -75,12 +76,12 @@ namespace StudyPlatform.Classes.Database
             List<News> news = new List<News>();
             while (reader.HasRows && reader.Read())
             {
-                uint id = reader.GetUInt32(reader.GetOrdinal("id"));
-                uint authorid = reader.GetUInt32(reader.GetOrdinal("authorid"));
-                string title = reader.GetString(reader.GetOrdinal("title"));
-                string text = reader.GetString(reader.GetOrdinal("text"));
-                DateTime date = reader.GetDateTime(reader.GetOrdinal("datetime"));
-                news.Add(new News(id, authorid, title, text, date));
+                uint id = reader.GetUInt32(reader.GetOrdinal("ID"));
+                uint authorID = reader.GetUInt32(reader.GetOrdinal("AuthorID"));
+                string title = reader.GetString(reader.GetOrdinal("Title"));
+                string text = reader.GetString(reader.GetOrdinal("Text"));
+                DateTime dateTime = reader.GetDateTime(reader.GetOrdinal("DateTime"));
+                news.Add(new News(id, authorID, title, text, dateTime));
             }
             connectionReader.Connection.Close();
             return news;
@@ -91,9 +92,9 @@ namespace StudyPlatform.Classes.Database
             List<Course> courses = new List<Course>();
             while (reader.HasRows && reader.Read())
             {
-                uint id = reader.GetUInt32(reader.GetOrdinal("id"));
-                string name = reader.GetString(reader.GetOrdinal("name"));
-                string description = reader.GetString(reader.GetOrdinal("description"));
+                uint id = reader.GetUInt32(reader.GetOrdinal("ID"));
+                string name = reader.GetString(reader.GetOrdinal("Name"));
+                string description = reader.GetString(reader.GetOrdinal("Description"));
                 courses.Add(new Course(id, name, description));
             }
             connectionReader.Connection.Close();
@@ -105,13 +106,13 @@ namespace StudyPlatform.Classes.Database
             List<Lesson> lessons = new List<Lesson>();
             while (reader.HasRows && reader.Read())
             {
-                uint id = reader.GetUInt32(reader.GetOrdinal("id"));
-                uint courseid = reader.GetUInt32("courseid");
-                string description = reader.GetString(reader.GetOrdinal("description"));
-                DateTime date = reader.GetDateTime(reader.GetOrdinal("datetime"));
-                bool online = reader.GetBoolean(reader.GetOrdinal("online"));
-                bool cancelled = reader.GetBoolean(reader.GetOrdinal("cancelled"));
-                lessons.Add(new Lesson(id, courseid, description, online, cancelled, date));
+                uint id = reader.GetUInt32(reader.GetOrdinal("ID"));
+                uint courseID = reader.GetUInt32("CourseID");
+                string description = reader.GetString(reader.GetOrdinal("Description"));
+                bool online = reader.GetBoolean(reader.GetOrdinal("Online"));
+                bool cancelled = reader.GetBoolean(reader.GetOrdinal("Cancelled"));
+                DateTime dateTime = reader.GetDateTime(reader.GetOrdinal("DateTime"));
+                lessons.Add(new Lesson(id, courseID, description, online, cancelled, dateTime));
             }
             connectionReader.Connection.Close();
             return lessons;
@@ -122,8 +123,8 @@ namespace StudyPlatform.Classes.Database
             List<Room> rooms = new List<Room>();
             while (reader.HasRows && reader.Read())
             {
-                uint id = reader.GetUInt32(reader.GetOrdinal("id"));
-                string name = reader.GetString(reader.GetOrdinal("name"));
+                uint id = reader.GetUInt32(reader.GetOrdinal("ID"));
+                string name = reader.GetString(reader.GetOrdinal("Name"));
                 rooms.Add(new Room(id, name));
             }
             connectionReader.Connection.Close();
@@ -135,11 +136,12 @@ namespace StudyPlatform.Classes.Database
             List<AssignmentDescription> assignmentdescriptions = new List<AssignmentDescription>();
             while (reader.HasRows && reader.Read())
             {
-                uint id = reader.GetUInt32(reader.GetOrdinal("id"));
-                uint courseid = reader.GetUInt32(reader.GetOrdinal("courseid"));
-                string description = reader.GetString(reader.GetOrdinal("description"));
-                DateTime deadline = reader.GetDateTime(reader.GetOrdinal("deadline"));
-                assignmentdescriptions.Add(new AssignmentDescription(id, courseid, description, deadline));
+                uint id = reader.GetUInt32(reader.GetOrdinal("ID"));
+                uint courseID = reader.GetUInt32(reader.GetOrdinal("CourseID"));
+                string description = reader.GetString(reader.GetOrdinal("Description"));
+                bool cancelled = reader.GetBoolean(reader.GetOrdinal("Cancelled"));
+                DateTime deadline = reader.GetDateTime(reader.GetOrdinal("Deadline"));
+                assignmentdescriptions.Add(new AssignmentDescription(id, courseID, description, cancelled, deadline));
             }
             connectionReader.Connection.Close();
             return assignmentdescriptions;
@@ -150,20 +152,17 @@ namespace StudyPlatform.Classes.Database
             List<Assignment> assignments = new List<Assignment>();
             while (reader.HasRows && reader.Read())
             {
-                uint id = reader.GetUInt32(reader.GetOrdinal("id"));
-                uint assignmentdescriptionid = reader.GetUInt32(reader.GetOrdinal("assignmentdescriptionid"));
-                uint studentid = reader.GetUInt32(reader.GetOrdinal("studentid"));
-                string comment = reader.GetString(reader.GetOrdinal("comment"));
-                DateTime date = reader.GetDateTime(reader.GetOrdinal("datetime"));
-                uint gradeid;
-                try
+                uint id = reader.GetUInt32(reader.GetOrdinal("ID"));
+                uint assignmentdescriptionID = reader.GetUInt32(reader.GetOrdinal("AssignmentDescriptionID"));
+                uint studentid = reader.GetUInt32(reader.GetOrdinal("StudentID"));
+                string comment = reader.GetString(reader.GetOrdinal("Comment"));
+                DateTime date = reader.GetDateTime(reader.GetOrdinal("DateTime"));
+                if (Commands.CheckNull("Assignment", id, "GradeID"))
+                    assignments.Add(new Assignment(id, assignmentdescriptionID, studentid, comment, date));
+                else
                 {
-                    gradeid = reader.GetUInt32(reader.GetOrdinal("gradeid"));
-                    assignments.Add(new Assignment(id, assignmentdescriptionid, studentid, comment, gradeid, date));
-                }
-                catch (System.Data.SqlTypes.SqlNullValueException)
-                {
-                    assignments.Add(new Assignment(id, assignmentdescriptionid, studentid, comment, date));
+                    uint gradeid = reader.GetUInt32(reader.GetOrdinal("GradeID"));
+                    assignments.Add(new Assignment(id, assignmentdescriptionID, studentid, comment, gradeid, date));
                 }
             }
             connectionReader.Connection.Close();
@@ -175,13 +174,11 @@ namespace StudyPlatform.Classes.Database
             List<AssignmentGrade> assignmentgrades = new List<AssignmentGrade>();
             while (reader.HasRows && reader.Read())
             {
-                uint id = reader.GetUInt32(reader.GetOrdinal("id"));
-                string grade = reader.GetString(reader.GetOrdinal("grade"));
-                string comment = reader.GetString(reader.GetOrdinal("comment"));
-                uint assignmentid = reader.GetUInt32(reader.GetOrdinal("assignmentid"));
-
-
-                assignmentgrades.Add(new AssignmentGrade(id, grade, comment, assignmentid));
+                uint id = reader.GetUInt32(reader.GetOrdinal("ID"));
+                uint assignmentID = reader.GetUInt32(reader.GetOrdinal("AssignmentID"));
+                string grade = reader.GetString(reader.GetOrdinal("Grade"));
+                string comment = reader.GetString(reader.GetOrdinal("Comment"));
+                assignmentgrades.Add(new AssignmentGrade(id, grade, comment, assignmentID));
             }
             connectionReader.Connection.Close();
             return assignmentgrades;
@@ -192,12 +189,12 @@ namespace StudyPlatform.Classes.Database
             List<CourseGrade> coursegrades = new List<CourseGrade>();
             while (reader.HasRows && reader.Read())
             {
-                uint id = reader.GetUInt32(reader.GetOrdinal("id"));
-                string grade = reader.GetString(reader.GetOrdinal("grade"));
-                string comment = reader.GetString(reader.GetOrdinal("comment"));
-                uint courseid = reader.GetUInt32(reader.GetOrdinal("courseid"));
-                uint studentid = reader.GetUInt32(reader.GetOrdinal("studentid"));
-                coursegrades.Add(new CourseGrade(id, grade, comment, courseid, studentid));
+                uint id = reader.GetUInt32(reader.GetOrdinal("ID"));
+                uint courseID = reader.GetUInt32(reader.GetOrdinal("CourseID"));
+                uint studentID = reader.GetUInt32(reader.GetOrdinal("StudentID"));
+                string grade = reader.GetString(reader.GetOrdinal("Grade"));
+                string comment = reader.GetString(reader.GetOrdinal("Comment"));
+                coursegrades.Add(new CourseGrade(id, grade, comment, courseID, studentID));
             }
             connectionReader.Connection.Close();
             return coursegrades;

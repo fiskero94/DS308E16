@@ -8,11 +8,11 @@ namespace StudyPlatform.Classes.Database
 {
     public static class Commands
     {
-        private static string[] _keywords = { "NULL", "TRUE", "FALSE", "NOW()" };
+        private static readonly string[] Keywords = { "NULL", "TRUE", "FALSE", "NOW()" };
         private static string[] AddApostrophes(params string[] strings)
         {
             for (int i = 0; i < strings.Length; i++)
-                if (!_keywords.Contains(strings[i]))
+                if (!Keywords.Contains(strings[i]))
                     strings[i] = string.Concat("'", strings[i], "'");
             return strings;
         }
@@ -22,13 +22,6 @@ namespace StudyPlatform.Classes.Database
             Common.EnsureNotNull(tableName, variable, value);
             value = AddApostrophes(value)[0];
             Query.ExecuteQueryString("UPDATE " + tableName + " SET " + variable + "=" + value + " WHERE id='" + id + "';");
-        }
-        public static void CreateTable(string tableName, params string[] variables)
-        {
-            string queryString = "USE studyplatform; CREATE TABLE " + tableName + " (";
-            Common.AppendStringArray(ref queryString, ", ", variables);
-            queryString += ");";
-            Query.ExecuteQueryString(queryString);
         }
         public static void InsertInto(string tableName, params string[] values)
         {
@@ -41,10 +34,6 @@ namespace StudyPlatform.Classes.Database
         public static void DeleteFrom(string tableName, string condition)
         {
             Query.ExecuteQueryString("DELETE FROM studyplatform." + tableName + " WHERE " + condition + ";");
-        }
-        public static void DropTable(string tableName)
-        {
-            Query.ExecuteQueryString("DROP TABLE studyplatform." + tableName + ";");
         }
         public static MySqlConnectionReader GetLatestRows(string tableName, uint count)
         {
@@ -63,11 +52,8 @@ namespace StudyPlatform.Classes.Database
                 connectionReader.Connection.Close();
                 return isNull;
             }
-            else
-            {
-                connectionReader.Connection.Close();
-                throw new InvalidIDException();
-            }
+            connectionReader.Connection.Close();
+            throw new InvalidIDException();
         }
     }
 }

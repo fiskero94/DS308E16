@@ -9,7 +9,7 @@ namespace StudyPlatform.Classes.Database
 {
     public class Query
     {
-        private string ConnectionString => ConfigurationManager.ConnectionStrings["MySQLConnectionString"].ToString();
+        private static string ConnectionString => ConfigurationManager.ConnectionStrings["MySQLConnectionString"].ToString();
         private string _queryString;
         public string QueryString
         {
@@ -21,8 +21,7 @@ namespace StudyPlatform.Classes.Database
             {
                 if (value == null)
                     throw new ArgumentNullException();
-                else
-                    _queryString = value;
+                _queryString = value;
             }
         }
         public Query(string queryString)

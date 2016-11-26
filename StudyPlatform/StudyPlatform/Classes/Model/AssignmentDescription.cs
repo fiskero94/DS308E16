@@ -8,23 +8,22 @@ namespace StudyPlatform.Classes.Model
 {
     public class AssignmentDescription
     {
-        private uint _id;
-        private uint _courseid;
+        private readonly uint _courseid;
         private string _description;
+        private bool _cancelled;
         private DateTime _date;
 
-        public AssignmentDescription(uint id, uint courseid, string description, DateTime date)
+        public AssignmentDescription(uint id, uint courseid, string description, bool cancelled, DateTime date)
         {
-            _id = id;
+            ID = id;
             _courseid = courseid;
             _description = description;
+            _cancelled = cancelled;
             _date = date;
         }   
         
-        public uint ID => _id;
-
+        public uint ID { get; }
         public Course Course => Getters.GetCourseByID(_courseid);
-
         public string Description
         {
             get
@@ -35,11 +34,17 @@ namespace StudyPlatform.Classes.Model
             {
                 if (value == null)
                     throw new ArgumentNullException();
-                else
-                {
-                    Commands.SetValue("assignmentdescriptions", ID, "description", value);
-                    _description = value;
-                }
+                Commands.SetValue("assignmentdescriptions", ID, "description", value);
+                _description = value;
+            }
+        }
+        public bool Cancelled
+        {
+            get { return _cancelled; }
+            set
+            {
+                Commands.SetValue("AssignmentDescription", ID, "Cancelled", value.ToString().ToUpper());
+                _cancelled = value;
             }
         }
         public DateTime Date
@@ -52,11 +57,8 @@ namespace StudyPlatform.Classes.Model
             {
                 if (value == null)
                     throw new ArgumentNullException();
-                else
-                {
-                    Commands.SetValue("assignmentdescriptions", ID, "date", value.ToString("yyyy-MM-dd HH:mm:ss"));
-                    _date = value;
-                }
+                Commands.SetValue("AssignmentDescription", ID, "Deadline", value.ToString("yyyy-MM-dd HH:mm:ss"));
+                _date = value;
             }
         }
         public List<Assignment> Assignments

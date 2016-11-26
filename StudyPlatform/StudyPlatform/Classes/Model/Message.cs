@@ -8,49 +8,34 @@ namespace StudyPlatform.Classes.Model
 {
     public class Message
     {
-        private uint _id;
-        private uint _senderid;
-        private string _title;
-        private string _text;
-        private DateTime _date;
+        private readonly uint _senderid;
 
-        public Message(uint id, uint senderid, string title, string text)
+        public Message(uint id, uint senderid, string title, string text, DateTime dateTime)
         {
-            _id = id;
+            ID = id;
             _senderid = senderid;
-            _title = title;
-            _text = text;
-            _date = DateTime.Now;
+            Title = title;
+            Text = text;
+            Date = dateTime;
         }
 
-        public uint ID => _id;
-
+        public uint ID { get; }
         public Person Sender => Getters.GetPersonByID(_senderid);
-        public string Title => _title;
-
-        public string Text => _text;
-
-        public DateTime Date => _date;
-
+        public string Title { get; }
+        public string Text { get; }
+        public DateTime Date { get; }
         public List<Person> Recipients
         {
             get
             {
-                Query query = new Query("SELECT * FROM studyplatform.MessageRecipient" );
-                uint[] ids = Extractor.ExtractIDs(query.Execute(), "field");
-                List<Person> recipients = new List<Person>();
-                foreach (uint id in ids)
-                    recipients.Add(Getters.GetPersonByID(id));
-                return recipients;
+                throw new NotImplementedException();
             }
         }
         public List<string> Attachments
         {
             get
             {
-                Query query = new Query("SELECT * FROM studyplatform.messageattachments" + ID);
-                string[] filepaths = Extractor.ExtractFilepaths(query.Execute());
-                return filepaths.ToList();
+                throw new NotImplementedException();
             }
         }
 

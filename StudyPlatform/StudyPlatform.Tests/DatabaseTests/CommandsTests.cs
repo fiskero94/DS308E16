@@ -19,24 +19,12 @@ namespace StudyPlatform.Tests.DatabaseTests
         [TestMethod]
         public void CommandsSetValue_StringAsValue_VariableChanged()
         {
-            // Arrange
-            string stringValue = Instances.Name;
-
             // Act
-            Commands.SetValue("persons", 1, "name", Instances.Name);
+            Commands.SetValue("Person", 1, "Name", Instances.Name);
 
             // Assert
             Person person = Getters.GetPersonByID(1);
             Assert.AreEqual(Instances.Name, person.Name);
-        }
-        [TestMethod]
-        public void CommandsCreateTable_ValidParameters_TableCreated()
-        {
-            // Act
-            Commands.CreateTable("testtable", "testvariable TEXT");
-
-            // Assert
-            Common.TestTableExists("testtable", true);
         }
         [TestMethod]
         public void CommandsInsertInto_ValidParameters_RoomInserted()
@@ -45,7 +33,7 @@ namespace StudyPlatform.Tests.DatabaseTests
             int preActRoomCount = Lists.Rooms.Count;
 
             // Act
-            Commands.InsertInto("rooms", "NULL", Instances.Name);
+            Commands.InsertInto("Room", "NULL", Instances.Name);
 
             // Assert
             Assert.AreEqual(preActRoomCount + 1, Lists.Rooms.Count);
@@ -58,28 +46,19 @@ namespace StudyPlatform.Tests.DatabaseTests
             int preActPersonCount = Lists.Persons.Count;
 
             // Act
-            Commands.DeleteFrom("persons", "id=1");
+            Commands.DeleteFrom("Person", "ID=1");
 
             // Assert
             Assert.AreEqual(preActPersonCount - 1, Lists.Persons.Count);
         }
         [TestMethod]
-        public void CommandsDropTable_ValidParameters_TableDropped()
-        {
-            // Act
-            Commands.DropTable("persons");
-
-            // Assert
-            Common.TestTableExists("persons", false);
-        }
-        [TestMethod]
         public void CommandsGetLatestRows_FourRoomsCreated_RoomsReturnedInReverseOrder()
         {
             // Arrange
-            Commands.InsertInto("rooms", "NULL", "1");
-            Commands.InsertInto("rooms", "NULL", "2");
-            Commands.InsertInto("rooms", "NULL", "3");
-            Commands.InsertInto("rooms", "NULL", "4");
+            Commands.InsertInto("Room", "NULL", "1");
+            Commands.InsertInto("Room", "NULL", "2");
+            Commands.InsertInto("Room", "NULL", "3");
+            Commands.InsertInto("Room", "NULL", "4");
 
             // Act
             List<Room> Rooms = Getters.GetLatestRooms(3);

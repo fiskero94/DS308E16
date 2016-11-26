@@ -8,16 +8,15 @@ namespace StudyPlatform.Classes.Model
 {
     public class Assignment
     {
-        private uint _id;
-        private uint _assignmentdescriptionid;
-        private uint _studentid;
+        private readonly uint _assignmentdescriptionid;
+        private readonly uint _studentid;
         private string _comment;
         private uint _gradeid;
         private DateTime _deadline;
 
         public Assignment(uint id, uint assignmentdescriptionid, uint studentid, string comment, uint gradeid, DateTime deadline)
         {
-            _id = id;
+            ID = id;
             _assignmentdescriptionid = assignmentdescriptionid;
             _studentid = studentid;
             _comment = comment;
@@ -30,7 +29,7 @@ namespace StudyPlatform.Classes.Model
 
         }
 
-        public uint ID => _id;
+        public uint ID { get; }
 
         public AssignmentDescription AssignmentDescription => Getters.GetAssignmentDescriptionByID(_assignmentdescriptionid);
 

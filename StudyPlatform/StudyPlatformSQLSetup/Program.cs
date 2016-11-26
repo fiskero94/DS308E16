@@ -108,6 +108,7 @@ namespace StudyPlatformSQLSetup
                 "ID INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY",
                 "CourseID INT UNSIGNED NOT NULL",
                 "Description TEXT NOT NULL",
+                "Cancelled BOOL NOT NULL",
                 "Deadline DATETIME NOT NULL");
             CreateTable("AssignmentDescriptionFile",
                 "AssignmentDescriptionID INT UNSIGNED NOT NULL",
@@ -118,7 +119,6 @@ namespace StudyPlatformSQLSetup
                 "StudentID INT UNSIGNED NOT NULL",
                 "GradeID INT UNSIGNED",
                 "Comment TEXT NOT NULL",
-                "Cancelled BOOL NOT NULL",
                 "DateTime DATETIME NOT NULL");
             CreateTable("AssignmentFile",
                 "AssignmentID INT UNSIGNED NOT NULL",
@@ -151,7 +151,7 @@ namespace StudyPlatformSQLSetup
                 connection.Open();
                 command.CommandText = query;
                 command.ExecuteNonQuery();
-                connection.Close();
+                // connection.Close();
             }
         }
         static void CreateTable(string tableName, params string[] variables)

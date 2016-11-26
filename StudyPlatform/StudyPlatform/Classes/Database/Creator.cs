@@ -79,7 +79,7 @@ namespace StudyPlatform.Classes.Database
         {
             Common.EnsureNotNull(course, description, deadline, filepaths);
             Commands.InsertInto("AssignmentDescription", "NULL", course.ID.ToString(), description, 
-                deadline.ToString("yyyy-MM-dd HH:mm:ss"));
+                "FALSE", deadline.ToString("yyyy-MM-dd HH:mm:ss"));
             AssignmentDescription assignmentDescription = Getters.GetLatestAssignmentDescriptions(1).Single();
             foreach (string filepath in filepaths)
                 Commands.InsertInto("AssignentDescriptionFile", assignmentDescription.ID.ToString(), filepath);
@@ -89,7 +89,7 @@ namespace StudyPlatform.Classes.Database
         {
             Common.EnsureNotNull(assignmentDescription, student, comment, filepaths);
             Commands.InsertInto("Assignment", "NULL", assignmentDescription.ID.ToString(), 
-                student.ID.ToString(), "NULL", comment, "FALSE", "NOW()");
+                student.ID.ToString(), "NULL", comment, "NOW()");
             Assignment assignment = Getters.GetLatestAssignments(1).Single();
             foreach (string filepath in filepaths)
                 Commands.InsertInto("AssignmentFile", assignment.ID.ToString(), filepath);
