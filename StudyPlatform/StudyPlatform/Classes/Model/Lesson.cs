@@ -8,8 +8,7 @@ namespace StudyPlatform.Classes.Model
 {
     public class Lesson
     {
-        private uint _id;
-        private uint _courseid;
+        private readonly uint _courseid;
         private string _description;
         private bool _online;
         private bool _cancelled;
@@ -17,7 +16,7 @@ namespace StudyPlatform.Classes.Model
 
         public Lesson(uint id, uint courseid, string description, bool online, bool cancelled, DateTime dateTime)
         {
-            _id = id;
+            ID = id;
             _courseid = courseid;
             _description = description;
             _online = online;
@@ -25,7 +24,7 @@ namespace StudyPlatform.Classes.Model
             _dateTime = dateTime;
         }
         
-        public uint ID => _id;
+        public uint ID { get; }
         public Course Course => Getters.GetCourseByID(_courseid);
         public DateTime DateTime
         {
@@ -37,13 +36,10 @@ namespace StudyPlatform.Classes.Model
             {
                 if (value == null)
                     throw new ArgumentNullException();
-                else
-                {
-                    foreach (Room room in Rooms)
-                        room.CheckAvailability(value);
-                    Commands.SetValue("Lesson", ID, "DateTime", value.ToString("yyyy-MM-dd HH:mm:ss"));
-                    _dateTime = value;
-                }
+                foreach (Room room in Rooms)
+                    room.CheckAvailability(value);
+                Commands.SetValue("Lesson", ID, "DateTime", value.ToString("yyyy-MM-dd HH:mm:ss"));
+                _dateTime = value;
             }
         }
         public string Description
@@ -56,11 +52,8 @@ namespace StudyPlatform.Classes.Model
             {
                 if (value == null)
                     throw new ArgumentNullException();
-                else
-                {
-                    Commands.SetValue("Lesson", ID, "Description", value);
-                    _description = value;
-                }
+                Commands.SetValue("Lesson", ID, "Description", value);
+                _description = value;
             }
 
         }
@@ -72,7 +65,6 @@ namespace StudyPlatform.Classes.Model
             }
             set
             {
-
                 Commands.SetValue("Lesson", ID, "Online", value.ToString().ToUpper());
                 _online = value;
             }
@@ -115,7 +107,6 @@ namespace StudyPlatform.Classes.Model
         public void Remove() => Remover.RemoveLesson(this);
         public void GiveAbsence(Student student) =>
             Commands.InsertInto("StudentAbsence", student.ID.ToString(), ID.ToString());
-        
         public static Lesson GetByID(uint id) => Getters.GetLessonByID(id);
         public static List<Lesson> Find(params string[] conditions) => Getters.GetLessonsByConditions(conditions);
         public static List<Lesson> AllLessons => Lists.Lessons;

@@ -37,13 +37,13 @@ namespace StudyPlatform.Classes.Database
                 string type = reader.GetString(reader.GetOrdinal("type"));
                 switch (type)
                 {
-                    case "student":
+                    case "Student":
                         persons.Add(new Student(id, name));
                         break;
-                    case "teacher":
+                    case "Teacher":
                         persons.Add(new Teacher(id, name));
                         break;
-                    case "secretary":
+                    case "Secretary":
                         persons.Add(new Secretary(id, name));
                         break;
                     default:
@@ -79,7 +79,7 @@ namespace StudyPlatform.Classes.Database
                 uint authorid = reader.GetUInt32(reader.GetOrdinal("authorid"));
                 string title = reader.GetString(reader.GetOrdinal("title"));
                 string text = reader.GetString(reader.GetOrdinal("text"));
-                DateTime date = reader.GetDateTime(reader.GetOrdinal("date"));
+                DateTime date = reader.GetDateTime(reader.GetOrdinal("datetime"));
                 news.Add(new News(id, authorid, title, text, date));
             }
             connectionReader.Connection.Close();
@@ -108,10 +108,10 @@ namespace StudyPlatform.Classes.Database
                 uint id = reader.GetUInt32(reader.GetOrdinal("id"));
                 uint courseid = reader.GetUInt32("courseid");
                 string description = reader.GetString(reader.GetOrdinal("description"));
-                DateTime date = reader.GetDateTime(reader.GetOrdinal("date"));
+                DateTime date = reader.GetDateTime(reader.GetOrdinal("datetime"));
                 bool online = reader.GetBoolean(reader.GetOrdinal("online"));
-                bool active = reader.GetBoolean(reader.GetOrdinal("active"));
-                lessons.Add(new Lesson(id, courseid, description, online, active, date));
+                bool cancelled = reader.GetBoolean(reader.GetOrdinal("cancelled"));
+                lessons.Add(new Lesson(id, courseid, description, online, cancelled, date));
             }
             connectionReader.Connection.Close();
             return lessons;
@@ -154,7 +154,7 @@ namespace StudyPlatform.Classes.Database
                 uint assignmentdescriptionid = reader.GetUInt32(reader.GetOrdinal("assignmentdescriptionid"));
                 uint studentid = reader.GetUInt32(reader.GetOrdinal("studentid"));
                 string comment = reader.GetString(reader.GetOrdinal("comment"));
-                DateTime date = reader.GetDateTime(reader.GetOrdinal("date"));
+                DateTime date = reader.GetDateTime(reader.GetOrdinal("datetime"));
                 uint gradeid;
                 try
                 {

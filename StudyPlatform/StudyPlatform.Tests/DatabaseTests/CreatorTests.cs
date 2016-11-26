@@ -24,7 +24,7 @@ namespace StudyPlatform.Tests.DatabaseTests
         [TestMethod]
         public void CreatorCreateStudent_EmptyStringParameters_ArgumentExceptionThrown() =>
             Common.TestActionForExceptionThrown(new ArgumentException(),
-            new Action<string, string, string>(Creator.CreateStudent), "", "", "");
+            Creator.CreateStudent, "", "", "");
         [TestMethod]
         public void CreatorCreateStudent_NullParameters_ArgumentNullExceptionThrown() =>
             Common.TestActionForExceptionThrown(new ArgumentNullException(), 
@@ -35,7 +35,7 @@ namespace StudyPlatform.Tests.DatabaseTests
         [TestMethod]
         public void CreatorCreateTeacher_EmptyStringParameters_ArgumentExceptionThrown() =>
             Common.TestActionForExceptionThrown(new ArgumentException(),
-            new Action<string, string, string>(Creator.CreateTeacher), "", "", "");
+            Creator.CreateTeacher, "", "", "");
         [TestMethod]
         public void CreatorCreateTeacher_NullParameters_ArgumentNullExceptionThrown() =>
             Common.TestActionForExceptionThrown(new ArgumentNullException(),
@@ -46,7 +46,7 @@ namespace StudyPlatform.Tests.DatabaseTests
         [TestMethod]
         public void CreatorCreateSecretary_EmptyStringParameters_ArgumentExceptionThrown() =>
             Common.TestActionForExceptionThrown(new ArgumentException(),
-            new Action<string, string, string>(Creator.CreateSecretary), "", "", "");
+            Creator.CreateSecretary, "", "", "");
         [TestMethod]
         public void CreatorCreateSecretary_NullParameters_ArgumentNullExceptionThrown() =>
             Common.TestActionForExceptionThrown(new ArgumentNullException(),
@@ -57,7 +57,7 @@ namespace StudyPlatform.Tests.DatabaseTests
             List<Person> recipients = Instances.Recipients;
             recipients.Add(Instances.Secretary);
             Creator.CreateMessage(Instances.Secretary, Instances.Title, 
-            Instances.Text, Instances.Recipients, Instances.Filepaths);
+            Instances.Text, recipients, Instances.Filepaths);
         }
         [TestMethod]
         public void CreatorCreateMessage_EmptyStringParameters_ArgumentExceptionThrown() =>
@@ -80,7 +80,7 @@ namespace StudyPlatform.Tests.DatabaseTests
         [TestMethod]
         public void CreatorCreateNews_EmptyStringParameters_ArgumentExceptionThrown() =>
             Common.TestActionForExceptionThrown(new ArgumentException(),
-            new Action<Secretary, string, string>(Creator.CreateNews), Instances.Secretary, "", "");
+            Creator.CreateNews, Instances.Secretary, "", "");
         [TestMethod]
         public void CreatorCreateNews_NullParameters_ArgumentNullExceptionThrown() =>
             Common.TestActionForExceptionThrown(new ArgumentNullException(),
@@ -91,7 +91,7 @@ namespace StudyPlatform.Tests.DatabaseTests
         [TestMethod]
         public void CreatorCreateCourse_EmptyStringParameters_ArgumentExceptionThrown() =>
             Common.TestActionForExceptionThrown(new ArgumentException(),
-            new Action<string, string>(Creator.CreateCourse), "", "");
+            Creator.CreateCourse, "", "");
         [TestMethod]
         public void CreatorCreateCourse_NullParameters_ArgumentNullExceptionThrown() =>
             Common.TestActionForExceptionThrown(new ArgumentNullException(),
@@ -115,7 +115,7 @@ namespace StudyPlatform.Tests.DatabaseTests
         [TestMethod]
         public void CreatorCreateRoom_EmptyStringParameters_ArgumentExceptionThrown() =>
             Common.TestActionForExceptionThrown(new ArgumentException(),
-            new Action<string>(Creator.CreateRoom), "");
+            Creator.CreateRoom, "");
         [TestMethod]
         public void CreatorCreateRoom_NullParameters_ArgumentNullExceptionThrown() =>
             Common.TestActionForExceptionThrown(new ArgumentNullException(),
@@ -164,7 +164,7 @@ namespace StudyPlatform.Tests.DatabaseTests
         [TestMethod]
         public void CreatorCreateAssignmentGrade_11AsGrade_InvalidGradeExceptionThrown() =>
             Common.TestActionForExceptionThrown(new InvalidGradeException(),
-            new Action<string, string, Assignment>(Creator.CreateAssignmentGrade),
+            Creator.CreateAssignmentGrade,
             "11", Instances.Comment, Instances.Assignment);
         [TestMethod]
         public void CreatorCreateCourseGrade_ValidParameters_NoExceptionThrown()
@@ -183,7 +183,7 @@ namespace StudyPlatform.Tests.DatabaseTests
         [TestMethod]
         public void CreatorCreateCourseGrade_11AsGrade_InvalidGradeExceptionThrown() =>
             Common.TestActionForExceptionThrown(new InvalidGradeException(),
-            new Action<Course, Student, string, string>(Creator.CreateCourseGrade),
+            Creator.CreateCourseGrade,
             Instances.Course, Instances.Student, "11", Instances.Comment);
     }
 }
