@@ -67,7 +67,7 @@ namespace StudyPlatformSQLSetup
                 "Password TEXT NOT NULL",
                 "Type ENUM('Student','Teacher','Secretary') NOT NULL");
             CreateTable("PersonCourse", 
-                "PersonID INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY", 
+                "PersonID INT UNSIGNED NOT NULL", 
                 "CourseID INT UNSIGNED NOT NULL");
             CreateTable("StudentAbsence", 
                 "StudentID INT UNSIGNED NOT NULL",
