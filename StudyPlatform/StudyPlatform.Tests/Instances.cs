@@ -10,12 +10,12 @@ namespace StudyPlatform.Tests
     static class Instances
     {
         public static Assignment Assignment => new Assignment(ID, ID, ID, Comment, ID, Date);
-        public static AssignmentDescription AssignmentDescription => new AssignmentDescription(ID, ID, Description, Date);
+        public static AssignmentDescription AssignmentDescription => new AssignmentDescription(ID, ID, Description, Cancelled, Date);
         public static AssignmentGrade AssignmentGrade => new AssignmentGrade(ID, Grade, Comment, ID);
         public static Course Course => new Course(ID, Name, Description);
         public static CourseGrade CourseGrade => new CourseGrade(ID, Grade, Comment, ID, ID);
         public static Lesson Lesson => new Lesson(ID, ID, Description, Online, Cancelled, Date);
-        public static Message Message => new Message(ID, ID, Title, Text);
+        public static Message Message => new Message(ID, ID, Title, Text, Date);
         public static News News => new News(ID, ID, Title, Text, Date);
         public static Room Room => new Room(ID, Name);
         public static Secretary Secretary => new Secretary(ID, Name);

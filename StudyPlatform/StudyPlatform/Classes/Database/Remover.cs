@@ -79,8 +79,8 @@ namespace StudyPlatform.Classes.Database
         }
         public static void RemoveAssignmentGrade(AssignmentGrade grade)
         {
-            Commands.DeleteFrom("AssignmentGrade", "ID=" + grade.ID);
             Commands.SetValue("Assignment", grade.Assignment.ID, "GradeID", "NULL");
+            Commands.DeleteFrom("AssignmentGrade", "ID=" + grade.ID);
             grade = null;
         }
         public static void RemoveCourseGrade(CourseGrade grade)
