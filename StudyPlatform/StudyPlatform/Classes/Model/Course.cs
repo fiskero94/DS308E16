@@ -131,27 +131,36 @@ namespace StudyPlatform.Classes.Model
             return Getters.GetLatestCourses(1).Single();
         }
         public void Remove() => Remover.RemoveCourse(this);
+
+        private void AddPerson(Person person)
+        {
+            Commands.InsertInto("PersonCourse", person.ID.ToString(), ID.ToString());
+        }
+
+        private void RemovePerson(Person person)
+        {
+            Commands.DeleteFrom("PersonCourse", person.ID.ToString());
+        }
         public void AddStudent(Student student)
         {
-            Commands.InsertInto("personcourses" + student.ID.ToString(), ID.ToString());
-            Commands.InsertInto("coursestudents" + ID.ToString(), student.ID.ToString());
+            AddPerson(student);
         }
         public void AddTeacher(Teacher teacher)
         {
-            Commands.InsertInto("personcourses" + teacher.ID, ID.ToString());
-            Commands.InsertInto("courseteachers" + ID.ToString(), teacher.ID.ToString());
+            AddPerson(teacher);
         }
         public void RemoveStudent(Student student)
         {
-            Commands.DeleteFrom("personcourses" + student.ID, "courseid=" + ID);
-            Commands.DeleteFrom("coursestudents" + ID, "studentid=" + student.ID);
-            //DELETE FROM ASSIGNMENTS IN COURSE
-            //DELETE ABSENCE FROM LESSONS IN COURSE
+            foreach (Assignment studentAssignment in student.Assignments)
+                if(studentAssignment.AssignmentDescription.Course.ID == ID)
+                    Remover.RemoveAssignment(studentAssignment);
+            foreach (Lesson lesson in Lessons)
+                    lesson.RemoveAbsence(student);
+            RemovePerson(student);
         }
         public void RemoveTeacher(Teacher teacher)
         {
-            Commands.DeleteFrom("personcourses" + teacher.ID, "courseid=" + ID);
-            Commands.DeleteFrom("courseteachers" + ID, "teacher=" + teacher.ID);
+            RemovePerson(teacher);
         }
     }
 }

@@ -44,7 +44,7 @@ namespace StudyPlatform.Classes.Model
             get
             {
                 Query query = new Query("SELECT * FROM studyplatform.MessageRecipient WHERE PersonID=" + ID);
-                uint[] ids = Extractor.ExtractIDs(query.Execute(), "field");
+                uint[] ids = Extractor.ExtractIDs(query.Execute(), "MessageID");
                 List<Message> recievedMessages = new List<Message>();
                 foreach (uint id in ids)
                     recievedMessages.Add(Getters.GetMessageByID(id));

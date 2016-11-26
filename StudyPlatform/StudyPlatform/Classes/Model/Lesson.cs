@@ -115,7 +115,9 @@ namespace StudyPlatform.Classes.Model
         public void Remove() => Remover.RemoveLesson(this);
         public void GiveAbsence(Student student) =>
             Commands.InsertInto("StudentAbsence", student.ID.ToString(), ID.ToString());
-        
+        public void RemoveAbsence(Student student) =>
+            Commands.DeleteFrom("StudentAbsence", "StudentID=" + student.ID + " AND LessonID=" + ID);
+
         public static Lesson GetByID(uint id) => Getters.GetLessonByID(id);
         public static List<Lesson> Find(params string[] conditions) => Getters.GetLessonsByConditions(conditions);
         public static List<Lesson> AllLessons => Lists.Lessons;

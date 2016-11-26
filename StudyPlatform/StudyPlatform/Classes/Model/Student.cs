@@ -17,8 +17,8 @@ namespace StudyPlatform.Classes.Model
         {
             get
             {
-                Query query = new Query("SELECT * FROM studyplatform.personcourses" + ID);
-                uint[] ids = Extractor.ExtractIDs(query.Execute(), "field");
+                Query query = new Query("SELECT * FROM studyplatform.PersonCourse WHERE PersonID=" + ID);
+                uint[] ids = Extractor.ExtractIDs(query.Execute(), "CourseID");
                 List<Course> courses = new List<Course>();
                 foreach (uint id in ids)
                     courses.Add(Getters.GetCourseByID(id));
