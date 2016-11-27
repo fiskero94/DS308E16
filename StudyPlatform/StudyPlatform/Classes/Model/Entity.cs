@@ -23,6 +23,9 @@ namespace StudyPlatform.Classes.Model
         private static readonly Dictionary<Type, string> TablesByType = new Dictionary<Type, string>
         {
             { typeof(Person), "Person" },
+            { typeof(Student), "Person WHERE type='Student'" },
+            { typeof(Student), "Person WHERE type='Teacher'" },
+            { typeof(Student), "Person WHERE type='Secretary'" },
             { typeof(Message), "Message" },
             { typeof(News), "News" },
             { typeof(Course), "Course" },
@@ -37,6 +40,9 @@ namespace StudyPlatform.Classes.Model
             new Dictionary<Type, Func<MySqlConnectionReader, object>>
             {
             { typeof(Person), Extractor.ExtractPersons },
+            { typeof(Student), Extractor.ExtractStudents },
+            { typeof(Teacher), Extractor.ExtractTeachers },
+            { typeof(Secretary), Extractor.ExtractSecretaries },
             { typeof(Message), Extractor.ExtractMessages },
             { typeof(News), Extractor.ExtractNews },
             { typeof(Course), Extractor.ExtractCourses },
@@ -48,7 +54,7 @@ namespace StudyPlatform.Classes.Model
             { typeof(CourseGrade), Extractor.ExtractCourseGrades }
         };
 
-        private static T GetRecordByID<T>(uint id)
+        protected static T GetRecordByID<T>(uint id)
         {
             try
             {
@@ -60,7 +66,7 @@ namespace StudyPlatform.Classes.Model
                 throw new InvalidIDException();
             }
         }
-        private static List<T> GetRecordsByConditions<T>(params string[] conditions)
+        protected static List<T> GetRecordsByConditions<T>(params string[] conditions)
         {
             string queryString = "SELECT * FROM studyplatform." + TablesByType[typeof(T)] + " WHERE ";
             Common.AppendStringArray(ref queryString, " AND ", conditions);
@@ -68,10 +74,10 @@ namespace StudyPlatform.Classes.Model
             Query query = new Query(queryString);
             return (List<T>)ExtractMethodsByType[typeof(T)].Invoke(query.Execute());
         }
-        private static List<T> GetLatestRecords<T>(uint count) =>
+        protected static List<T> GetLatestRecords<T>(uint count) =>
             (List<T>)ExtractMethodsByType[typeof(T)].Invoke(Commands.GetLatestRows(TablesByType[typeof(T)], count));
 
-        private static List<T> GetAll<T>()
+        protected static List<T> GetAll<T>()
         {
             Query query = new Query("SELECT * FROM studyplatform." + TablesByType[typeof(T)] + ";");
             return (List<T>)ExtractMethodsByType[typeof(T)].Invoke(query.Execute());
