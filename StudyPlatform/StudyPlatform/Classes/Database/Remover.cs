@@ -72,7 +72,9 @@ namespace StudyPlatform.Classes.Database
         }
         public static void RemoveAssignment(Assignment assignment)
         {
-            RemoveAssignmentGrade(assignment.Grade);
+            if(assignment.Grade != null)
+                RemoveAssignmentGrade(assignment.Grade);
+
             Commands.DeleteFrom("AssignmentFile", "AssignmentID=" + assignment.ID);
             Commands.DeleteFrom("Assignment", "ID=" + assignment.ID);
             assignment = null;
