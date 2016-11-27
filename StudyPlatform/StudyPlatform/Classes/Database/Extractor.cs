@@ -3,6 +3,7 @@ using StudyPlatform.Classes.Exceptions;
 using StudyPlatform.Classes.Model;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace StudyPlatform.Classes.Database
 {
@@ -53,6 +54,12 @@ namespace StudyPlatform.Classes.Database
             connectionReader.Connection.Close();
             return persons;
         }
+        public static List<Student> ExtractStudents(MySqlConnectionReader connectionReader) =>
+            ExtractPersons(connectionReader).Cast<Student>().ToList();
+        public static List<Teacher> ExtractTeachers(MySqlConnectionReader connectionReader) =>
+            ExtractPersons(connectionReader).Cast<Teacher>().ToList();
+        public static List<Secretary> ExtractSecretaries(MySqlConnectionReader connectionReader) =>
+            ExtractPersons(connectionReader).Cast<Secretary>().ToList();
         public static List<Message> ExtractMessages(MySqlConnectionReader connectionReader)
         {
             MySqlDataReader reader = connectionReader.Reader;

@@ -41,25 +41,10 @@ namespace StudyPlatform.Classes.Model
             return GetLatest(1).Single();
         }
 
-        public new static Student GetByID(uint id)
-        {
-            Query query = new Query("SELECT * FROM studyplatform.Person WHERE id=" + id + " AND type='Student';");
-            return Extractor.ExtractPersons(query.Execute()).Single() as Student;
-        }
-        public new static List<Student> GetAll()
-        {
-            Query query = new Query("SELECT * FROM studyplatform.Person WHERE type='Student';");
-            return Extractor.ExtractPersons(query.Execute()).Cast<Student>().ToList();
-        }
+        public new static Student GetByID(uint id) => GetRecordByID<Student>(id);
+        public new static List<Student> GetAll() => GetAll<Student>();
         public new static List<Student> GetByConditions(params string[] conditions)
-        {
-            string queryString = "SELECT * FROM studyplatform.Person WHERE type='Student' AND ";
-            Common.AppendStringArray(ref queryString, " AND ", conditions);
-            queryString += ";";
-            Query query = new Query(queryString);
-            return Extractor.ExtractPersons(query.Execute()).Cast<Student>().ToList();
-        }
-        public new static List<Student> GetLatest(uint count) =>
-            Extractor.ExtractPersons(Commands.GetLatestRows("Person WHERE type='Student'", count)).Cast<Student>().ToList();
+            => GetRecordsByConditions<Student>(conditions);
+        public new static List<Student> GetLatest(uint count) => GetLatestRecords<Student>(count);
     }
 }
