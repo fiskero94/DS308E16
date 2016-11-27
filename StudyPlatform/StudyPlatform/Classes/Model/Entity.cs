@@ -86,11 +86,17 @@ namespace StudyPlatform.Classes.Model
         }
         protected static List<T> GetLatestRecords<T>(uint count) =>
             (List<T>)ExtractMethodsByType[typeof(T)].Invoke(Commands.GetLatestRows(TablesByType[typeof(T)], count));
-
         protected static List<T> GetAll<T>()
         {
             Query query = new Query("SELECT * FROM studyplatform." + TablesByType[typeof(T)] + ";");
             return (List<T>)ExtractMethodsByType[typeof(T)].Invoke(query.Execute());
+        }
+
+        protected static List<T> GetRelations<T>(string relationTable, string TIdentifier, string relatedIdentifier, uint relatedID)
+        {
+            Query query = new Query("SELECT * FROM studyplatform." + relationTable + " WHERE " + relatedIdentifier + "=" + relatedID + ";");
+            uint[] ids = Extractor.ExtractIDs(query.Execute(), TIdentifier);
+            return ids.Select(GetRecordByID<T>).ToList();
         }
     }
 }
