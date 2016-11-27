@@ -17,7 +17,14 @@ namespace StudyPlatform.Classes.Model
         {
             get
             {
-                throw new NotImplementedException();
+                Query query = new Query("SELECT * FROM studyplatform.PersonCourse WHERE PersonID=" + ID + ";");
+                uint[] courseList = Extractor.ExtractIDs(query.Execute(), "CourseID");
+                List<Course> personCourses = new List<Course>();
+                foreach (uint course in courseList)
+                {
+                    personCourses.Add(Course.GetByID(course));
+                }
+                return personCourses;
             }
         }
         public List<Assignment> Assignments
@@ -31,7 +38,14 @@ namespace StudyPlatform.Classes.Model
         {
             get
             {
-                throw new NotImplementedException();
+                Query query = new Query("SELECT * FROM studyplatform.StudentAbsence WHERE StudentID=" + ID + ";");
+                uint[] absenceList = Extractor.ExtractIDs(query.Execute(), "LessonID");
+                List<Lesson> studentAbsences = new List<Lesson>();
+                foreach (uint lessonID in absenceList)
+                {
+                    studentAbsences.Add(Lesson.GetByID(lessonID));
+                }
+                return studentAbsences;
             }
         }
 
