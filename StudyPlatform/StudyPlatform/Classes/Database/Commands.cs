@@ -21,7 +21,7 @@ namespace StudyPlatform.Classes.Database
         {
             Common.EnsureNotNull(tableName, variable, value);
             value = AddApostrophes(value)[0];
-            Query.ExecuteQueryString("UPDATE " + tableName + " SET " + variable + "=" + value + " WHERE id='" + id + "';");
+            Query.ExecuteQueryString("UPDATE " + tableName + " SET " + variable + "=" + value + " WHERE ID='" + id + "';");
         }
         public static void InsertInto(string tableName, params string[] values)
         {
@@ -37,13 +37,13 @@ namespace StudyPlatform.Classes.Database
         }
         public static MySqlConnectionReader GetLatestRows(string tableName, uint count)
         {
-            Query query = new Query("SELECT * FROM studyplatform." + tableName + " ORDER BY id DESC LIMIT " + count + ";");
+            Query query = new Query("SELECT * FROM studyplatform." + tableName + " ORDER BY ID DESC LIMIT " + count + ";");
             return query.Execute();
         }
         public static bool CheckNull(string tableName, uint id, string variable)
         {
             Common.EnsureNotNull(tableName, variable);
-            Query query = new Query("SELECT * FROM " + tableName + " WHERE id='" + id + "';");
+            Query query = new Query("SELECT * FROM " + tableName + " WHERE ID='" + id + "';");
             MySqlConnectionReader connectionReader = query.Execute();
             MySqlDataReader reader = connectionReader.Reader;
             if (reader.HasRows && reader.Read())

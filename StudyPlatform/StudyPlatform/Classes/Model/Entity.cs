@@ -23,9 +23,9 @@ namespace StudyPlatform.Classes.Model
         private static readonly Dictionary<Type, string> TablesByType = new Dictionary<Type, string>
         {
             { typeof(Person), "Person" },
-            { typeof(Student), "Person WHERE type='Student'" },
-            { typeof(Student), "Person WHERE type='Teacher'" },
-            { typeof(Student), "Person WHERE type='Secretary'" },
+            { typeof(Student), "Person WHERE Type='Student'" },
+            { typeof(Teacher), "Person WHERE Type='Teacher'" },
+            { typeof(Secretary), "Person WHERE Type='Secretary'" },
             { typeof(Message), "Message" },
             { typeof(News), "News" },
             { typeof(Course), "Course" },
@@ -69,6 +69,9 @@ namespace StudyPlatform.Classes.Model
         protected static List<T> GetRecordsByConditions<T>(params string[] conditions)
         {
             string queryString = "SELECT * FROM studyplatform." + TablesByType[typeof(T)] + " WHERE ";
+            if (typeof(T) == typeof(Teacher) || typeof(T) == typeof(Student) || typeof(T) == typeof(Secretary))
+                queryString = "SELECT * FROM studyplatform." + TablesByType[typeof(T)] + " AND ";
+
             Common.AppendStringArray(ref queryString, " AND ", conditions);
             queryString += ";";
             Query query = new Query(queryString);

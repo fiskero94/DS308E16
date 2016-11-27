@@ -24,7 +24,7 @@ namespace StudyPlatform.Tests.DatabaseTests
         {
             //ARRANGE
             Creator.CreateStudent(Instances.Name, Instances.Username, Instances.Password);
-            Student student = Person.GetLatest(1).Single() as Student;
+            Student student = Student.GetLatest(1).Single();
             Creator.CreateCourse(Instances.Name, Instances.Description);
             Course course = Course.GetLatest(1).Single();
             Creator.CreateLesson(course, Instances.Description, Instances.Online, Instances.Date, Instances.Rooms, Instances.Filepaths);

@@ -13,14 +13,22 @@ namespace StudyPlatform.Classes.Model
 
         }
 
-        public List<Course> Courses => GetRelations<Course>("PersonCourse", "CourseID", "PersonID", ID);
-        public List<Assignment> Assignments
+        public List<Course> Courses
         {
             get
             {
-                throw new NotImplementedException();
+                Query query = new Query("SELECT * FROM studyplatform.PersonCourse WHERE PersonID=" + ID + ";");
+                uint[] courseList = Extractor.ExtractIDs(query.Execute(), "CourseID");
+                List<Course> personCourses = new List<Course>();
+                foreach (uint course in courseList)
+                {
+                    personCourses.Add(Course.GetByID(course));
+                }
+                return personCourses;
             }
         }
+        public List<Assignment> Assignments => Assignment.GetByConditions("StudentID=" + ID);
+
         public List<Lesson> Absences
         {
             get
