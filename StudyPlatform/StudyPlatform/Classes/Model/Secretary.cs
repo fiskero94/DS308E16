@@ -24,5 +24,6 @@ namespace StudyPlatform.Classes.Model
         public new static List<Secretary> GetByConditions(params string[] conditions)
             => GetRecordsByConditions<Secretary>(conditions);
         public new static List<Secretary> GetLatest(uint count) => GetLatestRecords<Secretary>(count);
+        public new static Secretary GetLatest() => GetLatestRecord<Secretary>();
     }
 }

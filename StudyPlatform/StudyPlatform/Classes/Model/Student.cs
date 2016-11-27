@@ -22,11 +22,12 @@ namespace StudyPlatform.Classes.Model
             Creator.CreateStudent(name, username, password);
             return GetLatest(1).Single();
         }
-
+        
         public new static Student GetByID(uint id) => GetRecordByID<Student>(id);
         public new static List<Student> GetAll() => GetAll<Student>();
         public new static List<Student> GetByConditions(params string[] conditions)
             => GetRecordsByConditions<Student>(conditions);
         public new static List<Student> GetLatest(uint count) => GetLatestRecords<Student>(count);
+        public new static Student GetLatest() => GetLatestRecord<Student>();
     }
 }

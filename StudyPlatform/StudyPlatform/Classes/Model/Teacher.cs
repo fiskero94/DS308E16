@@ -26,5 +26,6 @@ namespace StudyPlatform.Classes.Model
         public new static List<Teacher> GetByConditions(params string[] conditions)
             => GetRecordsByConditions<Teacher>(conditions);
         public new static List<Teacher> GetLatest(uint count) => GetLatestRecords<Teacher>(count);
+        public new static Teacher GetLatest() => GetLatestRecord<Teacher>();
     }
 }
