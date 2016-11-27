@@ -19,6 +19,7 @@ namespace StudyPlatform.Classes.Model
         public static ClassT GetByID(uint id) => GetRecordByID<ClassT>(id);
         public static List<ClassT> GetByConditions(params string[] conditions) => GetRecordsByConditions<ClassT>(conditions);
         public static List<ClassT> GetLatest(uint count) => GetLatestRecords<ClassT>(count);
+        public static ClassT GetLatest() => GetLatestRecord<ClassT>();
         public static List<ClassT> GetAll() => GetAll<ClassT>();
 
         private static readonly Dictionary<Type, string> TablesByType = new Dictionary<Type, string>
@@ -86,6 +87,8 @@ namespace StudyPlatform.Classes.Model
         }
         protected static List<T> GetLatestRecords<T>(uint count) =>
             (List<T>)ExtractMethodsByType[typeof(T)].Invoke(Commands.GetLatestRows(TablesByType[typeof(T)], count));
+        protected static T GetLatestRecord<T>() =>
+            ((List<T>)ExtractMethodsByType[typeof(T)].Invoke(Commands.GetLatestRows(TablesByType[typeof(T)], 1))).Single();
         protected static List<T> GetAll<T>()
         {
             Query query = new Query("SELECT * FROM studyplatform." + TablesByType[typeof(T)] + ";");

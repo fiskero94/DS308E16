@@ -19,13 +19,13 @@ namespace StudyPlatform.Tests.DatabaseTests
         public void QueryExecuteQueryString_UseAsQueryString_NoExceptionsThrown()
         {
             // Act
-            Query.ExecuteQueryString("DESCRIBE persons;");
+            Query.ExecuteQueryString("DESCRIBE Person;");
         }
         [TestMethod]
         public void QueryExecuteNonReader_DescribeAsQueryString_NoExceptionsThrown()
         {
             // Arrange
-            Query query = new Query("DESCRIBE persons;");
+            Query query = new Query("DESCRIBE Person;");
 
             // Act
             query.ExecuteNonReader();
@@ -34,7 +34,7 @@ namespace StudyPlatform.Tests.DatabaseTests
         public void QueryExecute_DescribeAsQueryString_NoExceptionsThrown()
         {
             // Arrange
-            Query query = new Query("DESCRIBE persons;");
+            Query query = new Query("DESCRIBE Person;");
 
             // Act
             MySqlConnectionReader connectionReader = query.Execute();

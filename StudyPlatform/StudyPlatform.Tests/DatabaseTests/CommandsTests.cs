@@ -37,7 +37,7 @@ namespace StudyPlatform.Tests.DatabaseTests
 
             // Assert
             Assert.AreEqual(preActRoomCount + 1, Room.GetAll().Count);
-            Assert.AreEqual(Instances.Name, Room.GetLatest(1).Single().Name);
+            Assert.AreEqual(Instances.Name, Room.GetLatest().Name);
         }
         [TestMethod]
         public void CommandsDeleteFrom_ValidParameters_PersonRemoved()
@@ -71,12 +71,26 @@ namespace StudyPlatform.Tests.DatabaseTests
         [TestMethod]
         public void CommandsCheckNull_NullVariable_TrueReturned()
         {
-            throw new NotImplementedException();
+            // Arrange
+            Commands.InsertInto("Assignment", "NULL", "1", "1", "NULL", "Comment", Instances.Date.ToString("yyyy-MM-dd HH:mm:ss"));
+            
+            // Act
+            bool isNull = Commands.CheckNull("Assignment", 1, "GradeID");
+
+            // Assert
+            Assert.IsTrue(isNull);
         }
         [TestMethod]
         public void CommandsCheckNull_NonNullVariable_FalseReturned()
         {
-            throw new NotImplementedException();
+            // Arrange
+            Commands.InsertInto("Assignment", "NULL", "1", "1", "1", "Comment", Instances.Date.ToString("yyyy-MM-dd HH:mm:ss"));
+
+            // Act
+            bool isNull = Commands.CheckNull("Assignment", 1, "GradeID");
+
+            // Assert
+            Assert.IsFalse(isNull);
         }
     }
 }
