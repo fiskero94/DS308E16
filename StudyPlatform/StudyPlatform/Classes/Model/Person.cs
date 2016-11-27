@@ -29,20 +29,8 @@ namespace StudyPlatform.Classes.Model
             }
         }
         public List<Message> SentMessages => Message.GetByConditions("SenderID=" + ID);
-        public List<Message> RecievedMessages
-        {
-            get
-            {
-                Query query = new Query("SELECT * FROM studyplatform.MessageRecipient WHERE PersonID=" + ID + ";");
-                uint[] mailUints = Extractor.ExtractIDs(query.Execute(), "MessageID");
-                List<Message> messages = new List<Message>();
-                foreach (uint mailID in mailUints)
-                {
-                    messages.Add(Message.GetByID(mailID));
-                }
-                return messages;
-            }
-        }
+        public List<Message> RecievedMessages => GetRelations<Message>("MessageRecipient", "MessageID", "PersonID", ID);
+
         public void Remove() => Remover.RemovePerson(this);
     }
 }
