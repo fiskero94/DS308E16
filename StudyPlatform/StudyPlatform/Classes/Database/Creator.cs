@@ -59,7 +59,8 @@ namespace StudyPlatform.Classes.Database
         {
             Common.EnsureNotNull(dateTime, description, online, rooms, filepaths, course);
             foreach (Room room in rooms)
-                room.CheckAvailability(dateTime);
+                if (!room.CheckAvailability(dateTime))
+                    throw new RoomUnavailableException(room.Name + " er ikke tilgængelig for tidspunktet " + dateTime);
             Commands.InsertInto("Lesson", "NULL", course.ID.ToString(), description, 
                 online.ToString().ToUpper(), "FALSE", dateTime.ToString("yyyy-MM-dd HH:mm:ss"));
             Lesson lesson = Lesson.GetLatest(1).Single();

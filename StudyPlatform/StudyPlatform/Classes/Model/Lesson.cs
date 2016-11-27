@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using StudyPlatform.Classes.Exceptions;
 
 namespace StudyPlatform.Classes.Model
 {
@@ -33,7 +34,8 @@ namespace StudyPlatform.Classes.Model
             set
             {
                 foreach (Room room in Rooms)
-                    room.CheckAvailability(value);
+                    if (!room.CheckAvailability(value))
+                        throw new RoomUnavailableException(room.Name + " er ikke tilgængelig for tidspunktet " + value);
                 Commands.SetValue("Lesson", ID, "DateTime", value.ToString("yyyy-MM-dd HH:mm:ss"));
                 _dateTime = value;
             }
@@ -79,7 +81,7 @@ namespace StudyPlatform.Classes.Model
         public List<Room> Rooms => GetRelations<Room>("LessonRoom", "RoomID", "LessonID", ID);
         public List<Student> Absences => GetRelations<Student>("StudentAbsence", "StudentID", "LessonID", ID);
         public List<string> Documents => GetDocuments("LessonFile", "LessonID", ID);
-        public static TimeSpan Length => new TimeSpan(0, 45, 0);
+        public static readonly TimeSpan Length = new TimeSpan(0, 45, 0);
 
         public void Remove() => Remover.RemoveLesson(this);
         public void GiveAbsence(Student student) =>

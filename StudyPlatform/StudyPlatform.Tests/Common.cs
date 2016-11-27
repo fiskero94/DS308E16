@@ -25,19 +25,6 @@ namespace StudyPlatform.Tests
             Program.SetupTables(ConfigurationManager.ConnectionStrings["MySQLConnectionString"].ToString());
             Program.SetupAdmin(ConfigurationManager.ConnectionStrings["MySQLConnectionString"].ToString());
         }
-        public static void TestTableExists(string tableName, bool expected)
-        {
-            Query query = new Query("SHOW TABLES;");
-            MySqlConnectionReader connectionReader = query.Execute();
-
-            bool exists = false;
-            while (connectionReader.Reader.Read())
-                if (connectionReader.Reader.GetString(0) == tableName)
-                    exists = true;
-
-            connectionReader.Connection.Close();
-            Assert.AreEqual(expected, exists);
-        }
         public static void TestActionForExceptionThrown<T1>
             (Exception exception, Action<T1> action, 
             T1 p1)

@@ -69,12 +69,6 @@ namespace StudyPlatform.Tests.DatabaseTests
 
             List<Student> absentStudentsTest = lesson.Absences;
             Assert.AreEqual(absentStudentsTest.Count, absentStudents.Count - 1);
-
-            Common.TestTableExists("personsentmessages2", false);
-            Common.TestTableExists("personrecievedmessages2", false);
-            Common.TestTableExists("personcourses2", false);
-            Common.TestTableExists("personassignments2", false);
-            Common.TestTableExists("personabsences2", false);
         }
         [TestMethod]
         public void RemoverRemovePerson_TeacherAsParameter_PersonRemoved()
@@ -93,7 +87,6 @@ namespace StudyPlatform.Tests.DatabaseTests
             //ASSERT
             List<Teacher> courseTeachersTest = course.Teachers;
             Assert.AreEqual(courseTeachersTest.Count, courseTeachers.Count - 1);
-            Common.TestTableExists("personcourses", false);
         }
         [TestMethod]
         public void RemoverRemovePerson_SecretaryAsParameter_PersonRemoved()
@@ -126,8 +119,6 @@ namespace StudyPlatform.Tests.DatabaseTests
 
             // Assert
             Assert.AreEqual(0, Message.GetAll().Count);
-            Common.TestTableExists("messagerecipients1", false);
-            Common.TestTableExists("messagedocuments1", false);
             Assert.AreEqual(0, sender.SentMessages.Count);
             Assert.AreEqual(0, recipients[0].RecievedMessages.Count);
         }
@@ -158,23 +149,14 @@ namespace StudyPlatform.Tests.DatabaseTests
             course.AddTeacher(teacher);
             Creator.CreateLesson(course, Instances.Description, Instances.Online,
                 Instances.Date, Instances.Rooms, Instances.Filepaths);
-            Lesson lesson = Lesson.GetByID(1);
             Creator.CreateAssignmentDescription(course, Instances.Description, Instances.Date, Instances.Filepaths);
-            AssignmentDescription assignmentDescription = AssignmentDescription.GetByID(1);
             Creator.CreateCourseGrade(course, student, Instances.Grade, Instances.Comment);
-            CourseGrade courseGrade = CourseGrade.GetByID(1);
 
             // Act
             Remover.RemoveCourse(course);
 
             // Assert
             Assert.AreEqual(0, Course.GetAll().Count);
-            Common.TestTableExists("courseteachers1", false);
-            Common.TestTableExists("coursestudents1", false);
-            Common.TestTableExists("courselessons1", false);
-            Common.TestTableExists("courseassignmentdescriptions1", false);
-            Common.TestTableExists("coursecoursegrades1", false);
-            Common.TestTableExists("coursedocuments1", false);
             Assert.AreEqual(0, student.Courses.Count);
             Assert.AreEqual(0, teacher.Courses.Count);
             Assert.AreEqual(0, Lesson.GetAll().Count);
@@ -202,9 +184,6 @@ namespace StudyPlatform.Tests.DatabaseTests
 
             // Assert
             Assert.AreEqual(0, Lesson.GetAll().Count);
-            Common.TestTableExists("lessonrooms1", false);
-            Common.TestTableExists("lessonabsences1", false);
-            Common.TestTableExists("lessondocuments1", false);
             Assert.AreEqual(0, course.Lessons.Count);
             Assert.AreEqual(0, student.Absences.Count);
             Assert.AreEqual(0, rooms[0].Reservations.Count);
@@ -220,6 +199,7 @@ namespace StudyPlatform.Tests.DatabaseTests
             Creator.CreateCourse(Instances.Name, Instances.Description);
             Course course = Course.GetByID(1);
             Creator.CreateLesson(course, Instances.Description, Instances.Online, Instances.Date, rooms, Instances.Filepaths);
+            Creator.CreateLesson(course, Instances.Description, Instances.Online, Instances.Date, rooms, Instances.Filepaths);
             Lesson lesson = Lesson.GetByID(1);
 
             // Act
@@ -227,7 +207,6 @@ namespace StudyPlatform.Tests.DatabaseTests
 
             // Assert
             Assert.AreEqual(0, Room.GetAll().Count);
-            Common.TestTableExists("roomreservations1", false);
             Assert.AreEqual(0, lesson.Rooms.Count);
         }
         [TestMethod]
@@ -244,8 +223,6 @@ namespace StudyPlatform.Tests.DatabaseTests
 
             // Assert
             Assert.AreEqual(0, AssignmentDescription.GetAll().Count);
-            Common.TestTableExists("assignmentdescriptionassignments1", false);
-            Common.TestTableExists("assignmentdescriptiondocuments1", false);
             Assert.AreEqual(0, course.AssignmentDescriptions.Count);
         }
         [TestMethod]
@@ -266,7 +243,6 @@ namespace StudyPlatform.Tests.DatabaseTests
 
             // Assert
             Assert.AreEqual(0, Assignment.GetAll().Count);
-            Common.TestTableExists("assignmentdocuments1", false);
             Assert.AreEqual(0, assignmentDescription.Assignments.Count);
             Assert.AreEqual(0, student.Assignments.Count);
         }
