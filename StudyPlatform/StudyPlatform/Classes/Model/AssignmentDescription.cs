@@ -56,22 +56,10 @@ namespace StudyPlatform.Classes.Model
                 _deadline = value;
             }
         }
-        public List<Assignment> Assignments
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-        public List<string> Documents
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-        
+        public List<Assignment> Assignments => Assignment.GetByConditions("AssignmentDescriptionID=" + ID);
+        public List<string> Documents => GetDocuments("AssignmentDescriptionFile", "AssignmentDescriptionID", ID);
         public void Remove() => Remover.RemoveAssignmentDescription(this);
+
         public static AssignmentDescription New(Course course, string description, DateTime deadline, List<string> filepaths)
         {
             Creator.CreateAssignmentDescription(course, description, deadline, filepaths);

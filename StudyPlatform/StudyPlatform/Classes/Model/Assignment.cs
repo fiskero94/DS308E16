@@ -60,13 +60,7 @@ namespace StudyPlatform.Classes.Model
             }
         }
         public DateTime DateTimeSubmitted { get; }
-        public List<string> Documents
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public List<string> Documents => GetDocuments("AssignmentFile", "AssignmentID", ID);
         
         public void Remove() => Remover.RemoveAssignment(this);
         public static Assignment New(AssignmentDescription assignmentDescription, Student student, string comment, List<string> filepaths)

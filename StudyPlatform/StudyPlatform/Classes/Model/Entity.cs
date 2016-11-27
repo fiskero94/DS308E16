@@ -98,5 +98,11 @@ namespace StudyPlatform.Classes.Model
             uint[] ids = Extractor.ExtractIDs(query.Execute(), TIdentifier);
             return ids.Select(GetRecordByID<T>).ToList();
         }
+
+        protected static List<string> GetDocuments(string relationTable,  string relatedIdentifier, uint relatedID)
+        {
+            Query query = new Query("SELECT * FROM studyplatform." + relationTable + " WHERE " + relatedIdentifier + "=" + relatedID + ";");
+            return Extractor.ExtractFilepaths(query.Execute());
+        }
     }
 }

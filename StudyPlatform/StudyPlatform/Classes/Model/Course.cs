@@ -41,49 +41,13 @@ namespace StudyPlatform.Classes.Model
                 _description = value;
             }
         }
-        public List<Teacher> Teachers
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-        public List<Student> Students
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-        public List<Lesson> Lessons
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-        public List<AssignmentDescription> AssignmentDescriptions
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-        public List<CourseGrade> CourseGrades
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-        public List<string> Documents
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-        
+        public List<Teacher> Teachers => GetRelations<Teacher>("PersonCourse", "PersonID", "CourseID", ID);
+        public List<Student> Students => GetRelations<Student>("PersonCourse", "PersonID", "CourseID", ID);
+        public List<Lesson> Lessons => Lesson.GetByConditions("CourseID=" + ID);
+        public List<AssignmentDescription> AssignmentDescriptions => AssignmentDescription.GetByConditions("CourseID=" + ID);
+        public List<CourseGrade> CourseGrades => CourseGrade.GetByConditions("CourseID=" + ID);
+        public List<string> Documents => GetDocuments("CourseFile", "CourseID", ID);
+
         private void AddPerson(Person person) =>
             Commands.InsertInto("PersonCourse", person.ID.ToString(), ID.ToString());
         private void RemovePerson(Person person) =>

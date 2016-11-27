@@ -18,14 +18,14 @@ namespace StudyPlatform.Classes.Database
             connectionReader.Connection.Close();
             return ids.ToArray();
         }
-        public static string[] ExtractFilepaths(MySqlConnectionReader connectionReader)
+        public static List<string> ExtractFilepaths(MySqlConnectionReader connectionReader)
         {
             MySqlDataReader reader = connectionReader.Reader;
             List<string> filepaths = new List<string>();
             while (reader.HasRows && reader.Read())
-                filepaths.Add(reader.GetString(0));
+                filepaths.Add(reader.GetString(reader.GetOrdinal("Filepath")));
             connectionReader.Connection.Close();
-            return filepaths.ToArray();
+            return filepaths;
         }
         public static List<Person> ExtractPersons(MySqlConnectionReader connectionReader)
         {
