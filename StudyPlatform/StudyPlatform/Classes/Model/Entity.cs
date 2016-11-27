@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Web;
 using StudyPlatform.Classes.Database;
@@ -58,7 +59,13 @@ namespace StudyPlatform.Classes.Model
         {
             try
             {
-                Query query = new Query("SELECT * FROM studyplatform." + TablesByType[typeof(T)] + " WHERE id=" + id + ";");
+                Query query;
+                if (typeof(T) == typeof(Teacher) || typeof(T) == typeof(Student) || typeof(T) == typeof(Secretary))
+                    query = new Query("SELECT * FROM studyplatform." + TablesByType[typeof(T)] + " AND ID=" + id + ";");
+
+                else
+                    query = new Query("SELECT * FROM studyplatform." + TablesByType[typeof(T)] + " WHERE ID=" + id + ";");
+
                 return ((List<T>)ExtractMethodsByType[typeof(T)].Invoke(query.Execute())).Single();
             }
             catch (InvalidOperationException)
