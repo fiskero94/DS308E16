@@ -23,13 +23,7 @@ namespace StudyPlatform.Classes.Model
         public string Text { get; }
         public DateTime DateTimeSent { get; }
         public List<Person> Recipients => GetRelations<Person>("MessageRecipient", "PersonID", "MessageID", ID);
-        public List<string> Attachments
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public List<string> Attachments => GetDocuments("MessageFile", "MessageID", ID);
         
         public void Remove() => Remover.RemoveMessage(this);
         public static Message New(Person sender, string title, string text, List<Person> recipients, List<string> filepaths)

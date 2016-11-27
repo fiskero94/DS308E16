@@ -78,13 +78,7 @@ namespace StudyPlatform.Classes.Model
         }
         public List<Room> Rooms => GetRelations<Room>("LessonRoom", "RoomID", "LessonID", ID);
         public List<Student> Absences => GetRelations<Student>("StudentAbsence", "StudentID", "LessonID", ID);
-        public List<string> Documents
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public List<string> Documents => GetDocuments("LessonFile", "LessonID", ID);
         public static TimeSpan Length => new TimeSpan(0, 45, 0);
 
         public void Remove() => Remover.RemoveLesson(this);
