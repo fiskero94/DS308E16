@@ -27,13 +27,8 @@ namespace StudyPlatform.Classes.Model
                 _name = value;
             }
         }
-        public List<Lesson> Reservations
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
+
+        public List<Lesson> Reservations => GetRelations<Lesson>("LessonRoom", "LessonID", "RoomID", ID);
 
         public bool CheckAvailability(DateTime date)
         {

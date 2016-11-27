@@ -22,13 +22,7 @@ namespace StudyPlatform.Classes.Model
         public string Title { get; }
         public string Text { get; }
         public DateTime DateTimeSent { get; }
-        public List<Person> Recipients
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public List<Person> Recipients => GetRelations<Person>("MessageRecipient", "PersonID", "MessageID", ID);
         public List<string> Attachments
         {
             get

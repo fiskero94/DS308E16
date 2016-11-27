@@ -13,20 +13,7 @@ namespace StudyPlatform.Classes.Model
 
         }
 
-        public List<Course> Courses
-        {
-            get
-            {
-                Query query = new Query("SELECT * FROM studyplatform.PersonCourse WHERE PersonID=" + ID + ";");
-                uint[] courseList = Extractor.ExtractIDs(query.Execute(),"CourseID");
-                List<Course> personCourses = new List<Course>();
-                foreach (uint course in courseList)
-                {
-                    personCourses.Add(Course.GetByID(course));
-                }
-                return personCourses;
-            }
-        }
+        public List<Course> Courses => GetRelations<Course>("PersonCourse", "CourseID", "PersonID", ID);
 
         public static Teacher New(string name, string username, string password)
         {

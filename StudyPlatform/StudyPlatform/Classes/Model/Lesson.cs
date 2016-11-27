@@ -76,27 +76,8 @@ namespace StudyPlatform.Classes.Model
                 _cancelled = value;
             }
         }
-        public List<Room> Rooms
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-        public List<Student> Absences
-        {
-            get
-            {
-                Query query = new Query("SELECT * FROM studyplatform.StudentAbsence WHERE LessonID=" + ID + ";");
-                uint[] absenceList = Extractor.ExtractIDs(query.Execute(), "StudentID");
-                List<Student> studentAbsences = new List<Student>();
-                foreach (uint studentID in absenceList)
-                {
-                    studentAbsences.Add(Student.GetByID(studentID));
-                }
-                return studentAbsences;
-            }
-        }
+        public List<Room> Rooms => GetRelations<Room>("LessonRoom", "RoomID", "LessonID", ID);
+        public List<Student> Absences => GetRelations<Student>("StudentAbsence", "StudentID", "LessonID", ID);
         public List<string> Documents
         {
             get
