@@ -40,12 +40,12 @@ namespace StudyPlatform.Tests
         }
         public static void TestActionForExceptionThrown<T1>
             (Exception exception, Action<T1> action, 
-            T1 P1)
+            T1 p1)
         {
             // Act & Assert
             try
             {
-                action.Invoke(P1);
+                action.Invoke(p1);
                 Assert.Fail(); // No exception thrown
             }
             catch (Exception ex)
@@ -56,12 +56,12 @@ namespace StudyPlatform.Tests
         }
         public static void TestActionForExceptionThrown<T1, T2>
             (Exception exception, Action<T1, T2> action, 
-            T1 P1, T2 P2)
+            T1 p1, T2 p2)
         {
             // Act & Assert
             try
             {
-                action.Invoke(P1, P2);
+                action.Invoke(p1, p2);
                 Assert.Fail(); // No exception thrown
             }
             catch (Exception ex)
@@ -72,12 +72,12 @@ namespace StudyPlatform.Tests
         }
         public static void TestActionForExceptionThrown<T1, T2, T3>
             (Exception exception, Action<T1, T2, T3> action, 
-            T1 P1, T2 P2, T3 P3)
+            T1 p1, T2 p2, T3 p3)
         {
             // Act & Assert
             try
             {
-                action.Invoke(P1, P2, P3);
+                action.Invoke(p1, p2, p3);
                 Assert.Fail(); // No exception thrown
             }
             catch (Exception ex)
@@ -88,12 +88,12 @@ namespace StudyPlatform.Tests
         }
         public static void TestActionForExceptionThrown<T1, T2, T3, T4>
             (Exception exception, Action<T1, T2, T3, T4> action, 
-            T1 P1, T2 P2, T3 P3, T4 P4)
+            T1 p1, T2 p2, T3 p3, T4 p4)
         {
             // Act & Assert
             try
             {
-                action.Invoke(P1, P2, P3, P4);
+                action.Invoke(p1, p2, p3, p4);
                 Assert.Fail(); // No exception thrown
             }
             catch (Exception ex)
@@ -104,12 +104,12 @@ namespace StudyPlatform.Tests
         }
         public static void TestActionForExceptionThrown<T1, T2, T3, T4, T5>
             (Exception exception, Action<T1, T2, T3, T4, T5> action, 
-            T1 P1, T2 P2, T3 P3, T4 P4, T5 P5)
+            T1 p1, T2 p2, T3 p3, T4 p4, T5 p5)
         {
             // Act & Assert
             try
             {
-                action.Invoke(P1, P2, P3, P4, P5);
+                action.Invoke(p1, p2, p3, p4, p5);
                 Assert.Fail(); // No exception thrown
             }
             catch (Exception ex)
@@ -120,12 +120,12 @@ namespace StudyPlatform.Tests
         }
         public static void TestActionForExceptionThrown<T1, T2, T3, T4, T5, T6>
             (Exception exception, Action<T1, T2, T3, T4, T5, T6> action, 
-            T1 P1, T2 P2, T3 P3, T4 P4, T5 P5, T6 P6)
+            T1 p1, T2 p2, T3 p3, T4 p4, T5 p5, T6 p6)
         {
             // Act & Assert
             try
             {
-                action.Invoke(P1, P2, P3, P4, P5, P6);
+                action.Invoke(p1, p2, p3, p4, p5, p6);
                 Assert.Fail(); // No exception thrown
             }
             catch (Exception ex)
@@ -136,12 +136,12 @@ namespace StudyPlatform.Tests
         }
         public static void TestActionForExceptionThrown<T1, T2, T3, T4, T5, T6, T7>
             (Exception exception, Action<T1, T2, T3, T4, T5, T6, T7> action, 
-            T1 P1, T2 P2, T3 P3, T4 P4, T5 P5, T6 P6, T7 P7)
+            T1 p1, T2 p2, T3 p3, T4 p4, T5 p5, T6 p6, T7 p7)
         {
             // Act & Assert
             try
             {
-                action.Invoke(P1, P2, P3, P4, P5, P6, P7);
+                action.Invoke(p1, p2, p3, p4, p5, p6, p7);
                 Assert.Fail(); // No exception thrown
             }
             catch (Exception ex)

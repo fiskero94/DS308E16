@@ -178,7 +178,7 @@ namespace StudyPlatform.Classes.Database
                 uint assignmentID = reader.GetUInt32(reader.GetOrdinal("AssignmentID"));
                 string grade = reader.GetString(reader.GetOrdinal("Grade"));
                 string comment = reader.GetString(reader.GetOrdinal("Comment"));
-                assignmentgrades.Add(new AssignmentGrade(id, grade, comment, assignmentID));
+                assignmentgrades.Add(new AssignmentGrade(id, assignmentID, grade, comment));
             }
             connectionReader.Connection.Close();
             return assignmentgrades;
@@ -194,7 +194,7 @@ namespace StudyPlatform.Classes.Database
                 uint studentID = reader.GetUInt32(reader.GetOrdinal("StudentID"));
                 string grade = reader.GetString(reader.GetOrdinal("Grade"));
                 string comment = reader.GetString(reader.GetOrdinal("Comment"));
-                coursegrades.Add(new CourseGrade(id, grade, comment, courseID, studentID));
+                coursegrades.Add(new CourseGrade(id, courseID, studentID, grade, comment));
             }
             connectionReader.Connection.Close();
             return coursegrades;

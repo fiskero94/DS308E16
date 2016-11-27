@@ -6,7 +6,7 @@ using System.Web;
 
 namespace StudyPlatform.Classes.Model
 {
-    public class Lesson
+    public class Lesson : Entity<Lesson>
     {
         private readonly uint _courseid;
         private string _description;
@@ -14,9 +14,8 @@ namespace StudyPlatform.Classes.Model
         private bool _cancelled;
         private DateTime _dateTime;
 
-        public Lesson(uint id, uint courseid, string description, bool online, bool cancelled, DateTime dateTime)
+        public Lesson(uint id, uint courseid, string description, bool online, bool cancelled, DateTime dateTime) : base(id)
         {
-            ID = id;
             _courseid = courseid;
             _description = description;
             _online = online;
@@ -24,8 +23,7 @@ namespace StudyPlatform.Classes.Model
             _dateTime = dateTime;
         }
         
-        public uint ID { get; }
-        public Course Course => Getters.GetCourseByID(_courseid);
+        public Course Course => Course.GetByID(_courseid);
         public DateTime DateTime
         {
             get
@@ -34,15 +32,10 @@ namespace StudyPlatform.Classes.Model
             }
             set
             {
-                if (value == null)
-                    throw new ArgumentNullException();
-                else
-                {
-                    foreach (Room room in Rooms)
-                        room.CheckAvailability(value);
-                    Commands.SetValue("Lesson", ID, "DateTime", value.ToString("yyyy-MM-dd HH:mm:ss"));
-                    _dateTime = value;
-                }
+                foreach (Room room in Rooms)
+                    room.CheckAvailability(value);
+                Commands.SetValue("Lesson", ID, "DateTime", value.ToString("yyyy-MM-dd HH:mm:ss"));
+                _dateTime = value;
             }
         }
         public string Description
@@ -53,13 +46,8 @@ namespace StudyPlatform.Classes.Model
             }
             set
             {
-                if (value == null)
-                    throw new ArgumentNullException();
-                else
-                {
-                    Commands.SetValue("Lesson", ID, "Description", value);
-                    _description = value;
-                }
+                Commands.SetValue("Lesson", ID, "Description", value);
+                _description = value;
             }
 
         }
@@ -109,7 +97,7 @@ namespace StudyPlatform.Classes.Model
                 throw new NotImplementedException();
             }
         }
-        public static TimeSpan LessonLength => new TimeSpan(0, 45, 0);
+        public static TimeSpan Length => new TimeSpan(0, 45, 0);
 
         public void Remove() => Remover.RemoveLesson(this);
         public void GiveAbsence(Student student) =>
@@ -117,14 +105,12 @@ namespace StudyPlatform.Classes.Model
         public void RemoveAbsence(Student student) =>
             Commands.DeleteFrom("StudentAbsence", "StudentID=" + student.ID + " AND LessonID=" + ID);
 
-        public static Lesson GetByID(uint id) => Getters.GetLessonByID(id);
-        public static List<Lesson> Find(params string[] conditions) => Getters.GetLessonsByConditions(conditions);
-        public static List<Lesson> AllLessons => Lists.Lessons;
+        
         public static Lesson New(Course course, string description, bool online,
             DateTime dateTime, List<Room> rooms, List<string> filepaths)
         {
             Creator.CreateLesson(course, description, online, dateTime, rooms, filepaths);
-            return Getters.GetLatestLessons(1).Single();
+            return GetLatest(1).Single();
         }
     }
 }

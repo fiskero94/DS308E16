@@ -36,7 +36,7 @@ namespace StudyPlatform.Classes.Database
             if (recipients.Count == 0)
                 throw new NoRecipientsException();
             Commands.InsertInto("Message", "NULL", sender.ID.ToString(), title, text, "NOW()");
-            Message message = Getters.GetLatestMessages(1).Single();
+            Message message = Message.GetLatest(1).Single();
             foreach (Person recipient in recipients)
                 Commands.InsertInto("MessageRecipient", message.ID.ToString(), recipient.ID.ToString());
             foreach (string filepath in filepaths)
@@ -62,7 +62,7 @@ namespace StudyPlatform.Classes.Database
                 room.CheckAvailability(dateTime);
             Commands.InsertInto("Lesson", "NULL", course.ID.ToString(), description, 
                 online.ToString().ToUpper(), "FALSE", dateTime.ToString("yyyy-MM-dd HH:mm:ss"));
-            Lesson lesson = Getters.GetLatestLessons(1).Single();
+            Lesson lesson = Lesson.GetLatest(1).Single();
             foreach (Room room in rooms)
                 Commands.InsertInto("LessonRoom", lesson.ID.ToString(), room.ID.ToString());
             foreach (string filepath in filepaths)
@@ -80,7 +80,7 @@ namespace StudyPlatform.Classes.Database
             Common.EnsureNotNull(course, description, deadline, filepaths);
             Commands.InsertInto("AssignmentDescription", "NULL", course.ID.ToString(), description, 
                 "FALSE", deadline.ToString("yyyy-MM-dd HH:mm:ss"));
-            AssignmentDescription assignmentDescription = Getters.GetLatestAssignmentDescriptions(1).Single();
+            AssignmentDescription assignmentDescription = AssignmentDescription.GetLatest(1).Single();
             foreach (string filepath in filepaths)
                 Commands.InsertInto("AssignentDescriptionFile", assignmentDescription.ID.ToString(), filepath);
         }
@@ -90,24 +90,24 @@ namespace StudyPlatform.Classes.Database
             Common.EnsureNotNull(assignmentDescription, student, comment, filepaths);
             Commands.InsertInto("Assignment", "NULL", assignmentDescription.ID.ToString(), 
                 student.ID.ToString(), "NULL", comment, "NOW()");
-            Assignment assignment = Getters.GetLatestAssignments(1).Single();
+            Assignment assignment = Assignment.GetLatest(1).Single();
             foreach (string filepath in filepaths)
                 Commands.InsertInto("AssignmentFile", assignment.ID.ToString(), filepath);
         }
         public static void CreateAssignmentGrade(string grade, string comment, Assignment assignment)
         {
             Common.EnsureNotNull(grade, comment, assignment);
-            if (!Grade.ValidGrades.Contains(grade))
+            if (!Common.ValidGrades.Contains(grade))
                 throw new InvalidGradeException();
             Commands.InsertInto("AssignmentGrade", "NULL", assignment.ID.ToString(), grade, comment);
-            AssignmentGrade assignmentGrade = Getters.GetLatestAssignmentGrades(1).Single();
+            AssignmentGrade assignmentGrade = AssignmentGrade.GetLatest(1).Single();
             Commands.SetValue("Assignment", assignment.ID, "GradeID", assignmentGrade.ID.ToString());
           
         }
         public static void CreateCourseGrade(Course course, Student student, string grade, string comment)
         {
             Common.EnsureNotNull(grade, comment, course, student);
-            if (!Grade.ValidGrades.Contains(grade))
+            if (!Common.ValidGrades.Contains(grade))
                 throw new InvalidGradeException();
             Commands.InsertInto("CourseGrade", "NULL", course.ID.ToString(), 
                 student.ID.ToString(), grade, comment);

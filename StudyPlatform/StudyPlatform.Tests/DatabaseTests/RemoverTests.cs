@@ -24,32 +24,32 @@ namespace StudyPlatform.Tests.DatabaseTests
         {
             //ARRANGE
             Creator.CreateStudent(Instances.Name, Instances.Username, Instances.Password);
-            Student student = Getters.GetLatestPersons(1).Single() as Student;
+            Student student = Person.GetLatest(1).Single() as Student;
             Creator.CreateCourse(Instances.Name, Instances.Description);
-            Course course = Getters.GetLatestCourses(1).Single();
+            Course course = Course.GetLatest(1).Single();
             Creator.CreateLesson(course, Instances.Description, Instances.Online, Instances.Date, Instances.Rooms, Instances.Filepaths);
-            Lesson lesson = Getters.GetLatestLessons(1).Single();
+            Lesson lesson = Lesson.GetLatest(1).Single();
 
             List<Person> recipients = new List<Person>();
-            recipients.Add(Getters.GetPersonByID(1));
+            recipients.Add(Person.GetByID(1));
             Creator.CreateMessage(student, Instances.Title, Instances.Text, recipients, Instances.Filepaths);
             recipients.Clear();
             recipients.Add(student);
-            Creator.CreateMessage(Getters.GetPersonByID(1), Instances.Title, Instances.Text, recipients, Instances.Filepaths);
+            Creator.CreateMessage(Person.GetByID(1), Instances.Title, Instances.Text, recipients, Instances.Filepaths);
 
             course.AddStudent(student);
             lesson.GiveAbsence(student);
 
             List<Student> absentStudents = lesson.Absences;
             List<Student> courseStudents = course.Students;
-            List<Message> allMessages = Lists.Messages;
-            List<Person> allUsers = Lists.Persons;
+            List<Message> allMessages = Message.GetAll();
+            List<Person> allUsers = Person.GetAll();
 
             //ACT
             Remover.RemovePerson(student);
 
             //ASSERT
-            foreach (Message item in Lists.Messages)
+            foreach (Message item in Message.GetAll())
             {
                 List<Person> items = item.Recipients;
                 foreach (Person recipient in items)
@@ -58,13 +58,13 @@ namespace StudyPlatform.Tests.DatabaseTests
                         Assert.Fail("deleted person still in recipients");
                 }
             }
-            List<Message> allMessagesTest = Lists.Messages;
+            List<Message> allMessagesTest = Message.GetAll();
             Assert.AreEqual(allMessagesTest.Count, allMessages.Count - 1);
 
             List<Student> courseStudentsTest = course.Students;
             Assert.AreEqual(courseStudentsTest.Count, courseStudents.Count - 1);
 
-            List<Person> allUsersTest = Lists.Persons;
+            List<Person> allUsersTest = Person.GetAll();
             Assert.AreEqual(allUsersTest.Count, allUsers.Count - 1);
 
             List<Student> absentStudentsTest = lesson.Absences;
@@ -81,9 +81,9 @@ namespace StudyPlatform.Tests.DatabaseTests
         {
             //ARRANGE
             Creator.CreateTeacher(Instances.Name, Instances.Username, Instances.Password);
-            Teacher teacher = Getters.GetLatestPersons(1).Single() as Teacher;
+            Teacher teacher = Teacher.GetLatest(1).Single();
             Creator.CreateCourse(Instances.Name, Instances.Description);
-            Course course = Getters.GetLatestCourses(1).Single();
+            Course course = Course.GetLatest(1).Single();
             course.AddTeacher(teacher);
             List<Teacher> courseTeachers = course.Teachers;
 
@@ -100,33 +100,32 @@ namespace StudyPlatform.Tests.DatabaseTests
         {
             //ARRANGE
             Creator.CreateSecretary(Instances.Name, Instances.Username, Instances.Password);
-            Secretary secretary = Getters.GetLatestPersons(1).Single() as Secretary;
+            Secretary secretary = Secretary.GetLatest(1).Single() as Secretary;
             Creator.CreateNews(secretary, Instances.Title, Instances.Text);
-            List<News> allNews = Lists.News;
+            List<News> allNews = News.GetAll();
 
             //ACT
             Remover.RemovePerson(secretary);
 
             //ASSERT
-            List<News> allNewsTest = Lists.News;
+            List<News> allNewsTest = News.GetAll();
             Assert.AreEqual(allNewsTest.Count, allNews.Count - 1);
         }
         [TestMethod]
         public void RemoverRemoveMessage_ValidParameters_MessageRemoved()
         {
             // Arrange
-            Secretary sender = Getters.GetPersonByID(1) as Secretary;
+            Secretary sender = Secretary.GetByID(1);
             Creator.CreateSecretary(Instances.Name, Instances.Username, Instances.Password);
-            List<Person> recipients = new List<Person>();
-            recipients.Add(Getters.GetPersonByID(2) as Secretary);
+            List<Person> recipients = new List<Person> { Secretary.GetByID(2) };
             Creator.CreateMessage(sender, Instances.Title, Instances.Text, recipients, Instances.Filepaths);
-            Message message = Getters.GetMessageByID(1);
+            Message message = Message.GetByID(1);
 
             // Act
             Remover.RemoveMessage(message);
 
             // Assert
-            Assert.AreEqual(0, Lists.Messages.Count);
+            Assert.AreEqual(0, Message.GetAll().Count);
             Common.TestTableExists("messagerecipients1", false);
             Common.TestTableExists("messagedocuments1", false);
             Assert.AreEqual(0, sender.SentMessages.Count);
@@ -137,39 +136,39 @@ namespace StudyPlatform.Tests.DatabaseTests
         {
             // Arrange
             Creator.CreateNews(Instances.Secretary, Instances.Title, Instances.Text);
-            News news = Getters.GetNewsByID(1);
+            News news = News.GetByID(1);
 
             // Act
             Remover.RemoveNews(news);
 
             // Assert
-            Assert.AreEqual(0, Lists.News.Count);
+            Assert.AreEqual(0, News.GetAll().Count);
         }
         [TestMethod]
         public void RemoverRemoveCourse_ValidParameters_CourseRemoved()
         {
             // Arrange
             Creator.CreateCourse(Instances.Name, Instances.Description);
-            Course course = Getters.GetCourseByID(1);
+            Course course = Course.GetByID(1);
             Creator.CreateStudent(Instances.Name, Instances.Username, Instances.Password);
-            Student student = Getters.GetPersonByID(2) as Student;
+            Student student = Student.GetByID(2);
             course.AddStudent(student);
             Creator.CreateTeacher(Instances.Name, Instances.Username, Instances.Password);
-            Teacher teacher = Getters.GetPersonByID(3) as Teacher;
+            Teacher teacher = Teacher.GetByID(3);
             course.AddTeacher(teacher);
             Creator.CreateLesson(course, Instances.Description, Instances.Online,
                 Instances.Date, Instances.Rooms, Instances.Filepaths);
-            Lesson lesson = Getters.GetLessonByID(1);
+            Lesson lesson = Lesson.GetByID(1);
             Creator.CreateAssignmentDescription(course, Instances.Description, Instances.Date, Instances.Filepaths);
-            AssignmentDescription assignmentDescription = Getters.GetAssignmentDescriptionByID(1);
+            AssignmentDescription assignmentDescription = AssignmentDescription.GetByID(1);
             Creator.CreateCourseGrade(course, student, Instances.Grade, Instances.Comment);
-            CourseGrade courseGrade = Getters.GetCourseGradeByID(1);
+            CourseGrade courseGrade = CourseGrade.GetByID(1);
 
             // Act
             Remover.RemoveCourse(course);
 
             // Assert
-            Assert.AreEqual(0, Lists.Courses.Count);
+            Assert.AreEqual(0, Course.GetAll().Count);
             Common.TestTableExists("courseteachers1", false);
             Common.TestTableExists("coursestudents1", false);
             Common.TestTableExists("courselessons1", false);
@@ -178,32 +177,31 @@ namespace StudyPlatform.Tests.DatabaseTests
             Common.TestTableExists("coursedocuments1", false);
             Assert.AreEqual(0, student.Courses.Count);
             Assert.AreEqual(0, teacher.Courses.Count);
-            Assert.AreEqual(0, Lists.Lessons.Count);
-            Assert.AreEqual(0, Lists.AssignmentDescriptions.Count);
-            Assert.AreEqual(0, Lists.CourseGrades.Count);
+            Assert.AreEqual(0, Lesson.GetAll().Count);
+            Assert.AreEqual(0, AssignmentDescription.GetAll().Count);
+            Assert.AreEqual(0, CourseGrade.GetAll().Count);
         }
         [TestMethod]
         public void RemoverRemoveLesson_ValidParameters_LessonRemoved()
         {
             // Arrange
             Creator.CreateCourse(Instances.Name, Instances.Description);
-            Course course = Getters.GetCourseByID(1);
+            Course course = Course.GetByID(1);
             Creator.CreateStudent(Instances.Name, Instances.Username, Instances.Password);
-            Student student = Getters.GetPersonByID(2) as Student;
+            Student student = Student.GetByID(2);
             course.AddStudent(student);
             Creator.CreateRoom(Instances.Name);
-            List<Room> rooms = new List<Room>();
-            rooms.Add(Getters.GetRoomByID(1));
+            List<Room> rooms = new List<Room> { Room.GetByID(1) };
             Creator.CreateLesson(course, Instances.Description, Instances.Online,
                 Instances.Date, rooms, Instances.Filepaths);
-            Lesson lesson = Getters.GetLessonByID(1);
+            Lesson lesson = Lesson.GetByID(1);
             lesson.GiveAbsence(student);
 
             // Act
             Remover.RemoveLesson(lesson);
 
             // Assert
-            Assert.AreEqual(0, Lists.Lessons.Count);
+            Assert.AreEqual(0, Lesson.GetAll().Count);
             Common.TestTableExists("lessonrooms1", false);
             Common.TestTableExists("lessonabsences1", false);
             Common.TestTableExists("lessondocuments1", false);
@@ -216,19 +214,19 @@ namespace StudyPlatform.Tests.DatabaseTests
         {
             // Arrange
             Creator.CreateRoom(Instances.Name);
-            Room room = Getters.GetRoomByID(1);
+            Room room = Room.GetByID(1);
             List<Room> rooms = new List<Room>();
             rooms.Add(room);
             Creator.CreateCourse(Instances.Name, Instances.Description);
-            Course course = Getters.GetCourseByID(1);
+            Course course = Course.GetByID(1);
             Creator.CreateLesson(course, Instances.Description, Instances.Online, Instances.Date, rooms, Instances.Filepaths);
-            Lesson lesson = Getters.GetLessonByID(1);
+            Lesson lesson = Lesson.GetByID(1);
 
             // Act
             Remover.RemoveRoom(room);
 
             // Assert
-            Assert.AreEqual(0, Lists.Rooms.Count);
+            Assert.AreEqual(0, Room.GetAll().Count);
             Common.TestTableExists("roomreservations1", false);
             Assert.AreEqual(0, lesson.Rooms.Count);
         }
@@ -237,15 +235,15 @@ namespace StudyPlatform.Tests.DatabaseTests
         {
             // Arrange
             Creator.CreateCourse(Instances.Name, Instances.Description);
-            Course course = Getters.GetCourseByID(1);
+            Course course = Course.GetByID(1);
             Creator.CreateAssignmentDescription(course, Instances.Description, Instances.Date, Instances.Filepaths);
-            AssignmentDescription assignmentDescription = Getters.GetAssignmentDescriptionByID(1);
+            AssignmentDescription assignmentDescription = AssignmentDescription.GetByID(1);
 
             // Act
             Remover.RemoveAssignmentDescription(assignmentDescription);
 
             // Assert
-            Assert.AreEqual(0, Lists.AssignmentDescriptions.Count);
+            Assert.AreEqual(0, AssignmentDescription.GetAll().Count);
             Common.TestTableExists("assignmentdescriptionassignments1", false);
             Common.TestTableExists("assignmentdescriptiondocuments1", false);
             Assert.AreEqual(0, course.AssignmentDescriptions.Count);
@@ -255,19 +253,19 @@ namespace StudyPlatform.Tests.DatabaseTests
         {
             // Arrange
             Creator.CreateCourse(Instances.Name, Instances.Description);
-            Course course = Getters.GetCourseByID(1);
+            Course course = Course.GetByID(1);
             Creator.CreateAssignmentDescription(course, Instances.Description, Instances.Date, Instances.Filepaths);
             Creator.CreateStudent(Instances.Name, Instances.Username, Instances.Password);
-            AssignmentDescription assignmentDescription = Getters.GetAssignmentDescriptionByID(1);
-            Student student = Getters.GetPersonByID(2) as Student;
+            AssignmentDescription assignmentDescription = AssignmentDescription.GetByID(1);
+            Student student = Student.GetByID(2);
             Creator.CreateAssignment(assignmentDescription, student, Instances.Comment, Instances.Filepaths);
-            Assignment assignment = Getters.GetAssignmentByID(1);
+            Assignment assignment = Assignment.GetByID(1);
 
             // Act
             Remover.RemoveAssignment(assignment);
 
             // Assert
-            Assert.AreEqual(0, Lists.Assignments.Count);
+            Assert.AreEqual(0, Assignment.GetAll().Count);
             Common.TestTableExists("assignmentdocuments1", false);
             Assert.AreEqual(0, assignmentDescription.Assignments.Count);
             Assert.AreEqual(0, student.Assignments.Count);
@@ -277,38 +275,38 @@ namespace StudyPlatform.Tests.DatabaseTests
         {
             // Arrange
             Creator.CreateCourse(Instances.Name, Instances.Description);
-            Course course = Getters.GetCourseByID(1);
+            Course course = Course.GetByID(1);
             Creator.CreateAssignmentDescription(course, Instances.Description, Instances.Date, Instances.Filepaths);
             Creator.CreateStudent(Instances.Name, Instances.Username, Instances.Password);
-            AssignmentDescription assignmentDescription = Getters.GetAssignmentDescriptionByID(1);
-            Student student = Getters.GetPersonByID(2) as Student;
+            AssignmentDescription assignmentDescription = AssignmentDescription.GetByID(1);
+            Student student = Person.GetByID(2) as Student;
             Creator.CreateAssignment(assignmentDescription, student, Instances.Comment, Instances.Filepaths);
-            Assignment assignment = Getters.GetAssignmentByID(1);
+            Assignment assignment = Assignment.GetByID(1);
             Creator.CreateAssignmentGrade(Instances.Grade, Instances.Comment, assignment);
-            AssignmentGrade assignmentGrade = Getters.GetAssignmentGradeByID(1);
+            AssignmentGrade assignmentGrade = AssignmentGrade.GetByID(1);
 
             // Act
             Remover.RemoveAssignmentGrade(assignmentGrade);
 
             // Assert
             Assert.AreEqual(null, assignment.Grade);
-            Assert.AreEqual(0, Lists.AssignmentGrades.Count);
+            Assert.AreEqual(0, AssignmentGrade.GetAll().Count);
         }
         [TestMethod]
         public void RemoverRemoveCourseGrade_ValidParameters_CourseGradeRemoved()
         {
             // Arrange
             Creator.CreateCourse(Instances.Name, Instances.Description);
-            Course course = Getters.GetCourseByID(1);
+            Course course = Course.GetByID(1);
             Creator.CreateCourseGrade(course, Instances.Student, Instances.Grade, Instances.Comment);
-            CourseGrade courseGrade = Getters.GetCourseGradeByID(1);
+            CourseGrade courseGrade = CourseGrade.GetByID(1);
 
             // Act
             Remover.RemoveCourseGrade(courseGrade);
 
             // Assert
             Assert.AreEqual(0, course.CourseGrades.Count);
-            Assert.AreEqual(0, Lists.CourseGrades.Count);
+            Assert.AreEqual(0, CourseGrade.GetAll().Count);
         }
     }
 }

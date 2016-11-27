@@ -6,18 +6,14 @@ using System.Web;
 
 namespace StudyPlatform.Classes.Model
 {
-    public class Room
+    public class Room : Entity<Room>
     {
-        private uint _id;
         private string _name;
 
-        public Room(uint id, string name)
+        public Room(uint id, string name) : base(id)
         {
-            _id = id;
             _name = name;
         }
-
-        public uint ID => _id;
 
         public string Name
         {
@@ -27,43 +23,31 @@ namespace StudyPlatform.Classes.Model
             }
             set
             {
-                if(value == null)
-                {
-                    throw new ArgumentNullException();
-                }
-                else
-                {
-                    Commands.SetValue("rooms", ID, "name", value);
-                    _name = value;
-                }
+                Commands.SetValue("rooms", ID, "name", value);
+                _name = value;
             }
         }
         public List<Lesson> Reservations
         {
             get
             {
-                Query query = new Query("SELECT * FROM studyplatform.roomreservations" + ID);
-                uint[] ids = Extractor.ExtractIDs(query.Execute(), "field");
-                List<Lesson> lessons = new List<Lesson>();
-                foreach (uint id in ids)
-                    lessons.Add(Getters.GetLessonByID(id));
-                return lessons;
+                throw new NotImplementedException();
             }
         }
 
-        public static Room New(string name)
-        {
-            Creator.CreateRoom(name);
-            return Getters.GetLatestRooms(1).Single();
-        }
-        public void Remove() => Remover.RemoveRoom(this);
         public bool CheckAvailability(DateTime date)
         {
             // Should check the reservations to see if the date given is available. 
-            // Use Lesson.LessonLength as TimeSpan of the reservations.
+            // Use Lesson.Length as TimeSpan of the reservations.
 
             // Throw RoomUnavailableException if not available.
             throw new NotImplementedException();
+        }
+        public void Remove() => Remover.RemoveRoom(this);
+        public static Room New(string name)
+        {
+            Creator.CreateRoom(name);
+            return GetLatest(1).Single();
         }
     }
 }

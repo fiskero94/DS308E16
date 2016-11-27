@@ -7,17 +7,15 @@ using StudyPlatform.Classes.Model;
 
 namespace StudyPlatform.Classes.Model
 {
-    public abstract class Person
+    public abstract class Person : Entity<Person>
     {
         private string _name;
 
-        protected Person(uint id, string name)
+        protected Person(uint id, string name) : base(id)
         {
-            ID = id;
             _name = name;
         }
-
-        public uint ID { get; }
+        
         public string Name
         {
             get
@@ -26,23 +24,16 @@ namespace StudyPlatform.Classes.Model
             }
             set
             {
-                if (value == null)
-                    throw new ArgumentNullException();
                 Commands.SetValue("Person", ID, "name", value);
                 _name = value;
             }
         }
-        public List<Message> SentMessages => Getters.GetMessagesByConditions("SenderID=" + ID);
+        public List<Message> SentMessages => Message.GetByConditions("SenderID=" + ID);
         public List<Message> RecievedMessages
         {
             get
             {
-                Query query = new Query("SELECT * FROM studyplatform.MessageRecipient WHERE PersonID=" + ID);
-                uint[] ids = Extractor.ExtractIDs(query.Execute(), "MessageID");
-                List<Message> recievedMessages = new List<Message>();
-                foreach (uint id in ids)
-                    recievedMessages.Add(Getters.GetMessageByID(id));
-                return recievedMessages;
+                throw new NotImplementedException();
             }
         }
 

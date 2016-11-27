@@ -6,27 +6,21 @@ using StudyPlatform.Classes.Database;
 
 namespace StudyPlatform.Classes.Model
 {
-    public class News
+    public class News : Entity<News>
     {
-        private uint _id;
-        private uint _authorid;
+        private readonly uint _authorid;
         private string _title;
         private string _text;
-        private DateTime _date;
 
-        public News(uint id, uint authorid, string title, string text, DateTime date)
+        public News(uint id, uint authorid, string title, string text, DateTime dateTimePublished) : base(id)
         {
-            _id = id;
             _authorid = authorid;
             _title = title;
             _text = text;
-            _date = date;
+            DateTimePublished = dateTimePublished;
         }
-        
-        public uint ID => _id;
 
-        public Secretary Author => Getters.GetPersonByID(_authorid) as Secretary;
-
+        public Secretary Author => Secretary.GetByID(_authorid);
         public string Title
         {
             get
@@ -35,13 +29,8 @@ namespace StudyPlatform.Classes.Model
             }
             set
             {
-                if (value == null)
-                    throw new ArgumentNullException();
-                else
-                {
-                    Commands.SetValue("news", ID, "title", value);
-                    _title = value;
-                }
+                Commands.SetValue("News", ID, "Title", value);
+                _title = value;
             }
         }
         public string Text
@@ -52,22 +41,17 @@ namespace StudyPlatform.Classes.Model
             }
             set
             {
-                if (value == null)
-                    throw new ArgumentNullException();
-                else
-                {
-                    Commands.SetValue("news", ID, "text", value);
-                    _text = value;
-                }
+                Commands.SetValue("News", ID, "Text", value);
+                _text = value;
             }
         }
-        public DateTime Date => _date;
-
+        public DateTime DateTimePublished { get; }
+        
+        public void Remove() => Remover.RemoveNews(this);
         public static News New(Secretary author, string title, string text)
         {
             Creator.CreateNews(author, title, text);
-            return Getters.GetLatestNews(1).Single();
+            return GetLatest(1).Single();
         }
-        public void Remove() => Remover.RemoveNews(this);
     }
 }

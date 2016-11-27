@@ -58,8 +58,6 @@
     <Compile Include="DatabaseTests\RemoverTests.cs" />
     <Compile Include="Instances.cs" />
     <Compile Include="ModelTests\ClassTests.cs" />
-    <Compile Include="DatabaseTests\GettersTests.cs" />
-    <Compile Include="DatabaseTests\ListsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

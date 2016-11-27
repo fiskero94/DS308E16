@@ -17,43 +17,49 @@ namespace StudyPlatform.Classes.Model
         {
             get
             {
-                Query query = new Query("SELECT * FROM studyplatform.PersonCourse WHERE PersonID=" + ID);
-                uint[] ids = Extractor.ExtractIDs(query.Execute(), "CourseID");
-                List<Course> courses = new List<Course>();
-                foreach (uint id in ids)
-                    courses.Add(Getters.GetCourseByID(id));
-                return courses;
+                throw new NotImplementedException();
             }
         }
         public List<Assignment> Assignments
         {
             get
             {
-                Query query = new Query("SELECT * FROM studyplatform.personassignments" + ID);
-                uint[] ids = Extractor.ExtractIDs(query.Execute(), "field");
-                List<Assignment> assignments = new List<Assignment>();
-                foreach (uint id in ids)
-                    assignments.Add(Getters.GetAssignmentByID(id));
-                return assignments;
+                throw new NotImplementedException();
             }
         }
         public List<Lesson> Absences
         {
             get
             {
-                Query query = new Query("SELECT * FROM studyplatform.personabsences" + ID);
-                uint[] ids = Extractor.ExtractIDs(query.Execute(), "field");
-                List<Lesson> absences = new List<Lesson>();
-                foreach (uint id in ids)
-                    absences.Add(Getters.GetLessonByID(id));
-                return absences;
+                throw new NotImplementedException();
             }
         }
 
         public static Student New(string name, string username, string password)
         {
             Creator.CreateStudent(name, username, password);
-            return Getters.GetLatestPersons(1).Single() as Student;
+            return GetLatest(1).Single();
         }
+
+        public new static Student GetByID(uint id)
+        {
+            Query query = new Query("SELECT * FROM studyplatform.Person WHERE id=" + id + " AND type='Student';");
+            return Extractor.ExtractPersons(query.Execute()).Single() as Student;
+        }
+        public new static List<Student> GetAll()
+        {
+            Query query = new Query("SELECT * FROM studyplatform.Person WHERE type='Student';");
+            return Extractor.ExtractPersons(query.Execute()).Cast<Student>().ToList();
+        }
+        public new static List<Student> GetByConditions(params string[] conditions)
+        {
+            string queryString = "SELECT * FROM studyplatform.Person WHERE type='Student' AND ";
+            Common.AppendStringArray(ref queryString, " AND ", conditions);
+            queryString += ";";
+            Query query = new Query(queryString);
+            return Extractor.ExtractPersons(query.Execute()).Cast<Student>().ToList();
+        }
+        public new static List<Student> GetLatest(uint count) =>
+            Extractor.ExtractPersons(Commands.GetLatestRows("Person WHERE type='Student'", count)).Cast<Student>().ToList();
     }
 }

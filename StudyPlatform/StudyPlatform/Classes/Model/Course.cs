@@ -6,21 +6,17 @@ using StudyPlatform.Classes.Database;
 
 namespace StudyPlatform.Classes.Model
 {
-    public class Course
+    public class Course : Entity<Course>
     {
-        private uint _id;
         private string _name;
         private string _description;
 
-        public Course(uint id, string name, string description)
+        public Course(uint id, string name, string description) : base(id)
         {
-            _id = id;
             _name = name;
             _description = description;
         }
         
-        public uint ID => _id;
-
         public string Name
         {
             get
@@ -29,13 +25,8 @@ namespace StudyPlatform.Classes.Model
             }
             set
             {
-                if (value == null)
-                    throw new ArgumentNullException();
-                else
-                {
-                    Commands.SetValue("courses", ID, "name", value);
-                    _name = value;
-                }
+                Commands.SetValue("Course", ID, "Name", value);
+                _name = value;
             }
         }
         public string Description
@@ -46,121 +37,82 @@ namespace StudyPlatform.Classes.Model
             }
             set
             {
-                if (value == null)
-                    throw new ArgumentNullException();
-                else
-                {
-                    Commands.SetValue("courses", ID, "description", value);
-                    _description = value;
-                }
+                Commands.SetValue("Course", ID, "Description", value);
+                _description = value;
             }
         }
         public List<Teacher> Teachers
         {
             get
             {
-                Query query = new Query("SELECT * FROM studyplatform.courseteachers" + ID);
-                uint[] ids = Extractor.ExtractIDs(query.Execute(), "field");
-                List<Teacher> teachers = new List<Teacher>();
-                foreach (uint id in ids)
-                    teachers.Add(Getters.GetPersonByID(id) as Teacher);
-                return teachers;
+                throw new NotImplementedException();
             }
         }
         public List<Student> Students
         {
             get
             {
-                Query query = new Query("SELECT * FROM studyplatform.coursestudents" + ID);
-                uint[] ids = Extractor.ExtractIDs(query.Execute(), "field");
-                List<Student> students = new List<Student>();
-                foreach (uint id in ids)
-                    students.Add(Getters.GetPersonByID(id) as Student);
-                return students;
+                throw new NotImplementedException();
             }
         }
         public List<Lesson> Lessons
         {
             get
             {
-                Query query = new Query("SELECT * FROM studyplatform.courselessons" + ID);
-                uint[] ids = Extractor.ExtractIDs(query.Execute(), "field");
-                List<Lesson> lessons = new List<Lesson>();
-                foreach (uint id in ids)
-                    lessons.Add(Getters.GetLessonByID(id));
-                return lessons;
+                throw new NotImplementedException();
             }
         }
         public List<AssignmentDescription> AssignmentDescriptions
         {
             get
             {
-                Query query = new Query("SELECT * FROM studyplatform.courseassignmentdescriptions" + ID);
-                uint[] ids = Extractor.ExtractIDs(query.Execute(), "field");
-                List<AssignmentDescription> assignmentdescriptions = new List<AssignmentDescription>();
-                foreach (uint id in ids)
-                    assignmentdescriptions.Add(Getters.GetAssignmentDescriptionByID(id));
-                return assignmentdescriptions;
+                throw new NotImplementedException();
             }
         }
         public List<CourseGrade> CourseGrades
         {
             get
             {
-                Query query = new Query("SELECT * FROM studyplatform.coursegrades" + ID);
-                uint[] ids = Extractor.ExtractIDs(query.Execute(), "field");
-                List<CourseGrade> coursegrades = new List<CourseGrade>();
-                foreach (uint id in ids)
-                    coursegrades.Add(Getters.GetCourseGradeByID(id));
-                return coursegrades;
+                throw new NotImplementedException();
             }
         }
         public List<string> Documents
         {
             get
             {
-                Query query = new Query("SELECT * FROM studyplatform.coursedocuments" + ID);
-                string[] filepaths = Extractor.ExtractFilepaths(query.Execute());
-                return filepaths.ToList();
+                throw new NotImplementedException();
             }
         }
-
-        public static Course New(string name, string description)
-        {
-            Creator.CreateCourse(name, description);
-            return Getters.GetLatestCourses(1).Single();
-        }
-        public void Remove() => Remover.RemoveCourse(this);
-
-        private void AddPerson(Person person)
-        {
+        
+        private void AddPerson(Person person) =>
             Commands.InsertInto("PersonCourse", person.ID.ToString(), ID.ToString());
-        }
+        private void RemovePerson(Person person) =>
+            Commands.DeleteFrom("PersonCourse", "PersonID=" + person.ID + " AND CourseID=" + ID);
 
-        private void RemovePerson(Person person)
-        {
-            Commands.DeleteFrom("PersonCourse", person.ID.ToString());
-        }
-        public void AddStudent(Student student)
-        {
-            AddPerson(student);
-        }
-        public void AddTeacher(Teacher teacher)
-        {
-            AddPerson(teacher);
-        }
+        public void AddTeacher(Teacher teacher) => AddPerson(teacher);
+        public void RemoveTeacher(Teacher teacher) => RemovePerson(teacher);
+
+        public void AddStudent(Student student) => AddPerson(student);
         public void RemoveStudent(Student student)
         {
-            foreach (Assignment studentAssignment in student.Assignments)
-                if(studentAssignment.AssignmentDescription.Course.ID == ID)
-                    Remover.RemoveAssignment(studentAssignment);
+            foreach (Assignment assignment in student.Assignments)
+                if(assignment.AssignmentDescription.Course.ID == ID)
+                    Remover.RemoveAssignment(assignment);
             foreach (Lesson lesson in Lessons)
                     lesson.RemoveAbsence(student);
             RemovePerson(student);
         }
-        public void RemoveTeacher(Teacher teacher)
+
+        public void AddDocument(string filepath) =>
+            Commands.InsertInto("CourseFile", ID.ToString(), filepath);
+        public void RemoveDocument(string filepath) =>
+            Commands.DeleteFrom("CourseFile", "CourseID=" + ID + " AND Filepath=" + filepath);
+
+        public void Remove() => Remover.RemoveCourse(this);
+        public static Course New(string name, string description)
         {
-            RemovePerson(teacher);
+            Creator.CreateCourse(name, description);
+            return GetLatest(1).Single();
         }
     }
 }

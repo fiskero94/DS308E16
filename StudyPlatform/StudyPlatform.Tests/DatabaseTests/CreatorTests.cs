@@ -101,7 +101,7 @@ namespace StudyPlatform.Tests.DatabaseTests
         {
             // Dependencies: CreateCourse
             Creator.CreateCourse(Instances.Name, Instances.Description);
-            Course course = Getters.GetLatestCourses(1).Single();
+            Course course = Course.GetLatest(1).Single();
             Creator.CreateLesson(course, Instances.Description, Instances.Online, Instances.Date, Instances.Rooms, Instances.Filepaths);
         } 
         [TestMethod]
@@ -125,7 +125,7 @@ namespace StudyPlatform.Tests.DatabaseTests
         {
             // Dependencies: CreateCourse
             Creator.CreateCourse(Instances.Name, Instances.Description);
-            Course course = Getters.GetLatestCourses(1).Single();
+            Course course = Course.GetLatest(1).Single();
             Creator.CreateAssignmentDescription(course,
                 Instances.Description, Instances.Date, Instances.Filepaths);
         }  
@@ -139,12 +139,12 @@ namespace StudyPlatform.Tests.DatabaseTests
         {
             // Dependencies: CreateAssignmentDescription, CreateCourse, CreateStudent
             Creator.CreateCourse(Instances.Name, Instances.Description);
-            Course course = Getters.GetLatestCourses(1).Single();
+            Course course = Course.GetLatest(1).Single();
             Creator.CreateAssignmentDescription(course, Instances.Description, 
                 Instances.Date, Instances.Filepaths);
-            AssignmentDescription assignmentDescription = Getters.GetLatestAssignmentDescriptions(1).Single();
+            AssignmentDescription assignmentDescription = AssignmentDescription.GetLatest(1).Single();
             Creator.CreateStudent(Instances.Name, Instances.Username, Instances.Password);
-            Student student = Getters.GetLatestPersons(1).Single() as Student;
+            Student student = Student.GetLatest(1).Single();
             Creator.CreateAssignment(assignmentDescription,
                 student, Instances.Comment, Instances.Filepaths);
         }
@@ -171,7 +171,7 @@ namespace StudyPlatform.Tests.DatabaseTests
         {
             // Dependencies: CreateCourse
             Creator.CreateCourse(Instances.Name, Instances.Description);
-            Course course = Getters.GetLatestCourses(1).Single();
+            Course course = Course.GetLatest(1).Single();
             Creator.CreateCourseGrade(course, Instances.Student, Instances.Grade,
                 Instances.Comment);
         }  

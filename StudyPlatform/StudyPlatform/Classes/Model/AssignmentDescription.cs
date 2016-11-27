@@ -6,24 +6,23 @@ using System.Web;
 
 namespace StudyPlatform.Classes.Model
 {
-    public class AssignmentDescription
+    public class AssignmentDescription : Entity<AssignmentDescription>
     {
         private readonly uint _courseid;
         private string _description;
         private bool _cancelled;
-        private DateTime _date;
+        private DateTime _deadline;
 
-        public AssignmentDescription(uint id, uint courseid, string description, bool cancelled, DateTime date)
+        public AssignmentDescription(uint id, uint courseid, string description, bool cancelled, DateTime deadline)
+            : base(id)
         {
-            ID = id;
             _courseid = courseid;
             _description = description;
             _cancelled = cancelled;
-            _date = date;
+            _deadline = deadline;
         }   
         
-        public uint ID { get; }
-        public Course Course => Getters.GetCourseByID(_courseid);
+        public Course Course => Course.GetByID(_courseid);
         public string Description
         {
             get
@@ -32,9 +31,7 @@ namespace StudyPlatform.Classes.Model
             }
             set
             {
-                if (value == null)
-                    throw new ArgumentNullException();
-                Commands.SetValue("assignmentdescriptions", ID, "description", value);
+                Commands.SetValue("AssignmentDescription", ID, "Description", value);
                 _description = value;
             }
         }
@@ -47,47 +44,38 @@ namespace StudyPlatform.Classes.Model
                 _cancelled = value;
             }
         }
-        public DateTime Date
+        public DateTime Deadline
         {
             get
             {
-                return _date;
+                return _deadline;
             }
             set
             {
-                if (value == null)
-                    throw new ArgumentNullException();
                 Commands.SetValue("AssignmentDescription", ID, "Deadline", value.ToString("yyyy-MM-dd HH:mm:ss"));
-                _date = value;
+                _deadline = value;
             }
         }
         public List<Assignment> Assignments
         {
             get
             {
-                Query query = new Query("SELECT * FROM studyplatform.assignmentdescriptionassignments" + ID);
-                uint[] ids = Extractor.ExtractIDs(query.Execute(), "field");
-                List<Assignment> assignments = new List<Assignment>();
-                foreach (uint id in ids)
-                    assignments.Add(Getters.GetAssignmentByID(id));
-                return assignments;
+                throw new NotImplementedException();
             }
         }
         public List<string> Documents
         {
             get
             {
-                Query query = new Query("SELECT * FROM studyplatform.assignmentdescriptiondocuments" + ID);
-                string[] filepaths = Extractor.ExtractFilepaths(query.Execute());
-                return filepaths.ToList();
+                throw new NotImplementedException();
             }
         }
-
+        
+        public void Remove() => Remover.RemoveAssignmentDescription(this);
         public static AssignmentDescription New(Course course, string description, DateTime deadline, List<string> filepaths)
         {
             Creator.CreateAssignmentDescription(course, description, deadline, filepaths);
-            return Getters.GetLatestAssignmentDescriptions(1).Single();
+            return GetLatest(1).Single();
         }
-        public void Remove() => Remover.RemoveAssignmentDescription(this);
     }
 }

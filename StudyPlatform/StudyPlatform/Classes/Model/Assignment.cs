@@ -6,35 +6,27 @@ using StudyPlatform.Classes.Database;
 
 namespace StudyPlatform.Classes.Model
 {
-    public class Assignment
+    public class Assignment : Entity<Assignment>
     {
         private readonly uint _assignmentdescriptionid;
         private readonly uint _studentid;
         private string _comment;
         private uint _gradeid;
-        private DateTime _deadline;
 
-        public Assignment(uint id, uint assignmentdescriptionid, uint studentid, string comment, uint gradeid, DateTime deadline)
+        public Assignment(uint id, uint assignmentdescriptionid, uint studentid, string comment, uint gradeid,
+            DateTime dateTimeSubmitted) : base(id)
         {
-            ID = id;
             _assignmentdescriptionid = assignmentdescriptionid;
             _studentid = studentid;
             _comment = comment;
             _gradeid = gradeid;
-            _deadline = deadline;
+            DateTimeSubmitted = dateTimeSubmitted;
         }
-        public Assignment(uint id, uint assignmentdescriptionid, uint studentid, string comment, DateTime deadline) 
-            : this(id, assignmentdescriptionid, studentid, comment, 0, deadline)
-        {
-
-        }
-
-        public uint ID { get; }
-
-        public AssignmentDescription AssignmentDescription => Getters.GetAssignmentDescriptionByID(_assignmentdescriptionid);
-
-        public Student Student => Getters.GetPersonByID(_studentid) as Student;
-
+        public Assignment(uint id, uint assignmentdescriptionid, uint studentid, string comment, DateTime dateTimeSubmitted) 
+            : this(id, assignmentdescriptionid, studentid, comment, 0, dateTimeSubmitted) {}
+        
+        public AssignmentDescription AssignmentDescription => AssignmentDescription.GetByID(_assignmentdescriptionid);
+        public Student Student => Student.GetByID(_studentid);
         public string Comment
         {
             get
@@ -43,42 +35,44 @@ namespace StudyPlatform.Classes.Model
             }
             set
             {
-                if (value == null)
-                    throw new ArgumentNullException();
-                else
-                {
-                    Commands.SetValue("assignments", ID, "comment", value);
-                    _comment = value;
-                }
+                Commands.SetValue("Assignment", ID, "Comment", value);
+                _comment = value;
             }
         }
         public AssignmentGrade Grade
         {
             get
             {
-                if (Commands.CheckNull("assignments", ID, "gradeid"))
-                    return null;
+                return _gradeid == 0 ? null : AssignmentGrade.GetByID(_gradeid);
+            }
+            set
+            {
+                if (value == null)
+                {
+                    Commands.SetValue("Assignment", ID, "GradeID", "NULL");
+                    _gradeid = 0;
+                }
                 else
-                    return Getters.GetAssignmentGradeByID(_gradeid);
+                {
+                    Commands.SetValue("Assignment", ID, "GradeID", value.ToString());
+                    _gradeid = value.ID;
+                }
             }
         }
-        public DateTime Deadline => _deadline;
-
+        public DateTime DateTimeSubmitted { get; }
         public List<string> Documents
         {
             get
             {
-                Query query = new Query("SELECT * FROM studyplatform.assignmentdocuments" + ID);
-                string[] filepaths = Extractor.ExtractFilepaths(query.Execute());
-                return filepaths.ToList();
+                throw new NotImplementedException();
             }
         }
-
+        
+        public void Remove() => Remover.RemoveAssignment(this);
         public static Assignment New(AssignmentDescription assignmentDescription, Student student, string comment, List<string> filepaths)
         {
             Creator.CreateAssignment(assignmentDescription, student, comment, filepaths);
-            return Getters.GetLatestAssignments(1).Single();
+            return GetLatest(1).Single();
         }
-        public void Remove() => Remover.RemoveAssignment(this);
     }
 }

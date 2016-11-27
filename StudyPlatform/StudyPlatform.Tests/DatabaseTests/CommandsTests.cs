@@ -23,33 +23,33 @@ namespace StudyPlatform.Tests.DatabaseTests
             Commands.SetValue("Person", 1, "Name", Instances.Name);
 
             // Assert
-            Person person = Getters.GetPersonByID(1);
+            Person person = Person.GetByID(1);
             Assert.AreEqual(Instances.Name, person.Name);
         }
         [TestMethod]
         public void CommandsInsertInto_ValidParameters_RoomInserted()
         {
             // Arrange
-            int preActRoomCount = Lists.Rooms.Count;
+            int preActRoomCount = Room.GetAll().Count;
 
             // Act
             Commands.InsertInto("Room", "NULL", Instances.Name);
 
             // Assert
-            Assert.AreEqual(preActRoomCount + 1, Lists.Rooms.Count);
-            Assert.AreEqual(Instances.Name, Getters.GetLatestRooms(1).Single().Name);
+            Assert.AreEqual(preActRoomCount + 1, Room.GetAll().Count);
+            Assert.AreEqual(Instances.Name, Room.GetLatest(1).Single().Name);
         }
         [TestMethod]
         public void CommandsDeleteFrom_ValidParameters_PersonRemoved()
         {
             // Arrange
-            int preActPersonCount = Lists.Persons.Count;
+            int preActPersonCount = Person.GetAll().Count;
 
             // Act
             Commands.DeleteFrom("Person", "ID=1");
 
             // Assert
-            Assert.AreEqual(preActPersonCount - 1, Lists.Persons.Count);
+            Assert.AreEqual(preActPersonCount - 1, Person.GetAll().Count);
         }
         [TestMethod]
         public void CommandsGetLatestRows_FourRoomsCreated_RoomsReturnedInReverseOrder()
@@ -61,12 +61,12 @@ namespace StudyPlatform.Tests.DatabaseTests
             Commands.InsertInto("Room", "NULL", "4");
 
             // Act
-            List<Room> Rooms = Getters.GetLatestRooms(3);
+            List<Room> rooms = Room.GetLatest(3);
 
             // Assert
-            Assert.AreEqual("4", Rooms[0].Name);
-            Assert.AreEqual("3", Rooms[1].Name);
-            Assert.AreEqual("2", Rooms[2].Name);
+            Assert.AreEqual("4", rooms[0].Name);
+            Assert.AreEqual("3", rooms[1].Name);
+            Assert.AreEqual("2", rooms[2].Name);
         }
         [TestMethod]
         public void CommandsCheckNull_NullVariable_TrueReturned()

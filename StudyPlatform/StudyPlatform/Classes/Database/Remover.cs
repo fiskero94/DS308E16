@@ -17,7 +17,7 @@ namespace StudyPlatform.Classes.Database
                 foreach (Course course in ((Student)person).Courses)
                     course.RemoveStudent((Student)person);
             else if(person is Secretary)
-                foreach (News news in Lists.News)
+                foreach (News news in News.GetAll())
                     if(news.Author.ID == person.ID)
                         RemoveNews(news);
             Commands.DeleteFrom("Person", "ID=" + person.ID);

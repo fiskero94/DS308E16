@@ -6,24 +6,22 @@ using StudyPlatform.Classes.Database;
 
 namespace StudyPlatform.Classes.Model
 {
-    public class Message
+    public class Message : Entity<Message>
     {
         private readonly uint _senderid;
 
-        public Message(uint id, uint senderid, string title, string text, DateTime dateTime)
+        public Message(uint id, uint senderid, string title, string text, DateTime dateTimeSent) : base(id)
         {
-            ID = id;
             _senderid = senderid;
             Title = title;
             Text = text;
-            Date = dateTime;
+            DateTimeSent = dateTimeSent;
         }
-
-        public uint ID { get; }
-        public Person Sender => Getters.GetPersonByID(_senderid);
+        
+        public Person Sender => Person.GetByID(_senderid);
         public string Title { get; }
         public string Text { get; }
-        public DateTime Date { get; }
+        public DateTime DateTimeSent { get; }
         public List<Person> Recipients
         {
             get
@@ -38,12 +36,12 @@ namespace StudyPlatform.Classes.Model
                 throw new NotImplementedException();
             }
         }
-
+        
+        public void Remove() => Remover.RemoveMessage(this);
         public static Message New(Person sender, string title, string text, List<Person> recipients, List<string> filepaths)
         {
             Creator.CreateMessage(sender, title, text, recipients, filepaths);
-            return Getters.GetLatestMessages(1).Single();
+            return GetLatest(1).Single();
         }
-        public void Remove() => Remover.RemoveMessage(this);
     }
 }

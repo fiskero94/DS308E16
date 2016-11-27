@@ -126,6 +126,7 @@
     <Compile Include="Classes\Exceptions\NoRecipientsException.cs" />
     <Compile Include="Classes\Exceptions\InvalidIDException.cs" />
     <Compile Include="Classes\Exceptions\NoConnectionException.cs" />
+    <Compile Include="Classes\Model\Entity.cs" />
     <Compile Include="Pages\Admin.aspx.cs">
       <DependentUpon>Admin.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -146,13 +147,10 @@
     <Compile Include="Classes\Model\AssignmentGrade.cs" />
     <Compile Include="Classes\Model\Course.cs" />
     <Compile Include="Classes\Model\CourseGrade.cs" />
-    <Compile Include="Classes\Database\Getters.cs" />
-    <Compile Include="Classes\Model\Grade.cs" />
     <Compile Include="Classes\Model\Lesson.cs" />
     <Compile Include="Classes\Model\Message.cs" />
     <Compile Include="Classes\Model\News.cs" />
     <Compile Include="Classes\Model\Person.cs" />
-    <Compile Include="Classes\Database\Lists.cs" />
     <Compile Include="Classes\Model\Room.cs" />
     <Compile Include="Classes\Model\Secretary.cs" />
     <Compile Include="Classes\Model\Student.cs" />

@@ -7,6 +7,7 @@ namespace StudyPlatform.Classes
 {
     public static class Common
     {
+        public static string[] ValidGrades = { "12", "10", "7", "4", "02", "00", "-3" };
         public static void AppendStringArray(ref string stringToAppendOn, string seperator, string[] strings)
         {
             foreach (string item in strings)
