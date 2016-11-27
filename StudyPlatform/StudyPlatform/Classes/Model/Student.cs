@@ -27,13 +27,8 @@ namespace StudyPlatform.Classes.Model
                 return personCourses;
             }
         }
-        public List<Assignment> Assignments
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public List<Assignment> Assignments => Assignment.GetByConditions("StudentID=" + ID);
+
         public List<Lesson> Absences
         {
             get

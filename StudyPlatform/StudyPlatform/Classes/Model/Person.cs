@@ -33,10 +33,16 @@ namespace StudyPlatform.Classes.Model
         {
             get
             {
-                throw new NotImplementedException();
+                Query query = new Query("SELECT * FROM studyplatform.MessageRecipient WHERE PersonID=" + ID + ";");
+                uint[] mailUints = Extractor.ExtractIDs(query.Execute(), "MessageID");
+                List<Message> messages = new List<Message>();
+                foreach (uint mailID in mailUints)
+                {
+                    messages.Add(Message.GetByID(mailID));
+                }
+                return messages;
             }
         }
-
         public void Remove() => Remover.RemovePerson(this);
     }
 }
