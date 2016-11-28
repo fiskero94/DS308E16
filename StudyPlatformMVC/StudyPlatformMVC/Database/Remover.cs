@@ -1,7 +1,7 @@
-﻿using StudyPlatform.Classes.Model;
+﻿using StudyPlatformMVC.Models;
 using System;
 
-namespace StudyPlatform.Classes.Database
+namespace StudyPlatformMVC.Database
 {
     public static class Remover
     {
@@ -16,9 +16,9 @@ namespace StudyPlatform.Classes.Database
             else if (person is Student)
                 foreach (Course course in ((Student)person).Courses)
                     course.RemoveStudent((Student)person);
-            else if(person is Secretary)
+            else if (person is Secretary)
                 foreach (News news in News.GetAll())
-                    if(news.Author.ID == person.ID)
+                    if (news.Author.ID == person.ID)
                         RemoveNews(news);
             Commands.DeleteFrom("Person", "ID=" + person.ID);
             person = null;
@@ -72,7 +72,7 @@ namespace StudyPlatform.Classes.Database
         }
         public static void RemoveAssignment(Assignment assignment)
         {
-            if(assignment.Grade != null)
+            if (assignment.Grade != null)
                 RemoveAssignmentGrade(assignment.Grade);
 
             Commands.DeleteFrom("AssignmentFile", "AssignmentID=" + assignment.ID);

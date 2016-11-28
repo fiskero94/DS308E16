@@ -1,11 +1,11 @@
-﻿using StudyPlatform.Classes.Database;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using StudyPlatform.Classes.Exceptions;
+using StudyPlatformMVC.Database;
+using StudyPlatformMVC.Exceptions;
 
-namespace StudyPlatform.Classes.Model
+namespace StudyPlatformMVC.Models
 {
     public class Lesson : Entity<Lesson>
     {
@@ -23,7 +23,7 @@ namespace StudyPlatform.Classes.Model
             _cancelled = cancelled;
             _dateTime = dateTime;
         }
-        
+
         public Course Course => Course.GetByID(_courseid);
         public DateTime DateTime
         {
@@ -89,7 +89,7 @@ namespace StudyPlatform.Classes.Model
         public void RemoveAbsence(Student student) =>
             Commands.DeleteFrom("StudentAbsence", "StudentID=" + student.ID + " AND LessonID=" + ID);
 
-        
+
         public static Lesson New(Course course, string description, bool online,
             DateTime dateTime, List<Room> rooms, List<string> filepaths)
         {
