@@ -306,11 +306,11 @@
     <Content Include="Views\News\Index.cshtml" />
     <Content Include="Views\Assignments\Index.cshtml" />
     <Content Include="Views\Grades\Index.cshtml" />
+    <Content Include="Views\Absence\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="ViewModels\" />
-    <Folder Include="Views\Absence\" />
     <Folder Include="Views\Courses\" />
     <Folder Include="Views\Login\" />
     <Folder Include="Views\Messages\" />
