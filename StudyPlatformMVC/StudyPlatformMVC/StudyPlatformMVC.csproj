@@ -236,9 +236,11 @@
     <Compile Include="Models\Lesson.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Message.cs" />
+    <Compile Include="Models\MySQLConnectionString.cs" />
     <Compile Include="Models\News.cs" />
     <Compile Include="Models\Person.cs" />
     <Compile Include="Models\Room.cs" />
+    <Compile Include="Models\ScheduleViewModel.cs" />
     <Compile Include="Models\Secretary.cs" />
     <Compile Include="Models\Student.cs" />
     <Compile Include="Models\Teacher.cs" />
@@ -246,9 +248,9 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Absence.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\News.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -304,10 +306,6 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\News\Index.cshtml" />
-    <Content Include="Views\Assignments\Index.cshtml" />
-    <Content Include="Views\Grades\Index.cshtml" />
-    <Content Include="Views\Absence\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -316,7 +314,6 @@
     <Folder Include="Views\Login\" />
     <Folder Include="Views\Messages\" />
     <Folder Include="Views\Rooms\" />
-    <Folder Include="Views\Schedule\" />
     <Folder Include="Views\Users\" />
   </ItemGroup>
   <ItemGroup>
@@ -341,7 +338,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>54854</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

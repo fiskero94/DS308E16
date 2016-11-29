@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using System.Data.Entity;
 
 namespace StudyPlatformMVC
 {
@@ -12,6 +13,10 @@ namespace StudyPlatformMVC
     {
         protected void Application_Start()
         {
+            // Existing databases do not need, database initializer so it can be turned off.
+            //Database.SetInitializer<StudyPlatformMVC.Models.DefaultConnection>(null);
+
+
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
