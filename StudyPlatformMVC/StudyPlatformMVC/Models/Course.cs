@@ -17,6 +17,8 @@ namespace StudyPlatformMVC.Models
             _description = description;
         }
 
+        public double StudentAbsence { get; set; }
+
         public string Name
         {
             get
