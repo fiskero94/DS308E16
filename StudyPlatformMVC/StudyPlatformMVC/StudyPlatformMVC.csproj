@@ -310,6 +310,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="ViewModels\" />
+    <Folder Include="Views\Assigments\" />
     <Folder Include="Views\Courses\" />
     <Folder Include="Views\Login\" />
     <Folder Include="Views\Messages\" />

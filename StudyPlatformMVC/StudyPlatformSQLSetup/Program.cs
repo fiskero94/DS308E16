@@ -184,6 +184,12 @@ namespace StudyPlatformSQLSetup
             course1.AddStudent(student);
             course2.AddStudent(student);
 
+
+
+            Creator.CreateAssignmentDescription(course1, "matematik aflevering du skal blablababla", new DateTime(2016, 5, 5), filepaths);
+            AssignmentDescription description = AssignmentDescription.GetLatest();
+            Creator.CreateAssignment(description, student, "Den er god", filepaths);
+            Assignment assignment = Assignment.GetLatest();
         }
 
 
