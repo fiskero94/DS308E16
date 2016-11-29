@@ -1,0 +1,15 @@
+﻿table{
+    font-family: Arial;
+    border-collapse: collapse;
+    width: 100px;
+}
+
+th, tb{
+    padding: 10px, 8px, 5px;
+}
+
+tr{
+    background-color: lightblue;
+}
+
+

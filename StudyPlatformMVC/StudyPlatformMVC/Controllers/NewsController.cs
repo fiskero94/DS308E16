@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using StudyPlatformMVC.Models;
 
 namespace StudyPlatformMVC.Controllers
 {
@@ -12,22 +13,10 @@ namespace StudyPlatformMVC.Controllers
         
         public ActionResult Index()
         {
-            
+            List<News> news = News.GetAll();
+
             return View();
         }
-        
 
-            /*
-        public string Index()
-        {
-            return "This is my default news action..";
-        }
-
-        //GET: Welcome 
-        public string Welcome()
-        {
-            return "This is the news action method";
-        }
-        */
     }
 }
