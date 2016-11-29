@@ -26,6 +26,7 @@ namespace StudyPlatformSQLSetup
                 SetupMySqlUser();
                 SetupTables(null);
                 SetupAdmin(null);
+                SetupData();
                 success = true;
             }
             catch (MySqlException e)
@@ -156,7 +157,7 @@ namespace StudyPlatformSQLSetup
 
 
 
-        public static void SetupData(string externalConnectionString)
+        public static void SetupData()
         {
             Creator.CreateRoom("s1");
             Creator.CreateRoom("s2");
@@ -173,6 +174,15 @@ namespace StudyPlatformSQLSetup
             Creator.CreateLesson(Course.GetLatest(), "lektion 2", true, new DateTime(2016, 11, 29, 9, 10, 0), Room.GetLatest(2), filepaths);
             Creator.CreateLesson(Course.GetLatest(), "lektion 3", true, new DateTime(2016, 11, 29, 10, 10, 0), Room.GetLatest(1), filepaths);
 
+
+            Creator.CreateStudent("name", "username", "password");
+            Student student = Student.GetLatest();
+            Creator.CreateCourse("coursename1", "course1");
+            Creator.CreateCourse("coursename2", "course2");
+            Course course1 = Course.GetByID(2);
+            Course course2 = Course.GetByID(3);
+            course1.AddStudent(student);
+            course2.AddStudent(student);
 
         }
 

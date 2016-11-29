@@ -13,14 +13,7 @@ namespace StudyPlatformMVC.Controllers
     {
         public ActionResult Index(int id)
         {
-            Creator.CreateStudent("name", "username", "password");
             Student student = Student.GetByID(Convert.ToUInt32(id));
-            Creator.CreateCourse("coursename1", "course1");
-            Creator.CreateCourse("coursename2", "course2");
-            Course course1 = Course.GetByID(1);
-            Course course2 = Course.GetByID(2);
-            course1.AddStudent(student);
-            course2.AddStudent(student);
             List<Lesson> absenceList = new List<Lesson>();
             foreach (Course course in student.Courses)
             {
