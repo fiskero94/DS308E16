@@ -6,26 +6,29 @@
 }
 
 <div class="absenceTable">
-    <tr>
+    
+    <table>
+        <tr>
         <th>Fag</th>
         <th>Almindeligt</th>
         <th>Skriftligt</th>
-    </tr>
+        </tr>
 
 
 
 
 
 
-        @{
-            foreach (Course course in @Model)
-            {
-                @:<tr>
-    @:<th> @course.Name </th>
-    @:<th>Almindeligt</th>
-                @:<th>Skriftligt</th>
-            @:</tr>
-                //table til hver headerrow?
-            }
-        }
+    @{
+    foreach (Course course in @Model)
+    {
+        @:<tr>
+        @:<td> @course.Name </td>
+        @:<td>@course.StudentAbsence</td>
+        @:<td>Skriftligt</td>
+        @:</tr>
+        //table til hver headerrow?
+    }
+    }
+        </table>
 </div>
