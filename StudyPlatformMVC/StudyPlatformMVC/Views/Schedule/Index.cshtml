@@ -1,0 +1,33 @@
+﻿@using StudyPlatformMVC.Models
+
+@*
+    @model IEnumerable<IGrouping<int, Lesson>>
+*@
+
+@model List<Lesson>
+
+
+@{
+    ViewBag.Title = "Schedule";
+}
+
+<h2>Schedule</h2>
+
+<table>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.LabelForModel(item.Description)
+            </td>
+        </tr>
+    }
+
+
+
+
+</table>
+
+
+
+
