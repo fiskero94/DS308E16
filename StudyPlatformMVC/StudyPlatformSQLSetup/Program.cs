@@ -1,6 +1,8 @@
 ﻿using System;
 using MySql.Data.MySqlClient;
 using StudyPlatformMVC.Database;
+using StudyPlatformMVC.Models;
+using System.Collections.Generic;
 
 namespace StudyPlatformSQLSetup
 {
@@ -24,6 +26,7 @@ namespace StudyPlatformSQLSetup
                 SetupMySqlUser();
                 SetupTables(null);
                 SetupAdmin(null);
+                SetupData();
                 success = true;
             }
             catch (MySqlException e)
@@ -150,6 +153,43 @@ namespace StudyPlatformSQLSetup
             WriteSetupMessage("Setting up admin person");
             Creator.CreateSecretary("Admin", "admin", "password");
         }
+
+
+
+
+        public static void SetupData()
+        {
+            Creator.CreateRoom("s1");
+            Creator.CreateRoom("s2");
+            Creator.CreateRoom("s3");
+
+            Creator.CreateCourse("Matematik", "A-Level Kappa");
+
+
+            List<string> filepaths = new List<string>();
+            filepaths.Add("../C/Games");
+            filepaths.Add("../C/Kappa");
+
+            Creator.CreateLesson(Course.GetLatest(), "lektion 1", true, new DateTime(2016, 11, 29, 8, 10, 0), Room.GetLatest(1), filepaths);
+            Creator.CreateLesson(Course.GetLatest(), "lektion 2", true, new DateTime(2016, 11, 29, 9, 10, 0), Room.GetLatest(2), filepaths);
+            Creator.CreateLesson(Course.GetLatest(), "lektion 3", true, new DateTime(2016, 11, 29, 10, 10, 0), Room.GetLatest(1), filepaths);
+
+
+            Creator.CreateStudent("name", "username", "password");
+            Student student = Student.GetLatest();
+            Creator.CreateCourse("coursename1", "course1");
+            Creator.CreateCourse("coursename2", "course2");
+            Course course1 = Course.GetByID(2);
+            Course course2 = Course.GetByID(3);
+            course1.AddStudent(student);
+            course2.AddStudent(student);
+
+        }
+
+
+
+
+
         private static void ExecuteQuery(string query)
         {
             using (MySqlConnection connection = new MySqlConnection(_connectionString))

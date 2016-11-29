@@ -1,0 +1,31 @@
+﻿@using StudyPlatformMVC.Models
+@model List<Course>
+
+@{
+    ViewBag.Title = "Fravær";
+}
+
+<div class="absenceTable">
+    <tr>
+        <th>Fag</th>
+        <th>Almindeligt</th>
+        <th>Skriftligt</th>
+    </tr>
+
+
+
+
+
+
+        @{
+            foreach (Course course in @Model)
+            {
+                @:<tr>
+    @:<th> @course.Name </th>
+    @:<th>Almindeligt</th>
+                @:<th>Skriftligt</th>
+            @:</tr>
+                //table til hver headerrow?
+            }
+        }
+</div>
