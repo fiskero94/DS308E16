@@ -1,9 +1,18 @@
-﻿@model StudyPlatformMVC.Models.Assignment
-
+﻿@using StudyPlatformMVC.Models
+@model List<StudyPlatformMVC.Models.Assignment>
 @{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<div class="container">
+    <h2>Afleveringer</h2>
 
+    <table class="table">
+        @foreach (Assignment assignemnt in @Model)
+        {
+            <tr>
+                <td>@assignemnt.AssignmentDescription.Description</td>
+            </tr>
+        }
+    </table>
+</div>

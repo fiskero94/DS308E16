@@ -17,7 +17,14 @@ namespace StudyPlatformMVC.Models
             _description = description;
         }
 
-        public double StudentAbsence { get; set; }
+        public double StudentAbsence;
+        public int StudentAbsentLessons;
+        public readonly int NumberOfLessons = 220;
+        public readonly int NumberOfAssignments = 10;
+        public int studentNumberOfAssignments;
+        public double studentAssignments;
+        public double studentTotalAssignments;
+        public double StudentTotalAbsence;
 
         public string Name
         {

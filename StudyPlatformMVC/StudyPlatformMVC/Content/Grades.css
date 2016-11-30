@@ -1,15 +1,6 @@
 ﻿table{
     font-family: Arial;
     border-collapse: collapse;
-    width: 100px;
+    width: 50px;
 }
-
-th, tb{
-    padding: 10px, 8px, 5px;
-}
-
-tr{
-    background-color: lightblue;
-}
-
 

@@ -1,8 +1,8 @@
-﻿using StudyPlatformMVC.Models;
+﻿using StudyPlatformMVC.Exceptions;
+using StudyPlatformMVC.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using StudyPlatformMVC.Exceptions;
 
 namespace StudyPlatformMVC.Database
 {
