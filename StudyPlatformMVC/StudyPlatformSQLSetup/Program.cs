@@ -184,6 +184,7 @@ namespace StudyPlatformSQLSetup
             course1.AddStudent(student);
             course2.AddStudent(student);
 
+            Creator.CreateCourseGrade(Course.GetLatest(), Student.GetLatest(), "grade", "comment");
         }
 
 

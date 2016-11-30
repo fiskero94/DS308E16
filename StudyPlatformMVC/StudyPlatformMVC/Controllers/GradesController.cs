@@ -12,7 +12,7 @@ namespace StudyPlatformMVC.Controllers
         // GET: Grades
         public ActionResult Index()
         {
-            return View();
+            return View();            
         }
     }
 }
