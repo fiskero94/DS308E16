@@ -29,6 +29,8 @@ namespace StudyPlatformMVC
 
             bundles.Add(new StyleBundle("~/Content/news").Include(
                       "~/Content/news.css"));
+            bundles.Add(new StyleBundle("~/Content/Absence").Include(
+                      "~/Content/Absence.css"));
         }
     }
 }
