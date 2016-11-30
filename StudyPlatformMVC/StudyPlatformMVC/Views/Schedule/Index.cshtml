@@ -1,33 +1,158 @@
 ﻿@using StudyPlatformMVC.Models
 
-@*
-    @model IEnumerable<IGrouping<int, Lesson>>
-*@
-
 @model List<Lesson>
-
 
 @{
     ViewBag.Title = "Schedule";
 }
 
-<h2>Schedule</h2>
+@using (Html.BeginForm("Index", "Schedule", FormMethod.Post))
+{
+    // this is for create form tag
+    @Html.AntiForgeryToken()    // this is for prevent CSRF attack
+    @Html.ValidationSummary(true)
 
-<table>
-    @foreach (var item in Model)
+    if (ViewBag.Message != null)
     {
-        <tr>
-            <td>
-                @Html.LabelForModel(item.Description)
-            </td>
-        </tr>
+        <div style="border:1px solid red">
+            @ViewBag.Message
+        </div>
     }
 
 
+    // button 1
+    <div class="container">
+        <div class="row">
+            <div id="Matematik1" class="modal fade in">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <a class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span></a>
+                            @* @Html.LabelFor(a => a.Name, new { @class = "modal-title" }) *@
+                        </div>
+                        <div class="modal-body">
+                            <p>Text Text Text Text</p>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dalog -->
+            </div><!-- /.modal -->
+        </div>
+    </div>
 
 
-</table>
 
 
 
 
+    <table class="calendar table table-bordered">
+        <thead>
+            <tr>
+                <th>&nbsp;</th>
+                <th width="20%">Mandag</th>
+                <th width="20%">Tirsdag</th>
+                <th width="20%">Onsdag</th>
+                <th width="20%">Torsdag</th>
+                <th width="20%">Fredag</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>08:00</td>
+                @foreach (Lesson lesson in @Model)
+                {
+                    if (lesson.DateTime.TimeOfDay == (TimeSpan)Enum.Parse(typeof(TimeSpan), "08:00"))
+                    {
+                        switch (lesson.DateTime.DayOfWeek.ToString())
+                        {
+                            case "Monday":
+                                <td data-toggle="modal" href="#Matematik1" class="has-events row" rowspan="3">
+                                    <div class="row-fluid lecture" style="width: 99%; height: 100%;">
+                                        <span class="title">@lesson.Course.Name</span> <span class="lecturer">
+                                            @foreach (Teacher teacher in lesson.Course.Teachers)
+                                            {
+                                                <a>@teacher.Name</a>
+                                            }
+                                        </span>
+                                        @foreach (Room room in lesson.Rooms)
+                                        {
+                                              <span class="location">@room.Name</span>
+                                        }
+                                    </div>
+                                </td>
+                                break;
+                            case "Tuesday":
+                                <td data-toggle="modal" href="#Matematik1" class="has-events row" rowspan="3">
+                                    <div class="row-fluid lecture" style="width: 99%; height: 100%;">
+                                        <span class="title">@lesson.Course.Name</span> <span class="lecturer">
+                                            @foreach (Teacher teacher in lesson.Course.Teachers)
+                                            {
+                                                <a>@teacher.Name</a>
+                                            }
+                                        </span>
+                                        @foreach (Room room in lesson.Rooms)
+                                        {
+                                            <span class="location">@room.Name</span>
+                                        }
+                                    </div>
+                                </td>
+                                break;
+                            case "Wednesday":
+                                <td data-toggle="modal" href="#Matematik1" class="has-events row" rowspan="3">
+                                    <div class="row-fluid lecture" style="width: 99%; height: 100%;">
+                                        <span class="title">@lesson.Course.Name</span> <span class="lecturer">
+                                            @foreach (Teacher teacher in lesson.Course.Teachers)
+                                            {
+                                                <a>@teacher.Name</a>
+                                            }
+                                        </span>
+                                        @foreach (Room room in lesson.Rooms)
+                                        {
+                                            <span class="location">@room.Name</span>
+                                        }
+                                    </div>
+                                </td>
+                                break;
+                            case "Thursday":
+                                <td data-toggle="modal" href="#Matematik1" class="has-events row" rowspan="3">
+                                    <div class="row-fluid lecture" style="width: 99%; height: 100%;">
+                                        <span class="title">@lesson.Course.Name</span> <span class="lecturer">
+                                            @foreach (Teacher teacher in lesson.Course.Teachers)
+                                            {
+                                                <a>@teacher.Name</a>
+                                            }
+                                        </span>
+                                        @foreach (Room room in lesson.Rooms)
+                                        {
+                                            <span class="location">@room.Name</span>
+                                        }
+                                    </div>
+                                </td>
+                                break;
+                            case "Friday":
+                                <td data-toggle="modal" href="#Matematik1" class="has-events row" rowspan="3">
+                                    <div class="row-fluid lecture" style="width: 99%; height: 100%;">
+                                        <span class="title">@lesson.Course.Name</span> <span class="lecturer">
+                                            @foreach (Teacher teacher in lesson.Course.Teachers)
+                                            {
+                                                <a>@teacher.Name</a>
+                                            }
+                                        </span>
+                                        @foreach (Room room in lesson.Rooms)
+                                        {
+                                            <span class="location">@room.Name</span>
+                                        }
+                                    </div>
+                                </td>
+                                break;
+                        }
+                    }
+                }
+            </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+}

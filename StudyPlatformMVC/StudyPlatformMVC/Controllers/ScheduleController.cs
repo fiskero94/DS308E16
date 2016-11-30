@@ -1,4 +1,5 @@
-﻿using StudyPlatformMVC.Models;
+﻿using StudyPlatformMVC.Database;
+using StudyPlatformMVC.Models;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -11,13 +12,9 @@ namespace StudyPlatformMVC.Controllers
     public class ScheduleController : Controller
     {
 
-
-        Func<DateTime, int> weekProjector = d => CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(d, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Sunday);
-
         [Route("Schedule/Index/{userID}/{weeknumber}")]
         public ActionResult Index(int userID, int weeknumber)
         {
-
             Person person = Person.GetByID(Convert.ToUInt32(userID));
 
             if (person is Student)
@@ -27,24 +24,24 @@ namespace StudyPlatformMVC.Controllers
 
                 foreach (Course course in Courses)
                 {
-                    Lessons.AddRange(course.Lessons);
+                    foreach (Lesson lesson in course.Lessons)
+                    {
+                        DateTimeFormatInfo dfi = DateTimeFormatInfo.CurrentInfo;
+                        Calendar cal = dfi.Calendar;
+
+                        if (cal.GetWeekOfYear(lesson.DateTime, dfi.CalendarWeekRule, dfi.FirstDayOfWeek) == weeknumber)
+                        {
+                            Lessons.Add(lesson);
+                        }
+                        
+                    }
                 }
 
-                var lessonsByWeek = from lesson in Lessons group lesson by weekProjector(lesson.DateTime);
-
-                var weeklessons = lessonsByWeek.Where(x => x.Key == weeknumber);
-
-                var list = weeklessons.SelectMany(x => x).ToList();
-
+                // mANGLER SORT BY TIMEOFDAY så alle kl8 lektioner kommer først.
+                var list = Lessons.OrderBy(x => x.DateTime.TimeOfDay).ToList();
 
                 return View(list);
             }
-
-
-
-
-
-
 
 
 
