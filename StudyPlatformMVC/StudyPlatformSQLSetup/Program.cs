@@ -36,11 +36,9 @@ namespace StudyPlatformSQLSetup
                 SetupTables(null);
                 SetupAdmin(null);
                 SetupPseudoData();
-                SetupData();
+                // SetupData();
+                // SetupData(null);
                 success = true;
-
-                SetupData(null);
-
             }
             catch (MySqlException e)
             {
@@ -289,10 +287,10 @@ namespace StudyPlatformSQLSetup
                 assignment.Grade = AssignmentGrade.New(TakeRandom(Common.ValidGrades.ToList()), "Lorem ipsum dolor sit amet.", assignment);
 
             // CourseGrades
-            WriteSetupMessageIndent("Creating CourseGrades");
-            foreach (Course course in courses)
-                foreach (Student student in students)
-                    CourseGrade.New(course, student, TakeRandom(Common.ValidGrades.ToList()), "Lorem ipsum dolor sit amet.");
+            // WriteSetupMessageIndent("Creating CourseGrades");
+            // foreach (Course course in courses)
+                // foreach (Student student in students)
+                    // CourseGrade.New(course, student, TakeRandom(Common.ValidGrades.ToList()), "Lorem ipsum dolor sit amet.");
         }
         private static List<T> Group<T>(params T[] objects) => objects.ToList();
         private static void GenerateLessons(string startDay, string startMonth, string startYear, int weeksToGenerate, List<Course> courses, List<Room> rooms)

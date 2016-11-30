@@ -13,7 +13,7 @@ namespace StudyPlatformMVC.Models
 
         }
 
-        public List<Course> Courses => GetRelations<Course>("PersonCourse", "CourseID", "PersonID", ID);
+        public List<Course> Courses => GetRelations<Course>("StudentCourse", "CourseID", "StudentID", ID);
         public List<Assignment> Assignments => Assignment.GetByConditions("StudentID=" + ID);
         public List<Lesson> Absences => GetRelations<Lesson>("StudentAbsence", "LessonID", "StudentID", ID);
 

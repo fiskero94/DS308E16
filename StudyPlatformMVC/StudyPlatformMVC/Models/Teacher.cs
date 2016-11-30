@@ -13,7 +13,7 @@ namespace StudyPlatformMVC.Models
 
         }
 
-        public List<Course> Courses => GetRelations<Course>("PersonCourse", "CourseID", "PersonID", ID);
+        public List<Course> Courses => GetRelations<Course>("TeacherCourse", "CourseID", "TeacherID", ID);
 
         public static Teacher New(string name, string username, string password)
         {

@@ -37,7 +37,8 @@ namespace StudyPlatformMVC.Database
         }
         public static void RemoveCourse(Course course)
         {
-            Commands.DeleteFrom("PersonCourse", "CourseID=" + course.ID);
+            Commands.DeleteFrom("StudentCourse", "CourseID=" + course.ID);
+            Commands.DeleteFrom("TeacherCourse", "CourseID=" + course.ID);
             Commands.DeleteFrom("CourseFile", "CourseID=" + course.ID);
             foreach (Lesson lesson in course.Lessons)
                 RemoveLesson(lesson);
