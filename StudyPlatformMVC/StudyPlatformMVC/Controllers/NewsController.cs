@@ -15,7 +15,7 @@ namespace StudyPlatformMVC.Controllers
         {
             List<News> news = News.GetAll();
 
-            return View();
+            return View(news);
         }
 
     }

@@ -83,7 +83,7 @@ namespace StudyPlatformMVC.Database
                 "FALSE", deadline.ToString("yyyy-MM-dd HH:mm:ss"));
             AssignmentDescription assignmentDescription = AssignmentDescription.GetLatest(1).Single();
             foreach (string filepath in filepaths)
-                Commands.InsertInto("AssignentDescriptionFile", assignmentDescription.ID.ToString(), filepath);
+                Commands.InsertInto("AssignmentDescriptionFile", assignmentDescription.ID.ToString(), filepath);
         }
         public static void CreateAssignment(AssignmentDescription assignmentDescription,
             Student student, string comment, List<string> filepaths)

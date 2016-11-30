@@ -190,6 +190,11 @@ namespace StudyPlatformSQLSetup
             AssignmentDescription description = AssignmentDescription.GetLatest();
             Creator.CreateAssignment(description, student, "Den er god", filepaths);
             Assignment assignment = Assignment.GetLatest();
+
+
+            Creator.CreateSecretary("Mathias", "Mathias4Pres", "123123");
+            Secretary secretary = Secretary.GetLatest();
+            Creator.CreateNews(secretary, "Spotkursus HF - Engelsk", "Fredag kl.13.35-15.05.");
         }
 
 

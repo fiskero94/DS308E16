@@ -1,5 +1,5 @@
 ﻿@using StudyPlatformMVC.Models
-@model StudyPlatformMVC.Models.News
+@model List<News>   
 
 @{
     ViewBag.Title = "News";
@@ -10,8 +10,6 @@
 <h2>Nyheder</h2>
 
 
-
-
 <table class="table">
     <thead>
     <td>Titel</td>
@@ -19,26 +17,57 @@
     </thead>
 
     <tbody>
-    <tr data-toggle="collapse" data-target="#accordion" class="clickable row-odd" >
-        <td><strong>Spotkursus HF - Engelsk</strong></td>
-            
-        <td>2/10/2016</td>
-    </tr>
-    <tr>
-        <td colspan="3">
-            <div id="accordion" class="collapse">
+        <tr data-toggle="collapse" data-target="#accordion" class="clickable row-odd">
+            <td><strong>Nyhed 1</strong></td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                
+                    @foreach (News news in @Model)
+            {
+            <tr>
+                
+                <div id="accordion" class="collapse">
 
-                <p>
-                <b>Fredag kl.13.35-15.05 Lokale: G.02</b>
-                <br> (Godsbanen 11- Der hvor lektiecafeen holder til)
-                <p>
-                <b>7/10-16:</b>
-                <br> Kongruens: Hvorfor hedder det"we do" og "he does".
-            </div>
-        </td>
-    </tr>
-    </tbody>
+                    @news.Title
+
+                    @news.DateTimePublished
+
+                    @news.Text
+                </div>
+          </tr>
+
+                    }
+
+
+
+                    
+                    </td>
+                    </tr>
+                </tbody>
 </table>
 
 @{ Person user = Person.GetByID(1); }
 <p>@user.Name</p>
+
+
+
+@*
+    <p>
+        <b>Fredag kl.13.35-15.05 Lokale: G.02</b>
+        <br> (Godsbanen 11- Der hvor lektiecafeen holder til)
+                      @foreach (News news in @Model)
+            {
+                <tr>
+
+                    @news.Title
+
+                    @news.DateTimePublished
+
+                    @news.Text
+                </tr>
+
+            }
+    <p>
+        <b>7/10-16:</b>
+        <br> Kongruens: Hvorfor hedder det"we do" og "he does". *@
