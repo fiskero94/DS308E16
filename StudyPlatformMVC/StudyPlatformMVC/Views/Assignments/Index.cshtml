@@ -1,18 +1,52 @@
 ﻿@using StudyPlatformMVC.Models
 @model List<StudyPlatformMVC.Models.Assignment>
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Afleveringer";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+@Styles.Render("~/Content/Assignment")
 <div class="container">
-    <h2>Afleveringer</h2>
-
-    <table class="table">
-        @foreach (Assignment assignemnt in @Model)
-        {
-            <tr>
-                <td>@assignemnt.AssignmentDescription.Description</td>
-            </tr>
-        }
-    </table>
+    @if ((Person)Session["user"] is Student)
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Fag</th>
+                    <th>Beskrivelse</th>
+                    <th>Frist</th>
+                    <th>Dokument</th>
+                    <th>Karakter</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Assignment assignemnt in @Model)
+                {
+                    <tr>
+                        <td>@assignemnt.AssignmentDescription.Course.Name</td>
+                        <td>@assignemnt.AssignmentDescription.Description</td>
+                        <td>@assignemnt.AssignmentDescription.Deadline</td>
+                        <td></td>
+                        <td>@assignemnt.Grade.Grade</td>
+                        <td></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    @if ((Person)Session["user"] is Teacher)
+    {
+        <table class="tableTeacher">
+            <thead>
+                <tr>
+                    <th>Fag</th>
+                    <th>Beskrivelse</th>
+                    <th>Frist</th>
+                    <th>Dokument</th>
+                    <th>Karakter</th>
+                    <th></th>
+                </tr>
+            </thead>
+        </table>
+    }
 </div>

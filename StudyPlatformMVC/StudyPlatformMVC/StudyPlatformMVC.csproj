@@ -249,6 +249,7 @@
     <Compile Include="ViewModels\AbsenceViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Assignment.css" />
     <Content Include="Content\bootstrap-lumen-font.css" />
     <Content Include="Content\bootstrap-lumen.css" />
     <Content Include="Content\Images\dropdown.png" />
