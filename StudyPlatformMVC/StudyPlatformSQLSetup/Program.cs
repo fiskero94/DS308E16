@@ -176,6 +176,7 @@ namespace StudyPlatformSQLSetup
             Creator.CreateLesson(Course.GetLatest(), "lektion 2", true, new DateTime(2016, 11, 29, 9, 10, 0), Room.GetLatest(2), filepaths);
             Creator.CreateLesson(Course.GetLatest(), "lektion 3", true, new DateTime(2016, 11, 29, 10, 10, 0), Room.GetLatest(1), filepaths);
 
+            
 
             Creator.CreateStudent("name", "username", "password");
             Student student = Student.GetLatest();
