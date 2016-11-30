@@ -1,4 +1,4 @@
-﻿@model StudyPlatformMVC.Models.Assignment
+﻿@using StudyPlatformMVC.Models
 @model List<StudyPlatformMVC.Models.Assignment>
 @{
     ViewBag.Title = "Index";
@@ -8,11 +8,10 @@
     <h2>Afleveringer</h2>
 
     <table class="table">
-        @foreach (StudyPlatformMVC.Models.Assignment assignemnt in Model)
+        @foreach (Assignment assignemnt in @Model)
         {
             <tr>
-                <td>@assignemnt.AssignmentDescription</td>
-                <td>@assignemnt.ID.ToString()</td>
+                <td>@assignemnt.AssignmentDescription.Description</td>
             </tr>
         }
     </table>
