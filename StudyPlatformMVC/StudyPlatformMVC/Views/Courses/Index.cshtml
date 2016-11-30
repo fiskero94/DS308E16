@@ -1,0 +1,39 @@
+﻿@using StudyPlatformMVC.Models
+@model List<StudyPlatformMVC.Models.Course>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@foreach (Course course in Model)
+{
+    <div class="container">
+        <h2>Kurser</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <td id="courseTableHeader">@course.Name</td>
+                    <td id="courseTableHeader">@course.Description</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@((Student)Session["user"]).Name</td>
+                    <td>@((Student)Session["user"]).</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+}
+    
