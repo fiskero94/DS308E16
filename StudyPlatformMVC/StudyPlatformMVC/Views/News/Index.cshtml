@@ -1,5 +1,6 @@
-﻿@using StudyPlatformMVC.Models
-@model List<News>   
+﻿@using System.Activities.Statements
+@using StudyPlatformMVC.Models
+@model List<News>
 
 @{
     ViewBag.Title = "News";
@@ -7,67 +8,65 @@
 @Styles.Render("~/Content/news")
 
 
+@*Test*@
+
+<script src="/Scripts/NewsTest.js"></script>
+
+@{int AccordionCounter = 1;}
+
 <h2>Nyheder</h2>
 
 
-<table class="table">
-    <thead>
-    <td>Titel</td>
-    <td>Dato</td>
-    </thead>
+<button class="accordion">Section 1</button>
+<div class="panel">
+    <p>Lorem ipsum...</p>
+</div>
 
-    <tbody>
-        <tr data-toggle="collapse" data-target="#accordion" class="clickable row-odd">
-            <td><strong>Nyhed 1</strong></td>
-        </tr>
-        <tr>
+
+
+
+
+
+
+
+
+
+@*
+
+
+    <table class="table table-striped table-hover">
+        <thead>
+        <td>Titel</td>
+        <td>Dato</td>
+        </thead>
+
+        <tbody>
+        @foreach (News news in @Model)
+        {
+            <tr data-toggle="collapse" data-target="#accordion" class="clickable">
+                <td>@news.Title</td>
+                <td>@news.DateTimePublished</td>
+            </tr>
+
+
             <td colspan="3">
-                
-                    @foreach (News news in @Model)
-            {
-            <tr>
-                
-                <div id="accordion" class="collapse">
-
-                    @news.Title
-
-                    @news.DateTimePublished
-
+                <div id="@Html.Label("Accordion" + AccordionCounter)" class="collapse">
                     @news.Text
                 </div>
-          </tr>
+            </td>
+            AccordionCounter += 1;
+        }
+        </tbody>
+    </table>
 
-                    }
+*@
 
 
 
-                    
-                    </td>
-                    </tr>
-                </tbody>
-</table>
+
 
 @{ Person user = Person.GetByID(1); }
 <p>@user.Name</p>
 
 
 
-@*
-    <p>
-        <b>Fredag kl.13.35-15.05 Lokale: G.02</b>
-        <br> (Godsbanen 11- Der hvor lektiecafeen holder til)
-                      @foreach (News news in @Model)
-            {
-                <tr>
-
-                    @news.Title
-
-                    @news.DateTimePublished
-
-                    @news.Text
-                </tr>
-
-            }
-    <p>
-        <b>7/10-16:</b>
-        <br> Kongruens: Hvorfor hedder det"we do" og "he does". *@
