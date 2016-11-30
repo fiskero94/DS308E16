@@ -1,0 +1,136 @@
+﻿body {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.navbar-default-edit {
+    border-radius: 0;
+    height: 80px;
+}
+
+.navbar-toggle-edit {
+    float: left;
+    margin-left: 15px;
+    margin-right: 0;
+    font-size: 4em;
+}
+
+.enlarge-icon { font-size: 50px; }
+
+.panel-body {
+    padding: 0px;
+    text-align: center;
+}
+
+.panel {
+    height: 64px;
+    width: 64px;
+    margin-top: 8px;
+    margin-right: 8px;
+    margin-bottom: 8px;
+    float: right;
+}
+
+.nav-text-icon { display: inline; }
+
+.sidebar-button {
+    color: #F8F8F8;
+    height: 48px;
+    width: 250px;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 48px;
+    text-align: right;
+    cursor: pointer;
+    margin: 0;
+    padding: 0;
+}
+
+.sidebar-button-current {
+    background: #67B4D2;
+}
+
+.sidebar-button:hover { background: #67B4D2; }
+
+.sidebar-dropdown {
+    height: 20px;
+    width: 20px;
+    margin-right: 30px;
+    margin-left: 20px;
+}
+
+.noselect {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Chrome/Safari/Opera */
+    -khtml-user-select: none; /* Konqueror */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently
+                                  not supported by any browser */
+}
+
+.sidebar-button-wrapper {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.nav-user {
+    float: right;
+}
+
+.nav-user-name {
+    height: 32px;
+    width: 1000px;
+    line-height: 32px;
+    text-align: right;
+    white-space: nowrap;
+    padding-top: 8px;
+}
+
+.nav-user-logout {
+    height: 32px;
+    width: 1000px;
+    padding-top: 4px;
+}
+
+.nav-user-picture {
+    height: 64px;
+    width: 64px;
+    float: right;
+    margin-left: 16px;
+}
+
+.nav-user-btn {
+    height: 24px;
+    text-indent: 0;
+    padding: 4px 10px 0px 10px;
+}
+
+.floatright { float: right; }
+
+.nomarginpadding-picture {
+    margin: 0;
+    padding: 0;
+    height: 62px;
+    width: 64px;
+}
+
+.nomarginpadding {
+    margin: 0;
+    padding: 0;
+}
+
+.navbar-brand-edit {
+    line-height: 48px;
+    font-size: 24px;
+    text-transform: uppercase;
+    font-weight: bold;
+    position: absolute;
+}
+
+.navbar-height { height: 80px; }
+
+.container-edit {
+    width: 100%;
+}

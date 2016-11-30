@@ -24,8 +24,12 @@ namespace StudyPlatformMVC
                       "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
+                      "~/Content/bootstrap-lumen.css",
+                      "~/Content/bootstrap-lumen-font.css",
+                      "~/Content/navigation.css",
+                      "~/Content/simple-sidebar.css",
                       "~/Content/site.css"));
+
         }
     }
 }

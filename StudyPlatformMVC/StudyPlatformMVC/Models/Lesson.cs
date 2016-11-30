@@ -94,7 +94,7 @@ namespace StudyPlatformMVC.Models
             DateTime dateTime, List<Room> rooms, List<string> filepaths)
         {
             Creator.CreateLesson(course, description, online, dateTime, rooms, filepaths);
-            return GetLatest(1).Single();
+            return GetLatest();
         }
     }
 }

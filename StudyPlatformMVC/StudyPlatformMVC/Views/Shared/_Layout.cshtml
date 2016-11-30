@@ -1,44 +1,100 @@
-﻿<!DOCTYPE html>
+﻿@using StudyPlatformMVC.Models
+<!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
+    <link href="https://fonts.googleapis.com/css?family=Rubik" rel="stylesheet">
+    <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-
+    @{ string controller = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString(); }
+    @{ Session["user"] = Person.GetByID(1); }
+    @{ Person user = (Person) Session["user"]; }
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                </ul>
-                @Html.Partial("_LoginPartial")
+    <div id="wrapper">
+        <div id="sidebar-wrapper">
+            <div class="sidebar-button-wrapper">
+                @{
+                    if (user is Student) {@StudentNavItems(controller)}
+                    else if (user is Teacher) {@TeacherNavItems(controller)}
+                    else if (user is Secretary) {@SecretaryNavItems(controller)}
+                }
             </div>
         </div>
+        <nav class="navbar navbar-default navbar-default-edit">
+            <div class="container-fluid">
+                <div class="navbar-header navbar-height floatright">
+                    <div class="nav-user">
+                        <div class="nav-user-picture">
+                            <div class="panel panel-default nomarginpaddingpicture">
+                                <div class="panel-body nomarginpaddingpicture">
+                                    <span class="glyphicon glyphicon-user enlarge-icon"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="nav-user-name">
+                            @user.Name
+                        </div>
+                        <div class="nav-user-logout">
+                            <a href="#" class="btn btn-default nav-btn-logout nav-user-btn floatright">LOGUD</a>
+                        </div>
+                    </div>
+                </div>
+                <a class="navbar-brand navbar-brand-edit" href="#">@ViewBag.Title</a>
+            </div>
+        </nav>
+        <div class="container body-content nomarginpadding container-edit">
+            @RenderBody()
+        </div>
     </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
-    </div>
-
+    <script>
+        $("#menu-toggle")
+            .click(function (e) {
+                e.preventDefault();
+                $("#wrapper").toggleClass("toggled");
+            });
+    </script>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 </body>
 </html>
+@helper NavItem(string name, string controller, string pagecontroller, bool dropdown, string url){
+if (controller == pagecontroller && dropdown)
+{<div class="sidebar-button noselect sidebar-button-current">@name<img src="../../Content/Images/dropdown.png" alt="dropdown" class="sidebar-dropdown"></div>}
+if (controller == pagecontroller && !dropdown)
+{<div class="sidebar-button noselect sidebar-button-current">@name <img src="../../Content/Images/nodropdown.png" alt="nodropdown" class="sidebar-dropdown"></div>}
+if (controller != pagecontroller && dropdown)
+{<div class="sidebar-button noselect">@name<img src="../../Content/Images/dropdown.png" alt="dropdown" class="sidebar-dropdown"></div>}
+if (controller != pagecontroller && !dropdown)
+{<div class="sidebar-button noselect">@name <img src="../../Content/Images/nodropdown.png" alt="nodropdown" class="sidebar-dropdown"></div>}
+}
+@helper StudentNavItems(string controller)
+{
+    @NavItem("NYHEDER", "News", controller, true, "#");
+    @NavItem("SKEMA", "Home", controller, true, "#");
+    @NavItem("KURSER", "Courses", controller, false, "#");
+    @NavItem("AFLEVERINGER", "Assignments", controller, true, "#");
+    @NavItem("KARAKTERER", "Grades", controller, false, "#");
+    @NavItem("FRAVÆR", "Absence", controller, true, "#");
+    @NavItem("INDBAKKE", "Messages", controller, true, "#");
+    @NavItem("UDBAKKE", "Messages", controller, true, "#");
+}
+@helper TeacherNavItems(string controller)
+{
+    @NavItem("NYHEDER", "News", controller, true, "#");
+    @NavItem("SKEMA", "Home", controller, true, "#");
+    @NavItem("KURSER", "Courses", controller, false, "#");
+    @NavItem("INDBAKKE", "Messages", controller, true, "#");
+    @NavItem("UDBAKKE", "Messages", controller, true, "#");
+}
+@helper SecretaryNavItems(string controller)
+{
+    @NavItem("NYHEDER", "News", controller, true, "#");
+    @NavItem("KURSER", "Courses", controller, false, "#");
+    @NavItem("BRUGERE", "Users", controller, false, "#");
+    @NavItem("INDBAKKE", "Messages", controller, true, "#");
+    @NavItem("UDBAKKE", "Messages", controller, true, "#");
+}

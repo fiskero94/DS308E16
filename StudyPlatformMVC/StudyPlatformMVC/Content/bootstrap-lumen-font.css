@@ -1,0 +1,19 @@
+html {
+  font-family: 'Rubik', sans-serif;
+}
+body {
+  font-family: 'Rubik', "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+samp {
+  font-family: 'Rubik', Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+.tooltip {
+  font-family: 'Rubik', "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.popover {
+  font-family: 'Rubik', "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.carousel-control .icon-prev,
+.carousel-control .icon-next {
+  font-family: 'Rubik', sans-serif;
+}

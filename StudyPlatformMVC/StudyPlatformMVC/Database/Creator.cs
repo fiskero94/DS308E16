@@ -110,6 +110,8 @@ namespace StudyPlatformMVC.Database
             Common.EnsureNotNull(grade, comment, course, student);
             if (!Common.ValidGrades.Contains(grade))
                 throw new InvalidGradeException();
+            if (course.Students.Any(s => s.ID == student.ID))
+                throw new StudentCourseGradeExistsException();
             Commands.InsertInto("CourseGrade", "NULL", course.ID.ToString(),
                 student.ID.ToString(), grade, comment);
         }

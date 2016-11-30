@@ -54,7 +54,7 @@ namespace StudyPlatformMVC.Models
                 }
                 else
                 {
-                    Commands.SetValue("Assignment", ID, "GradeID", value.ToString());
+                    Commands.SetValue("Assignment", ID, "GradeID", value.ID.ToString());
                     _gradeid = value.ID;
                 }
             }

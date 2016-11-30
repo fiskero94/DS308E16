@@ -41,22 +41,17 @@ namespace StudyPlatformMVC.Models
                 _description = value;
             }
         }
-        public List<Teacher> Teachers => GetRelations<Teacher>("PersonCourse", "PersonID", "CourseID", ID);
-        public List<Student> Students => GetRelations<Student>("PersonCourse", "PersonID", "CourseID", ID);
+        public List<Teacher> Teachers => GetRelations<Teacher>("TeacherCourse", "TeacherID", "CourseID", ID);
+        public List<Student> Students => GetRelations<Student>("StudentCourse", "StudentID", "CourseID", ID);
         public List<Lesson> Lessons => Lesson.GetByConditions("CourseID=" + ID);
         public List<AssignmentDescription> AssignmentDescriptions => AssignmentDescription.GetByConditions("CourseID=" + ID);
         public List<CourseGrade> CourseGrades => CourseGrade.GetByConditions("CourseID=" + ID);
         public List<string> Documents => GetDocuments("CourseFile", "CourseID", ID);
 
-        private void AddPerson(Person person) =>
-            Commands.InsertInto("PersonCourse", person.ID.ToString(), ID.ToString());
-        private void RemovePerson(Person person) =>
-            Commands.DeleteFrom("PersonCourse", "PersonID=" + person.ID + " AND CourseID=" + ID);
+        public void AddTeacher(Teacher teacher) => Commands.InsertInto("TeacherCourse", teacher.ID.ToString(), ID.ToString());
+        public void RemoveTeacher(Teacher teacher) => Commands.DeleteFrom("TeacherCourse", "TeacherID=" + teacher.ID + " AND CourseID=" + ID);
 
-        public void AddTeacher(Teacher teacher) => AddPerson(teacher);
-        public void RemoveTeacher(Teacher teacher) => RemovePerson(teacher);
-
-        public void AddStudent(Student student) => AddPerson(student);
+        public void AddStudent(Student student) => Commands.InsertInto("StudentCourse", student.ID.ToString(), ID.ToString());
         public void RemoveStudent(Student student)
         {
             foreach (Assignment assignment in student.Assignments)
@@ -64,7 +59,7 @@ namespace StudyPlatformMVC.Models
                     Remover.RemoveAssignment(assignment);
             foreach (Lesson lesson in Lessons)
                 lesson.RemoveAbsence(student);
-            RemovePerson(student);
+            Commands.DeleteFrom("StudentCourse", "StudentID=" + student.ID + " AND CourseID=" + ID);
         }
 
         public void AddDocument(string filepath) =>
