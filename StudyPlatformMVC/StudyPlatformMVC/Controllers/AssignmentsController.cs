@@ -9,12 +9,22 @@ namespace StudyPlatformMVC.Controllers
 {
     public class AssignmentsController : Controller
     {
+        
         // GET: Assignments
-        public ActionResult Index(int id)
+        public ActionResult Index()
         {
-            List<Assignment> assignment = Student.GetByID(Convert.ToUInt32(id)).Assignments;
-            
-            return View("assignments", assignment);
+            Session["user"] = Student.GetLatest();
+            if ((Person)Session["user"] is Student)
+            {
+                List<AssignmentDescription> assignmentDescription = new List<AssignmentDescription>();
+                foreach (Course course in ((Student)Session["user"]).Courses)
+                {
+                    assignmentDescription.AddRange(course.AssignmentDescriptions);
+                }
+                List<Assignment> assignment = ((Student)Session["user"]).Assignments;
+                return View(assignment);
+            }
+            return RedirectToAction("Index", "News");
         }
     }
 }
