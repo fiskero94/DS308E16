@@ -26,6 +26,19 @@ namespace StudyPlatformMVC
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",                                                                            
                       "~/Content/site.css"));
+
+            bundles.Add(new StyleBundle("~/Content/Grades").Include(
+          "~/Content/Grades.css"));
+
+<<<<<<< HEAD
+            bundles.Add(new StyleBundle("~/Content/Course").Include(
+                      "~/Content/Course.css"));
+=======
+            bundles.Add(new StyleBundle("~/Content/news").Include(
+                      "~/Content/news.css"));
+            bundles.Add(new StyleBundle("~/Content/Absence").Include(
+                      "~/Content/Absence.css"));
+>>>>>>> 5daa6657e3c24425ad9c8d0c64629f3e73fd4e81
         }
     }
 }

@@ -1,2 +1,64 @@
-﻿@model StudyPlatformMVC.Models.Student
+﻿@using StudyPlatformMVC.Models
+@Model StudyplatformMVC.ViewModels.AbsenceViewModel
 
+@{
+    ViewBag.Title = "Fravær";
+}
+
+@Styles.Render("~/Content/Absence")
+
+<body>
+    <div class="absenceTable">
+        <table class="table">
+            <tr>
+                <td id="TableHeader" colspan="10">Fravær</td>
+            </tr>
+            <tr id="secondHeader">
+                <td id="fag" colspan="2" rowspan="3">Fag</td>
+                <td colspan="4">Almindeligt</td>
+                <td colspan="4">Skriftligt</td>
+            </tr>
+            <tr class="kursiv">
+                <td colspan="2">Opgjort</td>
+                <td colspan="2">For Året</td>
+                <td colspan="2">Opgjort</td>
+                <td colspan="2">For Året</td>
+            </tr>
+            <tr class="kursiv1">
+                <td>Procent</td>
+                <td>Moduler</td>
+                <td>Procent</td>
+                <td>Moduler</td>
+                <td>Procent</td>
+                <td>Elevtimer</td>
+                <td>Procent</td>
+                <td>Elevtimer</td>
+            </tr>
+            @foreach (Course course in @Model.Courses)
+            {
+                <tr>
+                    <td colspan="2">@course.Name </td>
+                    <td>@course.StudentAbsence %</td>
+                    <td>@course.StudentAbsentLessons / @course.Lessons.Count</td>
+                    <td>@course.StudentTotalAbsence %</td>
+                    <td>@course.StudentAbsentLessons / @course.NumberOfLessons</td>
+                    <td>@course.studentAssignments %</td>
+                    <td>@course.studentNumberOfAssignments / @course.AssignmentDescriptions.Count()</td>
+                    <td>@course.studentTotalAssignments %</td>
+                    <td>@course.studentNumberOfAssignments / @course.NumberOfAssignments</td>
+                </tr>
+            }
+            <tr class="bold">
+                <td colspan="2">Samlet</td>
+                <td>Viewbag.currentLessonProcent</td>
+                <td>Procent</td>
+                <td>Moduler</td>
+                <td>Procent</td>
+                <td>Elevtimer</td>
+                <td>Procent</td>
+                <td>Elevtimer</td>
+                <td>Elevtimer</td>
+            </tr>
+        </table>
+    </div>
+</body>
