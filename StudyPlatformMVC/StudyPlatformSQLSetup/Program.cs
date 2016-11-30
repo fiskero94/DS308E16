@@ -6,6 +6,10 @@ using MySql.Data.MySqlClient;
 using StudyPlatformMVC;
 using StudyPlatformMVC.Controllers;
 using StudyPlatformMVC.Database;
+using StudyPlatformMVC.Models;
+using System.Collections.Generic;
+using System.Diagnostics.PerformanceData;
+using System.Linq;
 using StudyPlatformMVC.Exceptions;
 using StudyPlatformMVC.Models;
 
@@ -32,7 +36,11 @@ namespace StudyPlatformSQLSetup
                 SetupTables(null);
                 SetupAdmin(null);
                 SetupPseudoData();
+                SetupData();
                 success = true;
+
+                SetupData(null);
+
             }
             catch (MySqlException e)
             {
@@ -359,6 +367,121 @@ namespace StudyPlatformSQLSetup
             Random rng = new Random(_rngSeed);
             return choices[rng.Next(0, choices.Count - 1)];
         }
+
+
+
+
+        public static void SetupData()
+        {
+
+            Creator.CreateStudent("bob", "bob91hassen", "password");
+
+            Creator.CreateRoom("s1");
+            Creator.CreateRoom("s2");
+            Creator.CreateRoom("s3");
+
+            Creator.CreateCourse("Matematik", "A-Level Kappa");
+
+
+            List<string> filepaths = new List<string>();
+            filepaths.Add("../C/Games");
+            filepaths.Add("../C/Kappa");
+
+            Creator.CreateLesson(Course.GetLatest(), "lektion 1", true, new DateTime(2016, 11, 29, 8, 0, 0), Room.GetLatest(1), filepaths);
+            Creator.CreateLesson(Course.GetLatest(), "lektion 2", true, new DateTime(2016, 11, 29, 9, 0, 0), Room.GetLatest(2), filepaths);
+            Creator.CreateLesson(Course.GetLatest(), "lektion 3", true, new DateTime(2016, 11, 29, 10, 0, 0), Room.GetLatest(1), filepaths);
+
+
+
+            Creator.CreateStudent("name", "username", "password");
+            Student student = Student.GetLatest();
+            Creator.CreateCourse("Matematik A", "course1");
+            Creator.CreateCourse("Engelsk B", "course2");
+            Creator.CreateCourse("Fysik C", "course3");
+            Creator.CreateCourse("Dansk A", "course4");
+            Creator.CreateCourse("Historie B", "course5");
+            Course course1 = Course.GetByID(2);
+            Course course2 = Course.GetByID(3);
+            Course course3 = Course.GetByID(4);
+            Course course4 = Course.GetByID(5);
+            Course course5 = Course.GetByID(6);
+            course1.AddStudent(student);
+            course2.AddStudent(student);
+
+            Creator.CreateCourseGrade(Course.GetLatest(), Student.GetLatest(), "grade", "comment");
+            course3.AddStudent(student);
+            course4.AddStudent(student);
+            course5.AddStudent(student);
+            List<Room> rooms = new List<Room>();
+            List<string> filepath = new List<string>();
+            Creator.CreateLesson(course1, "description", true, DateTime.Now, rooms, filepath);
+            Lesson lesson = Lesson.GetLatest(1).Single();
+            lesson.GiveAbsence(student);
+            Creator.CreateLesson(course1, "description", true, DateTime.Now, rooms, filepath);
+            lesson = Lesson.GetLatest(1).Single();
+            lesson.GiveAbsence(student);
+            Creator.CreateLesson(course2, "description", true, DateTime.Now, rooms, filepath);
+            Creator.CreateLesson(course2, "description", true, DateTime.Now, rooms, filepath);
+            lesson = Lesson.GetLatest(1).Single();
+            lesson.GiveAbsence(student);
+            Creator.CreateLesson(course3, "description", true, DateTime.Now, rooms, filepath);
+            Creator.CreateLesson(course3, "description", true, DateTime.Now, rooms, filepath);
+            Creator.CreateLesson(course4, "description", true, DateTime.Now, rooms, filepath);
+            Creator.CreateLesson(course4, "description", true, DateTime.Now, rooms, filepath);
+            lesson = Lesson.GetLatest(1).Single();
+            lesson.GiveAbsence(student);
+            Creator.CreateLesson(course5, "description", true, DateTime.Now, rooms, filepath);
+            lesson = Lesson.GetLatest(1).Single();
+            lesson.GiveAbsence(student);
+            Creator.CreateLesson(course5, "description", true, DateTime.Now, rooms, filepath);
+            lesson = Lesson.GetLatest(1).Single();
+            lesson.GiveAbsence(student);
+            Creator.CreateAssignmentDescription(course1, "description", DateTime.Now, filepath);
+            AssignmentDescription assignmentDescription1 = AssignmentDescription.GetLatest(1).Single();
+            Creator.CreateAssignmentDescription(course1, "description", DateTime.Now, filepath);
+            AssignmentDescription assignmentDescription2 = AssignmentDescription.GetLatest(1).Single();
+            Creator.CreateAssignmentDescription(course1, "description", DateTime.Now, filepath);
+            AssignmentDescription assignmentDescription3 = AssignmentDescription.GetLatest(1).Single();
+            Creator.CreateAssignmentDescription(course2, "description", DateTime.Now, filepath);
+            AssignmentDescription assignmentDescription4 = AssignmentDescription.GetLatest(1).Single();
+            Creator.CreateAssignmentDescription(course2, "description", DateTime.Now, filepath);
+            AssignmentDescription assignmentDescription5 = AssignmentDescription.GetLatest(1).Single();
+            Creator.CreateAssignmentDescription(course3, "description", DateTime.Now, filepath);
+            AssignmentDescription assignmentDescription6 = AssignmentDescription.GetLatest(1).Single();
+            Creator.CreateAssignmentDescription(course3, "description", DateTime.Now, filepath);
+            AssignmentDescription assignmentDescription7 = AssignmentDescription.GetLatest(1).Single();
+            Creator.CreateAssignmentDescription(course4, "description", DateTime.Now, filepath);
+            AssignmentDescription assignmentDescription8 = AssignmentDescription.GetLatest(1).Single();
+            Creator.CreateAssignmentDescription(course5, "description", DateTime.Now, filepath);
+            AssignmentDescription assignmentDescription9 = AssignmentDescription.GetLatest(1).Single();
+            Creator.CreateAssignmentDescription(course5, "description", DateTime.Now, filepath);
+            AssignmentDescription assignmentDescription10 = AssignmentDescription.GetLatest(1).Single();
+            Creator.CreateAssignmentDescription(course5, "description", DateTime.Now, filepath);
+            AssignmentDescription assignmentDescription11 = AssignmentDescription.GetLatest(1).Single();
+            Creator.CreateAssignmentDescription(course5, "description", DateTime.Now, filepath);
+            AssignmentDescription assignmentDescription12 = AssignmentDescription.GetLatest(1).Single();
+            Creator.CreateAssignment(assignmentDescription1, student, "comment", filepath);
+            Creator.CreateAssignment(assignmentDescription3, student, "comment", filepath);
+            Creator.CreateAssignment(assignmentDescription4, student, "comment", filepath);
+            Creator.CreateAssignment(assignmentDescription6, student, "comment", filepath);
+            Creator.CreateAssignment(assignmentDescription8, student, "comment", filepath);
+            Creator.CreateAssignment(assignmentDescription9, student, "comment", filepath);
+            Creator.CreateAssignment(assignmentDescription12, student, "comment", filepath);
+            Creator.CreateAssignmentDescription(course1, "matematik aflevering du skal blablababla", new DateTime(2016, 5, 5), filepaths);
+            AssignmentDescription description = AssignmentDescription.GetLatest();
+            Creator.CreateAssignment(description, student, "Den er god", filepaths);
+            Assignment assignment = Assignment.GetLatest();
+
+
+            Creator.CreateSecretary("Mathias", "Mathias4Pres", "123123");
+            Secretary secretary = Secretary.GetLatest();
+            Creator.CreateNews(secretary, "Spotkursus HF - Engelsk", "Fredag kl.13.35-15.05.");
+        }
+
+
+
+
+
         private static void ExecuteQuery(string query)
         {
             using (MySqlConnection connection = new MySqlConnection(_connectionString))
