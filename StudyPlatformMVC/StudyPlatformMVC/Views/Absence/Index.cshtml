@@ -1,5 +1,6 @@
 ﻿@using StudyPlatformMVC.Models
-@Model StudyplatformMVC.ViewModels.AbsenceViewModel
+@using StudyPlatformMVC.ViewModels
+@model StudyPlatformMVC.ViewModels.AbsenceViewModel
 
 @{
     ViewBag.Title = "Fravær";
@@ -7,58 +8,88 @@
 
 @Styles.Render("~/Content/Absence")
 
-<body>
-    <div class="absenceTable">
-        <table class="table">
+<div class="absenceTable">
+    <table class="table">
+        <tr>
+            <td id="TableHeader" colspan="10">Fravær</td>
+        </tr>
+        <tr id="secondHeader">
+            <td id="fag" colspan="2" rowspan="3">Fag</td>
+            <td colspan="4">Almindeligt</td>
+            <td colspan="4">Skriftligt</td>
+        </tr>
+        <tr style="font-style: italic">
+            <td colspan="2">Opgjort</td>
+            <td colspan="2">For Året</td>
+            <td colspan="2">Opgjort</td>
+            <td colspan="2">For Året</td>
+        </tr>
+        <tr style="font-style: italic">
+            <td>Procent</td>
+            <td>Moduler</td>
+            <td>Procent</td>
+            <td>Moduler</td>
+            <td>Procent</td>
+            <td>Afleveringer</td>
+            <td>Procent</td>
+            <td>Afleveringer</td>
+        </tr>
+        @foreach (Course course in @Model.Courses)
+        {
             <tr>
-                <td id="TableHeader" colspan="10">Fravær</td>
+                <td colspan="2">@course.Name </td>
+                <td>@Model.Calc(Model.Student.CourseLessons(course).Count, course.CurrentLessons.Count) %</td>
+                <td>@Model.Student.CourseLessons(course).Count / @course.CurrentLessons.Count</td>
+                <td>@Model.Calc(Model.Student.CourseLessons(course).Count, course.Lessons.Count) %</td>
+                <td>@Model.Student.CourseLessons(course).Count / @course.Lessons.Count</td>
+                <td>@Model.Calc(course.CurrentAssignmentDescriptions.Count - Model.Student.CurrentCourseAssignments(course).Count, course.CurrentAssignmentDescriptions.Count) %</td>
+                <td>@Model.Convert(course.CurrentAssignmentDescriptions.Count, Model.Student.CurrentCourseAssignments(course).Count) / @course.CurrentAssignmentDescriptions.Count</td>
+                <td>@Model.Calc(course.CurrentAssignmentDescriptions.Count - Model.Student.CurrentCourseAssignments(course).Count, course.AssignmentDescriptions.Count) %</td>
+                <td>@Model.Convert(course.CurrentAssignmentDescriptions.Count, Model.Student.CurrentCourseAssignments(course).Count) / @course.AssignmentDescriptions.Count</td>
             </tr>
-            <tr id="secondHeader">
-                <td id="fag" colspan="2" rowspan="3">Fag</td>
-                <td colspan="4">Almindeligt</td>
-                <td colspan="4">Skriftligt</td>
-            </tr>
-            <tr class="kursiv">
-                <td colspan="2">Opgjort</td>
-                <td colspan="2">For Året</td>
-                <td colspan="2">Opgjort</td>
-                <td colspan="2">For Året</td>
-            </tr>
-            <tr class="kursiv1">
-                <td>Procent</td>
-                <td>Moduler</td>
-                <td>Procent</td>
-                <td>Moduler</td>
-                <td>Procent</td>
-                <td>Elevtimer</td>
-                <td>Procent</td>
-                <td>Elevtimer</td>
-            </tr>
-            @foreach (Course course in @Model.Courses)
+        }
+        <tr style="font-weight:bolder">
+            <td colspan="2" style="font-size:larger">Samlet</td>
+            <td class="bolder">@Model.CurrentTotalLessonProcent %</td>
+            <td>@Model.Student.Absences.Count / @Model.CurrentTotalNumberOfLessons</td>
+            <td class="bolder">@Model.TotalLessonProcent %</td>
+            <td>@Model.Student.Absences.Count / @Model.TotalNumberOfLessons</td>
+            <td>@Model.Calc(Model.CurrentTotalNumberOfAssignments - Model.Student.CurrentAssignments.Count, Model.CurrentTotalNumberOfAssignments) %</td>
+            <td>@Model.Convert(Model.CurrentTotalNumberOfAssignments, Model.Student.CurrentAssignments.Count) / @Model.CurrentTotalNumberOfAssignments</td>
+            <td>@Model.Calc(Model.CurrentTotalNumberOfAssignments - Model.Student.CurrentAssignments.Count, Model.TotalNumberOfAssignments) %</td>
+            <td>@Model.Convert(Model.CurrentTotalNumberOfAssignments, Model.Student.CurrentAssignments.Count) / @Model.TotalNumberOfAssignments</td>
+        </tr>
+        <tr>
+            <td id="TableHeader" colspan="10">Grafisk Oversigt</td>
+        </tr>
+    </table>
+</div>
+
+<div>
+    @{
+        var filePathName = "~/Content/Images/chart.jpg";
+        var chartImage = new Chart(1000, 400);
+        List<GraphLesson> allLessons = new List<GraphLesson>();
+        foreach (Course modelCourse in Model.Courses)
+        {
+            foreach (Lesson modelCourseLesson in modelCourse.Lessons)
             {
-                <tr>
-                    <td colspan="2">@course.Name </td>
-                    <td>@course.StudentAbsence %</td>
-                    <td>@course.StudentAbsentLessons / @course.Lessons.Count</td>
-                    <td>@course.StudentTotalAbsence %</td>
-                    <td>@course.StudentAbsentLessons / @course.NumberOfLessons</td>
-                    <td>@course.studentAssignments %</td>
-                    <td>@course.studentNumberOfAssignments / @course.AssignmentDescriptions.Count()</td>
-                    <td>@course.studentTotalAssignments %</td>
-                    <td>@course.studentNumberOfAssignments / @course.NumberOfAssignments</td>
-                </tr>
+                GraphLesson graphlesson = new GraphLesson();
+                graphlesson.DateTime = modelCourseLesson.DateTime;
+                allLessons.Add(graphlesson);
             }
-            <tr class="bold">
-                <td colspan="2">Samlet</td>
-                <td>Viewbag.currentLessonProcent</td>
-                <td>Procent</td>
-                <td>Moduler</td>
-                <td>Procent</td>
-                <td>Elevtimer</td>
-                <td>Procent</td>
-                <td>Elevtimer</td>
-                <td>Elevtimer</td>
-            </tr>
-        </table>
-    </div>
-</body>
+        }
+        List<GraphLesson> sortedAllLessons = allLessons.OrderBy(o => o.DateTime).ToList();
+        foreach (GraphLesson sortedAllLesson in sortedAllLessons)
+        {
+            chartImage.AddSeries(sortedAllLesson.DateTime.ToLongDateString());
+            chartImage.AddSeries(
+        name: "Employee",
+        axisLabel: "Name",
+        xValue: new[] { sortedAllLesson.DateTime},
+        yValues: new[] { Model.Student.Absences.Count*100/sortedAllLessons.Count });
+        }
+        chartImage.Save(filePathName);
+    }
+    <img src="~/Content/Images/chart.jpg" />
+</div>
