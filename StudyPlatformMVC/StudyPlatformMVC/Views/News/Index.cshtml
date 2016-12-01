@@ -1,7 +1,7 @@
 ﻿@using System.Activities.Statements
 @model StudyPlatformMVC.ViewModels.NewsViewModel
 @using StudyPlatformMVC.Models
-@using StudyPlatformMVC.ViewModels                                      
+@using StudyPlatformMVC.ViewModels
 
 
 @Styles.Render("~/Content/messages")
@@ -18,9 +18,7 @@
 }
 @if (Model.News.Count == 0)
 {
-    <p>Du har ikke sendt nogen beskeder</p>
-    <br /><br />
-    <a href="#" class="btn btn-default">Ny besked</a>
+    <p>Der er ikke nogle nyheder</p>
     <br /><br />
 }
 else
@@ -65,12 +63,14 @@ else
         </div>
     </div>
 }
-@helper AddNews(News news)
-{
-    <tr>
-        <td><a href="/News/Index/@news.ID"></a>@news.Title</td>
-        <td>@news.DateTimePublished</td>
-    </tr>
+
+
+    @helper AddNews(News news)
+    {
+        <tr>
+            <td><a href="/News/Index/@news.ID"></a>@news.Title</td>
+            <td>@news.DateTimePublished</td>
+        </tr>
 }
 
 
