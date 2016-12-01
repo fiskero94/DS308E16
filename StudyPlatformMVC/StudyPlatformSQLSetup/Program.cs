@@ -339,7 +339,7 @@ namespace StudyPlatformSQLSetup
             {
                 List<Room> selectedRooms = new List<Room>();
                 selectedRooms.Add(TakeRandom(rooms));
-                Lesson lesson = Lesson.New(TakeRandom(courses), "Lorem ipsum dolor sit amet.", false, 
+                Lesson lesson = Lesson.New(TakeRandom(courses), "Lorem ipsum dolor sit amet.", true, 
                     DateTime.ParseExact(day + "-" + timeSlot, "dd/MM/yyyy-HH:mm", null), selectedRooms, Group<string>());
                 lesson.GiveAbsence(TakeRandom(lesson.Course.Students));
             }
@@ -365,10 +365,6 @@ namespace StudyPlatformSQLSetup
             Random rng = new Random(_rngSeed);
             return choices[rng.Next(0, choices.Count - 1)];
         }
-
-
-
-
         public static void SetupData()
         {
 
@@ -379,8 +375,7 @@ namespace StudyPlatformSQLSetup
             Creator.CreateRoom("s3");
 
             Creator.CreateCourse("Matematik", "A-Level Kappa");
-
-
+            
             List<string> filepaths = new List<string>();
             filepaths.Add("../C/Games");
             filepaths.Add("../C/Kappa");
@@ -388,9 +383,7 @@ namespace StudyPlatformSQLSetup
             Creator.CreateLesson(Course.GetLatest(), "lektion 1", true, new DateTime(2016, 11, 29, 8, 0, 0), Room.GetLatest(1), filepaths);
             Creator.CreateLesson(Course.GetLatest(), "lektion 2", true, new DateTime(2016, 11, 29, 9, 0, 0), Room.GetLatest(2), filepaths);
             Creator.CreateLesson(Course.GetLatest(), "lektion 3", true, new DateTime(2016, 11, 29, 10, 0, 0), Room.GetLatest(1), filepaths);
-
-
-
+            
             Creator.CreateStudent("name", "username", "password");
             Student student = Student.GetLatest();
             Creator.CreateCourse("Matematik A", "course1");
@@ -469,17 +462,11 @@ namespace StudyPlatformSQLSetup
             AssignmentDescription description = AssignmentDescription.GetLatest();
             Creator.CreateAssignment(description, student, "Den er god", filepaths);
             Assignment assignment = Assignment.GetLatest();
-
-
+            
             Creator.CreateSecretary("Mathias", "Mathias4Pres", "123123");
             Secretary secretary = Secretary.GetLatest();
             Creator.CreateNews(secretary, "Spotkursus HF - Engelsk", "Fredag kl.13.35-15.05.");
         }
-
-
-
-
-
         private static void ExecuteQuery(string query)
         {
             using (MySqlConnection connection = new MySqlConnection(_connectionString))
