@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using StudyPlatformMVC.Models;
+using StudyPlatformMVC.Database;
+using StudyPlatformMVC.Exceptions;
 
 namespace StudyPlatformMVC.Controllers
 {
@@ -12,7 +14,13 @@ namespace StudyPlatformMVC.Controllers
         // GET: Grades
         public ActionResult Index()
         {
-            return View();            
+            Person person = (Person)Session["user"];
+            if((Person)Session["user"] is Student)
+            {
+                List<CourseGrade> grades = CourseGrade.GetByConditions("StudentID=" + person.ID);
+                return View(grades);
+            }
+            return View(CourseGrade.GetAll());
         }
     }
 }

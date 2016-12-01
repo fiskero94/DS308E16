@@ -1,28 +1,29 @@
-﻿@model StudyPlatformMVC.Models.CourseGrade
+﻿@using StudyPlatformMVC.Models
+@model List<CourseGrade>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Kursus Karakter";
 }
 @Styles.Render("~/Content/Grades")
 
-<h2>Course Grade</h2>
-
-<table class="table">
+<table class="table table-striped table-hover">
     <thead>
         <tr>
-            <th>Course:</th>
-            <th>Grade:</th>
-            <th>Comment:</th>
+            <th>Kursus:</th>
+            <th>Karakter:</th>
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td>Dansk A</td>              
-            <td>12</td>
-            <td>16-08-1025</td>
-        </tr>
+        @foreach (CourseGrade grade in Model)
+            {
+            <tr>
+                <td>@grade.Course.Name</td>
+                <td>@grade.Grade</td>
+            </tr>
+        }
     </tbody>
 </table>
+
 
 
 
