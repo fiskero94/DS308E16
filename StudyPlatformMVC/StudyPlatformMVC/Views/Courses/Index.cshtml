@@ -1,39 +1,32 @@
 ﻿@using StudyPlatformMVC.Models
 @model List<StudyPlatformMVC.Models.Course>
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Kurser";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@foreach (Course course in Model)
-{
-    <div class="container">
-        <h2>Kurser</h2>
-        <table class="table">
+@Styles.Render("~/Content/Course")
+
+<body>
+<div class="container center">
+    @if ((Person) Session["user"] is Student)
+    {
+        <h2 id="courseTableHeader1"> Kurser - Studerende </h2>
+
+        <table class="table table-hover">
             <thead>
+            @foreach (Course course in Model)
+            {
                 <tr>
-                    <td id="courseTableHeader">@course.Name</td>
-                    <td id="courseTableHeader">@course.Description</td>
+                    <th class="courseButton"> Kursus: @course.Name </th>
                 </tr>
+            }
             </thead>
-            <tbody>
-                <tr>
-                    <td>@((Student)Session["user"]).Name</td>
-                    <td>@((Student)Session["user"]).</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-            </tbody>
         </table>
-    </div>
-}
-    
+    }
+
+    @if ((Person) Session["user"] is Teacher)
+    {
+    }
+</div>
+</body>

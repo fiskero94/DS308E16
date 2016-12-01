@@ -14,6 +14,8 @@ namespace StudyPlatformMVC.Controllers
         // GET: Courses
         public ActionResult Index()
         {
+            Session["user"] = Student.GetLatest();
+
             if ((Person)Session["user"] is Student)
             {
                 List<Course> coursesStudent = new List<Course>();
