@@ -14,8 +14,12 @@ namespace StudyPlatformMVC.Controllers
         // GET: Grades
         public ActionResult Index()
         {
-            Student student = ((Student)Session["user"]);
-            
+            Person person = (Person)Session["user"];
+            if((Person)Session["user"] is Student)
+            {
+                List<CourseGrade> grades = CourseGrade.GetByConditions("StudentID=" + person.ID);
+                return View(grades);
+            }
             return View(CourseGrade.GetAll());
         }
     }
