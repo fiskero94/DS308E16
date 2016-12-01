@@ -248,6 +248,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\AbsenceViewModel.cs" />
     <Compile Include="ViewModels\MessageViewModel.cs" />
+    <Compile Include="ViewModels\NewsViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Assignment.css" />
@@ -283,7 +284,6 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Scripts\NewsTest.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
@@ -330,10 +330,12 @@
     <Content Include="Views\Absence\Index.cshtml" />
     <Content Include="Views\Schedule\Index.cshtml" />
     <Content Include="Views\Assignments\UploadFile.cshtml" />
+    <Content Include="Views\Messages\New.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Login\" />
+    <Folder Include="Views\NewsViewModel\" />
     <Folder Include="Views\Rooms\" />
     <Folder Include="Views\Users\" />
   </ItemGroup>
