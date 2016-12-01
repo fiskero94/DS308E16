@@ -247,6 +247,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\AbsenceViewModel.cs" />
+    <Compile Include="ViewModels\CourseGradeViewModel.cs" />
     <Compile Include="ViewModels\MessageViewModel.cs" />
     <Compile Include="ViewModels\NewsViewModel.cs" />
   </ItemGroup>
