@@ -251,6 +251,7 @@
   <ItemGroup>
     <Content Include="Content\bootstrap-lumen-font.css" />
     <Content Include="Content\bootstrap-lumen.css" />
+    <Content Include="Content\Grades.css" />
     <Content Include="Content\Images\dropdown.png" />
     <Content Include="Content\Images\nodropdown.png" />
     <Content Include="Content\navigation.css" />

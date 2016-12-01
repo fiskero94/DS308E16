@@ -287,10 +287,10 @@ namespace StudyPlatformSQLSetup
                 assignment.Grade = AssignmentGrade.New(TakeRandom(Common.ValidGrades.ToList()), "Lorem ipsum dolor sit amet.", assignment);
 
             // CourseGrades
-            // WriteSetupMessageIndent("Creating CourseGrades");
-            // foreach (Course course in courses)
-                // foreach (Student student in students)
-                    // CourseGrade.New(course, student, TakeRandom(Common.ValidGrades.ToList()), "Lorem ipsum dolor sit amet.");
+            WriteSetupMessageIndent("Creating CourseGrades");
+            foreach (Course course in courses)
+                foreach (Student student in students)
+                    CourseGrade.New(course, student, TakeRandom(Common.ValidGrades.ToList()), "Lorem ipsum dolor sit amet.");
         }
         private static List<T> Group<T>(params T[] objects) => objects.ToList();
         private static void GenerateLessons(string startDay, string startMonth, string startYear, int weeksToGenerate, List<Course> courses, List<Room> rooms)
@@ -406,7 +406,8 @@ namespace StudyPlatformSQLSetup
             course1.AddStudent(student);
             course2.AddStudent(student);
 
-            Creator.CreateCourseGrade(Course.GetLatest(), Student.GetLatest(), "grade", "comment");
+            Creator.CreateCourseGrade(course1, student, "-3", "Din fag!");
+            Creator.CreateCourseGrade(Course.GetLatest(), Student.GetLatest(), "-3", "Din fag!");
             course3.AddStudent(student);
             course4.AddStudent(student);
             course5.AddStudent(student);
