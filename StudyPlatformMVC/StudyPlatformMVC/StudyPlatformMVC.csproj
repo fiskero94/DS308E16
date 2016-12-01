@@ -233,6 +233,7 @@
     <Compile Include="Models\Course.cs" />
     <Compile Include="Models\CourseGrade.cs" />
     <Compile Include="Models\Entity.cs" />
+    <Compile Include="Models\GraphLesson.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Lesson.cs" />
     <Compile Include="Models\ManageViewModels.cs" />

@@ -17,15 +17,6 @@ namespace StudyPlatformMVC.Models
             _description = description;
         }
 
-        public double StudentAbsence;
-        public int StudentAbsentLessons;
-        public readonly int NumberOfLessons = 220;
-        public readonly int NumberOfAssignments = 10;
-        public int studentNumberOfAssignments;
-        public double studentAssignments;
-        public double studentTotalAssignments;
-        public double StudentTotalAbsence;
-
         public string Name
         {
             get
@@ -54,12 +45,38 @@ namespace StudyPlatformMVC.Models
         public List<Student> Students => GetRelations<Student>("StudentCourse", "StudentID", "CourseID", ID);
         public List<Lesson> Lessons => Lesson.GetByConditions("CourseID=" + ID);
         public List<AssignmentDescription> AssignmentDescriptions => AssignmentDescription.GetByConditions("CourseID=" + ID);
+
+        public List<AssignmentDescription> CurrentAssignmentDescriptions
+        {
+            get
+            {
+                List<AssignmentDescription> currentList = new List<AssignmentDescription>();
+                foreach (AssignmentDescription assignmentDescription in AssignmentDescriptions)
+                {
+                    if(assignmentDescription.Deadline < DateTime.Now)
+                        currentList.Add(assignmentDescription);
+                }
+                return currentList;
+            }
+        }
+        public List<Lesson> CurrentLessons
+        {
+            get
+            {
+                List<Lesson> currentList = new List<Lesson>();
+                foreach (Lesson lesson in Lessons)
+                {
+                    if(lesson.DateTime < DateTime.Now)
+                        currentList.Add(lesson);
+                }
+                return currentList;
+            }
+        }
+
         public List<CourseGrade> CourseGrades => CourseGrade.GetByConditions("CourseID=" + ID);
         public List<string> Documents => GetDocuments("CourseFile", "CourseID", ID);
-
         public void AddTeacher(Teacher teacher) => Commands.InsertInto("TeacherCourse", teacher.ID.ToString(), ID.ToString());
         public void RemoveTeacher(Teacher teacher) => Commands.DeleteFrom("TeacherCourse", "TeacherID=" + teacher.ID + " AND CourseID=" + ID);
-
         public void AddStudent(Student student) => Commands.InsertInto("StudentCourse", student.ID.ToString(), ID.ToString());
         public void RemoveStudent(Student student)
         {

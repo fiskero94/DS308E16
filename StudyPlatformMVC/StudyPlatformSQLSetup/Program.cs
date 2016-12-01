@@ -261,7 +261,6 @@ namespace StudyPlatformSQLSetup
             WriteSetupMessageIndent("Creating AssignmentDescriptions");
             const string description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent et nisl ipsum. Nunc nec eros vel dolor semper maximus. Suspendisse cursus in mi quis vehicula. Quisque elit risus, aliquet sit amet sem ut, facilisis eleifend libero. Donec ultricies nibh ut quam condimentum, non sollicitudin leo sed.";
             var deadline = DateTime.Today;
-            var rng = new Random(DateTime.Now.Millisecond);
             var assignmentDescriptions = new List<AssignmentDescription>();
             foreach (Course course in courses)
             {
@@ -343,7 +342,6 @@ namespace StudyPlatformSQLSetup
                     DateTime.ParseExact(day + "-" + timeSlot, "dd/MM/yyyy-HH:mm", null), selectedRooms, Group<string>());
                 lesson.GiveAbsence(TakeRandom(lesson.Course.Students));
             }
-            Random rng = new Random(DateTime.Now.Millisecond);
             if (rng.Next(1, 100) > 50) 
             {
                 List<Room> selectedRooms = new List<Room>();
@@ -358,11 +356,9 @@ namespace StudyPlatformSQLSetup
                 lesson2.GiveAbsence(TakeRandom(lesson.Course.Students));
             }
         }
-        private static int _rngSeed = 1337;
+        private static Random rng = new Random();
         private static T TakeRandom<T>(IReadOnlyList<T> choices)
         {
-            _rngSeed += 1;
-            Random rng = new Random(_rngSeed);
             return choices[rng.Next(0, choices.Count - 1)];
         }
 
