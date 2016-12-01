@@ -1,7 +1,4 @@
-﻿body {
-    background-color: #D5D9DE;
-}
-
+﻿
 
   .row-even {
       background: #778899;
@@ -11,3 +8,7 @@
     background: #A2ADB8;
 }
 
+
+.hiddenRow {
+    padding: 0 !important;
+}
