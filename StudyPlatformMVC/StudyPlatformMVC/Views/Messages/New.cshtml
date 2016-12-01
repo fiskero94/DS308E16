@@ -5,31 +5,28 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<form class="form-horizontal">
-    <fieldset>
-        <div class="form-group">
-            <label for="inputTitle" class="col-lg-2 control-label">Titel</label>
-            <div class="col-lg-10">
-                <input type="text" class="form-control" id="inputTitle" placeholder="Titel">
+<div class="container" style="width: 100px;">
+    <form>
+            <div class="input-group">
+                <span class="input-group-addon" id="addon1">Titel</span>
+                <input type="text" class="form-control" placeholder="Titel" aria-describedby="addon1">
             </div>
-        </div>
-        <div class="form-group">
-            <label for="inputRecipients" class="col-lg-2 control-label">Modtagere</label>
-            <div class="col-lg-10">
-                <input type="text" class="form-control" id="inputRecipients" placeholder="Modtagere">
+            <br/>
+            <div class="input-group">
+                <span class="input-group-addon" id="addon2">Modtagere</span>
+                <input type="text" class="form-control" placeholder="Modtagere" aria-describedby="addon2">
             </div>
-        </div>
-        <div class="form-group">
-            <label for="textArea" class="col-lg-2 control-label">Tekst</label>
-            <div class="col-lg-10">
-                <textarea class="form-control" rows="3" id="textArea"></textarea>
+            <br/>
+            <div class="input-group">
+                <span class="input-group-addon" id="addon3">Tekst</span>
+                <textarea class="form-control" rows="3" aria-describedby="addon3"></textarea>
             </div>
-        </div>
-        <div class="form-group">
-            <div class="col-lg-10 col-lg-offset-2">
-                <a href="#" type="submit" class="btn btn-primary">Send</a>
-                <button type="reset" class="btn btn-default">Afbryd</button>
+            <br/>
+            <div class="form-group">
+                <div class="col-lg-10 col-lg-offset-2">
+                    <a href="#" type="submit" class="btn btn-primary">Send</a>
+                    <button type="reset" class="btn btn-default">Afbryd</button>
+                </div>
             </div>
-        </div>
-    </fieldset>
-</form>
+    </form>
+</div>
