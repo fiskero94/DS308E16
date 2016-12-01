@@ -19,9 +19,7 @@ namespace StudyPlatformMVC.Controllers
 
             //Testing
             Session["user"] = Student.GetByConditions("name='Iver Clausen'").Single();
-            Creator.CreateNews(Person.GetByID(1) as Secretary, "Nyhed2", "Text");
-            Creator.CreateNews(Person.GetByID(1) as Secretary, "Nyhed3", "Textffdsfddsfs");
-
+            
             // Actual
             Person person = (Person)Session["user"];
             if (person == null)
