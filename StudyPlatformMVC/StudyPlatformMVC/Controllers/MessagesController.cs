@@ -79,5 +79,16 @@ namespace StudyPlatformMVC.Controllers
                 });
             return RedirectToAction("Recieved", "Messages");
         }
+        [Route("Messages/New")]
+        public ActionResult New()
+        {
+            // Testing
+            Session["user"] = Student.GetByConditions("name='Iver Clausen'").Single();
+            // Actual
+            Person person = (Person)Session["user"];
+            if (person == null)
+                return RedirectToAction("Index", "Login");
+            return View();
+        }
     }
 }
