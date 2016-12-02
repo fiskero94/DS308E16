@@ -21,9 +21,8 @@
                 @foreach (Course course in sessionCourses)
                 {
                  <tr>
-                     <th> <input type="button" class="btn btn-default" value="@course.Name" onclick="location.href='@Url.Action("CoursePage", "Courses")'" /> </th>
-                     <th> <input type="button" class="btn btn-default" value="@course.Name" onclick="location.href='@Url.Action("CoursePage", "Courses")'" /> </th>
-                     <th> <input type="button" class="btn btn-default" value="@course.Name" onclick="location.href='@Url.Action("CoursePage", "Courses")'" /> </th>
+                     <th> <input type="button" class="panel panel-default" value="@course.Name" onclick="location.href='@Url.Action("Courseinfo", "Courses")'" /> </th>
+                     @*<th> <input type="button" class="btn btn-default col-md-4 col-lg-4 col-" value="@course.Name" onclick="location.href='@Url.Action("Courseinfo", "Courses")'" /> </th>*@
                  </tr>  
                 }
             </thead>
