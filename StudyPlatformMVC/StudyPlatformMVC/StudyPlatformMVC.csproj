@@ -332,11 +332,8 @@
     <Content Include="Views\Absence\Index.cshtml" />
     <Content Include="Views\Schedule\Index.cshtml" />
     <Content Include="Views\Assignments\UploadFile.cshtml" />
-<<<<<<< HEAD
     <Content Include="Views\Courses\CoursePage.cshtml" />
-=======
     <Content Include="Views\Messages\New.cshtml" />
->>>>>>> 2f2fd305fd153d663639943346baafb6c4e17444
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
