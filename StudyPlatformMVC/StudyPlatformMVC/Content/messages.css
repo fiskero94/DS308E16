@@ -1,11 +1,3 @@
-﻿/* Table Search */
-.results tr[visible='false'],
-.no-result { display: none; }
-.results tr[visible='true'] { display: table-row; }
-.counter {
-    padding: 8px;
-    color: #ccc;
-}
-/* Other */
+﻿/* Other */
 .curser-pointer { cursor: pointer; }
 .font-14px { font-size: 18px; }

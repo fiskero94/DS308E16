@@ -79,5 +79,30 @@ namespace StudyPlatformMVC.Controllers
                 });
             return RedirectToAction("Recieved", "Messages");
         }
+        [Route("Messages/New")]
+        public ActionResult New()
+        {
+            // Testing
+            Session["user"] = Student.GetByConditions("name='Iver Clausen'").Single();
+            // Actual
+            Person person = (Person)Session["user"];
+            if (person == null)
+                return RedirectToAction("Index", "Login");
+            return View();
+        }
+        [Route("Messages/Send/{titel}/{text}/{recipients}")]
+        public ActionResult Send(string titel, string text, string recipients)
+        {
+            // Testing
+            Session["user"] = Student.GetByConditions("name='Iver Clausen'").Single();
+            // Actual
+            Person person = (Person)Session["user"];
+            if (person == null)
+                return RedirectToAction("Index", "Login");
+
+
+
+            return RedirectToAction("Sent", "Messages");
+        }
     }
 }
