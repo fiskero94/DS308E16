@@ -18,75 +18,20 @@
 
         <table class="table table-hover">
             <thead>
-    @foreach (Course course in sessionCourses)
-    {
-        <tr>
-            <th> <input type="button" class="btn btn-default" value="@course.Name"/> </th>
-        </tr>
-                @* ****Placeholders**** *@
-                @*if (course.Name == "Matematik A")
+                @foreach (Course course in sessionCourses)
                 {
-                    <tr>
-                        <th class="courseButton"> @course.Name </th>
-                    </tr>
+                 <tr>
+                     <th> <input type="button" class="btn btn-default" value="@course.Name" onclick="location.href='@Url.Action("CoursePage", "Courses")'" /> </th>
+                     <th> <input type="button" class="btn btn-default" value="@course.Name" onclick="location.href='@Url.Action("CoursePage", "Courses")'" /> </th>
+                     <th> <input type="button" class="btn btn-default" value="@course.Name" onclick="location.href='@Url.Action("CoursePage", "Courses")'" /> </th>
+                 </tr>  
                 }
-                if (course.Name == "Fysik A")
-                {
-                    <tr>
-                        <th class="courseButton"> @course.Name </th>
-                    </tr>
-                }
-                if (course.Name == "Kemi B")
-                {
-                    <tr>
-                        <th class="courseButton"> @course.Name </th>
-                    </tr>
-                }
-                if (course.Name == "Engelsk A")
-                {
-                    <tr>
-                        <th class="courseButton"> @course.Name </th>
-                    </tr>
-                }
-                if (course.Name == "Samfund B")
-                {
-                    <tr>
-                        <th class="courseButton"> @course.Name </th>
-                    </tr>
-                }
-                if (course.Name == "Historie B")
-                {
-                    <tr>
-                        <th class="courseButton"> @course.Name </th>
-                    </tr>
-                }
-                if (course.Name == "Idræt C")
-                {
-                    <tr>
-                        <th class="courseButton"> @course.Name </th>
-                    </tr>
-                }
-                if (course.Name == "Geografi B")
-                {
-                    <tr>
-                        <th class="courseButton"> @course.Name </th>
-                    </tr>
-                }
-                if (course.Name == "Religion B")
-                {
-                    <tr>
-                        <th class="courseButton"> @course.Name </th>
-                    </tr>
-                }*@
-               @* <tr>
-                    <th class="courseButton"> Kursus: @course.Name </th>
-                </tr>*@
-            }
             </thead>
         </table>
     }
 
     @if ((Person) Session["user"] is Teacher)
     {
+
     }
 </div>
