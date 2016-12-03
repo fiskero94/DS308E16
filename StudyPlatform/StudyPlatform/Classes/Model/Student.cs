@@ -13,16 +13,62 @@ namespace StudyPlatform.Classes.Model
 
         }
 
-        public List<Course> Courses => GetRelations<Course>("PersonCourse", "CourseID", "PersonID", ID);
+        public List<Course> Courses => GetRelations<Course>("StudentCourse", "CourseID", "StudentID", ID);
         public List<Assignment> Assignments => Assignment.GetByConditions("StudentID=" + ID);
         public List<Lesson> Absences => GetRelations<Lesson>("StudentAbsence", "LessonID", "StudentID", ID);
+
+        public List<Assignment> CurrentCourseAssignments(Course course)
+        {
+            List<Assignment> currentList = new List<Assignment>();
+            foreach (Assignment assignment in Assignments)
+            {
+                if (assignment.AssignmentDescription.Course.ID == course.ID && assignment.AssignmentDescription.Deadline < DateTime.Now)
+                    currentList.Add(assignment);
+            }
+            return currentList;
+        }
+        public List<Assignment> CourseAssignments(Course course)
+        {
+            List<Assignment> currentList = new List<Assignment>();
+            foreach (Assignment assignment in Assignments)
+            {
+                if (assignment.AssignmentDescription.Course.ID == course.ID)
+                    currentList.Add(assignment);
+            }
+            return currentList;
+        }
+
+        public List<Assignment> CurrentAssignments
+        {
+            get
+            {
+                List<Assignment> currentList = new List<Assignment>();
+                foreach (Assignment assignment in Assignments)
+                {
+                    if (assignment.AssignmentDescription.Deadline < DateTime.Now)
+                        currentList.Add(assignment);
+                }
+                return currentList;
+            }
+        }
+
+        public List<Lesson> CourseLessons(Course course)
+        {
+            List<Lesson> currentList = new List<Lesson>();
+            foreach (Lesson absence in Absences)
+            {
+                if (absence.Course.ID == course.ID)
+                    currentList.Add(absence);
+            }
+            return currentList;
+        }
 
         public static Student New(string name, string username, string password)
         {
             Creator.CreateStudent(name, username, password);
             return GetLatest(1).Single();
         }
-        
+
         public new static Student GetByID(uint id) => GetRecordByID<Student>(id);
         public new static List<Student> GetAll() => GetAll<Student>();
         public new static List<Student> GetByConditions(params string[] conditions)

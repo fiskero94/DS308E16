@@ -19,7 +19,7 @@ namespace StudyPlatform.Classes.Model
             _grade = grade;
             _comment = comment;
         }
-        
+
         public Assignment Assignment => Assignment.GetByID(_assignmentid);
         public string Grade
         {

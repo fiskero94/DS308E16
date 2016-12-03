@@ -20,8 +20,8 @@ namespace StudyPlatform.Classes.Model
             _description = description;
             _cancelled = cancelled;
             _deadline = deadline;
-        }   
-        
+        }
+
         public Course Course => Course.GetByID(_courseid);
         public string Description
         {

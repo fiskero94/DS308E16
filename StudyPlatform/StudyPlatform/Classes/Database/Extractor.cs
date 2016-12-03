@@ -70,7 +70,7 @@ namespace StudyPlatform.Classes.Database
                 uint senderID = reader.GetUInt32(reader.GetOrdinal("SenderID"));
                 string title = reader.GetString(reader.GetOrdinal("Title"));
                 string text = reader.GetString(reader.GetOrdinal("Text"));
-                DateTime dateTime = reader.GetDateTime(reader.GetOrdinal("DateTime"));    
+                DateTime dateTime = reader.GetDateTime(reader.GetOrdinal("DateTime"));
                 messages.Add(new Message(id, senderID, title, text, dateTime));
             }
             connectionReader.Connection.Close();

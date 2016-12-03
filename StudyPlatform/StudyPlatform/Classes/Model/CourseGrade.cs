@@ -50,7 +50,7 @@ namespace StudyPlatform.Classes.Model
                 _comment = value;
             }
         }
-        
+
         public void Remove() => Remover.RemoveCourseGrade(this);
         public static CourseGrade New(Course course, Student student, string grade, string comment)
         {
