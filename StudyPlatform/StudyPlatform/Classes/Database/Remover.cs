@@ -16,9 +16,9 @@ namespace StudyPlatform.Classes.Database
             else if (person is Student)
                 foreach (Course course in ((Student)person).Courses)
                     course.RemoveStudent((Student)person);
-            else if(person is Secretary)
+            else if (person is Secretary)
                 foreach (News news in News.GetAll())
-                    if(news.Author.ID == person.ID)
+                    if (news.Author.ID == person.ID)
                         RemoveNews(news);
             Commands.DeleteFrom("Person", "ID=" + person.ID);
             person = null;
@@ -37,7 +37,8 @@ namespace StudyPlatform.Classes.Database
         }
         public static void RemoveCourse(Course course)
         {
-            Commands.DeleteFrom("PersonCourse", "CourseID=" + course.ID);
+            Commands.DeleteFrom("StudentCourse", "CourseID=" + course.ID);
+            Commands.DeleteFrom("TeacherCourse", "CourseID=" + course.ID);
             Commands.DeleteFrom("CourseFile", "CourseID=" + course.ID);
             foreach (Lesson lesson in course.Lessons)
                 RemoveLesson(lesson);
@@ -72,7 +73,7 @@ namespace StudyPlatform.Classes.Database
         }
         public static void RemoveAssignment(Assignment assignment)
         {
-            if(assignment.Grade != null)
+            if (assignment.Grade != null)
                 RemoveAssignmentGrade(assignment.Grade);
 
             Commands.DeleteFrom("AssignmentFile", "AssignmentID=" + assignment.ID);

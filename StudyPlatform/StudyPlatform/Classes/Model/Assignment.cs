@@ -22,9 +22,9 @@ namespace StudyPlatform.Classes.Model
             _gradeid = gradeid;
             DateTimeSubmitted = dateTimeSubmitted;
         }
-        public Assignment(uint id, uint assignmentdescriptionid, uint studentid, string comment, DateTime dateTimeSubmitted) 
-            : this(id, assignmentdescriptionid, studentid, comment, 0, dateTimeSubmitted) {}
-        
+        public Assignment(uint id, uint assignmentdescriptionid, uint studentid, string comment, DateTime dateTimeSubmitted)
+            : this(id, assignmentdescriptionid, studentid, comment, 0, dateTimeSubmitted) { }
+
         public AssignmentDescription AssignmentDescription => AssignmentDescription.GetByID(_assignmentdescriptionid);
         public Student Student => Student.GetByID(_studentid);
         public string Comment
@@ -54,14 +54,14 @@ namespace StudyPlatform.Classes.Model
                 }
                 else
                 {
-                    Commands.SetValue("Assignment", ID, "GradeID", value.ToString());
+                    Commands.SetValue("Assignment", ID, "GradeID", value.ID.ToString());
                     _gradeid = value.ID;
                 }
             }
         }
         public DateTime DateTimeSubmitted { get; }
         public List<string> Documents => GetDocuments("AssignmentFile", "AssignmentID", ID);
-        
+
         public void Remove() => Remover.RemoveAssignment(this);
         public static Assignment New(AssignmentDescription assignmentDescription, Student student, string comment, List<string> filepaths)
         {

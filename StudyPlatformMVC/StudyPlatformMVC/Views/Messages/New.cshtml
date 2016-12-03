@@ -1,32 +1,37 @@
-﻿@using StudyPlatformMVC.Models
-@model StudyPlatformMVC.ViewModels.MessageViewModel
+﻿@using System.Web.Mvc
+@using StudyPlatformMVC.Models
+@model StudyPlatformMVC.ViewModels.MessageNewViewModel
 @{
     ViewBag.Title = "Ny besked";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<div class="container" style="width: 100px;">
-    <form>
-            <div class="input-group">
-                <span class="input-group-addon" id="addon1">Titel</span>
-                <input type="text" class="form-control" placeholder="Titel" aria-describedby="addon1">
+@using (Html.BeginForm("New", "Messages", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    <fieldset>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Titel</label>
+            <div class="col-sm-10">
+                @Html.TextBoxFor(model => model.Title, new {@class = "form-control", placeholder = "Titel", tabindex = 1})
+                @Html.ValidationMessageFor(model => model.Title)
             </div>
-            <br/>
-            <div class="input-group">
-                <span class="input-group-addon" id="addon2">Modtagere</span>
-                <input type="text" class="form-control" placeholder="Modtagere" aria-describedby="addon2">
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Modtagere</label>
+            <div class="col-sm-10">
+                @Html.ListBoxFor(model => model.SelectedPersons, Model.Persons, new {@class = "form-control", tabindex = 2})
             </div>
-            <br/>
-            <div class="input-group">
-                <span class="input-group-addon" id="addon3">Tekst</span>
-                <textarea class="form-control" rows="3" aria-describedby="addon3"></textarea>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Tekst</label>
+            <div class="col-sm-10">
+                @Html.TextAreaFor(model => model.Text, new {@class = "form-control", placeholder = "Tekst", tabindex = 3})
+                @Html.ValidationMessageFor(model => model.Text)
             </div>
-            <br/>
-            <div class="form-group">
-                <div class="col-lg-10 col-lg-offset-2">
-                    <a href="#" type="submit" class="btn btn-primary">Send</a>
-                    <button type="reset" class="btn btn-default">Afbryd</button>
-                </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-primary">Send</button>
             </div>
-    </form>
-</div>
+        </div>
+    </fieldset>
+}
