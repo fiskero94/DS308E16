@@ -17,10 +17,6 @@ namespace StudyPlatformMVC.Controllers
             AbsenceViewModel absenceViewModel = new AbsenceViewModel();
             Student student = Student.GetByID(Convert.ToUInt32(id));
             absenceViewModel.Student = student;
-            absenceViewModel.TotalNumberOfLessons = 0;
-            absenceViewModel.TotalNumberOfAssignments = 0;
-            absenceViewModel.CurrentTotalNumberOfLessons = 0;
-            absenceViewModel.CurrentTotalNumberOfAssignments = 0;
             foreach (Course course in student.Courses)
             {
                 absenceViewModel.TotalNumberOfLessons += course.Lessons.Count;
@@ -29,10 +25,6 @@ namespace StudyPlatformMVC.Controllers
                 absenceViewModel.CurrentTotalNumberOfAssignments += course.CurrentAssignmentDescriptions.Count;
                 absenceViewModel.Courses.Add(course);
             }
-            absenceViewModel.CurrentTotalAssignmentProcent = (student.Assignments.Count*100)/absenceViewModel.CurrentTotalNumberOfAssignments;
-            absenceViewModel.CurrentTotalLessonProcent = (student.Absences.Count*100)/absenceViewModel.CurrentTotalNumberOfLessons;
-            absenceViewModel.TotalAssignmentProcent = ((absenceViewModel.TotalNumberOfAssignments-student.Assignments.Count)*100)/absenceViewModel.TotalNumberOfAssignments;
-            absenceViewModel.TotalLessonProcent = (student.Absences.Count*100)/absenceViewModel.TotalNumberOfLessons;
             return View(absenceViewModel);
         }
     }

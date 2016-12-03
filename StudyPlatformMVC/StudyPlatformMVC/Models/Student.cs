@@ -27,16 +27,6 @@ namespace StudyPlatformMVC.Models
             }
             return currentList;
         }
-        public List<Assignment> CourseAssignments(Course course)
-        {
-            List<Assignment> currentList = new List<Assignment>();
-            foreach (Assignment assignment in Assignments)
-            {
-                if (assignment.AssignmentDescription.Course.ID == course.ID)
-                    currentList.Add(assignment);
-            }
-            return currentList;
-        }
 
         public List<Assignment> CurrentAssignments
         {

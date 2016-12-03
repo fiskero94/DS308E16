@@ -10,27 +10,9 @@ namespace StudyPlatformMVC.ViewModels
     {
         public List<Course> Courses = new List<Course>();
         public Student Student;
-        public int TotalNumberOfLessons;
-        public int TotalNumberOfAssignments;
-        public int CurrentTotalNumberOfLessons;
-        public int CurrentTotalNumberOfAssignments;
-
-        public double CurrentTotalAssignmentProcent;
-        public double CurrentTotalLessonProcent;
-        public double TotalAssignmentProcent;
-        public double TotalLessonProcent;
-
-        public double Calc(int number1, int number2)
-        {
-            if (number2 == 0)
-                return 0.0;
-
-            return (number1 * 100) / number2;
-        }
-
-        public int Convert(int number1, int number2)
-        {
-            return number1 - number2;
-        }
+        public int TotalNumberOfLessons = 0;
+        public int TotalNumberOfAssignments = 0;
+        public int CurrentTotalNumberOfLessons = 0;
+        public int CurrentTotalNumberOfAssignments = 0;
     }
 }
