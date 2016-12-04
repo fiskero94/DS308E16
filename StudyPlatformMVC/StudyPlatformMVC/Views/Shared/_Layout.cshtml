@@ -11,6 +11,11 @@
     @{ string controller = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString(); }
     @{ Session["user"] = Person.GetByID(1); }
     @{ Person user = (Person) Session["user"]; }
+
+    <script type="text/javascript" src="@Url.Content("/Scripts/jquery-1.6.2.min.js")"></script>
+    @RenderSection("JavaScript", required: false)
+
+
 </head>
 <body>
     <div id="wrapper">
