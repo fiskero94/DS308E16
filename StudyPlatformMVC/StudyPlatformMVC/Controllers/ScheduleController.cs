@@ -26,21 +26,27 @@ namespace StudyPlatformMVC.Controllers
                 {
                     foreach (Lesson lesson in course.Lessons)
                     {
+                        
+
+
                         DateTimeFormatInfo dfi = DateTimeFormatInfo.CurrentInfo;
                         Calendar cal = dfi.Calendar;
 
                         if (cal.GetWeekOfYear(lesson.DateTime, dfi.CalendarWeekRule, dfi.FirstDayOfWeek) == weeknumber)
                         {
                             Lessons.Add(lesson);
-                        }
-                        
+                        }  
                     }
                 }
 
                 // mANGLER SORT BY TIMEOFDAY så alle kl8 lektioner kommer først.
                 var list = Lessons.OrderBy(x => x.DateTime.TimeOfDay).ToList();
 
-                return View(list);
+
+
+
+
+                return View(Lessons);
             }
 
 
