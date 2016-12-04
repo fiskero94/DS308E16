@@ -233,6 +233,7 @@
     <Compile Include="Models\Course.cs" />
     <Compile Include="Models\CourseGrade.cs" />
     <Compile Include="Models\Entity.cs" />
+    <Compile Include="Models\Filehandler.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Lesson.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -333,13 +334,14 @@
     <Content Include="Views\Messages\Recieved.cshtml" />
     <Content Include="Views\Absence\Index.cshtml" />
     <Content Include="Views\Schedule\Index.cshtml" />
-    <Content Include="Views\Assignments\UploadFile.cshtml" />
+    <Content Include="Views\Assignments\Aflever.cshtml" />
     <Content Include="Views\Messages\New.cshtml" />
     <Content Include="Views\Courses\Courseinfo.cshtml" />
     <Content Include="Views\Login\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Files\" />
     <Folder Include="Views\NewsViewModel\" />
     <Folder Include="Views\Rooms\" />
     <Folder Include="Views\Users\" />
