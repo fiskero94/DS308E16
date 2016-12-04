@@ -1,15 +1,12 @@
-﻿using System;
+﻿using StudyPlatformMVC.Models;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using StudyPlatformMVC.Models;
 
 namespace StudyPlatformMVC.Controllers
 {
     public class AssignmentsController : Controller
     {
-        
+
         // GET: Assignments
         public ActionResult Index()
         {
@@ -25,6 +22,10 @@ namespace StudyPlatformMVC.Controllers
                 return View(assignment);
             }
             return RedirectToAction("Index", "News");
+        }
+        public ActionResult UploadFile()
+        {
+            return View();
         }
     }
 }

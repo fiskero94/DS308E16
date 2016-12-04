@@ -2,8 +2,39 @@
 
 }
 
-#courseTableHeader{
-    color: #D5D9DE;
+#courseTableHeader1{
+    color: white;
+    display: block;
     background-color: #39536D;
-    font-weight: 900;
+    font-weight: bold;
+    text-align: center;
+    /*margin-left: auto;
+    margin-right: auto;*/
+    width: 100%;
+}
+
+.courseButton {
+    background-color: #556C82;
+    background: -webkit-gradient(linear, left top, left bottom, from(#556C82), to(#39536D));
+    border: none;
+    color: #D5D9DE;
+    padding: 40px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    font-size: 24px;
+    margin: 2px 25px;
+    cursor: pointer;
+
+}
+
+.courseButton:hover {
+    color: white;
+    background: #67B4D2;
+}
+
+.center {
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
 }

@@ -21,7 +21,8 @@ namespace StudyPlatformMVC
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
-                      "~/Scripts/respond.js"));
+                      "~/Scripts/respond.js",
+                      "~/Scripts/jasny-bootstrap.min.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
@@ -39,6 +40,8 @@ namespace StudyPlatformMVC
                       "~/Content/news.css"));
             bundles.Add(new StyleBundle("~/Content/Absence").Include(
                       "~/Content/Absence.css"));
+            bundles.Add(new StyleBundle("~/Content/messages").Include(
+                      "~/Content/messages.css"));
         }
     }
 }

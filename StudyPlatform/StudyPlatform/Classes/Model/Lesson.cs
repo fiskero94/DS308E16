@@ -23,7 +23,7 @@ namespace StudyPlatform.Classes.Model
             _cancelled = cancelled;
             _dateTime = dateTime;
         }
-        
+
         public Course Course => Course.GetByID(_courseid);
         public DateTime DateTime
         {
@@ -89,12 +89,12 @@ namespace StudyPlatform.Classes.Model
         public void RemoveAbsence(Student student) =>
             Commands.DeleteFrom("StudentAbsence", "StudentID=" + student.ID + " AND LessonID=" + ID);
 
-        
+
         public static Lesson New(Course course, string description, bool online,
             DateTime dateTime, List<Room> rooms, List<string> filepaths)
         {
             Creator.CreateLesson(course, description, online, dateTime, rooms, filepaths);
-            return GetLatest(1).Single();
+            return GetLatest();
         }
     }
 }

@@ -1,8 +1,4 @@
-﻿body {
-
-}
-
-.absenceTable tr:nth-child(odd){
+﻿.absenceTable tr:nth-child(odd){
     background-color: #D5D9DE;
     text-align: center;
 }
@@ -10,7 +6,7 @@
     background-color: #A2ADB8;
     text-align: center;
 }
-#TableHeader {
+.TableHeader {
     font-size: 150%;
     font-weight: bolder;
     background-color: #39536D;
@@ -23,15 +19,4 @@
     background-color: #556C82;
     color: whitesmoke;
     font-weight: bolder;
-}
-.kursiv {
-    font-style: italic;
-    background-color: #D5D9DE;
-}
-.kursiv1 {
-    font-style: italic;
-    background-color: #A2ADB8;
-}
-.bold {
-    font-weight: bold;
 }

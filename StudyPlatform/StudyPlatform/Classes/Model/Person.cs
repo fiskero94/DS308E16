@@ -15,7 +15,7 @@ namespace StudyPlatform.Classes.Model
         {
             _name = name;
         }
-        
+
         public string Name
         {
             get

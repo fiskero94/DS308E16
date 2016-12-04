@@ -1,39 +1,36 @@
 ﻿@using StudyPlatformMVC.Models
 @model List<StudyPlatformMVC.Models.Course>
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Kurser";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@foreach (Course course in Model)
-{
-    <div class="container">
-        <h2>Kurser</h2>
-        <table class="table">
+@Styles.Render("~/Content/Course")
+
+
+<div class="container center">
+    @if ((Person) Session["user"] is Student)
+    {
+        Student sessionStudent = (Student) Session["user"];
+        List<Course> sessionCourses = sessionStudent.Courses;
+
+        <h2 id="courseTableHeader1"> Kurser - Studerende </h2>
+
+        <table class="table table-hover">
             <thead>
-                <tr>
-                    <td id="courseTableHeader">@course.Name</td>
-                    <td id="courseTableHeader">@course.Description</td>
-                </tr>
+                @foreach (Course course in sessionCourses)
+                {
+                 <tr>
+                     <th> <input type="button" class="panel panel-default" value="@course.Name" onclick="location.href='@Url.Action("Courseinfo", "Courses")'" /> </th>
+                     @*<th> <input type="button" class="btn btn-default col-md-4 col-lg-4 col-" value="@course.Name" onclick="location.href='@Url.Action("Courseinfo", "Courses")'" /> </th>*@
+                 </tr>  
+                }
             </thead>
-            <tbody>
-                <tr>
-                    <td>@((Student)Session["user"]).Name</td>
-                    <td>@((Student)Session["user"]).</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-            </tbody>
         </table>
-    </div>
-}
-    
+    }
+
+    @if ((Person) Session["user"] is Teacher)
+    {
+
+    }
+</div>

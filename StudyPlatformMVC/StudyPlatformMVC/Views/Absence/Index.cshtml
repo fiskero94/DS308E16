@@ -1,5 +1,6 @@
 ﻿@using StudyPlatformMVC.Models
-@Model StudyplatformMVC.ViewModels.AbsenceViewModel
+@using StudyPlatformMVC.ViewModels
+@model AbsenceViewModel
 
 @{
     ViewBag.Title = "Fravær";
@@ -7,58 +8,124 @@
 
 @Styles.Render("~/Content/Absence")
 
-<body>
-    <div class="absenceTable">
-        <table class="table">
+<div class="absenceTable">
+    <table class="table">
+        <tr>
+            <td class="TableHeader" colspan="10">Fravær</td>
+        </tr>
+        <tr id="secondHeader">
+            <td id="fag" colspan="2" rowspan="3">Fag</td>
+            <td colspan="4">Almindeligt</td>
+            <td colspan="4">Skriftligt</td>
+        </tr>
+        <tr style="font-style: italic">
+            <td colspan="2">Opgjort</td>
+            <td colspan="2">For Året</td>
+            <td colspan="2">Opgjort</td>
+            <td colspan="2">For Året</td>
+        </tr>
+        <tr style="font-style: italic">
+            <td>Procent</td>
+            <td>Moduler</td>
+            <td>Procent</td>
+            <td>Moduler</td>
+            <td>Procent</td>
+            <td>Afleveringer</td>
+            <td>Procent</td>
+            <td>Afleveringer</td>
+        </tr>
+        @foreach (Course course in @Model.Courses)
+        {
             <tr>
-                <td id="TableHeader" colspan="10">Fravær</td>
+                <td colspan="2">@course.Name </td>
+                @{
+                    if (course.CurrentLessons.Count == 0)
+                    {
+                        <td>0 %</td> }
+                    else
+                    {
+                        <td>@Html.Label(Convert.ToString(100 * Model.Student.CourseLessons(course).Count / course.CurrentLessons.Count)) %</td> }
+                }
+                <td>@Model.Student.CourseLessons(course).Count / @course.CurrentLessons.Count</td>
+                @{
+                    if (course.Lessons.Count == 0)
+                    {
+                        <td>0 %</td> }
+                    else
+                    {
+                        <td>@Html.Label(Convert.ToString(100 * Model.Student.CourseLessons(course).Count / course.Lessons.Count)) %</td> }
+                }
+                <td>@Model.Student.CourseLessons(course).Count / @course.Lessons.Count</td>
+                <td>@Html.Label(Convert.ToString(((course.CurrentAssignmentDescriptions.Count - Model.Student.CurrentCourseAssignments(course).Count) * 100) / course.CurrentAssignmentDescriptions.Count)) %</td>
+                <td>@Html.Label(Convert.ToString(course.CurrentAssignmentDescriptions.Count - Model.Student.CurrentCourseAssignments(course).Count)) / @course.CurrentAssignmentDescriptions.Count</td>
+                <td>@Html.Label(Convert.ToString((course.CurrentAssignmentDescriptions.Count - Model.Student.CurrentCourseAssignments(course).Count) * 100 / course.AssignmentDescriptions.Count)) %</td>
+                <td>@Html.Label(Convert.ToString(course.CurrentAssignmentDescriptions.Count - Model.Student.CurrentCourseAssignments(course).Count)) / @course.AssignmentDescriptions.Count</td>
             </tr>
-            <tr id="secondHeader">
-                <td id="fag" colspan="2" rowspan="3">Fag</td>
-                <td colspan="4">Almindeligt</td>
-                <td colspan="4">Skriftligt</td>
-            </tr>
-            <tr class="kursiv">
-                <td colspan="2">Opgjort</td>
-                <td colspan="2">For Året</td>
-                <td colspan="2">Opgjort</td>
-                <td colspan="2">For Året</td>
-            </tr>
-            <tr class="kursiv1">
-                <td>Procent</td>
-                <td>Moduler</td>
-                <td>Procent</td>
-                <td>Moduler</td>
-                <td>Procent</td>
-                <td>Elevtimer</td>
-                <td>Procent</td>
-                <td>Elevtimer</td>
-            </tr>
-            @foreach (Course course in @Model.Courses)
+                    }
+        <tr style="font-weight:bolder">
+            <td colspan="2" style="font-size:larger">Samlet</td>
+            <td>@Html.Label(Convert.ToString(100 * Model.Student.Absences.Count / Model.CurrentTotalNumberOfLessons)) %</td>
+            <td>@Model.Student.Absences.Count / @Model.CurrentTotalNumberOfLessons</td>
+            <td>@Html.Label(Convert.ToString(100 * Model.Student.Absences.Count / Model.TotalNumberOfLessons)) %</td>
+            <td>@Model.Student.Absences.Count / @Model.TotalNumberOfLessons</td>
+            <td>@Html.Label(Convert.ToString(((Model.CurrentTotalNumberOfAssignments - Model.Student.CurrentAssignments.Count) * 100) / Model.CurrentTotalNumberOfAssignments)) %</td>
+            <td>@Html.Label(Convert.ToString(Model.CurrentTotalNumberOfAssignments - Model.Student.CurrentAssignments.Count)) / @Model.CurrentTotalNumberOfAssignments</td>
+            <td>@Html.Label(Convert.ToString(((Model.CurrentTotalNumberOfAssignments - Model.Student.CurrentAssignments.Count) * 100) / Model.TotalNumberOfAssignments)) %</td>
+            <td>@Html.Label(Convert.ToString(Model.CurrentTotalNumberOfAssignments - Model.Student.CurrentAssignments.Count)) / @Model.TotalNumberOfAssignments</td>
+        </tr>
+        <tr>
+            <td class="TableHeader" colspan="10">Grafisk Oversigt</td>
+        </tr>
+    </table>
+</div>
+
+<div>
+    @{
+        var filePathName = "~/Content/Images/absenceGraph.jpg";
+        var chartImage = new Chart(1200, 400);
+        List<Lesson> allLessons = new List<Lesson>();
+
+        foreach (Course modelCourse in Model.Courses)
+        {
+            foreach (Lesson modelCourseLesson in modelCourse.Lessons)
             {
-                <tr>
-                    <td colspan="2">@course.Name </td>
-                    <td>@course.StudentAbsence %</td>
-                    <td>@course.StudentAbsentLessons / @course.Lessons.Count</td>
-                    <td>@course.StudentTotalAbsence %</td>
-                    <td>@course.StudentAbsentLessons / @course.NumberOfLessons</td>
-                    <td>@course.studentAssignments %</td>
-                    <td>@course.studentNumberOfAssignments / @course.AssignmentDescriptions.Count()</td>
-                    <td>@course.studentTotalAssignments %</td>
-                    <td>@course.studentNumberOfAssignments / @course.NumberOfAssignments</td>
-                </tr>
+                allLessons.Add(modelCourseLesson);
             }
-            <tr class="bold">
-                <td colspan="2">Samlet</td>
-                <td>Viewbag.currentLessonProcent</td>
-                <td>Procent</td>
-                <td>Moduler</td>
-                <td>Procent</td>
-                <td>Elevtimer</td>
-                <td>Procent</td>
-                <td>Elevtimer</td>
-                <td>Elevtimer</td>
-            </tr>
-        </table>
-    </div>
-</body>
+        }
+        List<Lesson> sortedAllLessons = allLessons.OrderBy(o => o.DateTime).ToList();
+
+        int lessonCount = 0;
+        List<string> yValueList = new List<string>();
+        List<string> xValueList = new List<string>();
+
+        Lesson temp = sortedAllLessons.First();
+        DateTime date = temp.DateTime.Date;
+
+        foreach (Lesson sortedAllLesson in sortedAllLessons)
+        {
+            lessonCount++;
+            if (sortedAllLesson.DateTime.Date > date.Date)
+            {
+                int absenceCount = 0;
+                foreach (Lesson studentAbsence in Model.Student.Absences)
+                {
+                    if (date.Date > studentAbsence.DateTime.Date)
+                    {
+                        absenceCount++;
+                    }
+                }
+                double currentAbsence = (100 * absenceCount) / lessonCount;
+                yValueList.Add(currentAbsence.ToString());
+                xValueList.Add(date.Date.ToShortDateString());
+            }
+            date = sortedAllLesson.DateTime;
+        }
+        chartImage.AddSeries(
+            chartType: "line",
+            axisLabel: "Dato",
+        xValue: xValueList,
+        yValues: yValueList);
+        chartImage.Save(filePathName);
+    }
+    <img src="~/Content/Images/absenceGraph.jpg" />
+</div>

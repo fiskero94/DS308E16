@@ -7,11 +7,8 @@ using StudyPlatformMVC;
 using StudyPlatformMVC.Controllers;
 using StudyPlatformMVC.Database;
 using StudyPlatformMVC.Models;
-using System.Collections.Generic;
 using System.Diagnostics.PerformanceData;
-using System.Linq;
 using StudyPlatformMVC.Exceptions;
-using StudyPlatformMVC.Models;
 
 namespace StudyPlatformSQLSetup
 {
@@ -171,6 +168,10 @@ namespace StudyPlatformSQLSetup
         private static void SetupPseudoData()
         {
             WriteSetupMessage("Populating tables");
+            //News
+            Creator.CreateNews(Person.GetByID(1) as Secretary, "Informant Stuff", "Vi startede med at få informanten til at fortælle om hvordan hendes hverdag var, herefter spurgte vi ind til til de områder der blev nævnt som vi følte var relevante for et nyt system. Gennem interviewet kom vi frem til at informanten primært bruger skemaet, tjek af fravær, og aflevering af opgaver. Informanten bruger skemaet til at tjekke lokale og fag samt lektier. Derudover bruger informanten en funktion til at aflevere sine opgaver, hvor hun fortalte at det ville være hjælpsomt, hvis der kom en bekræftelse på at opgaverne er afleveret. Derudover fortalte hun, at systemet ikke skal logge af, således at den forbliver logget ind.");
+            Creator.CreateNews(Person.GetByID(1) as Secretary, "Taking Austria", "German-Austria must return to the great German mo- \r\ntherland, and not because of economic considerations of \r\nany sort. No, no: even if from the economic point of view \r\nthis union were unimportant, indeed, if it were harmful, it \r\nought nevertheless to be brought about. Common blood be- \r\nlongs in a common Reich. As long as the German nation is \r\nunable even to band together its own children in one com- \r\nmon State, it has no moral right to think of colonization as \r\none of its political aims. Only when the boundaries of the \r\nReich include even the last German, only when it is no \r\nlonger possible to assure him of daily bread inside them, \r\ndoes there arise, out of the distress of the nation, the moral \r\nright to acquire foreign soil and territory. The sword is \r\nthen the plow, and from the tears of war there grows the \r\ndaily bread for generations to come. Therefore, this little \r\ntown on the border appears to me the symbol of a great \r\ntask. But in another respect also it looms up as a warning \r\nto our present time. More than a hundred years ago, this \r\ninsignificant little place had the privilege of gaining an \r\nimmortal place in German history at least by being the \r\nscene of a tragic misfortune that moved the entire nation.");
+
             // Students
             WriteSetupMessageIndent("Creating students");
             var student01 = Student.New("Iver Clausen", "iverclausen", "1234");
@@ -261,7 +262,6 @@ namespace StudyPlatformSQLSetup
             WriteSetupMessageIndent("Creating AssignmentDescriptions");
             const string description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent et nisl ipsum. Nunc nec eros vel dolor semper maximus. Suspendisse cursus in mi quis vehicula. Quisque elit risus, aliquet sit amet sem ut, facilisis eleifend libero. Donec ultricies nibh ut quam condimentum, non sollicitudin leo sed.";
             var deadline = DateTime.Today;
-            var rng = new Random(DateTime.Now.Millisecond);
             var assignmentDescriptions = new List<AssignmentDescription>();
             foreach (Course course in courses)
             {
@@ -287,10 +287,10 @@ namespace StudyPlatformSQLSetup
                 assignment.Grade = AssignmentGrade.New(TakeRandom(Common.ValidGrades.ToList()), "Lorem ipsum dolor sit amet.", assignment);
 
             // CourseGrades
-            // WriteSetupMessageIndent("Creating CourseGrades");
-            // foreach (Course course in courses)
-                // foreach (Student student in students)
-                    // CourseGrade.New(course, student, TakeRandom(Common.ValidGrades.ToList()), "Lorem ipsum dolor sit amet.");
+            WriteSetupMessageIndent("Creating CourseGrades");
+            foreach (Course course in courses)
+                foreach (Student student in students)
+                    CourseGrade.New(course, student, TakeRandom(Common.ValidGrades.ToList()), "Lorem ipsum dolor sit amet.");
         }
         private static List<T> Group<T>(params T[] objects) => objects.ToList();
         private static void GenerateLessons(string startDay, string startMonth, string startYear, int weeksToGenerate, List<Course> courses, List<Room> rooms)
@@ -339,11 +339,10 @@ namespace StudyPlatformSQLSetup
             {
                 List<Room> selectedRooms = new List<Room>();
                 selectedRooms.Add(TakeRandom(rooms));
-                Lesson lesson = Lesson.New(TakeRandom(courses), "Lorem ipsum dolor sit amet.", false, 
+                Lesson lesson = Lesson.New(TakeRandom(courses), "Lorem ipsum dolor sit amet.", true, 
                     DateTime.ParseExact(day + "-" + timeSlot, "dd/MM/yyyy-HH:mm", null), selectedRooms, Group<string>());
                 lesson.GiveAbsence(TakeRandom(lesson.Course.Students));
             }
-            Random rng = new Random(DateTime.Now.Millisecond);
             if (rng.Next(1, 100) > 50) 
             {
                 List<Room> selectedRooms = new List<Room>();
@@ -358,128 +357,12 @@ namespace StudyPlatformSQLSetup
                 lesson2.GiveAbsence(TakeRandom(lesson.Course.Students));
             }
         }
-        private static int _rngSeed = 1337;
+        private static Random rng = new Random();
         private static T TakeRandom<T>(IReadOnlyList<T> choices)
         {
-            _rngSeed += 1;
-            Random rng = new Random(_rngSeed);
             return choices[rng.Next(0, choices.Count - 1)];
         }
-
-
-
-
-        public static void SetupData()
-        {
-
-            Creator.CreateStudent("bob", "bob91hassen", "password");
-
-            Creator.CreateRoom("s1");
-            Creator.CreateRoom("s2");
-            Creator.CreateRoom("s3");
-
-            Creator.CreateCourse("Matematik", "A-Level Kappa");
-
-
-            List<string> filepaths = new List<string>();
-            filepaths.Add("../C/Games");
-            filepaths.Add("../C/Kappa");
-
-            Creator.CreateLesson(Course.GetLatest(), "lektion 1", true, new DateTime(2016, 11, 29, 8, 0, 0), Room.GetLatest(1), filepaths);
-            Creator.CreateLesson(Course.GetLatest(), "lektion 2", true, new DateTime(2016, 11, 29, 9, 0, 0), Room.GetLatest(2), filepaths);
-            Creator.CreateLesson(Course.GetLatest(), "lektion 3", true, new DateTime(2016, 11, 29, 10, 0, 0), Room.GetLatest(1), filepaths);
-
-
-
-            Creator.CreateStudent("name", "username", "password");
-            Student student = Student.GetLatest();
-            Creator.CreateCourse("Matematik A", "course1");
-            Creator.CreateCourse("Engelsk B", "course2");
-            Creator.CreateCourse("Fysik C", "course3");
-            Creator.CreateCourse("Dansk A", "course4");
-            Creator.CreateCourse("Historie B", "course5");
-            Course course1 = Course.GetByID(2);
-            Course course2 = Course.GetByID(3);
-            Course course3 = Course.GetByID(4);
-            Course course4 = Course.GetByID(5);
-            Course course5 = Course.GetByID(6);
-            course1.AddStudent(student);
-            course2.AddStudent(student);
-
-            Creator.CreateCourseGrade(Course.GetLatest(), Student.GetLatest(), "grade", "comment");
-            course3.AddStudent(student);
-            course4.AddStudent(student);
-            course5.AddStudent(student);
-            List<Room> rooms = new List<Room>();
-            List<string> filepath = new List<string>();
-            Creator.CreateLesson(course1, "description", true, DateTime.Now, rooms, filepath);
-            Lesson lesson = Lesson.GetLatest(1).Single();
-            lesson.GiveAbsence(student);
-            Creator.CreateLesson(course1, "description", true, DateTime.Now, rooms, filepath);
-            lesson = Lesson.GetLatest(1).Single();
-            lesson.GiveAbsence(student);
-            Creator.CreateLesson(course2, "description", true, DateTime.Now, rooms, filepath);
-            Creator.CreateLesson(course2, "description", true, DateTime.Now, rooms, filepath);
-            lesson = Lesson.GetLatest(1).Single();
-            lesson.GiveAbsence(student);
-            Creator.CreateLesson(course3, "description", true, DateTime.Now, rooms, filepath);
-            Creator.CreateLesson(course3, "description", true, DateTime.Now, rooms, filepath);
-            Creator.CreateLesson(course4, "description", true, DateTime.Now, rooms, filepath);
-            Creator.CreateLesson(course4, "description", true, DateTime.Now, rooms, filepath);
-            lesson = Lesson.GetLatest(1).Single();
-            lesson.GiveAbsence(student);
-            Creator.CreateLesson(course5, "description", true, DateTime.Now, rooms, filepath);
-            lesson = Lesson.GetLatest(1).Single();
-            lesson.GiveAbsence(student);
-            Creator.CreateLesson(course5, "description", true, DateTime.Now, rooms, filepath);
-            lesson = Lesson.GetLatest(1).Single();
-            lesson.GiveAbsence(student);
-            Creator.CreateAssignmentDescription(course1, "description", DateTime.Now, filepath);
-            AssignmentDescription assignmentDescription1 = AssignmentDescription.GetLatest(1).Single();
-            Creator.CreateAssignmentDescription(course1, "description", DateTime.Now, filepath);
-            AssignmentDescription assignmentDescription2 = AssignmentDescription.GetLatest(1).Single();
-            Creator.CreateAssignmentDescription(course1, "description", DateTime.Now, filepath);
-            AssignmentDescription assignmentDescription3 = AssignmentDescription.GetLatest(1).Single();
-            Creator.CreateAssignmentDescription(course2, "description", DateTime.Now, filepath);
-            AssignmentDescription assignmentDescription4 = AssignmentDescription.GetLatest(1).Single();
-            Creator.CreateAssignmentDescription(course2, "description", DateTime.Now, filepath);
-            AssignmentDescription assignmentDescription5 = AssignmentDescription.GetLatest(1).Single();
-            Creator.CreateAssignmentDescription(course3, "description", DateTime.Now, filepath);
-            AssignmentDescription assignmentDescription6 = AssignmentDescription.GetLatest(1).Single();
-            Creator.CreateAssignmentDescription(course3, "description", DateTime.Now, filepath);
-            AssignmentDescription assignmentDescription7 = AssignmentDescription.GetLatest(1).Single();
-            Creator.CreateAssignmentDescription(course4, "description", DateTime.Now, filepath);
-            AssignmentDescription assignmentDescription8 = AssignmentDescription.GetLatest(1).Single();
-            Creator.CreateAssignmentDescription(course5, "description", DateTime.Now, filepath);
-            AssignmentDescription assignmentDescription9 = AssignmentDescription.GetLatest(1).Single();
-            Creator.CreateAssignmentDescription(course5, "description", DateTime.Now, filepath);
-            AssignmentDescription assignmentDescription10 = AssignmentDescription.GetLatest(1).Single();
-            Creator.CreateAssignmentDescription(course5, "description", DateTime.Now, filepath);
-            AssignmentDescription assignmentDescription11 = AssignmentDescription.GetLatest(1).Single();
-            Creator.CreateAssignmentDescription(course5, "description", DateTime.Now, filepath);
-            AssignmentDescription assignmentDescription12 = AssignmentDescription.GetLatest(1).Single();
-            Creator.CreateAssignment(assignmentDescription1, student, "comment", filepath);
-            Creator.CreateAssignment(assignmentDescription3, student, "comment", filepath);
-            Creator.CreateAssignment(assignmentDescription4, student, "comment", filepath);
-            Creator.CreateAssignment(assignmentDescription6, student, "comment", filepath);
-            Creator.CreateAssignment(assignmentDescription8, student, "comment", filepath);
-            Creator.CreateAssignment(assignmentDescription9, student, "comment", filepath);
-            Creator.CreateAssignment(assignmentDescription12, student, "comment", filepath);
-            Creator.CreateAssignmentDescription(course1, "matematik aflevering du skal blablababla", new DateTime(2016, 5, 5), filepaths);
-            AssignmentDescription description = AssignmentDescription.GetLatest();
-            Creator.CreateAssignment(description, student, "Den er god", filepaths);
-            Assignment assignment = Assignment.GetLatest();
-
-
-            Creator.CreateSecretary("Mathias", "Mathias4Pres", "123123");
-            Secretary secretary = Secretary.GetLatest();
-            Creator.CreateNews(secretary, "Spotkursus HF - Engelsk", "Fredag kl.13.35-15.05.");
-        }
-
-
-
-
-
+       
         private static void ExecuteQuery(string query)
         {
             using (MySqlConnection connection = new MySqlConnection(_connectionString))

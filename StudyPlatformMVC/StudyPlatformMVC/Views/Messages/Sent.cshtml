@@ -1,34 +1,55 @@
 ﻿@using StudyPlatformMVC.Models
-@model List<Message>
+@model StudyPlatformMVC.ViewModels.MessageViewModel
+@Styles.Render("~/Content/messages")
 @{
     ViewBag.Title = "Udbakke";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@if (Model.Count == 0)
+@if (Model.Messages.Count == 0)
 {
     <p>Du har ikke sendt nogen beskeder</p>
-    <br /><br />
+    <br/><br/>
+    <a href="/Messages/New" class="btn btn-default">Ny besked</a>
+    <br/><br/>
 }
-<a href="#" class="btn btn-default">Ny besked</a>
-<br /><br />
-@if (Model.Count > 0)
+else
 {
-    <table class="table table-striped table-hover ">
-        <thead>
+    <a href="/Messages/New" class="btn btn-default">Ny besked</a>
+    @DrawTable("col-md-12 col-xs-12")
+}
+@helper DrawTable(string tableSize)
+{
+        <table class="table table-striped table-hover">
+            <thead>
             <tr>
-                <th>Titel</th>
-                <th>Modtagere</th>
-                <th>Dato</th>
+                <th class="col-lg-5 col-md-5 col-xs-5">Titel</th>
+                <th class="col-lg-5 col-md-5 col-xs-5">Modtagere</th>
+                <th class="col-lg-2 col-md-2 col-xs-2">Dato</th>
             </tr>
-        </thead>
-        <tbody>
-            @foreach (Message message in Model)
-            {@AddMessage(message)}
-        </tbody>
-    </table>
+            </thead>
+            <tbody data-link="row" class="rowlink">
+            @foreach (Message message in Model.Messages)
+            {
+                @AddMessage(message)
+            }
+            </tbody>
+        </table>
 }
 @helper AddMessage(Message message)
-{<tr><td>@message.Title</td><td>@AddRecipients(message)</td><td>@message.DateTimeSent</td></tr>}
+{
+    <tr>
+        <td>
+            <a href="/Messages/Sent/@message.ID"></a>@message.Title</td>
+        <td>@AddRecipients(message)</td>
+        <td>@message.DateTimeSent</td>
+    </tr>
+    if (Model.CurrentMessage != null && Model.CurrentMessage.ID == message.ID)
+    {
+        <tr>
+            <td colspan="3"> @DrawMessage() </td>
+        </tr>
+    }
+}
 @helper AddRecipients(Message message)
 {
     string recipients = "";
@@ -39,5 +60,20 @@
     }
     recipients = recipients.TrimEnd(' ');
     recipients = recipients.TrimEnd(',');
-    @Html.Label(recipients)
+    @Html.Label(recipients, new {style = "display:inline;"})
+}
+@helper DrawMessage()
+{
+    <div class="container col-lg-12 col-md-12 col-xs-12">
+        <h3>@Model.CurrentMessage.Title</h3>
+        <p>@Model.CurrentMessage.Text</p>
+        <h6>
+            <i style="color: gray">fra</i> @Model.CurrentMessage.Sender.Name <i style="color: gray">til</i> @AddRecipients(Model.CurrentMessage)
+            <br/><ii style="color: dimgray">@Model.CurrentMessage.DateTimeSent</ii>
+        </h6>
+        <div class="container text-right">
+            <a href="#" class="btn btn-default">Svar</a>
+            <a href="#" class="btn btn-default">Videresend</a>
+        </div>
+    </div>
 }

@@ -28,7 +28,7 @@ namespace StudyPlatform.Classes.Database
             Common.EnsureNotEmpty(name, username, password);
             CreatePerson(name, username, password, "Secretary");
         }
-        public static void CreateMessage(Person sender, string title, string text, 
+        public static void CreateMessage(Person sender, string title, string text,
             List<Person> recipients, List<string> filepaths)
         {
             Common.EnsureNotNull(sender, title, text, recipients, filepaths);
@@ -54,14 +54,14 @@ namespace StudyPlatform.Classes.Database
             Common.EnsureNotEmpty(name);
             Commands.InsertInto("Course", "NULL", name, description);
         }
-        public static void CreateLesson(Course course, string description, bool online, 
+        public static void CreateLesson(Course course, string description, bool online,
             DateTime dateTime, List<Room> rooms, List<string> filepaths)
         {
             Common.EnsureNotNull(dateTime, description, online, rooms, filepaths, course);
             foreach (Room room in rooms)
                 if (!room.CheckAvailability(dateTime))
                     throw new RoomUnavailableException(room.Name + " er ikke tilgængelig for tidspunktet " + dateTime);
-            Commands.InsertInto("Lesson", "NULL", course.ID.ToString(), description, 
+            Commands.InsertInto("Lesson", "NULL", course.ID.ToString(), description,
                 online.ToString().ToUpper(), "FALSE", dateTime.ToString("yyyy-MM-dd HH:mm:ss"));
             Lesson lesson = Lesson.GetLatest(1).Single();
             foreach (Room room in rooms)
@@ -75,21 +75,21 @@ namespace StudyPlatform.Classes.Database
             Common.EnsureNotEmpty(name);
             Commands.InsertInto("Room", "NULL", name);
         }
-        public static void CreateAssignmentDescription(Course course, string description, 
+        public static void CreateAssignmentDescription(Course course, string description,
             DateTime deadline, List<string> filepaths)
         {
             Common.EnsureNotNull(course, description, deadline, filepaths);
-            Commands.InsertInto("AssignmentDescription", "NULL", course.ID.ToString(), description, 
+            Commands.InsertInto("AssignmentDescription", "NULL", course.ID.ToString(), description,
                 "FALSE", deadline.ToString("yyyy-MM-dd HH:mm:ss"));
             AssignmentDescription assignmentDescription = AssignmentDescription.GetLatest(1).Single();
             foreach (string filepath in filepaths)
-                Commands.InsertInto("AssignentDescriptionFile", assignmentDescription.ID.ToString(), filepath);
+                Commands.InsertInto("AssignmentDescriptionFile", assignmentDescription.ID.ToString(), filepath);
         }
-        public static void CreateAssignment(AssignmentDescription assignmentDescription, 
+        public static void CreateAssignment(AssignmentDescription assignmentDescription,
             Student student, string comment, List<string> filepaths)
         {
             Common.EnsureNotNull(assignmentDescription, student, comment, filepaths);
-            Commands.InsertInto("Assignment", "NULL", assignmentDescription.ID.ToString(), 
+            Commands.InsertInto("Assignment", "NULL", assignmentDescription.ID.ToString(),
                 student.ID.ToString(), "NULL", comment, "NOW()");
             Assignment assignment = Assignment.GetLatest(1).Single();
             foreach (string filepath in filepaths)
@@ -103,14 +103,21 @@ namespace StudyPlatform.Classes.Database
             Commands.InsertInto("AssignmentGrade", "NULL", assignment.ID.ToString(), grade, comment);
             AssignmentGrade assignmentGrade = AssignmentGrade.GetLatest(1).Single();
             Commands.SetValue("Assignment", assignment.ID, "GradeID", assignmentGrade.ID.ToString());
-          
+
         }
         public static void CreateCourseGrade(Course course, Student student, string grade, string comment)
         {
             Common.EnsureNotNull(grade, comment, course, student);
             if (!Common.ValidGrades.Contains(grade))
                 throw new InvalidGradeException();
-            Commands.InsertInto("CourseGrade", "NULL", course.ID.ToString(), 
+            foreach (CourseGrade g in course.CourseGrades)
+            {
+                if (g.Student.ID == student.ID)
+                {
+                    throw new StudentCourseGradeExistsException();
+                }
+            }
+            Commands.InsertInto("CourseGrade", "NULL", course.ID.ToString(),
                 student.ID.ToString(), grade, comment);
         }
     }

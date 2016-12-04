@@ -14,7 +14,7 @@ namespace StudyPlatform.Classes.Model
         {
             ID = id;
         }
-        
+
         public uint ID { get; }
         public static ClassT GetByID(uint id) => GetRecordByID<ClassT>(id);
         public static List<ClassT> GetByConditions(params string[] conditions) => GetRecordsByConditions<ClassT>(conditions);
@@ -102,7 +102,7 @@ namespace StudyPlatform.Classes.Model
             return ids.Select(GetRecordByID<T>).ToList();
         }
 
-        protected static List<string> GetDocuments(string relationTable,  string relatedIdentifier, uint relatedID)
+        protected static List<string> GetDocuments(string relationTable, string relatedIdentifier, uint relatedID)
         {
             Query query = new Query("SELECT * FROM studyplatform." + relationTable + " WHERE " + relatedIdentifier + "=" + relatedID + ";");
             return Extractor.ExtractFilepaths(query.Execute());
