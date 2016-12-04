@@ -3,7 +3,7 @@
 @model List<Lesson>
 
 @{
-    ViewBag.Title = "Schedule";
+    ViewBag.Title = "Skema";
 }
 
 <link rel="stylesheet" href="~/Content/Schedule.css" type="text/css" />
@@ -158,18 +158,26 @@
 
 @helper AddLesson(Lesson lesson, string name)
 {
-    int count = lesson.Course.Teachers.Count;
+int teacherCount = lesson.Course.Teachers.Count;
+int roomCount = lesson.Rooms.Count;
 
-    <div class="row-fluid lecture" style="width: 99%; height: 100%;">
+    <div class="row-fluid lecture" style="width: 99%; height: 100%;position: relative">
+        
+        <button type="button"
+                style="background:transparent; border:none; color: transparent; 
+                        position: absolute; display: block; margin: 0 auto; 
+                        left: auto; right: auto; z-index: 1; width: 100%; height: 100%"
+                data-toggle="modal"
+                data-target="#@name"></button>
 
         <span class="title">@lesson.Course.Name</span>
-        <br />
-        <span class="lecturer">
+        <br/>
+        <span class="lecturer" style="z-index: 999;position:relative">
             @foreach (Teacher teacher in lesson.Course.Teachers)
             {
-                if (count > 1)
+                if (teacherCount > 1)
                 {
-                    count = count - 1;
+                    teacherCount = teacherCount - 1;
                     <a>@teacher.Name, </a>
                 }
                 else
@@ -178,25 +186,32 @@
                 }
             }
         </span>
-        <br />
-        @foreach (Room room in lesson.Rooms)
-        {
-            <span class="location">Lokale: @room.Name</span>
-        }
+        <br/>
+        <span class="location" style="position:relative">
+            Lokale:
+            @foreach (Room room in lesson.Rooms)
+            {
+                if (roomCount > 1)
+                {
+                    roomCount = roomCount - 1;
+                    <a>@room.Name, </a>
+                }
+                else
+                {
+                    <a>@room.Name</a>
+                }
+            }
+            @if (lesson.Documents.Count > 1)
+            {
+                <i class="glyphicon glyphicon-file" style="font-size: 12px; position: absolute; top: 1px; right: 1px;"></i>
+            }
+        </span>
+
+
 
         @* Creating Content Container *@
         <div class="container">
             <div class="row">
-
-                @* mangler fix *@
-
-                <button type="button"
-                        style="background:transparent; border:none; color: transparent; width: 15%; height: 5%; position: absolute; display: block; margin: 0 auto;"
-                        data-toggle="modal"
-                        data-target="#@name"></button>
-
-
-
                 <!-- Modal -->
                 <div id="@name" class="modal fade" role="dialog">
                     <div class="vertical-alignment-modal">
@@ -209,12 +224,13 @@
                                 </div>
                                 <div class="modal-body">
                                     @lesson.Description
-                                </div>
+                                </div><hr/>
                                 <div class="modal-footer">
-                                    @foreach (var doc in lesson.Documents)
+                                    @foreach (var document in lesson.Documents)
                                     {
-                                        @* ADd glyp icon*@
-                                        <a>@doc</a>
+                                        <div class="glyphicon glyphicon-file" style="font-size: 12px">
+                                            <a>@document</a>
+                                        </div>
                                         <br />
                                     }
                                 </div>
@@ -233,48 +249,48 @@
 
 @helper FindLessonsForTime(int hour, int min, int sec, int lessonNumber)
 {
-    foreach (Lesson lesson in @Model)
+foreach (Lesson lesson in @Model)
+{
+    TimeSpan timespan = new TimeSpan(hour, min, sec);
+    if (lesson.DateTime.TimeOfDay == timespan)
     {
-        TimeSpan timespan = new TimeSpan(hour, min, sec);
-        if (lesson.DateTime.TimeOfDay == timespan)
-        {
-            string lessonContentIdName;
+        string lessonContentIdName;
 
-            switch (lesson.DateTime.DayOfWeek.ToString())
-            {
-                case "Monday":
-                    lessonContentIdName = "Monday" + lessonNumber;
-                        <td for="lessonContentIdName" class="has-events row" rowspan="2">
-                            @AddLesson(lesson, lessonContentIdName)
-                        </td>
-                        break;
-                    case "Tuesday":
-                        lessonContentIdName = "Tuesday" + lessonNumber;
-                        <td class="has-events row" rowspan="2">
-                            @AddLesson(lesson, lessonContentIdName)
-                        </td>
-                        break;
-                    case "Wednesday":
-                        lessonContentIdName = "Wednesday" + lessonNumber;
-                        <td class="has-events row" rowspan="2">
-                            @AddLesson(lesson, lessonContentIdName)
-                        </td>
-                        break;
-                    case "Thursday":
-                        lessonContentIdName = "Thursday" + lessonNumber;
-                        <td class="has-events row" rowspan="2">
-                            @AddLesson(lesson, lessonContentIdName)
-                        </td>
-                        break;
-                    case "Friday":
-                        lessonContentIdName = "Friday" + lessonNumber;
-                        <td class="has-events row" rowspan="2">
-                            @AddLesson(lesson, lessonContentIdName)
-                        </td>
+        switch (lesson.DateTime.DayOfWeek.ToString())
+        {
+            case "Monday":
+                lessonContentIdName = "Monday" + lessonNumber;
+                    <td class="has-events row" rowspan="2">
+                        @AddLesson(lesson, lessonContentIdName)
+                    </td>
                     break;
-                default:
+                case "Tuesday":
+                    lessonContentIdName = "Tuesday" + lessonNumber;
+                    <td class="has-events row" rowspan="2">
+                        @AddLesson(lesson, lessonContentIdName)
+                    </td>
                     break;
-            }
+                case "Wednesday":
+                    lessonContentIdName = "Wednesday" + lessonNumber;
+                    <td class="has-events row" rowspan="2">
+                        @AddLesson(lesson, lessonContentIdName)
+                    </td>
+                    break;
+                case "Thursday":
+                    lessonContentIdName = "Thursday" + lessonNumber;
+                    <td class="has-events row" rowspan="2">
+                        @AddLesson(lesson, lessonContentIdName)
+                    </td>
+                    break;
+                case "Friday":
+                    lessonContentIdName = "Friday" + lessonNumber;
+                    <td class="has-events row" rowspan="2">
+                        @AddLesson(lesson, lessonContentIdName)
+                    </td>
+                break;
+            default:
+                break;
         }
     }
+}
 }

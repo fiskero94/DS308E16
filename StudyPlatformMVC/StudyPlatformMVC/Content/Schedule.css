@@ -97,6 +97,13 @@ table.table-borderless > thead > tr > th, table.table-borderless > tbody > tr > 
 .modal .modal-footer {
   border-top: none;
   padding: 0;
+
+
+    position:absolute;
+    top: 80%;
+    left: 10%;
+
+
 }
 .modal .modal-footer .btn-group > .btn:first-child {
   border-bottom-left-radius: 0;
@@ -126,4 +133,7 @@ table.table-borderless > thead > tr > th, table.table-borderless > tbody > tr > 
    pointer-events: all;
    color: #000000;
 }
+
+
+
 
