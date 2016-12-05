@@ -10,12 +10,10 @@ namespace StudyPlatform.Classes.Model
     public abstract class Person : Entity<Person>
     {
         private string _name;
-
         protected Person(uint id, string name) : base(id)
         {
             _name = name;
         }
-
         public string Name
         {
             get
@@ -30,7 +28,6 @@ namespace StudyPlatform.Classes.Model
         }
         public List<Message> SentMessages => Message.GetByConditions("SenderID=" + ID);
         public List<Message> RecievedMessages => GetRelations<Message>("MessageRecipient", "MessageID", "PersonID", ID);
-
         public void Remove() => Remover.RemovePerson(this);
     }
 }

@@ -1,0 +1,19 @@
+﻿@model StudyPlatformMVC.Models.Filehandler
+@{
+    ViewBag.Title = "Aflever";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <table>
+        <tr>
+            <td>File:</td>
+            <td><input type="file" name="File" id="File" /></td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+            <td><input type="submit" value="Aflever" name="submit"></td>
+        </tr>
+    </table>
+
+}

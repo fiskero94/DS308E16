@@ -1,5 +1,6 @@
 ﻿using StudyPlatformMVC.Models;
 using System.Collections.Generic;
+using System.IO;
 using System.Web.Mvc;
 
 namespace StudyPlatformMVC.Controllers
@@ -23,7 +24,20 @@ namespace StudyPlatformMVC.Controllers
             }
             return RedirectToAction("Index", "News");
         }
-        public ActionResult UploadFile()
+
+        [HttpPost]
+        public ActionResult Aflever(Filehandler file)
+        {
+
+            if (file.file.ContentLength > 0)
+            {
+                string filename = Path.GetFileName(file.file.FileName);
+                string path = Path.Combine(Server.MapPath("~/Files"), filename);
+                file.file.SaveAs(path);
+            }
+            return RedirectToAction("Index", "News");
+        }
+        public ActionResult Aflever()
         {
             return View();
         }

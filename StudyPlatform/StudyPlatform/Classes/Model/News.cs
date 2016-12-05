@@ -29,6 +29,8 @@ namespace StudyPlatform.Classes.Model
             }
             set
             {
+                if (value == string.Empty)
+                    throw new ArgumentException();
                 Commands.SetValue("News", ID, "Title", value);
                 _title = value;
             }
@@ -41,6 +43,8 @@ namespace StudyPlatform.Classes.Model
             }
             set
             {
+                if (value == string.Empty)
+                    throw new ArgumentException();
                 Commands.SetValue("News", ID, "Text", value);
                 _text = value;
             }

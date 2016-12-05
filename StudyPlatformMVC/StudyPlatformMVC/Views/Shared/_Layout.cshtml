@@ -11,6 +11,11 @@
     @{ string controller = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString(); }
     @{ Session["user"] = Person.GetByID(1); }
     @{ Person user = (Person) Session["user"]; }
+
+    <script type="text/javascript" src="@Url.Content("/Scripts/jquery-1.6.2.min.js")"></script>
+    @RenderSection("JavaScript", required: false)
+
+
 </head>
 <body>
     <div id="wrapper">
@@ -45,7 +50,7 @@
                 <a class="navbar-brand navbar-brand-edit" href="#">@ViewBag.Title</a>
             </div>
         </nav>
-        <div class="container body-content nomarginpadding container-edit">
+        <div class="container-fluid body-content nomarginpadding container-edit">
             @RenderBody()
         </div>
     </div>

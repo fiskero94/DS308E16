@@ -1,0 +1,32 @@
+﻿<%@ Master Language="C#" MasterPageFile="~/layout.master" AutoEventWireup="true" CodeBehind="newMessage.master.cs" Inherits="StudyPlatform.NewMessage" %>
+<%@ MasterType virtualpath="~/layout.master" %>
+<asp:Content ID="Head" ContentPlaceHolderID="head" runat="server">
+    <asp:ContentPlaceHolder ID="head" runat="server">
+
+    </asp:ContentPlaceHolder>
+</asp:Content>
+<asp:Content ID="Body" ContentPlaceHolderID="body" runat="server">
+    <div class="form-group">
+        <asp:Button ID="NewMessageButton" runat="server" Text="Ny besked" CssClass="btn btn-default"/>
+    </div>
+    <div class="collapse" id="newmessage">
+        <div class="card card-block">
+            <div class="form-group">
+                <asp:TextBox ID="TitleTextBox" runat="server" CssClass="form-control" placeholder="Titel"></asp:TextBox>
+            </div>
+            <div class="form-group">
+                <asp:TextBox ID="TextTextBox" runat="server" CssClass="form-control" placeholder="Tekst" TextMode="MultiLine" Columns="50" Rows="5"></asp:TextBox>
+            </div>
+            <div class="form-group">
+                <asp:ListBox ID="RecipientsListBox" runat="server" CssClass="form-control" SelectionMode="Multiple"></asp:ListBox>
+            </div>
+            <div class="form-group">
+                <asp:Button ID="CreateMessageButton" runat="server" Text="Send beskeden" CssClass="btn btn-success" OnClick="CreateMessageButton_OnClick"/>
+                <asp:Label ID="ResponseLabel" runat="server" CssClass="text-danger"></asp:Label>
+            </div>
+        </div>
+    </div>
+    <asp:ContentPlaceHolder ID="body" runat="server">
+
+    </asp:ContentPlaceHolder>
+</asp:Content>

@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
 
 namespace StudyPlatform.Classes
 {
@@ -30,6 +33,42 @@ namespace StudyPlatform.Classes
                 if (str == "")
                     throw new ArgumentException();
             }
+        }
+        // http://stackoverflow.com/a/8605204 edited to support WebControls instead of HtmlControls
+        public static T FindWebControlByAttribute<T>(Control controlToSearch, string attributeName, string attributeValue) where T : WebControl
+        {
+            foreach (Control control in controlToSearch.Controls)
+            {
+                if (control.GetType() == typeof(T) && ((T)control).Attributes[attributeName] == attributeValue)
+                {
+                    return (T)control;
+                }
+                var cb = FindWebControlByAttribute<T>(control, attributeName, attributeValue);
+                if (cb != null)
+                    return cb;
+            }
+            return null;
+        }
+        public static T FindHtmlControlByAttribute<T>(Control controlToSearch, string attributeName, string attributeValue) where T : HtmlControl
+        {
+            foreach (Control control in controlToSearch.Controls)
+            {
+                if (control.GetType() == typeof(T) && ((T)control).Attributes[attributeName] == attributeValue)
+                {
+                    return (T)control;
+                }
+                var cb = FindHtmlControlByAttribute<T>(control, attributeName, attributeValue);
+                if (cb != null)
+                    return cb;
+            }
+            return null;
+        }
+
+        public static TableCell CreateTextCell(string text, string size)
+        {
+            TableCell cell = new TableCell {Text = text};
+            cell.Attributes["class"] = size;
+            return cell;
         }
     }
 }
