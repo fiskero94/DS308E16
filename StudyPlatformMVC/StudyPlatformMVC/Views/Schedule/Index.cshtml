@@ -3,14 +3,20 @@
 @model List<Lesson>
 
 @{
-    ViewBag.Title = "Schedule";
+    ViewBag.Title = "Skema";
 }
+
+<link rel="stylesheet" href="~/Content/Schedule.css" type="text/css" />
+
+
+
+
 
 @using (Html.BeginForm("Index", "Schedule", FormMethod.Post))
 {
     // this is for create form tag
-    @Html.AntiForgeryToken()    // this is for prevent CSRF attack
-    @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken();   // this is for prevent CSRF attack
+    @Html.ValidationSummary(true);
 
     if (ViewBag.Message != null)
     {
@@ -18,31 +24,6 @@
             @ViewBag.Message
         </div>
     }
-
-
-    // button 1
-    <div class="container">
-        <div class="row">
-            <div id="Matematik1" class="modal fade in">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <a class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span></a>
-                            @* @Html.LabelFor(a => a.Name, new { @class = "modal-title" }) *@
-                        </div>
-                        <div class="modal-body">
-                            <p>Text Text Text Text</p>
-                        </div>
-                    </div><!-- /.modal-content -->
-                </div><!-- /.modal-dalog -->
-            </div><!-- /.modal -->
-        </div>
-    </div>
-
-
-
-
-
 
     <table class="calendar table table-bordered">
         <thead>
@@ -55,104 +36,261 @@
                 <th width="20%">Fredag</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody style="font-size: 10px">
             <tr>
-                <td>08:00</td>
-                @foreach (Lesson lesson in @Model)
-                {
-                    if (lesson.DateTime.TimeOfDay == (TimeSpan)Enum.Parse(typeof(TimeSpan), "08:00"))
-                    {
-                        switch (lesson.DateTime.DayOfWeek.ToString())
-                        {
-                            case "Monday":
-                                <td data-toggle="modal" href="#Matematik1" class="has-events row" rowspan="3">
-                                    <div class="row-fluid lecture" style="width: 99%; height: 100%;">
-                                        <span class="title">@lesson.Course.Name</span> <span class="lecturer">
-                                            @foreach (Teacher teacher in lesson.Course.Teachers)
-                                            {
-                                                <a>@teacher.Name</a>
-                                            }
-                                        </span>
-                                        @foreach (Room room in lesson.Rooms)
-                                        {
-                                              <span class="location">@room.Name</span>
-                                        }
-                                    </div>
-                                </td>
-                                break;
-                            case "Tuesday":
-                                <td data-toggle="modal" href="#Matematik1" class="has-events row" rowspan="3">
-                                    <div class="row-fluid lecture" style="width: 99%; height: 100%;">
-                                        <span class="title">@lesson.Course.Name</span> <span class="lecturer">
-                                            @foreach (Teacher teacher in lesson.Course.Teachers)
-                                            {
-                                                <a>@teacher.Name</a>
-                                            }
-                                        </span>
-                                        @foreach (Room room in lesson.Rooms)
-                                        {
-                                            <span class="location">@room.Name</span>
-                                        }
-                                    </div>
-                                </td>
-                                break;
-                            case "Wednesday":
-                                <td data-toggle="modal" href="#Matematik1" class="has-events row" rowspan="3">
-                                    <div class="row-fluid lecture" style="width: 99%; height: 100%;">
-                                        <span class="title">@lesson.Course.Name</span> <span class="lecturer">
-                                            @foreach (Teacher teacher in lesson.Course.Teachers)
-                                            {
-                                                <a>@teacher.Name</a>
-                                            }
-                                        </span>
-                                        @foreach (Room room in lesson.Rooms)
-                                        {
-                                            <span class="location">@room.Name</span>
-                                        }
-                                    </div>
-                                </td>
-                                break;
-                            case "Thursday":
-                                <td data-toggle="modal" href="#Matematik1" class="has-events row" rowspan="3">
-                                    <div class="row-fluid lecture" style="width: 99%; height: 100%;">
-                                        <span class="title">@lesson.Course.Name</span> <span class="lecturer">
-                                            @foreach (Teacher teacher in lesson.Course.Teachers)
-                                            {
-                                                <a>@teacher.Name</a>
-                                            }
-                                        </span>
-                                        @foreach (Room room in lesson.Rooms)
-                                        {
-                                            <span class="location">@room.Name</span>
-                                        }
-                                    </div>
-                                </td>
-                                break;
-                            case "Friday":
-                                <td data-toggle="modal" href="#Matematik1" class="has-events row" rowspan="3">
-                                    <div class="row-fluid lecture" style="width: 99%; height: 100%;">
-                                        <span class="title">@lesson.Course.Name</span> <span class="lecturer">
-                                            @foreach (Teacher teacher in lesson.Course.Teachers)
-                                            {
-                                                <a>@teacher.Name</a>
-                                            }
-                                        </span>
-                                        @foreach (Room room in lesson.Rooms)
-                                        {
-                                            <span class="location">@room.Name</span>
-                                        }
-                                    </div>
-                                </td>
-                                break;
-                        }
-                    }
-                }
+                <td>08:10</td>
+                @FindLessonsForTime(8, 10, 0, 1)
             </tr>
-
-
-
-
-
+            <tr>
+                <td>08:55</td>
+            </tr>
+            <tr style="background-color: #DDDDDD">
+                <td>Pause</td> @* PAUSE*@
+                <td class="no-events" rowspan="1"></td>
+                <td class="no-events" rowspan="1"></td>
+                <td class="no-events" rowspan="1"></td>
+                <td class="no-events" rowspan="1"></td>
+                <td class="no-events" rowspan="1"></td>
+            </tr>
+            <tr>
+                <td>09:05</td>
+                @FindLessonsForTime(9, 5, 0, 2)
+            </tr>
+            <tr>
+                <td>09:50</td>
+            </tr>
+            <tr style="background-color: #DDDDDD">
+                <td>Pause</td> @* PAUSE*@
+                <td class="no-events" rowspan="1"></td>
+                <td class="no-events" rowspan="1"></td>
+                <td class="no-events" rowspan="1"></td>
+                <td class="no-events" rowspan="1"></td>
+                <td class="no-events" rowspan="1"></td>
+            </tr>
+            <tr>
+                <td>10:00</td>
+                @FindLessonsForTime(10, 0, 0, 3)
+            </tr>
+            <tr>
+                <td>10:45</td>
+            </tr>
+            <tr style="background-color: #DDDDDD">
+                <td>Pause</td> @* PAUSE*@
+                <td class="no-events" rowspan="1"></td>
+                <td class="no-events" rowspan="1"></td>
+                <td class="no-events" rowspan="1"></td>
+                <td class="no-events" rowspan="1"></td>
+                <td class="no-events" rowspan="1"></td>
+            </tr>
+            <tr>
+                <td>10:55</td>
+                @FindLessonsForTime(10, 55, 0, 4)
+            </tr>
+            <tr>
+                <td>11:40</td>
+            </tr>
+            <tr style="background-color: #DDDDDD">
+                <td>Pause</td> @* PAUSE*@
+                <td class="no-events" rowspan="1"></td>
+                <td class="no-events" rowspan="1"></td>
+                <td class="no-events" rowspan="1"></td>
+                <td class="no-events" rowspan="1"></td>
+                <td class="no-events" rowspan="1"></td>
+            </tr>
+            <tr>
+                <td>12:05</td>
+                @FindLessonsForTime(12, 5, 0, 5)
+            </tr>
+            <tr>
+                <td>12:50</td>
+            </tr>
+            <tr style="background-color: #DDDDDD">
+                <td>Pause</td> @* PAUSE*@
+                <td class="no-events" rowspan="1"></td>
+                <td class="no-events" rowspan="1"></td>
+                <td class="no-events" rowspan="1"></td>
+                <td class="no-events" rowspan="1"></td>
+                <td class="no-events" rowspan="1"></td>
+            </tr>
+            <tr>
+                <td>13:00</td>
+                @FindLessonsForTime(13, 0, 0, 6)
+            </tr>
+            <tr>
+                <td>13:45</td>
+            </tr>
+            <tr style="background-color: #DDDDDD">
+                <td>Pause</td> @* PAUSE*@
+                <td class="no-events" rowspan="1"></td>
+                <td class="no-events" rowspan="1"></td>
+                <td class="no-events" rowspan="1"></td>
+                <td class="no-events" rowspan="1"></td>
+                <td class="no-events" rowspan="1"></td>
+            </tr>
+            <tr>
+                <td>13:55</td>
+                @FindLessonsForTime(13, 55, 0, 7)
+            </tr>
+            <tr>
+                <td>14:40</td>
+            </tr>
+            <tr style="background-color: #DDDDDD">
+                <td>Pause</td> @* PAUSE*@
+                <td class="no-events" rowspan="1"></td>
+                <td class="no-events" rowspan="1"></td>
+                <td class="no-events" rowspan="1"></td>
+                <td class="no-events" rowspan="1"></td>
+                <td class="no-events" rowspan="1"></td>
+            </tr>
+            <tr>
+                <td>14:50</td>
+                @FindLessonsForTime(14, 50, 0, 8)
+            </tr>
+            <tr>
+                <td>15:35</td>
+            </tr>
         </tbody>
     </table>
+}
+
+
+
+
+@helper AddLesson(Lesson lesson, string name)
+{
+int teacherCount = lesson.Course.Teachers.Count;
+int roomCount = lesson.Rooms.Count;
+
+    <div class="row-fluid lecture" style="width: 99%; height: 100%;position: relative">
+        
+        <button type="button"
+                style="background:transparent; border:none; color: transparent; 
+                        position: absolute; display: block; margin: 0 auto; 
+                        left: auto; right: auto; z-index: 1; width: 100%; height: 100%"
+                data-toggle="modal"
+                data-target="#@name"></button>
+
+        <span class="title">@lesson.Course.Name</span>
+        <br/>
+        <span class="lecturer" style="z-index: 999;position:relative">
+            @foreach (Teacher teacher in lesson.Course.Teachers)
+            {
+                if (teacherCount > 1)
+                {
+                    teacherCount = teacherCount - 1;
+                    <a>@teacher.Name, </a>
+                }
+                else
+                {
+                    <a>@teacher.Name</a>
+                }
+            }
+        </span>
+        <br/>
+        <span class="location" style="position:relative">
+            Lokale:
+            @foreach (Room room in lesson.Rooms)
+            {
+                if (roomCount > 1)
+                {
+                    roomCount = roomCount - 1;
+                    <a>@room.Name, </a>
+                }
+                else
+                {
+                    <a>@room.Name</a>
+                }
+            }
+            @if (lesson.Documents.Count > 1)
+            {
+                <i class="glyphicon glyphicon-file" style="font-size: 12px; position: absolute; top: 1px; right: 1px;"></i>
+            }
+        </span>
+
+
+
+        @* Creating Content Container *@
+        <div class="container">
+            <div class="row">
+                <!-- Modal -->
+                <div id="@name" class="modal fade" role="dialog">
+                    <div class="vertical-alignment-modal">
+                        <div class="modal-dialog vertical-align-center">
+                            <!-- Modal content-->
+                            <div class="modal-content" style="color: black">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">×</button>
+                                    <h4 class="modal-title">@lesson.Course.Name</h4>
+                                </div>
+                                <div class="modal-body">
+                                    @lesson.Description
+                                </div><hr/>
+                                <div class="modal-footer">
+                                    @foreach (var document in lesson.Documents)
+                                    {
+                                        <div class="glyphicon glyphicon-file" style="font-size: 12px">
+                                            <a>@document</a>
+                                        </div>
+                                        <br />
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+
+
+
+@helper FindLessonsForTime(int hour, int min, int sec, int lessonNumber)
+{
+foreach (Lesson lesson in @Model)
+{
+    TimeSpan timespan = new TimeSpan(hour, min, sec);
+    if (lesson.DateTime.TimeOfDay == timespan)
+    {
+        string lessonContentIdName;
+
+        switch (lesson.DateTime.DayOfWeek.ToString())
+        {
+            case "Monday":
+                lessonContentIdName = "Monday" + lessonNumber;
+                    <td class="has-events row" rowspan="2">
+                        @AddLesson(lesson, lessonContentIdName)
+                    </td>
+                    break;
+                case "Tuesday":
+                    lessonContentIdName = "Tuesday" + lessonNumber;
+                    <td class="has-events row" rowspan="2">
+                        @AddLesson(lesson, lessonContentIdName)
+                    </td>
+                    break;
+                case "Wednesday":
+                    lessonContentIdName = "Wednesday" + lessonNumber;
+                    <td class="has-events row" rowspan="2">
+                        @AddLesson(lesson, lessonContentIdName)
+                    </td>
+                    break;
+                case "Thursday":
+                    lessonContentIdName = "Thursday" + lessonNumber;
+                    <td class="has-events row" rowspan="2">
+                        @AddLesson(lesson, lessonContentIdName)
+                    </td>
+                    break;
+                case "Friday":
+                    lessonContentIdName = "Friday" + lessonNumber;
+                    <td class="has-events row" rowspan="2">
+                        @AddLesson(lesson, lessonContentIdName)
+                    </td>
+                break;
+            default:
+                break;
+        }
+    }
+}
 }
