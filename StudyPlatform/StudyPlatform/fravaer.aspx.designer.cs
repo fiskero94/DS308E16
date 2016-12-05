@@ -13,6 +13,33 @@ namespace StudyPlatform {
     public partial class Fravaer {
         
         /// <summary>
+        /// AbsenceTable control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Table AbsenceTable;
+        
+        /// <summary>
+        /// fag control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableHeaderCell fag;
+        
+        /// <summary>
+        /// AbsenceGraph control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Image AbsenceGraph;
+        
+        /// <summary>
         /// Master property.
         /// </summary>
         /// <remarks>
