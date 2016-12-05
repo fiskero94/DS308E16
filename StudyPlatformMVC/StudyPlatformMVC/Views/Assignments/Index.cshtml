@@ -38,7 +38,7 @@
                                 <td>@assignemnt.Grade.Grade</td>
                             }
 
-                            <td><input type="button" class="btn btn-default" value="Aflever" onclick="location.href='@Url.Action("UploadFile", "Assignments")'" /></td>
+                            <td><input type="button" class="btn btn-default" value="Aflever" onclick="location.href='@Url.Action("Aflever", "Assignments")'" /></td>
                         </tr>
                     }
                     else if(assignemnt.AssignmentDescription.Deadline <= DateTime.Now && assignemnt.Grade == null)

@@ -253,7 +253,7 @@ namespace StudyPlatformSQLSetup
             course09.AddTeacher(teacher10);
             course10.AddTeacher(teacher10);
             // Lessons
-            GenerateLessons("05", "09", "2016", 40, courses, rooms);
+            GenerateLessons("05", "09", "2016", 20, courses, rooms);
             // AssignmentDescriptions
             WriteSetupMessageIndent("Creating AssignmentDescriptions");
             const string description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent et nisl ipsum. Nunc nec eros vel dolor semper maximus. Suspendisse cursus in mi quis vehicula. Quisque elit risus, aliquet sit amet sem ut, facilisis eleifend libero. Donec ultricies nibh ut quam condimentum, non sollicitudin leo sed.";
@@ -351,7 +351,7 @@ namespace StudyPlatformSQLSetup
                 lesson2.GiveAbsence(TakeRandom(lesson.Course.Students));
             }
         }
-        private static readonly Random Rng = new Random();
+        private static readonly Random Rng = new Random(DateTime.Now.Millisecond);
         private static T TakeRandom<T>(IReadOnlyList<T> choices)
         {
             return choices[Rng.Next(0, choices.Count - 1)];

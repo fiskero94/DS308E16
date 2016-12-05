@@ -1,0 +1,139 @@
+﻿body {
+
+}
+
+
+table.calendar {
+    margin-bottom: 0;
+}
+
+table.calendar > thead > tr > th {
+    text-align: center;
+}
+
+table.calendar > tbody > tr > td {
+    height: 20px;
+}
+
+table.calendar > tbody > tr > td > div {
+    padding: 0px;
+    height: 40px;
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: middle;
+    float: left;
+    line-height: 10px;
+}
+
+table.calendar > tbody > tr > td.has-events {
+    color: white;
+    cursor: pointer;
+    padding: 0;
+    border-radius: 4px;
+}
+
+table.calendar > tbody > tr > td.has-events > div {
+    background-color: #09C;
+    border-left: 1px solid white;
+}
+
+table.calendar > tbody > tr > td.has-events > div:first-child {
+    border-left: 0;
+    margin-left: 1px;
+}
+
+table.calendar > tbody > tr > td.has-events > div.practice {
+    opacity: 0.7;
+}
+table.calendar > tbody > tr > td.conflicts > div > span.title {
+    color: red;
+}
+table.calendar > tbody > tr > td.max-conflicts > div {
+    background-color: red;
+    color: white;
+}
+
+table.calendar > tbody > tr > td.has-events > div > span {
+    display: block;
+    text-align: center;
+}
+table.calendar > tbody > tr > td.has-events > div > span a {
+    color: white;
+}
+
+table.calendar > tbody > tr > td.has-events > div > span.title {
+    font-weight: bold;
+    font-size: 12px;
+    margin-top: 6px;
+    color: darkblue;
+}
+
+table.table-borderless > thead > tr > th, table.table-borderless > tbody > tr > td {
+    border: 0;
+}
+
+.table tbody tr.hover td, .table tbody tr.hover th {
+    background-color: whiteSmoke;
+}
+
+
+
+
+
+
+
+.modal .modal-header {
+  border-bottom: none;
+  position: relative;
+}
+.modal .modal-header .btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin-top: 0;
+  border-top-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.modal .modal-footer {
+  border-top: none;
+  padding: 0;
+
+
+    position:absolute;
+    top: 80%;
+    left: 10%;
+
+
+}
+.modal .modal-footer .btn-group > .btn:first-child {
+  border-bottom-left-radius: 0;
+}
+.modal .modal-footer .btn-group > .btn:last-child {
+  border-top-right-radius: 0;
+}
+
+
+.vertical-alignment-modal {
+   display:table;
+   height: 100%;
+   width: 100%;
+   pointer-events:none;
+}
+
+.vertical-align-center {
+   display: table-cell;
+   vertical-align: middle;
+   pointer-events:none;
+}
+.modal-content {  
+
+   width:inherit;
+   height:inherit;
+   margin: 0 auto;
+   pointer-events: all;
+   color: #000000;
+}
+
+
+
+

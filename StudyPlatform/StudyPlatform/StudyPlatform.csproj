@@ -76,6 +76,10 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="MySql.Data, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\..\..\..\Program Files (x86)\MySQL\Connector.NET 6.9\Assemblies\v4.5\MySql.Data.dll</HintPath>
     </Reference>
@@ -88,6 +92,26 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
@@ -97,25 +121,36 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="afleveringer.aspx" />
+    <Content Include="brugere.aspx" />
     <Content Include="Content\bootstrap-flex.css" />
     <Content Include="Content\bootstrap-flex.min.css" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
+    <Content Include="Content\bootstrap-lumen.min.css" />
     <Content Include="Content\bootstrap-reboot.css" />
     <Content Include="Content\bootstrap-reboot.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Pages\Admin.aspx" />
-    <Content Include="Pages\Assignments.aspx" />
-    <Content Include="Pages\Courses.aspx" />
-    <Content Include="Pages\Grades.aspx" />
-    <Content Include="Pages\Login.aspx" />
+    <Content Include="Content\shared.css" />
+    <Content Include="Content\tether-theme-arrows-dark.css" />
+    <Content Include="Content\tether-theme-arrows-dark.min.css" />
+    <Content Include="Content\tether-theme-arrows.css" />
+    <Content Include="Content\tether-theme-arrows.min.css" />
+    <Content Include="Content\tether-theme-basic.css" />
+    <Content Include="Content\tether-theme-basic.min.css" />
+    <Content Include="Content\tether.css" />
+    <Content Include="Content\tether.min.css" />
+    <Content Include="fravaer.aspx" />
+    <Content Include="indbakke.aspx" />
+    <Content Include="karakterer.aspx" />
+    <Content Include="kurser.aspx" />
+    <Content Include="login.aspx" />
+    <Content Include="nyheder.aspx" />
     <Content Include="packages.config" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Pages\Messages.aspx" />
-    <Content Include="Pages\Navigation.Master" />
     <Content Include="Content\bootstrap.min.css.map" />
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-reboot.min.css.map" />
@@ -206,15 +241,8 @@
     <Content Include="Content\bootstrap\bootstrap-reboot.scss" />
     <Content Include="Content\bootstrap\bootstrap-grid.scss" />
     <Content Include="Content\bootstrap\bootstrap-flex.scss" />
-    <None Include="Scripts\jquery-3.0.0.intellisense.js" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Scripts\jquery-3.0.0.js" />
-    <Content Include="Scripts\jquery-3.0.0.min.js" />
-    <Content Include="Scripts\jquery-3.0.0.slim.js" />
-    <Content Include="Scripts\jquery-3.0.0.slim.min.js" />
-    <Content Include="Scripts\jquery-3.0.0.slim.min.map" />
-    <Content Include="Scripts\jquery-3.0.0.min.map" />
+    <Content Include="layout.master" />
+    <Content Include="newMessage.master" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -223,11 +251,25 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Pages\News.aspx" />
-    <Content Include="Pages\Schedule.aspx" />
+    <Content Include="skema.aspx" />
+    <Content Include="udbakke.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="afleveringer.aspx.cs">
+      <DependentUpon>afleveringer.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="afleveringer.aspx.designer.cs">
+      <DependentUpon>afleveringer.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="brugere.aspx.cs">
+      <DependentUpon>brugere.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="brugere.aspx.designer.cs">
+      <DependentUpon>brugere.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Classes\Common.cs" />
     <Compile Include="Classes\Exceptions\RoomUnavailableException.cs" />
     <Compile Include="Classes\Exceptions\NoRecipientsException.cs" />
@@ -235,13 +277,6 @@
     <Compile Include="Classes\Exceptions\NoConnectionException.cs" />
     <Compile Include="Classes\Exceptions\StudentCourseGradeExistsException.cs" />
     <Compile Include="Classes\Model\Entity.cs" />
-    <Compile Include="Pages\Admin.aspx.cs">
-      <DependentUpon>Admin.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Pages\Admin.aspx.designer.cs">
-      <DependentUpon>Admin.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Classes\Database\Creator.cs" />
     <Compile Include="Classes\Database\Commands.cs" />
     <Compile Include="Classes\Database\Extractor.cs" />
@@ -263,67 +298,80 @@
     <Compile Include="Classes\Model\Secretary.cs" />
     <Compile Include="Classes\Model\Student.cs" />
     <Compile Include="Classes\Model\Teacher.cs" />
-    <Compile Include="Pages\Assignments.aspx.cs">
-      <DependentUpon>Assignments.aspx</DependentUpon>
+    <Compile Include="fravaer.aspx.cs">
+      <DependentUpon>fravaer.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Pages\Assignments.aspx.designer.cs">
-      <DependentUpon>Assignments.aspx</DependentUpon>
+    <Compile Include="fravaer.aspx.designer.cs">
+      <DependentUpon>fravaer.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Courses.aspx.cs">
-      <DependentUpon>Courses.aspx</DependentUpon>
+    <Compile Include="indbakke.aspx.cs">
+      <DependentUpon>indbakke.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Pages\Courses.aspx.designer.cs">
-      <DependentUpon>Courses.aspx</DependentUpon>
+    <Compile Include="indbakke.aspx.designer.cs">
+      <DependentUpon>indbakke.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Grades.aspx.cs">
-      <DependentUpon>Grades.aspx</DependentUpon>
+    <Compile Include="karakterer.aspx.cs">
+      <DependentUpon>karakterer.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Pages\Grades.aspx.designer.cs">
-      <DependentUpon>Grades.aspx</DependentUpon>
+    <Compile Include="karakterer.aspx.designer.cs">
+      <DependentUpon>karakterer.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Login.aspx.cs">
-      <DependentUpon>Login.aspx</DependentUpon>
+    <Compile Include="kurser.aspx.cs">
+      <DependentUpon>kurser.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Pages\Login.aspx.designer.cs">
-      <DependentUpon>Login.aspx</DependentUpon>
+    <Compile Include="kurser.aspx.designer.cs">
+      <DependentUpon>kurser.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Messages.aspx.cs">
-      <DependentUpon>Messages.aspx</DependentUpon>
+    <Compile Include="layout.master.cs">
+      <DependentUpon>layout.master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Pages\Messages.aspx.designer.cs">
-      <DependentUpon>Messages.aspx</DependentUpon>
+    <Compile Include="layout.master.designer.cs">
+      <DependentUpon>layout.master</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Navigation.Master.cs">
-      <DependentUpon>Navigation.Master</DependentUpon>
+    <Compile Include="login.aspx.cs">
+      <DependentUpon>login.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Pages\Navigation.Master.designer.cs">
-      <DependentUpon>Navigation.Master</DependentUpon>
+    <Compile Include="login.aspx.designer.cs">
+      <DependentUpon>login.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Pages\News.aspx.cs">
-      <DependentUpon>News.aspx</DependentUpon>
+    <Compile Include="newMessage.master.cs">
+      <DependentUpon>newMessage.master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Pages\News.aspx.designer.cs">
-      <DependentUpon>News.aspx</DependentUpon>
+    <Compile Include="newMessage.master.designer.cs">
+      <DependentUpon>newMessage.master</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Schedule.aspx.cs">
-      <DependentUpon>Schedule.aspx</DependentUpon>
+    <Compile Include="nyheder.aspx.cs">
+      <DependentUpon>nyheder.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Pages\Schedule.aspx.designer.cs">
-      <DependentUpon>Schedule.aspx</DependentUpon>
+    <Compile Include="nyheder.aspx.designer.cs">
+      <DependentUpon>nyheder.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="skema.aspx.cs">
+      <DependentUpon>skema.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="skema.aspx.designer.cs">
+      <DependentUpon>skema.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="udbakke.aspx.cs">
+      <DependentUpon>udbakke.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="udbakke.aspx.designer.cs">
+      <DependentUpon>udbakke.aspx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Files\" />
-    <Folder Include="Styles\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

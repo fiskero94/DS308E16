@@ -122,7 +122,8 @@
         }
         chartImage.AddSeries(
             chartType: "line",
-            axisLabel: "Dato",
+            xField:"Dato",
+            yFields: "Fravær",
         xValue: xValueList,
         yValues: yValueList);
         chartImage.Save(filePathName);
