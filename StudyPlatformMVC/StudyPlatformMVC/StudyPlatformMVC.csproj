@@ -334,8 +334,9 @@
     <Content Include="Views\Schedule\Index.cshtml" />
     <Content Include="Views\Assignments\UploadFile.cshtml" />
     <Content Include="Views\Messages\New.cshtml" />
-    <Content Include="Views\Courses\Courseinfo.cshtml" />
     <Content Include="Views\Login\Index.cshtml" />
+    <Content Include="Views\Courses\Coursestudent.cshtml" />
+    <Content Include="Views\Courses\Courseteacher.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
