@@ -1,5 +1,6 @@
 ﻿@using StudyPlatformMVC.Models
 @model List<StudyPlatformMVC.Models.Course>
+
 @{
     ViewBag.Title = "Kurser";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -11,6 +12,7 @@
 <div class="container center">
     @if ((Person) Session["user"] is Student)
     {
+        @*Student sessionStudent = Student.GetByID();*@
         Student sessionStudent = (Student) Session["user"];
         List<Course> sessionCourses = sessionStudent.Courses;
 
@@ -21,16 +23,20 @@
                 @foreach (Course course in sessionCourses)
                 {
                  <tr>
-                     <th> <input type="button" class="panel panel-default" value="@course.Name" onclick="location.href='@Url.Action("Courseinfo", "Courses")'" /> </th>
-                     @*<th> <input type="button" class="btn btn-default col-md-4 col-lg-4 col-" value="@course.Name" onclick="location.href='@Url.Action("Courseinfo", "Courses")'" /> </th>*@
+                     <th> <input type="button" class="btn btn-default" value="@course.Name" onclick="location.href='@Url.Action("Coursestudent", "Courses")'" /> </th>
+                     @*Enten skal Index dirigere til Coursestudent/Courseteacher for courseinfo eller også skal controlleren direkte dirigere til courseinfo*@
                  </tr>  
                 }
             </thead>
         </table>
     }
-
-    @if ((Person) Session["user"] is Teacher)
+    else if ((Person) Session["user"] is Teacher)
     {
+        Teacher sessionTeacher = (Teacher)Session["user"];
+        List<Course> sessionCourses = sessionTeacher.Courses;
 
+
+
+        <h3> <input type="button" class="btn btn-default" value="Opret nyt kursus" onclick=""/> </h3>
     }
 </div>

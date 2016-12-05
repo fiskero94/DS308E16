@@ -132,6 +132,7 @@
     <Content Include="Content\bootstrap-reboot.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\images\favicon.png" />
     <Content Include="Content\shared.css" />
     <Content Include="Content\tether-theme-arrows-dark.css" />
     <Content Include="Content\tether-theme-arrows-dark.min.css" />
@@ -276,6 +277,7 @@
     <Compile Include="Classes\Exceptions\InvalidIDException.cs" />
     <Compile Include="Classes\Exceptions\NoConnectionException.cs" />
     <Compile Include="Classes\Exceptions\StudentCourseGradeExistsException.cs" />
+    <Compile Include="Classes\FileSystem.cs" />
     <Compile Include="Classes\Model\Entity.cs" />
     <Compile Include="Classes\Database\Creator.cs" />
     <Compile Include="Classes\Database\Commands.cs" />

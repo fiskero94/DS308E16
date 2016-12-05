@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="~/Content/bootstrap.min.css"/>
     <link rel="stylesheet" href="~/Content/bootstrap-lumen.min.css"/>
     <link rel="stylesheet" href="~/Content/shared.css"/>
+    <link rel="shortcut icon" type="image/x-icon" href="~/Content/images/favicon.png" />
     <meta name="description" content="A Studyplatform Page"/>
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>

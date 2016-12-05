@@ -232,6 +232,7 @@
     <Compile Include="Models\AssignmentGrade.cs" />
     <Compile Include="Models\Course.cs" />
     <Compile Include="Models\CourseGrade.cs" />
+    <Compile Include="Models\CustomChart.cs" />
     <Compile Include="Models\Entity.cs" />
     <Compile Include="Models\Filehandler.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -336,8 +337,9 @@
     <Content Include="Views\Schedule\Index.cshtml" />
     <Content Include="Views\Assignments\Aflever.cshtml" />
     <Content Include="Views\Messages\New.cshtml" />
-    <Content Include="Views\Courses\Courseinfo.cshtml" />
     <Content Include="Views\Login\Index.cshtml" />
+    <Content Include="Views\Courses\Coursestudent.cshtml" />
+    <Content Include="Views\Courses\Courseteacher.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
