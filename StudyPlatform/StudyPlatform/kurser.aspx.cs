@@ -34,7 +34,7 @@ namespace StudyPlatform
                 try
                 {
                     Course course = Course.GetByID(Convert.ToUInt32(courseParameter));
-                    Master.TitelLabelText = "Kurser <small class=\"text-muted\"> / " + course.Name + "</text>";
+                    Master.TitelLabelText = "Kurser <small class=\"text-muted\"> / " + course.Name + "</small>";
                     DisablePanels(ActiveCoursesPanel, InactiveCoursesPanel);
                     SetupCourseView(course);
                 }
@@ -55,7 +55,7 @@ namespace StudyPlatform
                 try
                 {
                     Course course = Course.GetByID(Convert.ToUInt32(courseParameter));
-                    Master.TitelLabelText = "Kurser <small class=\"text-muted\"> / " + course.Name + "</text>";
+                    Master.TitelLabelText = "Kurser <small class=\"text-muted\"> / " + course.Name + "</small>";
                     DisablePanels(ActiveCoursesPanel, InactiveCoursesPanel);
                     SetupCourseEdit(course);
                 }
@@ -76,7 +76,7 @@ namespace StudyPlatform
                 try
                 {
                     Course course = Course.GetByID(Convert.ToUInt32(courseParameter));
-                    Master.TitelLabelText = "Kurser <small class=\"text-muted\"> / " + course.Name + "</text>";
+                    Master.TitelLabelText = "Kurser <small class=\"text-muted\"> / " + course.Name + "</small>";
                     DisablePanels(ActiveCoursesPanel, InactiveCoursesPanel);
                     SetupCourseEdit(course);
                 }
