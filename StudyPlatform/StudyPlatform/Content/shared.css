@@ -1,0 +1,39 @@
+﻿.clickable {
+    cursor: pointer;
+}
+
+.sidepanel {
+    height: 100%;
+    width: 200px; 
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #158CBA;
+    overflow-x: hidden; 
+    padding-top: 150px;
+    padding-right: 60px;
+    text-align: right;
+    
+}
+
+.sidepanel a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 18px;
+    color: #F8F8F8;
+    display: block;
+}
+
+.sidepanel a:hover, .offcanvas a:focus{
+    background: #75CAEB;
+}
+
+.main {
+    padding: 80px;
+    margin-left: 200px;
+}
+
+.topnav-pushright {
+    margin-left: 200px;
+}
