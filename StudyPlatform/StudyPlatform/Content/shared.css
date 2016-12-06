@@ -2,6 +2,12 @@
     cursor: pointer;
 }
 
+.card-center {
+    float: none;
+    margin: 0 auto;
+}
+
+/* Sidepanel Styles */
 .sidepanel {
     height: 100%;
     width: 200px; 

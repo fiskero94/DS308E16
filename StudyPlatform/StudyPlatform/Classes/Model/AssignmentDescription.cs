@@ -58,6 +58,7 @@ namespace StudyPlatform.Classes.Model
         }
         public List<Assignment> Assignments => Assignment.GetByConditions("AssignmentDescriptionID=" + ID);
         public List<string> Documents => GetDocuments("AssignmentDescriptionFile", "AssignmentDescriptionID", ID);
+        public bool HasExpired => Deadline < DateTime.Now;
         public void Remove() => Remover.RemoveAssignmentDescription(this);
 
         public static AssignmentDescription New(Course course, string description, DateTime deadline, List<string> filepaths)

@@ -143,6 +143,7 @@
     <Content Include="Content\tether.css" />
     <Content Include="Content\tether.min.css" />
     <Content Include="fravaer.aspx" />
+    <Content Include="Global.asax" />
     <Content Include="indbakke.aspx" />
     <Content Include="karakterer.aspx" />
     <Content Include="kurser.aspx" />
@@ -253,6 +254,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="skema.aspx" />
+    <Content Include="submit.ascx" />
     <Content Include="udbakke.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -306,6 +308,9 @@
     </Compile>
     <Compile Include="fravaer.aspx.designer.cs">
       <DependentUpon>fravaer.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="indbakke.aspx.cs">
       <DependentUpon>indbakke.aspx</DependentUpon>
@@ -364,6 +369,13 @@
     <Compile Include="skema.aspx.designer.cs">
       <DependentUpon>skema.aspx</DependentUpon>
     </Compile>
+    <Compile Include="submit.ascx.cs">
+      <DependentUpon>submit.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="submit.ascx.designer.cs">
+      <DependentUpon>submit.ascx</DependentUpon>
+    </Compile>
     <Compile Include="udbakke.aspx.cs">
       <DependentUpon>udbakke.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -372,9 +384,7 @@
       <DependentUpon>udbakke.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Files\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
