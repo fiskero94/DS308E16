@@ -9,20 +9,34 @@ namespace StudyPlatform.Classes.Model
     public class AssignmentDescription : Entity<AssignmentDescription>
     {
         private readonly uint _courseid;
+        private string _title;
         private string _description;
         private bool _cancelled;
         private DateTime _deadline;
 
-        public AssignmentDescription(uint id, uint courseid, string description, bool cancelled, DateTime deadline)
+        public AssignmentDescription(uint id, uint courseid, string title, string description, bool cancelled, DateTime deadline)
             : base(id)
         {
             _courseid = courseid;
+            _title = title;
             _description = description;
             _cancelled = cancelled;
             _deadline = deadline;
         }
 
         public Course Course => Course.GetByID(_courseid);
+        public string Title
+        {
+            get
+            {
+                return _title;
+            }
+            set
+            {
+                Commands.SetValue("AssignmentDescription", ID, "Title", value);
+                _title = value;
+            }
+        }
         public string Description
         {
             get
@@ -62,9 +76,9 @@ namespace StudyPlatform.Classes.Model
         public bool HasExpired => Deadline < DateTime.Now;
         public void Remove() => Remover.RemoveAssignmentDescription(this);
 
-        public static AssignmentDescription New(Course course, string description, DateTime deadline, List<string> filepaths)
+        public static AssignmentDescription New(Course course, string title, string description, DateTime deadline, List<string> filepaths)
         {
-            Creator.CreateAssignmentDescription(course, description, deadline, filepaths);
+            Creator.CreateAssignmentDescription(course, title, description, deadline, filepaths);
             return GetLatest(1).Single();
         }
     }

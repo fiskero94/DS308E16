@@ -125,6 +125,7 @@ namespace StudyPlatformSQLSetup
             CreateTable("AssignmentDescription",
                 "ID INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY",
                 "CourseID INT UNSIGNED NOT NULL",
+                "Title TEXT NOT NULL",
                 "Description TEXT NOT NULL",
                 "Cancelled BOOL NOT NULL",
                 "Deadline DATETIME NOT NULL");
@@ -261,11 +262,11 @@ namespace StudyPlatformSQLSetup
             var assignmentDescriptions = new List<AssignmentDescription>();
             foreach (Course course in courses)
             {
-                assignmentDescriptions.Add(AssignmentDescription.New(course, description, deadline.AddDays(Rng.Next(-50, 50)), Group<string>()));
-                assignmentDescriptions.Add(AssignmentDescription.New(course, description, deadline.AddDays(Rng.Next(-50, 50)), Group<string>()));
-                assignmentDescriptions.Add(AssignmentDescription.New(course, description, deadline.AddDays(Rng.Next(-50, 50)), Group<string>()));
-                assignmentDescriptions.Add(AssignmentDescription.New(course, description, deadline.AddDays(Rng.Next(-50, 50)), Group<string>()));
-                assignmentDescriptions.Add(AssignmentDescription.New(course, description, deadline.AddDays(Rng.Next(-50, 50)), Group<string>()));
+                assignmentDescriptions.Add(AssignmentDescription.New(course, "Title", description, deadline.AddDays(Rng.Next(-50, 50)), Group<string>()));
+                assignmentDescriptions.Add(AssignmentDescription.New(course, "Title", description, deadline.AddDays(Rng.Next(-50, 50)), Group<string>()));
+                assignmentDescriptions.Add(AssignmentDescription.New(course, "Title", description, deadline.AddDays(Rng.Next(-50, 50)), Group<string>()));
+                assignmentDescriptions.Add(AssignmentDescription.New(course, "Title", description, deadline.AddDays(Rng.Next(-50, 50)), Group<string>()));
+                assignmentDescriptions.Add(AssignmentDescription.New(course, "Title", description, deadline.AddDays(Rng.Next(-50, 50)), Group<string>()));
             }
             // Assignments
             WriteSetupMessageIndent("Creating Assignments");

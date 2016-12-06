@@ -75,11 +75,12 @@ namespace StudyPlatform.Classes.Database
             Common.EnsureNotEmpty(name);
             Commands.InsertInto("Room", "NULL", name);
         }
-        public static void CreateAssignmentDescription(Course course, string description,
+        public static void CreateAssignmentDescription(Course course, string title, string description,
             DateTime deadline, List<string> filepaths)
         {
-            Common.EnsureNotNull(course, description, deadline, filepaths);
-            Commands.InsertInto("AssignmentDescription", "NULL", course.ID.ToString(), description,
+            Common.EnsureNotNull(course, title, description, deadline, filepaths);
+            Common.EnsureNotEmpty(title);
+            Commands.InsertInto("AssignmentDescription", "NULL", course.ID.ToString(), title, description,
                 "FALSE", deadline.ToString("yyyy-MM-dd HH:mm:ss"));
             AssignmentDescription assignmentDescription = AssignmentDescription.GetLatest(1).Single();
             foreach (string filepath in filepaths)
