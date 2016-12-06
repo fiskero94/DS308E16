@@ -20,11 +20,11 @@
     
 
 
-        <div class="container col-sm-6">
+
 
     <asp:Table runat="server" ID="scheduleTable" CssClass="table table-bordered">
         <asp:TableHeaderRow runat="server">
-            <asp:TableHeaderCell runat="server"></asp:TableHeaderCell>
+            <asp:TableHeaderCell runat="server" CssClass="col-sm-1"></asp:TableHeaderCell>
             <asp:TableHeaderCell runat="server">Mandag</asp:TableHeaderCell>
             <asp:TableHeaderCell runat="server">Tirsdag</asp:TableHeaderCell>
             <asp:TableHeaderCell runat="server">Onsdag</asp:TableHeaderCell>
@@ -140,7 +140,7 @@
     
 
     </asp:Table>
-    </div>
+
     
 
 
