@@ -5,10 +5,12 @@
 <asp:Content ID="Body" ContentPlaceHolderID="body" runat="server" enctype="multipart/form-data">
     <asp:Table ID="AssignmentDescriptionsTable" runat="server" CssClass="table table-striped table-hover table-bordered">
         <asp:TableHeaderRow runat="server">
-            <asp:TableHeaderCell runat="server">Beskrivelse</asp:TableHeaderCell>
-            <asp:TableHeaderCell runat="server">Dokumenter</asp:TableHeaderCell>
-            <asp:TableHeaderCell runat="server">Deadline</asp:TableHeaderCell>
-            <asp:TableHeaderCell runat="server">Aflever</asp:TableHeaderCell>
+            <asp:TableHeaderCell runat="server" CssClass="col-sm-4">Title</asp:TableHeaderCell>
+            <asp:TableHeaderCell runat="server" CssClass="col-sm-1">Beskrivelse</asp:TableHeaderCell>
+            <asp:TableHeaderCell runat="server" CssClass="col-sm-1">Dokumenter</asp:TableHeaderCell>
+            <asp:TableHeaderCell runat="server" CssClass="col-sm-2">Deadline</asp:TableHeaderCell>
+            <asp:TableHeaderCell runat="server" CssClass="col-sm-3">Aflever</asp:TableHeaderCell>
+            <asp:TableHeaderCell runat="server" CssClass="col-sm-1">Karakter</asp:TableHeaderCell>
         </asp:TableHeaderRow>
     </asp:Table>
     <asp:Panel ID="SubmitPanel" runat="server" CssClass="card card-block">

@@ -315,7 +315,7 @@ namespace StudyPlatformSQLSetup
                 generatedDays += 1;
                 WriteLessonsProgress(generatedDays, daysToGenerate);
                 GenerateLessonsForDay(dateTime.ToString("dd/MM/yyyy"), courses, rooms);
-                dateTime = dateTime.AddDays(2);
+                dateTime = dateTime.AddDays(3);
                 generatedDays += 1;
                 WriteLessonsProgress(generatedDays, daysToGenerate);
                 generatedWeeks += 1;

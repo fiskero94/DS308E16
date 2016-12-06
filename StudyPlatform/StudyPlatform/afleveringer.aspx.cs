@@ -16,7 +16,6 @@ namespace StudyPlatform
 {
     public partial class Afleveringer : Page
     {
-        private AssignmentDescription _assignmentDescription = null;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!(Session["user"] is Student))
@@ -90,9 +89,10 @@ namespace StudyPlatform
                 if (assignmentDescription.Documents.Count > 0 || assignmentDescription.Description.Length > 0)
                 {
                     row.Attributes["class"] = "clickable";
-                    //row.Attributes["data-toggle"] = "collapse";
+                    row.Attributes["data-toggle"] = "collapse";
                     row.Attributes["data-target"] = "#accordion" + assignmentDescription.ID;
                 }
+                row.Cells.Add(new TableCell { Text = assignmentDescription.Title });
                 row.Cells.Add(new TableCell { Text = assignmentDescription.Description.Length > 0 ? "Ja" : "Nej" });
                 row.Cells.Add(new TableCell { Text = assignmentDescription.Documents.Count > 0 ? "Ja" : "Nej" });
                 row.Cells.Add(new TableCell { Text = assignmentDescription.Deadline.ToString() });
@@ -115,7 +115,7 @@ namespace StudyPlatform
                     }
                     foreach (string document in documents)
                     {
-                        Button downloadButton = new Button { Text = Path.GetFileName(document) }; // FIX
+                        Button downloadButton = new Button { Text = Path.GetFileName(document) };
                         downloadButton.Attributes["class"] = "btn btn-warning";
                         downloadButton.Attributes["style"] = "display: inline-block;";
                         downloadButton.Attributes["path"] = document;
@@ -142,6 +142,15 @@ namespace StudyPlatform
                     submitCell.Controls.Add(submitButton);
                 }
                 row.Cells.Add(submitCell);
+                try
+                {
+                    Assignment assignment = assignmentDescription.Assignments.Single(a => a.Student.ID == ((Student) Session["user"]).ID);
+                    row.Cells.Add(new TableCell { Text = AssignmentGrade.GetByConditions("AssignmentID=" + assignment.ID).Single().Grade });
+                }
+                catch (InvalidOperationException)
+                {
+                    row.Cells.Add(new TableCell { Text = "Ingen" });
+                }
                 AssignmentDescriptionsTable.Rows.Add(row);
                 if (assignmentDescription.Documents.Count == 0 && assignmentDescription.Description.Length == 0) continue;
                 // DetailsRow
@@ -191,11 +200,11 @@ namespace StudyPlatform
         }
         private void DrawSubmitAssignment(AssignmentDescription assignmentDescription)
         {
-            SubmitAssignmentDescriptionTitle.Text = "    " + "INSERT ASSIGNMENTDESCRIPTION TITLE";
+            SubmitAssignmentDescriptionTitle.Text = "    " + assignmentDescription.Title;
         }
         private void DrawSuccess(Assignment assignment)
         {
-            SuccessAssignmentDescription.Text = "til " + "INSERT ASSIGNMENTDESCRIPTION TITLE";
+            SuccessAssignmentDescription.Text = "til " + assignment.AssignmentDescription.Title;
             SuccessComment.Text = assignment.Comment;
             string documents = "";
             Common.AppendStringArray(ref documents, ", ", assignment.Documents
