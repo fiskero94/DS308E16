@@ -61,6 +61,7 @@ namespace StudyPlatform.Classes.Model
         }
         public DateTime DateTimeSubmitted { get; }
         public List<string> Documents => GetDocuments("AssignmentFile", "AssignmentID", ID);
+        public static void RemoveDocument(string path) => Commands.DeleteFrom("AssignmentFile", "filepath=" + path);
 
         public void Remove() => Remover.RemoveAssignment(this);
         public static Assignment New(AssignmentDescription assignmentDescription, Student student, string comment, List<string> filepaths)

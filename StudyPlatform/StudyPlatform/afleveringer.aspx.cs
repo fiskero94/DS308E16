@@ -204,11 +204,22 @@ namespace StudyPlatform
         }
         protected void DownloadButton_Click(object sender, EventArgs e)
         {
-            Response.ContentType = "application/octet-stream";
-            Response.AppendHeader("Content-Disposition", "attachment; filename=" + 
-                Path.GetFileName(((Button)sender).Attributes["path"]));
-            Response.TransmitFile(Server.MapPath(((Button)sender).Attributes["path"]));
-            Response.End();
+            Button button = sender as Button;
+            string path = button.Attributes["path"];
+            string name = Path.GetFileName(path);
+            try
+            {
+                Response.ContentType = "application/octet-stream";
+                Response.AppendHeader("Content-Disposition", "attachment; filename=" + name);
+                Response.TransmitFile(Server.MapPath(path));
+                Response.End();
+            }
+            catch (Exception)
+            {
+                button.Text = "Fil forsvundet";
+                button.Attributes["class"] = "btn btn-danger disabled";
+                Assignment.RemoveDocument(path);
+            }
         }
         protected void SubmitAssignmentButton_OnClick(object sender, EventArgs e)
         {

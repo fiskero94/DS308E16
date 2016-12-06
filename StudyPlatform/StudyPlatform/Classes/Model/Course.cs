@@ -63,10 +63,8 @@ namespace StudyPlatform.Classes.Model
             Commands.DeleteFrom("StudentCourse", "StudentID=" + student.ID + " AND CourseID=" + ID);
         }
 
-        public void AddDocument(string filepath) =>
-            Commands.InsertInto("CourseFile", ID.ToString(), filepath);
-        public void RemoveDocument(string filepath) =>
-            Commands.DeleteFrom("CourseFile", "CourseID=" + ID + " AND Filepath=" + filepath);
+        public void AddDocument(string path) => Commands.InsertInto("CourseFile", ID.ToString(), path);
+        public static void RemoveDocument(string path) => Commands.DeleteFrom("CourseFile", "filepath=" + path);
 
         public void Remove() => Remover.RemoveCourse(this);
         public static Course New(string name, string description)
