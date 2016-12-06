@@ -31,51 +31,6 @@ namespace StudyPlatform {
         protected global::System.Web.UI.WebControls.TableRow tableRow1;
         
         /// <summary>
-        /// tableRow1Cell1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TableCell tableRow1Cell1;
-        
-        /// <summary>
-        /// tableRow1Cell2 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TableCell tableRow1Cell2;
-        
-        /// <summary>
-        /// tableRow1Cell3 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TableCell tableRow1Cell3;
-        
-        /// <summary>
-        /// tableRow1Cell4 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TableCell tableRow1Cell4;
-        
-        /// <summary>
-        /// tableRow1Cell5 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TableCell tableRow1Cell5;
-        
-        /// <summary>
         /// tableRow2 control.
         /// </summary>
         /// <remarks>
@@ -101,51 +56,6 @@ namespace StudyPlatform {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TableRow tableRow4;
-        
-        /// <summary>
-        /// tableRow4Cell1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TableCell tableRow4Cell1;
-        
-        /// <summary>
-        /// tableRow4Cell2 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TableCell tableRow4Cell2;
-        
-        /// <summary>
-        /// tableRow4Cell3 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TableCell tableRow4Cell3;
-        
-        /// <summary>
-        /// tableRow4Cell4 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TableCell tableRow4Cell4;
-        
-        /// <summary>
-        /// tableRow4Cell5 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TableCell tableRow4Cell5;
         
         /// <summary>
         /// tableRow5 control.
@@ -175,51 +85,6 @@ namespace StudyPlatform {
         protected global::System.Web.UI.WebControls.TableRow tableRow7;
         
         /// <summary>
-        /// tableRow7Cell1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TableCell tableRow7Cell1;
-        
-        /// <summary>
-        /// tableRow7Cell2 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TableCell tableRow7Cell2;
-        
-        /// <summary>
-        /// tableRow7Cell3 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TableCell tableRow7Cell3;
-        
-        /// <summary>
-        /// tableRow7Cell4 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TableCell tableRow7Cell4;
-        
-        /// <summary>
-        /// tableRow7Cell5 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TableCell tableRow7Cell5;
-        
-        /// <summary>
         /// tableRow8 control.
         /// </summary>
         /// <remarks>
@@ -245,51 +110,6 @@ namespace StudyPlatform {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TableRow tableRow10;
-        
-        /// <summary>
-        /// tableRow10Cell1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TableCell tableRow10Cell1;
-        
-        /// <summary>
-        /// tableRow10Cell2 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TableCell tableRow10Cell2;
-        
-        /// <summary>
-        /// tableRow10Cell3 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TableCell tableRow10Cell3;
-        
-        /// <summary>
-        /// tableRow10Cell4 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TableCell tableRow10Cell4;
-        
-        /// <summary>
-        /// tableRow10Cell5 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TableCell tableRow10Cell5;
         
         /// <summary>
         /// tableRow11 control.
@@ -319,51 +139,6 @@ namespace StudyPlatform {
         protected global::System.Web.UI.WebControls.TableRow tableRow13;
         
         /// <summary>
-        /// tableRow13Cell1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TableCell tableRow13Cell1;
-        
-        /// <summary>
-        /// tableRow13Cell2 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TableCell tableRow13Cell2;
-        
-        /// <summary>
-        /// tableRow13Cell3 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TableCell tableRow13Cell3;
-        
-        /// <summary>
-        /// tableRow13Cell4 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TableCell tableRow13Cell4;
-        
-        /// <summary>
-        /// tableRow13Cell5 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TableCell tableRow13Cell5;
-        
-        /// <summary>
         /// tableRow14 control.
         /// </summary>
         /// <remarks>
@@ -389,51 +164,6 @@ namespace StudyPlatform {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TableRow tableRow16;
-        
-        /// <summary>
-        /// tableRow16Cell1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TableCell tableRow16Cell1;
-        
-        /// <summary>
-        /// tableRow16Cell2 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TableCell tableRow16Cell2;
-        
-        /// <summary>
-        /// tableRow16Cell3 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TableCell tableRow16Cell3;
-        
-        /// <summary>
-        /// tableRow16Cell4 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TableCell tableRow16Cell4;
-        
-        /// <summary>
-        /// tableRow16Cell5 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TableCell tableRow16Cell5;
         
         /// <summary>
         /// tableRow17 control.
@@ -463,51 +193,6 @@ namespace StudyPlatform {
         protected global::System.Web.UI.WebControls.TableRow tableRow19;
         
         /// <summary>
-        /// tableRow19Cell1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TableCell tableRow19Cell1;
-        
-        /// <summary>
-        /// tableRow19Cell2 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TableCell tableRow19Cell2;
-        
-        /// <summary>
-        /// tableRow19Cell3 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TableCell tableRow19Cell3;
-        
-        /// <summary>
-        /// tableRow19Cell4 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TableCell tableRow19Cell4;
-        
-        /// <summary>
-        /// tableRow19Cell5 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TableCell tableRow19Cell5;
-        
-        /// <summary>
         /// tableRow20 control.
         /// </summary>
         /// <remarks>
@@ -533,51 +218,6 @@ namespace StudyPlatform {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TableRow tableRow22;
-        
-        /// <summary>
-        /// tableRow22Cell1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TableCell tableRow22Cell1;
-        
-        /// <summary>
-        /// tableRow22Cell2 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TableCell tableRow22Cell2;
-        
-        /// <summary>
-        /// tableRow22Cell3 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TableCell tableRow22Cell3;
-        
-        /// <summary>
-        /// tableRow22Cell4 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TableCell tableRow22Cell4;
-        
-        /// <summary>
-        /// tableRow22Cell5 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TableCell tableRow22Cell5;
         
         /// <summary>
         /// tableRow23 control.

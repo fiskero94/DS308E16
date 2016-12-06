@@ -7,6 +7,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using StudyPlatform.Classes.Model;
 using System.Globalization;
+using System.IO;
 
 namespace StudyPlatform
 {
@@ -19,8 +20,10 @@ namespace StudyPlatform
             Master.TitelLabelText = "Skema";
 
 
+            
             Person user = (Person)Session["user"];
             int weekNumber = 48;
+
             SortedList<string, List<Lesson>> sortedList = new SortedList<string, List<Lesson>>();
 
             if (Session["user"] is Student)
@@ -40,39 +43,64 @@ namespace StudyPlatform
 
 
 
+            int dayNumber = 0;
+
             foreach (var lesson in sortedList["8:10"])
             {
+                switch (lesson.DateTime.DayOfWeek.ToString())
+                {
+                    case "Monday":
+                        dayNumber = 1;
+
+                        break;
+                    case "Tuesday":
+                            dayNumber = 2;
+
+                            break;
+                    case "Wednesday":
+                            dayNumber = 3;
+
+                            break;
+                    case "Thursday":
+                            dayNumber = 4;
+
+                            break;
+                    case "Friday":
+                            dayNumber = 5;
+
+                            break;
+                    default:
+                        break;
+                }
+
+            
+                string strCellId = "row1Cell" + dayNumber.ToString();
+                string strButtonlId = "row1Cell" + dayNumber.ToString() + "Button";
+
                 // No line break?!?!?!?!?
                 string strtext = lesson.Course.Name + Environment.NewLine + lesson.Rooms[0].Name;
 
-
-
-                tableRow1Cell1.Attributes.Add("style", "background-color:Red");
-                tableRow1Cell1.Text = strtext;
-
+                TableCell tableCell = new TableCell {RowSpan = 2};
+                tableCell.Attributes["Style"] = "position: relative";
 
 
 
+                tableRow1.Cells.Add(tableCell);
 
 
+                Button button = new Button();
+                //button.Attributes["Class"] = "btn btn-default";
+                button.Attributes.Add("Style", "background:transparent; border:none; color: transparent; position: absolute; width: 100%; height: 100%; display: block; margin: 0 auto; left: auto; right: auto;");
+                button.Text = strtext;
 
-
-
-                //LinkButton linkButton = new LinkButton();
-                //linkButton.ID = "LinkButtonDynamicInPlaceHolder1Id" + i;
-                //linkButton.ForeColor = Color.Blue;
-                //linkButton.Font.Bold = true;
-                //linkButton.Font.Size = 14;
-                //linkButton.Font.Underline = false;
-                //linkButton.Text = itemList[i].ItemTitle.InnerText;
-                //linkButton.Click += new EventHandler(LinkButton_Click);
-                //linkButton.Attributes.Add("LinkUrl", itemList[i].ItemLink.InnerText);
-                //tableRow1Cell1.Controls.Add(linkButton);
+                tableCell.Controls.Add(button);
 
 
             }
+            dayNumber = 0;
             foreach (var lesson in sortedList["9:05"])
             {
+
 
             }
             foreach (var lesson in sortedList["10:00"])
@@ -101,18 +129,30 @@ namespace StudyPlatform
             }
         }
 
+        protected void Button_Click(object sender, EventArgs e)
+        {
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "linkRow1Cell1", "openModal();", true);
+        }
+
+
+
+
+
+
+
+
+
 
         private SortedList<string, List<Lesson>> FindAndSortLessonsForPerson(List<Course> courses, int weekNumber)
         {
             List<Lesson> lessons = new List<Lesson>();
+            DateTimeFormatInfo dfi = DateTimeFormatInfo.CurrentInfo;
+            System.Globalization.Calendar cal = dfi.Calendar;
 
             foreach (Course course in courses)
             {
                 foreach (Lesson lesson in course.Lessons)
                 {
-                    DateTimeFormatInfo dfi = DateTimeFormatInfo.CurrentInfo;
-                    System.Globalization.Calendar cal = dfi.Calendar;
-
                     if (cal.GetWeekOfYear(lesson.DateTime, dfi.CalendarWeekRule, dfi.FirstDayOfWeek) == weekNumber)
                     {
                         lessons.Add(lesson);
