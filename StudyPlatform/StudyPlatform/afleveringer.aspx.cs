@@ -212,6 +212,11 @@ namespace StudyPlatform
         }
         protected void SubmitAssignmentButton_OnClick(object sender, EventArgs e)
         {
+            if (!FileUploadControl.HasFiles)
+            {
+                SubmitResponseLabel.Text = "Du kan ikke aflevere uden et dokument";
+                return;
+            }
             List<string> filepaths = new List<string>();
             foreach (HttpPostedFile document in FileUploadControl.PostedFiles)
             {
