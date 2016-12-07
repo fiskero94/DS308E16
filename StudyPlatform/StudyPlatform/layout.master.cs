@@ -27,6 +27,7 @@ namespace StudyPlatform
                     SidePanel.Controls.Add(link);
             else foreach (HyperLink link in GetSecretaryLinks())
                 SidePanel.Controls.Add(link);
+            NameLabel.Text = ((Person) Session["user"]).Name;
         }
         private static IEnumerable<HyperLink> GetStudentLinks()
         {

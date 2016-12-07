@@ -268,10 +268,9 @@ namespace StudyPlatform
             assignmentDescriptionsTabContent.Attributes["class"] = tabString == "afleveringsbeskrivelser" ? "tab-pane active" : "tab-pane";
             Table assignmentDescriptionsTable = new Table { CssClass = "table table-striped table-hover table-bordered" };
             TableHeaderRow assignmentDescriptionsTableHeaderRow = new TableHeaderRow();
+            assignmentDescriptionsTableHeaderRow.Cells.Add(new TableCell { Text = "Title" });
             assignmentDescriptionsTableHeaderRow.Cells.Add(new TableCell { Text = "Deadline" });
-            assignmentDescriptionsTableHeaderRow.Cells.Add(new TableCell { Text = "Beskrivelse" });
-            assignmentDescriptionsTableHeaderRow.Cells.Add(new TableCell { Text = "Dokumenter" });
-            assignmentDescriptionsTableHeaderRow.Cells.Add(new TableCell { Text = "Du har afleveret" });
+            assignmentDescriptionsTableHeaderRow.Cells.Add(new TableCell { Text = "Afleveret" });
             assignmentDescriptionsTable.Rows.Add(assignmentDescriptionsTableHeaderRow);
             foreach (AssignmentDescription assignmentDescription in course.AssignmentDescriptions.OrderBy(o => o .Deadline))
             {
@@ -282,9 +281,19 @@ namespace StudyPlatform
                     assignmentDescriptionRow.Attributes["data-toggle"] = "collapse";
                     assignmentDescriptionRow.Attributes["data-target"] = "#assignmentdescriptionaccordion" + assignmentDescription.ID;
                 }
+                assignmentDescriptionRow.Cells.Add(new TableCell { Text = assignmentDescription.Title });
                 assignmentDescriptionRow.Cells.Add(new TableCell { Text = assignmentDescription.Deadline.ToString() });
-                assignmentDescriptionRow.Cells.Add(new TableCell { Text = assignmentDescription.Description.Length > 0 ? "Ja" : "Nej" });
-                assignmentDescriptionRow.Cells.Add(new TableCell { Text = assignmentDescription.Documents.Count > 0 ? "Ja" : "Nej" });
+                TableCell submittedCell = new TableCell
+                {
+                    Text =
+                        assignmentDescription.Assignments.Any(
+                            assignment => assignment.Student.ID == ((Person) Session["user"]).ID)
+                            ? "Ja"
+                            : "Nej"
+                };
+                AssignmentGrade grade = assignmentDescription.Assignments.Single(a => a.Student.ID == ((Person) Session["user"]).ID).Grade;
+                if (grade != null) submittedCell.Text += ", " + grade.Grade;
+                else submittedCell.Text += ", Ingen karakter";
                 assignmentDescriptionRow.Cells.Add(new TableCell { Text = assignmentDescription.Assignments
                     .Any(assignment => assignment.Student.ID == ((Person)Session["user"]).ID) ? "Ja" : "Nej" });
                 assignmentDescriptionsTable.Rows.Add(assignmentDescriptionRow);
