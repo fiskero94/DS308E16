@@ -58,9 +58,7 @@
 
             <asp:Panel ID="Panel1" runat="server">
 
-<%--                <asp:Button ID="Button1" runat="server"
-
-                            Text="CreateModal" OnClick="Button_Click"/>--%>
+<%--                <asp:Button ID="Button1" runat="server" Text="CreateModal" OnClick="Button_Click" CssClass="right"/>--%>
 
 <%--                <asp:Button runat="server" ID="08:10Monday"/>
                 <asp:Button runat="server" ID="08:10Tuesday"/>

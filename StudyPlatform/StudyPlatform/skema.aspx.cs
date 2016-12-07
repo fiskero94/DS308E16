@@ -96,6 +96,33 @@ namespace StudyPlatform
                 GetRowNumber.Add("14:50", 22);
 
 
+
+
+                // Uge Skift
+                Button buttonLeft = new Button();
+                buttonLeft.ID = "bntLeft";
+                buttonLeft.PostBackUrl = "skema.aspx?aar=" + year + "&uge=" + (Convert.ToInt32(week) - 1);
+                buttonLeft.Attributes["runat"] = "server";
+                buttonLeft.Text = "<---";
+                buttonLeft.Attributes["class"] = "btn btn-default";
+                Panel1.Controls.Add(buttonLeft);
+
+                Label currentweekLabel = new Label();
+                currentweekLabel.Text = "Uge: " + week;
+                Panel1.Controls.Add(currentweekLabel);
+
+                Button buttonRight = new Button();
+                buttonRight.ID = "bntRight";
+                buttonRight.PostBackUrl = "skema.aspx?aar=" + year + "&uge=" + (Convert.ToInt32(week) + 1);
+                buttonRight.Attributes["runat"] = "server";
+                buttonRight.Text = "--->";
+                buttonRight.Attributes["class"] = "btn btn-default";
+                Panel1.Controls.Add(buttonRight);
+
+
+
+
+
                 foreach (string timeslot in TimeSlots)
                 {
                     for (int i = 0; i < 5; i++)
@@ -128,7 +155,7 @@ namespace StudyPlatform
                         modalPop.TargetControlID = button.ID;
                         modalPop.DropShadow = true;
                         modalPop.CancelControlID = "btnCancel" + unigid;
-
+                        
 
 
 
@@ -137,8 +164,12 @@ namespace StudyPlatform
 
                         HtmlGenericControl divContainer = new HtmlGenericControl("div");
                         divContainer.ID = unigid;
-                        divContainer.Attributes["CssClass"] = "modal fade";
-                        divContainer.Attributes["role"] = "dialog";         
+                        divContainer.Attributes["CssClass"] = "modal fade modalPopup";
+                        divContainer.Attributes["role"] = "dialog";
+
+                        //divContainer.Attributes["Width"] = "500px";
+                        //divContainer.Attributes["style"] = "width: auto; height: auto;";
+                        //divContainer.Attributes["BackColor"] = "#DCDCDC";
 
                         HtmlGenericControl divModalDialog = new HtmlGenericControl("div");
                         divModalDialog.Attributes["CssClass"] = "modal-dialog";
@@ -153,6 +184,7 @@ namespace StudyPlatform
                         modalHeaderCloseButton.Attributes["type"] = "button";
                         modalHeaderCloseButton.Attributes["CssClass"] = "close";
                         modalHeaderCloseButton.Attributes["data-dismiss"] = "modal";
+                        modalHeaderCloseButton.ID = "btnCancel" + unigid;
                         //modalHeaderCloseButton.Text = "&times;";
 
                         HtmlGenericControl modalHeaderTitle = new HtmlGenericControl("h4");
@@ -184,17 +216,18 @@ namespace StudyPlatform
                             .Cells[GetCellNumber[lesson.DateTime.DayOfWeek.ToString()]]
                             .Controls.Add(button);
 
-                        scheduleTable.Rows[GetRowNumber[timeslot]]
-                            .Cells[GetCellNumber[lesson.DateTime.DayOfWeek.ToString()]]
-                            .Controls.Add(modalPop);
+                        //scheduleTable.Rows[GetRowNumber[timeslot]]
+                        //    .Cells[GetCellNumber[lesson.DateTime.DayOfWeek.ToString()]]
+                        //    .Controls.Add(modalPop);
 
 
-                        scheduleTable.Rows[GetRowNumber[timeslot]]
-                            .Cells[GetCellNumber[lesson.DateTime.DayOfWeek.ToString()]]
-                            .Controls.Add(divContainer);
+                        //scheduleTable.Rows[GetRowNumber[timeslot]]
+                        //    .Cells[GetCellNumber[lesson.DateTime.DayOfWeek.ToString()]]
+                        //    .Controls.Add(divContainer);
 
 
-
+                        Panel1.Controls.Add(modalPop);
+                        Panel1.Controls.Add(divContainer);
 
 
 
