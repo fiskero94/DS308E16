@@ -1,4 +1,6 @@
 ﻿<%@ Page Title="Skema" Language="C#" MasterPageFile="~/layout.master" AutoEventWireup="true" CodeBehind="skema.aspx.cs" Inherits="StudyPlatform.Skema" %>
+
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 <%@ MasterType virtualpath="~/layout.master" %>
 
 
@@ -7,20 +9,152 @@
 
 
 <asp:Content ID="Head" ContentPlaceHolderID="head" runat="server">
+    <asp:PlaceHolder runat="server">
+        <%: System.Web.Optimization.Styles.Render("~/Content/AjaxControlToolkit/Styles/Bundle") %>
+    </asp:PlaceHolder>
     
- <script type="text/javascript">
-    function openModal() {
-        $('#myModal').modal('show');
-    }
-</script>
-    
+   
+<%--    <style type="text/css">   
+        .modalBackground 
+        {
+            background-color: black;
+            opacity: 0.8;        
+        }
+        .modalPopup 
+        {
+            background-color: #FFFFFF;
+            border-width: 3px;
+            border-style: solid;
+            border-color: black;
+            padding-top: 10px;
+            padding-left: 10px;
+            width: 300px;
+            height: 140px;    
+        }
 
+
+    </style>--%>
+    
+   
 </asp:Content>
+
+
 <asp:Content ID="Body" ContentPlaceHolderID="body" runat="server">
+
+    <asp:ScriptManager runat="server">
+<%--        <Scripts>
+            <asp:ScriptReference Path="~/Scripts/AjaxControlToolkit/Bundle"/>
+        </Scripts>--%>
+    </asp:ScriptManager>
     
 
 
+    <asp:PlaceHolder runat="server" ID="modalPlaceHolder">
+        <div>
 
+            <asp:Panel ID="Panel1" runat="server">
+
+<%--                <asp:Button ID="Button1" runat="server"
+
+                            Text="CreateModal" OnClick="Button_Click"/>--%>
+
+<%--                <asp:Button runat="server" ID="08:10Monday"/>
+                <asp:Button runat="server" ID="08:10Tuesday"/>
+                <asp:Button runat="server" ID="08:10Wednesday"/>
+                <asp:Button runat="server" ID="08:10Thursday"/>
+                <asp:Button runat="server" ID="08:10Friday"/>
+
+                <asp:Button runat="server" ID="09:05Monday"/>
+                <asp:Button runat="server" ID="09:05Tuesday"/>
+                <asp:Button runat="server" ID="09:05Wednesday"/>
+                <asp:Button runat="server" ID="09:05Thursday"/>
+                <asp:Button runat="server" ID="09:05Friday"/>
+
+                <asp:Button runat="server" ID="10:00Monday"/>
+                <asp:Button runat="server" ID="10:00Tuesday"/>
+                <asp:Button runat="server" ID="10:00Wednesday"/>
+                <asp:Button runat="server" ID="10:00Thursday"/>
+                <asp:Button runat="server" ID="10:00Friday"/>
+
+                <asp:Button runat="server" ID="10:55Monday"/>
+                <asp:Button runat="server" ID="10:55Tuesday"/>
+                <asp:Button runat="server" ID="10:55Wednesday"/>
+                <asp:Button runat="server" ID="10:55Thursday"/>
+                <asp:Button runat="server" ID="10:55Friday"/>
+
+                <asp:Button runat="server" ID="12:05Monday"/>
+                <asp:Button runat="server" ID="12:05Tuesday"/>
+                <asp:Button runat="server" ID="12:05Wednesday"/>
+                <asp:Button runat="server" ID="12:05Thursday"/>
+                <asp:Button runat="server" ID="12:05Friday"/>
+
+                <asp:Button runat="server" ID="13:00Monday"/>
+                <asp:Button runat="server" ID="13:00Tuesday"/>
+                <asp:Button runat="server" ID="13:00Wednesday"/>
+                <asp:Button runat="server" ID="13:00Thursday"/>
+                <asp:Button runat="server" ID="13:00Friday"/>
+
+                <asp:Button runat="server" ID="13:55Monday"/>
+                <asp:Button runat="server" ID="13:55Tuesday"/>
+                <asp:Button runat="server" ID="13:55Wednesday"/>
+                <asp:Button runat="server" ID="13:55Thursday"/>
+                <asp:Button runat="server" ID="13:55Friday"/>
+
+                <asp:Button runat="server" ID="14:50Monday"/>
+                <asp:Button runat="server" ID="14:50Tuesday"/>
+                <asp:Button runat="server" ID="14:50Wednesday"/>
+                <asp:Button runat="server" ID="14:50Thursday"/>
+                <asp:Button runat="server" ID="14:50Friday"/>--%>
+               
+            </asp:Panel>
+            
+
+<%--            <asp:Panel ID="ModalPanel" runat="server"
+
+                       Style="display: none"
+
+                       BackColor="Gray">
+
+                Dynamic ModalPopup!
+
+                <asp:Button ID="btnCancel" runat="server" Text="Close Me"/>
+
+            </asp:Panel>--%>
+
+            
+            
+            
+            
+            
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+ 
+    
+    
+    
+    
+
+    
+    <%--<ajaxToolkit:ModalPopupExtender ID = "mpePopUp" runat = "server"></ajaxToolkit:ModalPopupExtender>--%>
+    
+    <%--BackgroundCssClass = "modalBackground" TargetControlID = "lblHidden" PopupControlID = "Panel1"--%>
 
     <asp:Table runat="server" ID="scheduleTable" CssClass="table table-bordered">
         <asp:TableHeaderRow runat="server">
@@ -142,18 +276,18 @@
     </asp:Table>
 
     
-
-
-    
-    
-    
-    
-    
     
 
-    
-    
+            </div>
 
+    </asp:PlaceHolder>
+
+
+
+    
+    
+    
+    
     
 
 </asp:Content>

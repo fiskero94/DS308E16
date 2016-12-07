@@ -9,6 +9,10 @@ using StudyPlatform.Classes.Model;
 using System.Globalization;
 using System.IO;
 using System.Data;
+using System.Diagnostics.Contracts;
+using System.Net.Mime;
+using System.Web.UI.HtmlControls;
+using AjaxControlToolkit;
 
 namespace StudyPlatform
 {
@@ -30,8 +34,8 @@ namespace StudyPlatform
             { "Geografi B", "#7109AA" },
             { "Engelsk A", "#5F2580" },
             { "Samfund B", "#48036F" },
+            { "Historie B", "Pink" },
         };
-
 
 
         protected void Page_Load(object sender, EventArgs e)
@@ -92,6 +96,19 @@ namespace StudyPlatform
                 GetRowNumber.Add("14:50", 22);
 
 
+                //HtmlGenericControl div = new HtmlGenericControl("div");
+
+                //Panel panel = new Panel();
+                ////panel.ID = "Panel123";
+
+                //panel.ID = "ModalPanel";
+                //panel.Attributes["runat"] = "server";
+                //panel.BackColor = Color.Gray;
+                //panel.Attributes["Style"] = "display: none";
+
+                //div.Controls.Add(panel);
+                //bodystuff.Controls.Add(div);
+
 
                 foreach (string timeslot in TimeSlots)
                 {
@@ -105,21 +122,256 @@ namespace StudyPlatform
                     foreach (var lesson in sortedList[timeslot])
                     {
                         Button button = new Button();
+                        string t = timeslot + lesson.DateTime.Date.DayOfWeek;
+
+                        //Button button = (Button)Panel1.FindControl(t);
+
 
                         // No line break?!?!?!?!?
                         string strtext = lesson.Course.Name + Environment.NewLine + " - " + lesson.Rooms[0].Name;
                         button.Text = strtext;
 
-
-                        // MANGLER KURSUS COLOR ///////////////////////////////////
+                        // MANGLER KURSUS COLOR /////////////////////////////////// // color: black; display: block; 
                         button.Attributes.Add("Style", "border:none; position: absolute; width: 100%; height: 100%; margin: 0 auto; left: auto; right: auto; background: " + GetCourseColor[lesson.Course.Name] + ";");
-                        // color: black; display: block; 
 
-                        //button.Attributes.Add("Style", "background:" + GetCourseColor[lesson.Course.Name] + ";");
+
+
+                        button.ID = DateTime.Now.Millisecond.ToString() + lesson.DateTime.Date.DayOfWeek;
+                        //button.Click += Button_Click;
+
+
+                        //scheduleTable.Rows[GetRowNumber[timeslot]]
+                        //      .Cells[GetCellNumber[lesson.DateTime.DayOfWeek.ToString()]]
+                        //      .Controls.Add(button);
+
+
+
+                        string unigid = DateTime.Now.Millisecond.ToString() + lesson.DateTime.Date.DayOfWeek + DateTime.Now.Millisecond.ToString();
+
+                        AjaxControlToolkit.ModalPopupExtender modalPop = new AjaxControlToolkit.ModalPopupExtender();
+
+                        modalPop.ID = "popUp" + button.ID;
+
+                        modalPop.PopupControlID = unigid;
+
+                        modalPop.TargetControlID = button.ID;
+
+                        modalPop.DropShadow = true;
+
+                        modalPop.CancelControlID = "btnCancel" + unigid;
+
+
+
+                        //Panel panel = new Panel();
+
+                        //panel.ID = unigid;
+                        //panel.Attributes["runat"] = "server";
+                        //panel.BackColor = Color.Gray;
+                        //panel.Attributes["Style"] = "display: none";
+
+                        //Button bnt = new Button();
+                        //bnt.ID = "btnCancel" + unigid;
+                        //bnt.Attributes["runat"] = "server";
+                        //bnt.Text = lesson.Course.Name;
+
+                        //panel.Controls.Add(bnt);
+
+
+
+
+
+
+                        HtmlGenericControl div = new HtmlGenericControl("div");
+
+                        div.ID = unigid;
+                        div.Attributes["Class"] = "modal fade";
+                        div.Attributes["role"] = "dialog";
+
+                        HtmlGenericControl div2 = new HtmlGenericControl("div");
+                        div2.Attributes["Class"] = "modal-dialog";
+                        div.Controls.Add(div2);
+
+                        HtmlGenericControl div3 = new HtmlGenericControl("div");
+                        div3.Attributes["Class"] = "modal-content";
+                        div2.Controls.Add(div3);
+
+                        HtmlGenericControl div4 = new HtmlGenericControl("div");
+                        div3.Attributes["Class"] = "modal-header";
+
+                        Button div4Button = new Button();
+                        div4Button.Attributes["type"] = "button";
+                        div4Button.Attributes["Class"] = "close";
+                        div4Button.Attributes["data-dismiss"] = "modal";
+                        div4Button.Text = "&times;";
+                        div4.Controls.Add(div4Button);
+
+                        HtmlGenericControl div4H4 = new HtmlGenericControl("h4");
+                        div4H4.Attributes["Class"] = "modal-title";
+                        div4H4.InnerText = "Modal Header";
+                        div3.Controls.Add(div4);
+
+                        HtmlGenericControl div4_2 = new HtmlGenericControl("div");
+                        div4_2.Attributes["Class"] = "modal-body";
+                        div.InnerText = "Some text in the modal.";
+                        div3.Controls.Add(div4_2);
+
+                        HtmlGenericControl div4_3 = new HtmlGenericControl("div");
+                        div4_2.Attributes["Class"] = "modal-footer";
+
+                        Button div4_3Button = new Button();
+                        div4_3Button.Attributes["type"] = "button";
+                        div4_3Button.Attributes["Class"] = "btn btn-default";
+                        div4_3Button.Attributes["data-dismiss"] = "modal";
+                        div4_3Button.Text = "Close";
+                        div4_3.Controls.Add(div4_3Button);
+                        div3.Controls.Add(div4_3);
+
+                        div2.Controls.Add(div3);
+                        div.Controls.Add(div2);
+
+
+
+
+
+
+
+                        //Panel panel = new Panel();
+
+                        //panel.ID = unigid;
+                        //panel.Attributes["runat"] = "server";
+                        //panel.CssClass = "modalPopup";
+                        //panel.Attributes["Style"] = "display: none";
+                        //panel.BackColor = Color.Gray;
+
+                        //HtmlGenericControl divHeader = new HtmlGenericControl("div");
+                        //divHeader.Attributes["class"] = "header";
+                        //divHeader.InnerText = lesson.Course.Name;
+
+                        //panel.Controls.Add(divHeader);
+
+
+                        //HtmlGenericControl divBody = new HtmlGenericControl("div");
+                        //divBody.Attributes["class"] = "body";
+                        //divBody.InnerText = lesson.Description;
+
+
+                        //Button bnt = new Button();
+                        //bnt.ID = "btnCancel" + unigid;
+                        //bnt.Attributes["runat"] = "server";
+                        //bnt.Text = "Hide Modal Popup";
+
+                        //divBody.Controls.Add(bnt);
+
+                        //panel.Controls.Add(divBody);
+
+
+
+
+
+
+
+
+
+
 
                         scheduleTable.Rows[GetRowNumber[timeslot]]
-                                        .Cells[GetCellNumber[lesson.DateTime.DayOfWeek.ToString()]]
-                                        .Controls.Add(button);
+                            .Cells[GetCellNumber[lesson.DateTime.DayOfWeek.ToString()]]
+                            .Controls.Add(div);
+
+                        scheduleTable.Rows[GetRowNumber[timeslot]]
+                              .Cells[GetCellNumber[lesson.DateTime.DayOfWeek.ToString()]]
+                              .Controls.Add(modalPop);
+
+                        scheduleTable.Rows[GetRowNumber[timeslot]]
+                            .Cells[GetCellNumber[lesson.DateTime.DayOfWeek.ToString()]]
+                            .Controls.Add(button);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        //Panel1.Controls.Add(button);
+
+
+                        //HtmlGenericControl div = new HtmlGenericControl("div");
+
+
+                        //Panel panel = new Panel();
+                        ////panel.ID = "Panel123";
+
+                        //panel.ID = "Panel123";
+                        //panel.Attributes["runat"] = "server";
+                        //panel.BackColor = Color.Gray;
+                        //panel.Attributes["Style"] = "display: none";
+
+                        //div.Controls.Add(panel);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        //HtmlGenericControl ajaxModalPopupExtender = new HtmlGenericControl("ajaxToolkit:ModalPopupExtender");
+
+
+
+                        //ajaxModalPopupExtender.Attributes["ID"] = "ajaxMPE" + button.ID;
+                        //ajaxModalPopupExtender.Attributes["runat"] = "server";
+                        //ajaxModalPopupExtender.Attributes["BackgroundCssClass"] = "modalBackground";
+                        //ajaxModalPopupExtender.Attributes["TargetControlID"] = button.ID.ToString();
+                        //ajaxModalPopupExtender.Attributes["PopupControlID"] = "Panel1";
+
+                        //bodystuff.Controls.Add(ajaxModalPopupExtender);
+
+
+                        //mpePopUp.BackgroundCssClass = "modalBackground";
+                        //mpePopUp.TargetControlID = button.ID;
+
+                        //string d = mpePopUp.TargetControlID;
+
+                        //mpePopUp.PopupControlID = "Panel1";
+
+
+
+
+
+
+
+
+
                     }
                 }
             }
@@ -137,10 +389,37 @@ namespace StudyPlatform
 
 
 
-    protected void Button_Click(object sender, EventArgs e)
+        protected void Button_Click(object sender, EventArgs e)
         {
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "linkRow1Cell1", "openModal();", true);
+            //PopupExtender mpePopUp = new PopupExtender();
+
+            //mpePopUp = bodystuff.FindControl( );
+
+            //mpePopUp.Show;
+
+
+
+ 
+
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         private SortedList<string, List<Lesson>> FindAndSortLessonsForPerson(List<Course> courses, int weekNumber)
@@ -234,5 +513,36 @@ namespace StudyPlatform
             }
             return coollist;
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 }
