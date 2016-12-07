@@ -80,6 +80,7 @@ namespace StudyPlatform
             Message message = Message.GetByID(Convert.ToUInt32(((Button) sender).Attributes["messageid"]));
             Master.MessageTitle = message.Title;
             Master.MessageText = message.Text;
+            Master.OpenNewMessage();
         }
     }
 }

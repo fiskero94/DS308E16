@@ -20,6 +20,7 @@
                 <asp:TextBox runat="server" ID="UsernameTextBox" CssClass="form-control" placeholder="Brugernavn"></asp:TextBox>
             </div>
             <div class="form-group">
+                
                 <asp:TextBox runat="server" ID="PasswordTextBox" CssClass="form-control" placeholder="Adgangskode" TextMode="Password"></asp:TextBox>
             </div>
             <div class="form-group">

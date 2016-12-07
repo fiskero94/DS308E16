@@ -26,6 +26,10 @@
                 <a class="navbar-brand" href="#">
                     <asp:Label ID="TitelLabel" runat="server" Text="Layout"></asp:Label>
                 </a>
+                <div class="form-group pull-right">
+                    <asp:Label ID="NameLabel" runat="server"></asp:Label>
+                    <a href="login.aspx" class="btn btn-default">Logud</a>
+                </div>
             </div>
         </div>
     </nav>
