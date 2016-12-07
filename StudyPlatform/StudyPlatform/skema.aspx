@@ -13,7 +13,7 @@
         <%: System.Web.Optimization.Styles.Render("~/Content/AjaxControlToolkit/Styles/Bundle") %>
     </asp:PlaceHolder>
     
-   
+    
 <%--    <style type="text/css">   
         .modalBackground 
         {
@@ -42,12 +42,16 @@
 <asp:Content ID="Body" ContentPlaceHolderID="body" runat="server">
 
     <asp:ScriptManager runat="server">
-<%--        <Scripts>
+        <Scripts>
             <asp:ScriptReference Path="~/Scripts/AjaxControlToolkit/Bundle"/>
-        </Scripts>--%>
+        </Scripts>
     </asp:ScriptManager>
     
 
+
+
+    
+    
 
     <asp:PlaceHolder runat="server" ID="modalPlaceHolder">
         <div>
@@ -109,53 +113,11 @@
             </asp:Panel>
             
 
-<%--            <asp:Panel ID="ModalPanel" runat="server"
-
-                       Style="display: none"
-
-                       BackColor="Gray">
-
-                Dynamic ModalPopup!
-
-                <asp:Button ID="btnCancel" runat="server" Text="Close Me"/>
-
-            </asp:Panel>--%>
 
             
             
-            
-            
-            
-
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
-    
-    
-    
- 
-    
-    
-    
-    
-
-    
-    <%--<ajaxToolkit:ModalPopupExtender ID = "mpePopUp" runat = "server"></ajaxToolkit:ModalPopupExtender>--%>
-    
-    <%--BackgroundCssClass = "modalBackground" TargetControlID = "lblHidden" PopupControlID = "Panel1"--%>
-
     <asp:Table runat="server" ID="scheduleTable" CssClass="table table-bordered">
         <asp:TableHeaderRow runat="server">
             <asp:TableHeaderCell runat="server" CssClass="col-sm-1"></asp:TableHeaderCell>
