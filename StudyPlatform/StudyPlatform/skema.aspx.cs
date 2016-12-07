@@ -8,12 +8,30 @@ using System.Web.UI.WebControls;
 using StudyPlatform.Classes.Model;
 using System.Globalization;
 using System.IO;
+using System.Data;
 
 namespace StudyPlatform
 {
     public partial class Skema : Page
     {
         private static readonly string[] TimeSlots = { "08:10", "09:05", "10:00", "10:55", "12:05", "13:00", "13:55", "14:50" };
+
+
+
+        // Lav Color Picker metode, hvor user.Course.Count tages, og Colores fremstilles ud fra start color.
+
+        private static readonly Dictionary<string, string> GetCourseColor = new Dictionary<string, string>
+        {
+            { "Kemi B", "#876ED7" },
+            { "Fysik A", "#6A48D7" },
+            { "Matematik A", "#200772" },
+            { "Dansk A", "#412C84" },
+            { "Idræt C", "#3914AF" },
+            { "Geografi B", "#7109AA" },
+            { "Engelsk A", "#5F2580" },
+            { "Samfund B", "#48036F" },
+        };
+
 
 
         protected void Page_Load(object sender, EventArgs e)
@@ -26,7 +44,6 @@ namespace StudyPlatform
             string week = Request.QueryString["uge"];
             Person user = (Person)Session["user"];
             int weekNumber = Convert.ToInt32(Request.QueryString["uge"]);
-
 
             if (year != null && week != null)
             {
@@ -47,38 +64,62 @@ namespace StudyPlatform
                     Response.Redirect("nyheder.aspx");
                 }
 
+                SortedList<string, TableRow> GetTableRow = new SortedList<string, TableRow>();
+                GetTableRow.Add("08:10", tableRow1);
+                GetTableRow.Add("09:05", tableRow4);
+                GetTableRow.Add("10:00", tableRow7);
+                GetTableRow.Add("10:55", tableRow10);
+                GetTableRow.Add("12:05", tableRow13);
+                GetTableRow.Add("13:00", tableRow16);
+                GetTableRow.Add("13:55", tableRow19);
+                GetTableRow.Add("14:50", tableRow22);
 
-                SortedList<string, TableRow> niceList = new SortedList<string, TableRow>();
-                niceList.Add("08:10", tableRow1);
-                niceList.Add("09:05", tableRow4);
-                niceList.Add("10:00", tableRow7);
-                niceList.Add("10:55", tableRow10);
-                niceList.Add("12:05", tableRow13);
-                niceList.Add("13:00", tableRow16);
-                niceList.Add("13:55", tableRow19);
-                niceList.Add("14:50", tableRow22);
+                SortedList<string, int> GetCellNumber = new SortedList<string, int>();
+                GetCellNumber.Add("Monday", 1);
+                GetCellNumber.Add("Tuesday", 2);
+                GetCellNumber.Add("Wednesday", 3);
+                GetCellNumber.Add("Thursday", 4);
+                GetCellNumber.Add("Friday", 5);
 
-
+                SortedList<string, int> GetRowNumber = new SortedList<string, int>();
+                GetRowNumber.Add("08:10", 1);
+                GetRowNumber.Add("09:05", 4);
+                GetRowNumber.Add("10:00", 7);
+                GetRowNumber.Add("10:55", 10);
+                GetRowNumber.Add("12:05", 13);
+                GetRowNumber.Add("13:00", 16);
+                GetRowNumber.Add("13:55", 19);
+                GetRowNumber.Add("14:50", 22);
 
 
 
                 foreach (string timeslot in TimeSlots)
                 {
+                    for (int i = 0; i < 5; i++)
+                    {
+                        TableCell tableCell = new TableCell { RowSpan = 2 };
+                        tableCell.Attributes["Style"] = "background:transparent; position: relative; padding: 0px; margin: 0px;";
+                        GetTableRow[timeslot].Cells.Add(tableCell);
+                    }
+
                     foreach (var lesson in sortedList[timeslot])
                     {
-                        // No line break?!?!?!?!?
-                        string strtext = lesson.Course.Name + Environment.NewLine + lesson.Rooms[0].Name;
-
-                        TableCell tableCell = new TableCell { RowSpan = 2 };
-                        tableCell.Attributes["Style"] = "position: relative; padding: 0px; margin: 0px;";
-
-                        niceList[timeslot].Cells.Add(tableCell);
-
                         Button button = new Button();
-                        button.Attributes.Add("Style", "background:transparent; border:none; color: transparent; position: absolute; width: 100%; height: 100%; display: block; margin: 0 auto; left: auto; right: auto;");
+
+                        // No line break?!?!?!?!?
+                        string strtext = lesson.Course.Name + Environment.NewLine + " - " + lesson.Rooms[0].Name;
                         button.Text = strtext;
 
-                        tableCell.Controls.Add(button);
+
+                        // MANGLER KURSUS COLOR ///////////////////////////////////
+                        button.Attributes.Add("Style", "border:none; position: absolute; width: 100%; height: 100%; margin: 0 auto; left: auto; right: auto; background: " + GetCourseColor[lesson.Course.Name] + ";");
+                        // color: black; display: block; 
+
+                        //button.Attributes.Add("Style", "background:" + GetCourseColor[lesson.Course.Name] + ";");
+
+                        scheduleTable.Rows[GetRowNumber[timeslot]]
+                                        .Cells[GetCellNumber[lesson.DateTime.DayOfWeek.ToString()]]
+                                        .Controls.Add(button);
                     }
                 }
             }
@@ -96,44 +137,7 @@ namespace StudyPlatform
 
 
 
-
-
-
-
-
-
-
-
-        //switch (lesson.DateTime.DayOfWeek.ToString())
-        //{
-        //    case "Monday":
-        //        dayNumber = 1;
-
-        //        break;
-        //    case "Tuesday":
-        //            dayNumber = 2;
-
-        //            break;
-        //    case "Wednesday":
-        //            dayNumber = 3;
-
-        //            break;
-        //    case "Thursday":
-        //            dayNumber = 4;
-
-        //            break;
-        //    case "Friday":
-        //            dayNumber = 5;
-
-        //            break;
-        //    default:
-        //        break;
-        //}
-
-
-
-
-        protected void Button_Click(object sender, EventArgs e)
+    protected void Button_Click(object sender, EventArgs e)
         {
             ScriptManager.RegisterStartupScript(this, this.GetType(), "linkRow1Cell1", "openModal();", true);
         }
@@ -185,6 +189,9 @@ namespace StudyPlatform
             coollist.Add("13:00", lesson6List);
             coollist.Add("13:55", lesson7List);
             coollist.Add("14:50", lesson8List);
+
+
+
 
 
 
