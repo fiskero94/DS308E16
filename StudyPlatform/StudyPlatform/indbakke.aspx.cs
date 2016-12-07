@@ -79,13 +79,15 @@ namespace StudyPlatform
         }
         protected void ReplyButton_Click(object sender, EventArgs e)
         {
-            Master.MessageTitle = "RE: " + Message.GetByID(Convert.ToUInt32(((Button)sender).Attributes["messageid"])).Title;
+            Message message = Message.GetByID(Convert.ToUInt32(((Button) sender).Attributes["messageid"]));
+            Master.ReplyMessage(message);
         }
         protected void ForwardButton_Click(object sender, EventArgs e)
         {
             Message message = Message.GetByID(Convert.ToUInt32(((Button)sender).Attributes["messageid"]));
             Master.MessageTitle = message.Title;
             Master.MessageText = message.Text;
+            Master.OpenNewMessage();
         }
     }
 }

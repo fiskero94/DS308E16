@@ -90,7 +90,6 @@ namespace StudyPlatform
 </Chart>";
             Chart chartImage = new Chart(2500, 500, customChartDesign);
             List<Lesson> allLessons = new List<Lesson>();
-
             foreach (Course studentCourse in student.Courses)
             {
                 foreach (Lesson modelCourseLesson in studentCourse.Lessons)
