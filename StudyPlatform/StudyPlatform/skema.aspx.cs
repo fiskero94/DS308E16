@@ -167,10 +167,6 @@ namespace StudyPlatform
                         divContainer.Attributes["CssClass"] = "modal fade modalPopup";
                         divContainer.Attributes["role"] = "dialog";
 
-                        //divContainer.Attributes["Width"] = "500px";
-                        //divContainer.Attributes["style"] = "width: auto; height: auto;";
-                        //divContainer.Attributes["BackColor"] = "#DCDCDC";
-
                         HtmlGenericControl divModalDialog = new HtmlGenericControl("div");
                         divModalDialog.Attributes["CssClass"] = "modal-dialog";
 
@@ -185,7 +181,7 @@ namespace StudyPlatform
                         modalHeaderCloseButton.Attributes["CssClass"] = "close";
                         modalHeaderCloseButton.Attributes["data-dismiss"] = "modal";
                         modalHeaderCloseButton.ID = "btnCancel" + unigid;
-                        //modalHeaderCloseButton.Text = "&times;";
+                        modalHeaderCloseButton.Text = "&times;";
 
                         HtmlGenericControl modalHeaderTitle = new HtmlGenericControl("h4");
                         modalHeaderTitle.Attributes["CssClass"] = "modal-title";
@@ -211,11 +207,16 @@ namespace StudyPlatform
 
 
 
-
                         scheduleTable.Rows[GetRowNumber[timeslot]]
                             .Cells[GetCellNumber[lesson.DateTime.DayOfWeek.ToString()]]
                             .Controls.Add(button);
 
+                        Panel1.Controls.Add(modalPop);
+                        Panel1.Controls.Add(divContainer);
+
+
+
+                        //////////////////////////////////////////
                         //scheduleTable.Rows[GetRowNumber[timeslot]]
                         //    .Cells[GetCellNumber[lesson.DateTime.DayOfWeek.ToString()]]
                         //    .Controls.Add(modalPop);
@@ -224,10 +225,7 @@ namespace StudyPlatform
                         //scheduleTable.Rows[GetRowNumber[timeslot]]
                         //    .Cells[GetCellNumber[lesson.DateTime.DayOfWeek.ToString()]]
                         //    .Controls.Add(divContainer);
-
-
-                        Panel1.Controls.Add(modalPop);
-                        Panel1.Controls.Add(divContainer);
+                        //////////////////////////////////////////
 
 
 
@@ -264,6 +262,17 @@ namespace StudyPlatform
                         //divBody.Controls.Add(bnt);
 
                         //panel.Controls.Add(divBody);
+
+
+
+
+                        //scheduleTable.Rows[GetRowNumber[timeslot]]
+                        //    .Cells[GetCellNumber[lesson.DateTime.DayOfWeek.ToString()]]
+                        //    .Controls.Add(button);
+
+                        //Panel1.Controls.Add(modalPop);
+
+                        //Panel1.Controls.Add(panel);
 
 
                     }
