@@ -337,19 +337,22 @@ namespace StudyPlatformSQLSetup
                 List<Room> selectedRooms = new List<Room> {TakeRandom(rooms)};
                 Lesson lesson = Lesson.New(TakeRandom(courses), "Lorem ipsum dolor sit amet.", true,
                     DateTime.ParseExact(day + "-" + timeSlot, "dd/MM/yyyy-HH:mm", null), selectedRooms, Group<string>());
-                lesson.GiveAbsence(TakeRandom(lesson.Course.Students));
+                if (DateTime.Now > lesson.DateTime)
+                    lesson.GiveAbsence(TakeRandom(lesson.Course.Students));
             }
             if (Rng.Next(1, 100) > 50)
             {
                 List<Room> selectedRooms = new List<Room> {TakeRandom(rooms)};
                 Lesson lesson = Lesson.New(TakeRandom(courses), "Lorem ipsum dolor sit amet.", false,
                     DateTime.ParseExact(day + "-" + ExtraSlots[0], "dd/MM/yyyy-HH:mm", null), selectedRooms, Group<string>());
-                lesson.GiveAbsence(TakeRandom(lesson.Course.Students));
+                if (DateTime.Now > lesson.DateTime)
+                    lesson.GiveAbsence(TakeRandom(lesson.Course.Students));
                 selectedRooms.Clear();
                 selectedRooms.Add(TakeRandom(rooms));
                 Lesson lesson2 = Lesson.New(TakeRandom(courses), "Lorem ipsum dolor sit amet.", false,
                     DateTime.ParseExact(day + "-" + ExtraSlots[1], "dd/MM/yyyy-HH:mm", null), selectedRooms, Group<string>());
-                lesson2.GiveAbsence(TakeRandom(lesson.Course.Students));
+                if (DateTime.Now > lesson.DateTime)
+                    lesson2.GiveAbsence(TakeRandom(lesson.Course.Students));
             }
         }
         private static readonly Random Rng = new Random(DateTime.Now.Millisecond);

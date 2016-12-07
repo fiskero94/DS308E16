@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="Fravær" Language="C#" MasterPageFile="~/layout.master" AutoEventWireup="true" CodeBehind="fravaer.aspx.cs" Inherits="StudyPlatform.Fravaer" %>
+<%@ Register TagPrefix="asp" Namespace="System.Web.Helpers" Assembly="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" %>
 <%@ MasterType virtualpath="~/layout.master" %>
 <asp:Content ID="Head" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
@@ -26,6 +27,7 @@
             <asp:TableHeaderCell runat="server" CssClass="text-center">Afleveringer</asp:TableHeaderCell>
         </asp:TableHeaderRow>
     </asp:Table>
+    <h4>Graf over Almindeligt Fravær </h4>
      <asp:Image runat="server" ID="AbsenceGraph" Width="100%" Height="100%">
     </asp:Image>
 </asp:Content>
