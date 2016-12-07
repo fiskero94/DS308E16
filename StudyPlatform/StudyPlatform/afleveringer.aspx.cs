@@ -21,6 +21,23 @@ namespace StudyPlatform
             if (!(Session["user"] is Student))
                 Response.Redirect("login.aspx");
             Master.TitelLabelText = "Afleveringer";
+            bool hasAssignmentDescriptions = false;
+            if(((Student)Session["user"]).Courses.Count > 0)
+                hasAssignmentDescriptions = ((Student) Session["user"]).Courses
+                    .Any(course => course.AssignmentDescriptions.Count > 0);
+            if (!hasAssignmentDescriptions)
+            {
+                AssignmentDescriptionsTable.Visible = false;
+                SubmitPanel.Visible = false;
+                SuccessPanel.Visible = false;
+                HtmlGenericControl alert = new HtmlGenericControl("div");
+                alert.Attributes["role"] = "alert";
+                alert.Attributes["class"] = "alert alert-info";
+                alert.InnerHtml = "Du har ikke nogen afleveringer.";
+                AlertPanel.Controls.Add(alert);
+                return;
+            }
+            AlertPanel.Visible = false;
             string submitString = Request.QueryString["aflever"];
             string successString = Request.QueryString["succes"];
             if (submitString == null && successString == null)
@@ -86,16 +103,22 @@ namespace StudyPlatform
             {
                 // MainRow
                 TableRow row = new TableRow();
+                TableCell titleCell = new TableCell {Text = assignmentDescription.Title};
                 if (assignmentDescription.Documents.Count > 0 || assignmentDescription.Description.Length > 0)
                 {
-                    row.Attributes["class"] = "clickable";
-                    row.Attributes["data-toggle"] = "collapse";
-                    row.Attributes["data-target"] = "#accordion" + assignmentDescription.ID;
+                    titleCell.Attributes["class"] = "clickable";
+                    titleCell.Attributes["data-toggle"] = "collapse";
+                    titleCell.Attributes["data-target"] = "#accordion" + assignmentDescription.ID;
                 }
-                row.Cells.Add(new TableCell { Text = assignmentDescription.Title });
-                row.Cells.Add(new TableCell { Text = assignmentDescription.Description.Length > 0 ? "Ja" : "Nej" });
-                row.Cells.Add(new TableCell { Text = assignmentDescription.Documents.Count > 0 ? "Ja" : "Nej" });
-                row.Cells.Add(new TableCell { Text = assignmentDescription.Deadline.ToString() });
+                row.Cells.Add(titleCell);
+                TableCell deadlineCell = new TableCell {Text = assignmentDescription.Deadline.ToString()};
+                if (assignmentDescription.Documents.Count > 0 || assignmentDescription.Description.Length > 0)
+                {
+                    deadlineCell.Attributes["class"] = "clickable";
+                    deadlineCell.Attributes["data-toggle"] = "collapse";
+                    deadlineCell.Attributes["data-target"] = "#accordion" + assignmentDescription.ID;
+                }
+                row.Cells.Add(deadlineCell);
                 TableCell submitCell = new TableCell();
                 if (assignmentDescription.Assignments.Any(assignment => assignment.Student.ID == student.ID))
                 {
@@ -145,11 +168,25 @@ namespace StudyPlatform
                 try
                 {
                     Assignment assignment = assignmentDescription.Assignments.Single(a => a.Student.ID == ((Student) Session["user"]).ID);
-                    row.Cells.Add(new TableCell { Text = AssignmentGrade.GetByConditions("AssignmentID=" + assignment.ID).Single().Grade });
+                    TableCell gradeCell = new TableCell { Text = AssignmentGrade.GetByConditions("AssignmentID=" + assignment.ID).Single().Grade };
+                    if (assignmentDescription.Documents.Count > 0 || assignmentDescription.Description.Length > 0)
+                    {
+                        gradeCell.Attributes["class"] = "clickable";
+                        gradeCell.Attributes["data-toggle"] = "collapse";
+                        gradeCell.Attributes["data-target"] = "#accordion" + assignmentDescription.ID;
+                    }
+                    row.Cells.Add(gradeCell);
                 }
                 catch (InvalidOperationException)
                 {
-                    row.Cells.Add(new TableCell { Text = "Ingen" });
+                    TableCell emptyCell = new TableCell { Text = "Ingen" };
+                    if (assignmentDescription.Documents.Count > 0 || assignmentDescription.Description.Length > 0)
+                    {
+                        emptyCell.Attributes["class"] = "clickable";
+                        emptyCell.Attributes["data-toggle"] = "collapse";
+                        emptyCell.Attributes["data-target"] = "#accordion" + assignmentDescription.ID;
+                    }
+                    row.Cells.Add(emptyCell);
                 }
                 AssignmentDescriptionsTable.Rows.Add(row);
                 if (assignmentDescription.Documents.Count == 0 && assignmentDescription.Description.Length == 0) continue;
@@ -157,7 +194,7 @@ namespace StudyPlatform
                 TableRow assignmentDescriptionDetailsRow = new TableRow();
                 TableCell assignmentDescriptionDetailsCell = new TableCell { ColumnSpan = 4 };
                 var accordion = new HtmlGenericControl("div");
-                //accordion.Attributes["class"] = "collapse";
+                accordion.Attributes["class"] = "collapse";
                 accordion.Attributes["id"] = "accordion" + assignmentDescription.ID;
                 if (assignmentDescription.Description.Length > 0)
                 {

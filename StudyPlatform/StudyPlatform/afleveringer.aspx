@@ -3,13 +3,12 @@
 <asp:Content ID="Head" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Body" ContentPlaceHolderID="body" runat="server" enctype="multipart/form-data">
+    <asp:Panel ID="AlertPanel" runat="server"></asp:Panel>
     <asp:Table ID="AssignmentDescriptionsTable" runat="server" CssClass="table table-striped table-hover table-bordered">
         <asp:TableHeaderRow runat="server">
-            <asp:TableHeaderCell runat="server" CssClass="col-sm-4">Title</asp:TableHeaderCell>
-            <asp:TableHeaderCell runat="server" CssClass="col-sm-1">Beskrivelse</asp:TableHeaderCell>
-            <asp:TableHeaderCell runat="server" CssClass="col-sm-1">Dokumenter</asp:TableHeaderCell>
-            <asp:TableHeaderCell runat="server" CssClass="col-sm-2">Deadline</asp:TableHeaderCell>
-            <asp:TableHeaderCell runat="server" CssClass="col-sm-3">Aflever</asp:TableHeaderCell>
+            <asp:TableHeaderCell runat="server" CssClass="col-sm-9">Title</asp:TableHeaderCell>
+            <asp:TableHeaderCell runat="server" CssClass="col-sm-1">Deadline</asp:TableHeaderCell>
+            <asp:TableHeaderCell runat="server" CssClass="col-sm-2">Aflever</asp:TableHeaderCell>
             <asp:TableHeaderCell runat="server" CssClass="col-sm-1">Karakter</asp:TableHeaderCell>
         </asp:TableHeaderRow>
     </asp:Table>

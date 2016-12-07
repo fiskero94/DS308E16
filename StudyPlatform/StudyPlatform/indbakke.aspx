@@ -5,9 +5,9 @@
 <asp:Content ID="Body" ContentPlaceHolderID="body" runat="server">
     <asp:Table ID="RecievedMessagesTable" runat="server" CssClass="table table-striped table-hover table-bordered">
         <asp:TableHeaderRow runat="server">
-            <asp:TableHeaderCell runat="server">Titel</asp:TableHeaderCell>
-            <asp:TableHeaderCell runat="server">Sender</asp:TableHeaderCell>
-            <asp:TableHeaderCell runat="server">Dato</asp:TableHeaderCell>
+            <asp:TableHeaderCell runat="server" CssClass="col-sm-5">Titel</asp:TableHeaderCell>
+            <asp:TableHeaderCell runat="server" CssClass="col-sm-3">Sender</asp:TableHeaderCell>
+            <asp:TableHeaderCell runat="server" CssClass="col-sm-2">Dato</asp:TableHeaderCell>
             <asp:TableHeaderCell runat="server"></asp:TableHeaderCell>
             <asp:TableHeaderCell runat="server"></asp:TableHeaderCell>
         </asp:TableHeaderRow>

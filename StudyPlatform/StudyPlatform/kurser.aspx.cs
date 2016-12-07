@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -195,7 +196,7 @@ namespace StudyPlatform
             lessonsTableHeaderRow.Cells.Add(new TableCell { Text = "Dokumenter" });
             lessonsTableHeaderRow.Cells.Add(new TableCell { Text = "Beskrivelse" });
             lessonsTable.Rows.Add(lessonsTableHeaderRow);
-            foreach (Lesson lesson in course.Lessons)
+            foreach (Lesson lesson in course.Lessons.OrderBy(o => o.DateTime))
             {
                 TableRow lessonRow = new TableRow();
                 if (lesson.Documents.Count > 0 || lesson.Description.Length > 0)
@@ -272,7 +273,7 @@ namespace StudyPlatform
             assignmentDescriptionsTableHeaderRow.Cells.Add(new TableCell { Text = "Dokumenter" });
             assignmentDescriptionsTableHeaderRow.Cells.Add(new TableCell { Text = "Du har afleveret" });
             assignmentDescriptionsTable.Rows.Add(assignmentDescriptionsTableHeaderRow);
-            foreach (AssignmentDescription assignmentDescription in course.AssignmentDescriptions)
+            foreach (AssignmentDescription assignmentDescription in course.AssignmentDescriptions.OrderBy(o => o .Deadline))
             {
                 TableRow assignmentDescriptionRow = new TableRow();
                 if (assignmentDescription.Documents.Count > 0 || assignmentDescription.Description.Length > 0)
@@ -343,7 +344,7 @@ namespace StudyPlatform
             documentsTableHeaderRow.Cells.Add(new TableCell { Text = "Dokument" });
             documentsTableHeaderRow.Cells.Add(new TableCell { Text = "Download" });
             documentsTable.Rows.Add(documentsTableHeaderRow);
-            foreach (string document in course.Documents)
+            foreach (string document in course.Documents.OrderBy(Path.GetFileName))
             {
                 TableRow documentRow = new TableRow();
                 documentRow.Cells.Add(new TableCell { Text = document });
@@ -365,7 +366,7 @@ namespace StudyPlatform
             TableHeaderRow studentsTableHeaderRow = new TableHeaderRow();
             studentsTableHeaderRow.Cells.Add(new TableCell { Text = "Navn" });
             studentsTable.Rows.Add(studentsTableHeaderRow);
-            foreach (Student student in course.Students)
+            foreach (Student student in course.Students.OrderBy(o => o.Name))
             {
                 TableRow studentRow = new TableRow();
                 studentRow.Cells.Add(new TableCell { Text = student.Name });
@@ -380,7 +381,7 @@ namespace StudyPlatform
             TableHeaderRow teachersTableHeaderRow = new TableHeaderRow();
             teachersTableHeaderRow.Cells.Add(new TableCell { Text = "Navn" });
             teachersTable.Rows.Add(teachersTableHeaderRow);
-            foreach (Teacher teacher in course.Teachers)
+            foreach (Teacher teacher in course.Teachers.OrderBy(o => o.Name))
             {
                 TableRow teacherRow = new TableRow();
                 teacherRow.Cells.Add(new TableCell { Text = teacher.Name });
@@ -410,7 +411,22 @@ namespace StudyPlatform
         }
         protected void DownloadButton_Click(object sender, EventArgs e)
         {
-            
+            Button button = sender as Button;
+            string path = button.Attributes["path"];
+            string name = Path.GetFileName(path);
+            try
+            {
+                Response.ContentType = "application/octet-stream";
+                Response.AppendHeader("Content-Disposition", "attachment; filename=" + name);
+                Response.TransmitFile(Server.MapPath(path));
+                Response.End();
+            }
+            catch (Exception)
+            {
+                button.Text = "Fil forsvundet";
+                button.Attributes["class"] = "btn btn-danger disabled";
+                Assignment.RemoveDocument(path);
+            }
         }
     }
 }

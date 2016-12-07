@@ -61,9 +61,7 @@ namespace StudyPlatform
             foreach (News news in News.GetAll())
             {
                 TableRow row = new TableRow();
-                //row.Attributes["class"] = "clickable";
-                //row.Attributes["data-toggle"] = "collapse";
-                //row.Attributes["data-target"] = "#accordion" + news.ID;
+                row.Attributes["class"] = "clickable";
                 TextBox titleTextBox = new TextBox
                 {
                     CssClass = "form-control",
@@ -73,13 +71,19 @@ namespace StudyPlatform
                 titleTextBox.Attributes["textboxid"] = "title" + news.ID;
                 TableCell titleTextBoxCell = new TableCell();
                 titleTextBoxCell.Attributes["class"] = "col-sm-6";
+                titleTextBoxCell.Attributes["data-toggle"] = "collapse";
+                titleTextBoxCell.Attributes["data-target"] = "#accordion" + news.ID;
                 titleTextBoxCell.Controls.Add(titleTextBox);
                 row.Cells.Add(titleTextBoxCell);
                 TableCell authorCell = new TableCell { Text = news.Author.Name };
                 authorCell.Attributes["class"] = "col-sm-2";
+                authorCell.Attributes["data-toggle"] = "collapse";
+                authorCell.Attributes["data-target"] = "#accordion" + news.ID;
                 row.Cells.Add(authorCell);
                 TableCell dateTimeCell = new TableCell { Text = news.DateTimePublished.ToShortDateString() };
                 dateTimeCell.Attributes["class"] = "col-sm-2";
+                dateTimeCell.Attributes["data-toggle"] = "collapse";
+                dateTimeCell.Attributes["data-target"] = "#accordion" + news.ID;
                 row.Cells.Add(dateTimeCell);
                 Button saveButton = new Button
                 {
@@ -108,7 +112,7 @@ namespace StudyPlatform
                 TableRow textRow = new TableRow();
                 TableCell textCell = new TableCell {ColumnSpan = 5};
                 var accordion = new HtmlGenericControl("div");
-                //accordion.Attributes["class"] = "collapse";
+                accordion.Attributes["class"] = "collapse";
                 accordion.Attributes["id"] = "accordion" + news.ID;
                 TextBox textTextBox = new TextBox
                 {

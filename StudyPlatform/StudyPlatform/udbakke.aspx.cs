@@ -34,11 +34,18 @@ namespace StudyPlatform
             {
                 TableRow row = new TableRow();
                 row.Attributes["class"] = "clickable";
-                //row.Attributes["data-toggle"] = "collapse";
-                //row.Attributes["data-target"] = "#accordion" + message.ID;
-                row.Cells.Add(Common.CreateTextCell(message.Title, "col-sm-5"));
-                row.Cells.Add(Common.CreateTextCell(GetRecipients(message), "col-sm-4"));
-                row.Cells.Add(Common.CreateTextCell(message.DateTimeSent.ToShortDateString(), "col-sm-2"));
+                TableCell titleCell = new TableCell {Text = message.Title};
+                titleCell.Attributes["data-toggle"] = "collapse";
+                titleCell.Attributes["data-target"] = "#accordion" + message.ID;
+                row.Cells.Add(titleCell);
+                TableCell recipientsCell = new TableCell { Text = GetRecipients(message) };
+                recipientsCell.Attributes["data-toggle"] = "collapse";
+                recipientsCell.Attributes["data-target"] = "#accordion" + message.ID;
+                row.Cells.Add(recipientsCell);
+                TableCell dateCell = new TableCell { Text = message.DateTimeSent.ToShortDateString() };
+                dateCell.Attributes["data-toggle"] = "collapse";
+                dateCell.Attributes["data-target"] = "#accordion" + message.ID;
+                row.Cells.Add(dateCell);
                 Button forwardButton = new Button
                 {
                     Text = "Videresend",
@@ -47,14 +54,13 @@ namespace StudyPlatform
                 forwardButton.Attributes["messageid"] = message.ID.ToString();
                 forwardButton.Click += ForwardButton_Click;
                 TableCell forwardButtonCell = new TableCell();
-                forwardButtonCell.Attributes["class"] = "col-sm-1";
                 forwardButtonCell.Controls.Add(forwardButton);
                 row.Cells.Add(forwardButtonCell);
                 SentMessagesTable.Rows.Add(row);
                 TableRow textRow = new TableRow();
-                TableCell textCell = new TableCell { ColumnSpan = 5 };
+                TableCell textCell = new TableCell { ColumnSpan = 4 };
                 var accordion = new HtmlGenericControl("div") { InnerHtml = message.Text };
-                //accordion.Attributes["class"] = "collapse";
+                accordion.Attributes["class"] = "collapse";
                 accordion.Attributes["id"] = "accordion" + message.ID;
                 textCell.Controls.Add(accordion);
                 textRow.Cells.Add(textCell);
