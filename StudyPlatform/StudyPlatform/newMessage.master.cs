@@ -7,11 +7,13 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using StudyPlatform.Classes.Exceptions;
 using StudyPlatform.Classes.Model;
+using System.Reflection;
 
 namespace StudyPlatform
 {
     public partial class NewMessage : MasterPage
     {
+        public Message Message;
         public string MessageTitle
         {
             get { return TitleTextBox.Text; }
@@ -22,7 +24,6 @@ namespace StudyPlatform
             get { return TextTextBox.Text; }
             set { TextTextBox.Text = value; }
         }
-
         public string TitelLabelText
         {
             get { return Master.TitelLabelText; }
@@ -58,6 +59,24 @@ namespace StudyPlatform
             {
                 ResponseLabel.Text = "Unhandled exception: " + ex.Message;
             }
+        }
+
+        public void OpenNewMessage()
+        {
+            ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "text", "stuff()", true);
+        }
+
+        public void ReplyMessage(Message message)
+        {
+            foreach (ListItem item in RecipientsListBox.Items)
+            {
+                if (item.Value == Convert.ToString(message.Sender.ID))
+                    item.Selected = true;
+                else
+                    item.Selected = false;
+            }
+            MessageTitle = "RE: " + message.Title;
+            OpenNewMessage();
         }
     }
 }

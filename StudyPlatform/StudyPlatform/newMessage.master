@@ -27,6 +27,12 @@
         </div>
     </div>
     <asp:ContentPlaceHolder ID="body" runat="server">
-
     </asp:ContentPlaceHolder>
+
+<script type="text/javascript" >
+    function stuff() {
+        $("#newmessage").collapse('show');
+        javascript:scroll(0,0);
+    }
+</script>
 </asp:Content>
