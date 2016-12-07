@@ -126,21 +126,21 @@ namespace StudyPlatform.Tests.DatabaseTests
             // Dependencies: CreateCourse
             Creator.CreateCourse(Instances.Name, Instances.Description);
             Course course = Course.GetLatest();
-            Creator.CreateAssignmentDescription(course,
+            Creator.CreateAssignmentDescription(course, Instances.Title,
                 Instances.Description, Instances.Date, Instances.Filepaths);
         }  
         [TestMethod]
         public void CreatorCreateAssignmentDescription_NullParameters_ArgumentNullExceptionThrown() =>
             Common.TestActionForExceptionThrown(new ArgumentNullException(),
-            new Action<Course, string, DateTime, List<string>>(Creator.CreateAssignmentDescription),
-            null, null, DateTime.Now, null);
+            new Action<Course, string, string, DateTime, List<string>>(Creator.CreateAssignmentDescription),
+            null, null, null, DateTime.Now, null);
         [TestMethod]
         public void CreatorCreateAssignment_ValidParameters_NoExceptionThrown()
         {
             // Dependencies: CreateAssignmentDescription, CreateCourse, CreateStudent
             Creator.CreateCourse(Instances.Name, Instances.Description);
             Course course = Course.GetLatest(1).Single();
-            Creator.CreateAssignmentDescription(course, Instances.Description, 
+            Creator.CreateAssignmentDescription(course, Instances.Title, Instances.Description, 
                 Instances.Date, Instances.Filepaths);
             AssignmentDescription assignmentDescription = AssignmentDescription.GetLatest(1).Single();
             Creator.CreateStudent(Instances.Name, Instances.Username, Instances.Password);

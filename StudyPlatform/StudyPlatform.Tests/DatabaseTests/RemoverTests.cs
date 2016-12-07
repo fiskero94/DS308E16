@@ -149,7 +149,7 @@ namespace StudyPlatform.Tests.DatabaseTests
             course.AddTeacher(teacher);
             Creator.CreateLesson(course, Instances.Description, Instances.Online,
                 Instances.Date, Instances.Rooms, Instances.Filepaths);
-            Creator.CreateAssignmentDescription(course, Instances.Description, Instances.Date, Instances.Filepaths);
+            Creator.CreateAssignmentDescription(course, Instances.Title, Instances.Description, Instances.Date, Instances.Filepaths);
             Creator.CreateCourseGrade(course, student, Instances.Grade, Instances.Comment);
 
             // Act
@@ -215,7 +215,7 @@ namespace StudyPlatform.Tests.DatabaseTests
             // Arrange
             Creator.CreateCourse(Instances.Name, Instances.Description);
             Course course = Course.GetByID(1);
-            Creator.CreateAssignmentDescription(course, Instances.Description, Instances.Date, Instances.Filepaths);
+            Creator.CreateAssignmentDescription(course, Instances.Title, Instances.Description, Instances.Date, Instances.Filepaths);
             AssignmentDescription assignmentDescription = AssignmentDescription.GetByID(1);
 
             // Act
@@ -231,7 +231,7 @@ namespace StudyPlatform.Tests.DatabaseTests
             // Arrange
             Creator.CreateCourse(Instances.Name, Instances.Description);
             Course course = Course.GetByID(1);
-            Creator.CreateAssignmentDescription(course, Instances.Description, Instances.Date, Instances.Filepaths);
+            Creator.CreateAssignmentDescription(course, Instances.Title, Instances.Description, Instances.Date, Instances.Filepaths);
             Creator.CreateStudent(Instances.Name, Instances.Username, Instances.Password);
             AssignmentDescription assignmentDescription = AssignmentDescription.GetByID(1);
             Student student = Student.GetByID(2);
@@ -252,7 +252,7 @@ namespace StudyPlatform.Tests.DatabaseTests
             // Arrange
             Creator.CreateCourse(Instances.Name, Instances.Description);
             Course course = Course.GetByID(1);
-            Creator.CreateAssignmentDescription(course, Instances.Description, Instances.Date, Instances.Filepaths);
+            Creator.CreateAssignmentDescription(course, Instances.Title, Instances.Description, Instances.Date, Instances.Filepaths);
             Creator.CreateStudent(Instances.Name, Instances.Username, Instances.Password);
             AssignmentDescription assignmentDescription = AssignmentDescription.GetByID(1);
             Student student = Person.GetByID(2) as Student;
