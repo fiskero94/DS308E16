@@ -814,6 +814,7 @@
     <Content Include="Scripts\AjaxControlToolkit\Release\ToggleButton.js" />
     <Content Include="Scripts\AjaxControlToolkit\Release\UpdatePanelAnimation.js" />
     <Content Include="Scripts\AjaxControlToolkit\Release\ValidatorCallout.js" />
+    <Content Include="Scripts\coolb.js" />
     <Content Include="skema.aspx" />
     <Content Include="submit.ascx" />
     <Content Include="udbakke.aspx" />

@@ -13,8 +13,9 @@
         <%: System.Web.Optimization.Styles.Render("~/Content/AjaxControlToolkit/Styles/Bundle") %>
     </asp:PlaceHolder>
     
-    
-<%--    <style type="text/css">   
+    <script src="Scripts/coolb.js"></script>
+
+    <style type="text/css">   
         .modalBackground 
         {
             background-color: black;
@@ -32,8 +33,22 @@
             height: 140px;    
         }
 
+        .overlay 
+        {
+            background: pink;
+            display: none;
+            position: absolute; 
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            opacity: 0.5;         
+        }
 
-    </style>--%>
+
+
+
+    </style>
     
    
 </asp:Content>
@@ -45,13 +60,17 @@
         <Scripts>
             <asp:ScriptReference Path="~/Scripts/AjaxControlToolkit/Bundle"/>
         </Scripts>
+        
+
     </asp:ScriptManager>
-    
 
 
+<div class="overlay">
 
+            <button id="bada">Submit</button>
+    </div>
     
-    
+
 
     <asp:PlaceHolder runat="server" ID="modalPlaceHolder">
         <div>
@@ -119,11 +138,11 @@
     <asp:Table runat="server" ID="scheduleTable" CssClass="table table-bordered">
         <asp:TableHeaderRow runat="server">
             <asp:TableHeaderCell runat="server" CssClass="col-sm-1"></asp:TableHeaderCell>
-            <asp:TableHeaderCell runat="server">Mandag</asp:TableHeaderCell>
-            <asp:TableHeaderCell runat="server">Tirsdag</asp:TableHeaderCell>
-            <asp:TableHeaderCell runat="server">Onsdag</asp:TableHeaderCell>
-            <asp:TableHeaderCell runat="server">Torsdag</asp:TableHeaderCell>
-            <asp:TableHeaderCell runat="server">Fredag</asp:TableHeaderCell>  
+            <asp:TableHeaderCell runat="server" CssClass="text-center">Mandag</asp:TableHeaderCell>
+            <asp:TableHeaderCell runat="server" CssClass="text-center">Tirsdag</asp:TableHeaderCell>
+            <asp:TableHeaderCell runat="server" CssClass="text-center">Onsdag</asp:TableHeaderCell>
+            <asp:TableHeaderCell runat="server" CssClass="text-center">Torsdag</asp:TableHeaderCell>
+            <asp:TableHeaderCell runat="server" CssClass="text-center">Fredag</asp:TableHeaderCell>  
     </asp:TableHeaderRow>
         <asp:TableRow runat="server" ID="tableRow1" CssClass="table">
             <asp:TableCell runat="server">8.10</asp:TableCell>
@@ -136,7 +155,7 @@
         </asp:TableRow>
     
         <asp:TableRow runat="server" ID="tableRow3" CssClass="table">
-            <asp:TableCell runat="server">Pause</asp:TableCell>
+            <asp:TableCell runat="server"></asp:TableCell>
         </asp:TableRow>
     
         <asp:TableRow runat="server" ID="tableRow4" CssClass="table">
@@ -149,7 +168,7 @@
         </asp:TableRow>
     
         <asp:TableRow runat="server" ID="tableRow6" CssClass="table">
-            <asp:TableCell runat="server">Pause</asp:TableCell>
+            <asp:TableCell runat="server"></asp:TableCell>
         </asp:TableRow>
     
         <asp:TableRow runat="server" ID="tableRow7" CssClass="table">
@@ -163,7 +182,7 @@
         </asp:TableRow>
     
         <asp:TableRow runat="server" ID="tableRow9" CssClass="table">
-            <asp:TableCell runat="server">Pause</asp:TableCell>
+            <asp:TableCell runat="server"></asp:TableCell>
         </asp:TableRow>
     
         <asp:TableRow runat="server" ID="tableRow10" CssClass="table">
@@ -177,7 +196,7 @@
         </asp:TableRow>
     
         <asp:TableRow runat="server" ID="tableRow12" CssClass="table">
-            <asp:TableCell runat="server">Pause</asp:TableCell>
+            <asp:TableCell runat="server"></asp:TableCell>
         </asp:TableRow>
     
         <asp:TableRow runat="server" ID="tableRow13" CssClass="table">
@@ -191,7 +210,7 @@
         </asp:TableRow>
     
         <asp:TableRow runat="server" ID="tableRow15" CssClass="table">
-            <asp:TableCell runat="server">Pause</asp:TableCell>
+            <asp:TableCell runat="server"></asp:TableCell>
         </asp:TableRow>
     
         <asp:TableRow runat="server" ID="tableRow16" CssClass="table">
@@ -205,7 +224,7 @@
         </asp:TableRow>
     
         <asp:TableRow runat="server" ID="tableRow18" CssClass="table">
-            <asp:TableCell runat="server">Pause</asp:TableCell>
+            <asp:TableCell runat="server"></asp:TableCell>
         </asp:TableRow>
     
         <asp:TableRow runat="server" ID="tableRow19" CssClass="table">
@@ -219,7 +238,7 @@
         </asp:TableRow>
     
         <asp:TableRow runat="server" ID="tableRow21" CssClass="table">
-            <asp:TableCell runat="server">Pause</asp:TableCell>
+            <asp:TableCell runat="server"></asp:TableCell>
         </asp:TableRow>
     
         <asp:TableRow runat="server" ID="tableRow22" CssClass="table">

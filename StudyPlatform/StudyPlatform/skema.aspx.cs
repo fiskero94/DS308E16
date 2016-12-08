@@ -26,15 +26,15 @@ namespace StudyPlatform
 
         private static readonly Dictionary<string, string> GetCourseColor = new Dictionary<string, string>
         {
-            { "Kemi B", "#876ED7" },
-            { "Fysik A", "#6A48D7" },
-            { "Matematik A", "#200772" },
-            { "Dansk A", "#412C84" },
-            { "Idræt C", "#3914AF" },
-            { "Geografi B", "#7109AA" },
-            { "Engelsk A", "#5F2580" },
-            { "Samfund B", "#48036F" },
-            { "Historie B", "Pink" },
+            { "Kemi B", "#6F308A" },
+            { "Fysik A", "#DD6726" },
+            { "Matematik A", "#B81F34" },
+            { "Dansk A", "#7F7E80" },
+            { "Idræt C", "#61A547" },
+            { "Geografi B", "#4578B4" },
+            { "Engelsk A", "#473896" },
+            { "Samfund B", "#90278A" },
+            { "Historie B", "#7D1615" },
         };
 
 
@@ -139,12 +139,18 @@ namespace StudyPlatform
                         // No line break?!?!?!?!?
                         string strtext = lesson.Course.Name + Environment.NewLine + " - " + lesson.Rooms[0].Name;
                         button.Text = strtext;
+                        
 
                         // MANGLER KURSUS COLOR /////////////////////////////////// // color: black; display: block; 
-                        button.Attributes.Add("Style", "border:none; position: absolute; width: 100%; height: 100%; margin: 0 auto; left: auto; right: auto; background: " + GetCourseColor[lesson.Course.Name] + ";");
+                        button.Attributes.Add("Style", "border:none; position: absolute; width: 100%; height: 100%; margin: 0 auto; left: auto; right: auto; background: " + GetCourseColor[lesson.Course.Name] + "; color: White;");
 
                         button.ID = DateTime.Now.Millisecond.ToString() + lesson.DateTime.Date.DayOfWeek;
                         //button.Click += Button_Click;
+
+                        //button.OnClientClick = "overlayOn()";
+
+        
+
 
 
                         string unigid = DateTime.Now.Millisecond.ToString() + lesson.DateTime.Date.DayOfWeek + DateTime.Now.Millisecond.ToString();
@@ -153,66 +159,68 @@ namespace StudyPlatform
                         modalPop.ID = "popUp" + button.ID;
                         modalPop.PopupControlID = unigid;
                         modalPop.TargetControlID = button.ID;
-                        modalPop.DropShadow = true;
+                        modalPop.DropShadow = false;
                         modalPop.CancelControlID = "btnCancel" + unigid;
-                        
+
+
+
 
 
 
 
                         // MODAL POPUP STUFF
 
-                        HtmlGenericControl divContainer = new HtmlGenericControl("div");
-                        divContainer.ID = unigid;
-                        divContainer.Attributes["CssClass"] = "modal fade modalPopup";
-                        divContainer.Attributes["role"] = "dialog";
+                        //HtmlGenericControl divContainer = new HtmlGenericControl("div");
+                        //divContainer.ID = unigid;
+                        //divContainer.Attributes["CssClass"] = "modal fade modalPopup";
+                        //divContainer.Attributes["role"] = "dialog";
 
-                        HtmlGenericControl divModalDialog = new HtmlGenericControl("div");
-                        divModalDialog.Attributes["CssClass"] = "modal-dialog";
+                        //HtmlGenericControl divModalDialog = new HtmlGenericControl("div");
+                        //divModalDialog.Attributes["CssClass"] = "modal-dialog";
 
-                        HtmlGenericControl divContent = new HtmlGenericControl("div");
-                        divContent.Attributes["CssClass"] = "modal-content";
-                        
-                        HtmlGenericControl divModalHeader = new HtmlGenericControl("div");
-                        divModalHeader.Attributes["CssClass"] = "modal-header";
+                        //HtmlGenericControl divContent = new HtmlGenericControl("div");
+                        //divContent.Attributes["CssClass"] = "modal-content";
 
-                        Button modalHeaderCloseButton = new Button();
-                        modalHeaderCloseButton.Attributes["type"] = "button";
-                        modalHeaderCloseButton.Attributes["CssClass"] = "close";
-                        modalHeaderCloseButton.Attributes["data-dismiss"] = "modal";
-                        modalHeaderCloseButton.ID = "btnCancel" + unigid;
-                        modalHeaderCloseButton.Text = "&times;";
+                        //HtmlGenericControl divModalHeader = new HtmlGenericControl("div");
+                        //divModalHeader.Attributes["CssClass"] = "modal-header";
 
-                        HtmlGenericControl modalHeaderTitle = new HtmlGenericControl("h4");
-                        modalHeaderTitle.Attributes["CssClass"] = "modal-title";
-                        modalHeaderTitle.InnerText = lesson.Course.Name;
+                        //Button modalHeaderCloseButton = new Button();
+                        //modalHeaderCloseButton.Attributes["type"] = "button";
+                        //modalHeaderCloseButton.Attributes["CssClass"] = "close";
+                        //modalHeaderCloseButton.Attributes["data-dismiss"] = "modal";
+                        //modalHeaderCloseButton.ID = "btnCancel" + unigid;
+                        //modalHeaderCloseButton.Text = "&times;";
 
-                        divModalHeader.Controls.Add(modalHeaderCloseButton);
-                        divModalHeader.Controls.Add(modalHeaderTitle);
+                        //HtmlGenericControl modalHeaderTitle = new HtmlGenericControl("h4");
+                        //modalHeaderTitle.Attributes["CssClass"] = "modal-title";
+                        //modalHeaderTitle.InnerText = lesson.Course.Name;
 
-                        HtmlGenericControl divModalBody = new HtmlGenericControl("div");
-                        divModalBody.Attributes["CssClass"] = "modal-body";
-                        Label contentDescription = new Label();
-                        contentDescription.Text = lesson.Description;
+                        //divModalHeader.Controls.Add(modalHeaderCloseButton);
+                        //divModalHeader.Controls.Add(modalHeaderTitle);
 
-                        divModalBody.Controls.Add(contentDescription);
+                        //HtmlGenericControl divModalBody = new HtmlGenericControl("div");
+                        //divModalBody.Attributes["CssClass"] = "modal-body";
+                        //Label contentDescription = new Label();
+                        //contentDescription.Text = lesson.Description;
 
-                        divContent.Controls.Add(divModalHeader);
-                        divContent.Controls.Add(divModalBody);
+                        //divModalBody.Controls.Add(contentDescription);
 
-                        divModalDialog.Controls.Add(divContent);
+                        //divContent.Controls.Add(divModalHeader);
+                        //divContent.Controls.Add(divModalBody);
 
-                        divContainer.Controls.Add(divModalDialog);
+                        //divModalDialog.Controls.Add(divContent);
 
-
+                        //divContainer.Controls.Add(divModalDialog);
 
 
-                        scheduleTable.Rows[GetRowNumber[timeslot]]
-                            .Cells[GetCellNumber[lesson.DateTime.DayOfWeek.ToString()]]
-                            .Controls.Add(button);
 
-                        Panel1.Controls.Add(modalPop);
-                        Panel1.Controls.Add(divContainer);
+
+                        //scheduleTable.Rows[GetRowNumber[timeslot]]
+                        //    .Cells[GetCellNumber[lesson.DateTime.DayOfWeek.ToString()]]
+                        //    .Controls.Add(button);
+
+                        //Panel1.Controls.Add(modalPop);
+                        //Panel1.Controls.Add(divContainer);
 
 
 
@@ -234,45 +242,103 @@ namespace StudyPlatform
 
 
 
-                        //Panel panel = new Panel();
+                        Panel panel = new Panel();
 
-                        //panel.ID = unigid;
-                        //panel.Attributes["runat"] = "server";
-                        //panel.CssClass = "modalPopup";
-                        //panel.Attributes["Style"] = "display: none";
-                        //panel.BackColor = Color.Gray;
+                        panel.ID = unigid;
+                        panel.Attributes["runat"] = "server";
+                        panel.CssClass = "modalPopup";
+                        panel.Attributes["Style"] = "display: none; position: relative; Height: 50%; Width: 25%;";
+                        panel.BackColor = Color.AliceBlue;
+                        //panel.Height = 500;
+                        //panel.Width = 400;
 
-                        //HtmlGenericControl divHeader = new HtmlGenericControl("div");
+
+
+                        panel.BorderColor = Color.FromArgb(231,231,231);
+
+
+                        HtmlGenericControl titleHeader = new HtmlGenericControl("h2");
                         //divHeader.Attributes["class"] = "header";
-                        //divHeader.InnerText = lesson.Course.Name;
+                        titleHeader.InnerText = lesson.Course.Name;
 
-                        //panel.Controls.Add(divHeader);
+                        panel.Controls.Add(titleHeader);
 
+                        HtmlGenericControl TitleLine = new HtmlGenericControl("hr");
+                        panel.Controls.Add(TitleLine);
 
-                        //HtmlGenericControl divBody = new HtmlGenericControl("div");
-                        //divBody.Attributes["class"] = "body";
-                        //divBody.InnerText = lesson.Description;
+                        foreach (var teacher in lesson.Course.Teachers)
+                        {
+                            HyperLink hyperLink = new HyperLink();
+                            hyperLink.Text = teacher.Name;
+                            hyperLink.Attributes["style"] = "font-size: 16px";
+                            panel.Controls.Add(hyperLink);
+                        }
 
-
-                        //Button bnt = new Button();
-                        //bnt.ID = "btnCancel" + unigid;
-                        //bnt.Attributes["runat"] = "server";
-                        //bnt.Text = "Hide Modal Popup";
-
-                        //divBody.Controls.Add(bnt);
-
-                        //panel.Controls.Add(divBody);
-
+                        HtmlGenericControl br = new HtmlGenericControl("br");
+                        panel.Controls.Add(br);
 
 
+                        Label dateLabel = new Label();
+                        dateLabel.Text = lesson.DateTime.Date.ToLongDateString();
+                        panel.Controls.Add(dateLabel);
 
-                        //scheduleTable.Rows[GetRowNumber[timeslot]]
-                        //    .Cells[GetCellNumber[lesson.DateTime.DayOfWeek.ToString()]]
-                        //    .Controls.Add(button);
 
-                        //Panel1.Controls.Add(modalPop);
+                        HtmlGenericControl dateLine = new HtmlGenericControl("hr");
+                        panel.Controls.Add(dateLine);
 
-                        //Panel1.Controls.Add(panel);
+
+                        HtmlGenericControl divBody = new HtmlGenericControl("div");
+                        divBody.Attributes["class"] = "body";
+                        divBody.InnerText = lesson.Description + lesson.Description + lesson.Description + lesson.Description + lesson.Description +
+                            lesson.Description + lesson.Description + lesson.Description + lesson.Description + lesson.Description +
+                            lesson.Description + lesson.Description + lesson.Description + lesson.Description + lesson.Description;
+
+                        HtmlGenericControl bodyLine = new HtmlGenericControl("hr");
+                        divBody.Controls.Add(bodyLine);
+
+                        HtmlGenericControl fileHeader = new HtmlGenericControl("h4");
+                        fileHeader.InnerText = "Filer";
+                        divBody.Controls.Add(fileHeader);
+
+
+                        foreach (var filepath in lesson.Documents)
+                        {
+                            Button downloadButton = new Button { Text = Path.GetFileName(filepath) };
+                            downloadButton.Attributes["class"] = "btn btn-warning";
+                            downloadButton.Attributes["style"] = "display: inline-block;";
+                            downloadButton.Attributes["path"] = filepath;
+                            downloadButton.Click += DownloadButton_Click;
+                            divBody.Controls.Add(downloadButton);
+                        }
+
+                        HtmlGenericControl footerLine = new HtmlGenericControl("hr");
+                        divBody.Controls.Add(footerLine);
+
+
+                        Button bnt = new Button();
+                        bnt.ID = "btnCancel" + unigid;
+                        bnt.Attributes["runat"] = "server";
+                        bnt.Text = "Luk";
+                        bnt.Attributes["Style"] = "position: absolute; width: 15%; height: 6%; margin: 0 auto; left: auto; right: 2px; bottom: 2px";
+
+
+
+
+
+                        divBody.Controls.Add(bnt);
+
+                        panel.Controls.Add(divBody);
+
+
+
+
+                        scheduleTable.Rows[GetRowNumber[timeslot]]
+                            .Cells[GetCellNumber[lesson.DateTime.DayOfWeek.ToString()]]
+                            .Controls.Add(button);
+
+                        Panel1.Controls.Add(modalPop);
+
+                        Panel1.Controls.Add(panel);
 
 
                     }
@@ -290,6 +356,25 @@ namespace StudyPlatform
         }
 
 
+        protected void DownloadButton_Click(object sender, EventArgs e)
+        {
+            Button button = sender as Button;
+            string path = button.Attributes["path"];
+            string name = Path.GetFileName(path);
+            try
+            {
+                Response.ContentType = "application/octet-stream";
+                Response.AppendHeader("Content-Disposition", "attachment; filename=" + name);
+                Response.TransmitFile(Server.MapPath(path));
+                Response.End();
+            }
+            catch (Exception)
+            {
+                button.Text = "Fil forsvundet";
+                button.Attributes["class"] = "btn btn-danger disabled";
+                Assignment.RemoveDocument(path);
+            }
+        }
 
 
         protected void Button_Click(object sender, EventArgs e)
@@ -299,6 +384,7 @@ namespace StudyPlatform
             //mpePopUp = bodystuff.FindControl( );
 
             //mpePopUp.Show;
+
 
 
 
