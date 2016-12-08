@@ -13,6 +13,7 @@ using System.Diagnostics.Contracts;
 using System.Net.Mime;
 using System.Web.UI.HtmlControls;
 using AjaxControlToolkit;
+using StudyPlatform.Classes;
 
 namespace StudyPlatform
 {
@@ -269,8 +270,9 @@ namespace StudyPlatform
                         panel.ID = unigid;
                         panel.Attributes["runat"] = "server";
                         panel.CssClass = "modalPopup";
-                        panel.Attributes["Style"] = "display: none; position: relative; Height: 66%; Width: 33%;";
+                        panel.Attributes["Style"] = "display: none; position: relative; Height: 66%; Width: 33%; padding: 16px;";
                         panel.BackColor = Color.AliceBlue;
+
 
 
 
@@ -286,32 +288,47 @@ namespace StudyPlatform
                         HtmlGenericControl TitleLine = new HtmlGenericControl("hr");
                         panel.Controls.Add(TitleLine);
 
-                        foreach (var teacher in lesson.Course.Teachers)
-                        {
-                            HyperLink hyperLink = new HyperLink();
-                            hyperLink.Text = teacher.Name;
-                            hyperLink.Attributes["style"] = "font-size: 16px";
-                            panel.Controls.Add(hyperLink);
-                        }
 
-                        HtmlGenericControl br = new HtmlGenericControl("br");
-                        panel.Controls.Add(br);
 
+                        string str = "";
+                        Common.AppendStringArray(ref str, ", ", lesson.Course.Teachers.Select(teac => teac.Name).ToArray());
+                        panel.Controls.Add(new Label() {Text = str});
+
+
+                        panel.Controls.Add(new HtmlGenericControl("br"));
 
                         Label dateLabel = new Label();
                         dateLabel.Text = lesson.DateTime.Date.ToLongDateString();
                         panel.Controls.Add(dateLabel);
 
 
+                        panel.Controls.Add(new HtmlGenericControl("br"));
+
+                        Label statusLabel = new Label();                      
+                        if (lesson.Cancelled)
+                        {
+                            statusLabel.Text = "Status: Aflyst";
+                        }
+                        else
+                        {
+                            statusLabel.Text = lesson.Online ? "Status: Virtuel" : "Status: Standard";
+                        }
+                        panel.Controls.Add(statusLabel); 
+
+
+
                         HtmlGenericControl dateLine = new HtmlGenericControl("hr");
                         panel.Controls.Add(dateLine);
 
 
+                        HtmlGenericControl descriptionHeader = new HtmlGenericControl("h4");
+                        descriptionHeader.InnerText = "Beskrivelse";
+                        panel.Controls.Add(descriptionHeader);
+
+
                         HtmlGenericControl divBody = new HtmlGenericControl("div");
                         divBody.Attributes["class"] = "body";
-                        divBody.InnerText = lesson.Description + lesson.Description + lesson.Description + lesson.Description + lesson.Description +
-                            lesson.Description + lesson.Description + lesson.Description + lesson.Description + lesson.Description +
-                            lesson.Description + lesson.Description + lesson.Description + lesson.Description + lesson.Description;
+                        divBody.InnerText = lesson.Description;
 
                         HtmlGenericControl bodyLine = new HtmlGenericControl("hr");
                         divBody.Controls.Add(bodyLine);
