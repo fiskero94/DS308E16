@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -62,6 +63,29 @@ namespace StudyPlatform
                 var accordion = new HtmlGenericControl("div") { InnerHtml = message.Text };
                 accordion.Attributes["class"] = "collapse";
                 accordion.Attributes["id"] = "accordion" + message.ID;
+                if (message.Attachments.Count > 0)
+                {
+                    HtmlGenericControl container = new HtmlGenericControl("div");
+                    container.Attributes["class"] = "container";
+                    Table messageAttachmentsTable = new Table { CssClass = "table table-striped table-hover table-bordered" };
+                    TableHeaderRow messageAttachmentsTableHeaderRow = new TableHeaderRow();
+                    messageAttachmentsTableHeaderRow.Cells.Add(new TableCell { Text = "Vedhæftninger" });
+                    messageAttachmentsTable.Rows.Add(messageAttachmentsTableHeaderRow);
+                    TableRow attachmentRow = new TableRow();
+                    TableCell attachmentCell = new TableCell();
+                    foreach (string attachment in message.Attachments)
+                    {
+                        Button downloadButton = new Button { Text = Path.GetFileName(attachment) };
+                        downloadButton.Attributes["class"] = "btn btn-warning";
+                        downloadButton.Attributes["path"] = attachment;
+                        downloadButton.Click += DownloadButton_Click;
+                        attachmentCell.Controls.Add(downloadButton);
+                    }
+                    attachmentRow.Cells.Add(attachmentCell);
+                    messageAttachmentsTable.Rows.Add(attachmentRow);
+                    container.Controls.Add(messageAttachmentsTable);
+                    accordion.Controls.Add(container);
+                }
                 textCell.Controls.Add(accordion);
                 textRow.Cells.Add(textCell);
                 SentMessagesTable.Rows.Add(textRow);
@@ -81,6 +105,25 @@ namespace StudyPlatform
             Master.MessageTitle = message.Title;
             Master.MessageText = message.Text;
             Master.OpenNewMessage();
+        }
+        protected void DownloadButton_Click(object sender, EventArgs e)
+        {
+            Button button = sender as Button;
+            string path = button.Attributes["path"];
+            string name = Path.GetFileName(path);
+            try
+            {
+                Response.ContentType = "application/octet-stream";
+                Response.AppendHeader("Content-Disposition", "attachment; filename=" + name);
+                Response.TransmitFile(Server.MapPath(path));
+                Response.End();
+            }
+            catch (Exception)
+            {
+                button.Text = "Fil forsvundet";
+                button.Attributes["class"] = "btn btn-danger disabled";
+                Assignment.RemoveDocument(path);
+            }
         }
     }
 }

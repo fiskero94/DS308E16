@@ -21,6 +21,9 @@
                 <asp:ListBox ID="RecipientsListBox" runat="server" CssClass="form-control" SelectionMode="Multiple"></asp:ListBox>
             </div>
             <div class="form-group">
+                <asp:FileUpload ID="FileUploadControl" runat="server"/>
+            </div>
+            <div class="form-group">
                 <asp:Button ID="CreateMessageButton" runat="server" Text="Send beskeden" CssClass="btn btn-success" OnClick="CreateMessageButton_OnClick"/>
                 <asp:Label ID="ResponseLabel" runat="server" CssClass="text-danger"></asp:Label>
             </div>

@@ -155,64 +155,64 @@ namespace StudyPlatform
                         modalPop.TargetControlID = button.ID;
                         modalPop.DropShadow = true;
                         modalPop.CancelControlID = "btnCancel" + unigid;
-                        
+
 
 
 
 
                         // MODAL POPUP STUFF
 
-                        HtmlGenericControl divContainer = new HtmlGenericControl("div");
-                        divContainer.ID = unigid;
-                        divContainer.Attributes["CssClass"] = "modal fade modalPopup";
-                        divContainer.Attributes["role"] = "dialog";
+                        //HtmlGenericControl divContainer = new HtmlGenericControl("div");
+                        //divContainer.ID = unigid;
+                        //divContainer.Attributes["CssClass"] = "modal fade modalPopup";
+                        //divContainer.Attributes["role"] = "dialog";
 
-                        HtmlGenericControl divModalDialog = new HtmlGenericControl("div");
-                        divModalDialog.Attributes["CssClass"] = "modal-dialog";
+                        //HtmlGenericControl divModalDialog = new HtmlGenericControl("div");
+                        //divModalDialog.Attributes["CssClass"] = "modal-dialog";
 
-                        HtmlGenericControl divContent = new HtmlGenericControl("div");
-                        divContent.Attributes["CssClass"] = "modal-content";
-                        
-                        HtmlGenericControl divModalHeader = new HtmlGenericControl("div");
-                        divModalHeader.Attributes["CssClass"] = "modal-header";
+                        //HtmlGenericControl divContent = new HtmlGenericControl("div");
+                        //divContent.Attributes["CssClass"] = "modal-content";
 
-                        Button modalHeaderCloseButton = new Button();
-                        modalHeaderCloseButton.Attributes["type"] = "button";
-                        modalHeaderCloseButton.Attributes["CssClass"] = "close";
-                        modalHeaderCloseButton.Attributes["data-dismiss"] = "modal";
-                        modalHeaderCloseButton.ID = "btnCancel" + unigid;
-                        modalHeaderCloseButton.Text = "&times;";
+                        //HtmlGenericControl divModalHeader = new HtmlGenericControl("div");
+                        //divModalHeader.Attributes["CssClass"] = "modal-header";
 
-                        HtmlGenericControl modalHeaderTitle = new HtmlGenericControl("h4");
-                        modalHeaderTitle.Attributes["CssClass"] = "modal-title";
-                        modalHeaderTitle.InnerText = lesson.Course.Name;
+                        //Button modalHeaderCloseButton = new Button();
+                        //modalHeaderCloseButton.Attributes["type"] = "button";
+                        //modalHeaderCloseButton.Attributes["CssClass"] = "close";
+                        //modalHeaderCloseButton.Attributes["data-dismiss"] = "modal";
+                        //modalHeaderCloseButton.ID = "btnCancel" + unigid;
+                        //modalHeaderCloseButton.Text = "&times;";
 
-                        divModalHeader.Controls.Add(modalHeaderCloseButton);
-                        divModalHeader.Controls.Add(modalHeaderTitle);
+                        //HtmlGenericControl modalHeaderTitle = new HtmlGenericControl("h4");
+                        //modalHeaderTitle.Attributes["CssClass"] = "modal-title";
+                        //modalHeaderTitle.InnerText = lesson.Course.Name;
 
-                        HtmlGenericControl divModalBody = new HtmlGenericControl("div");
-                        divModalBody.Attributes["CssClass"] = "modal-body";
-                        Label contentDescription = new Label();
-                        contentDescription.Text = lesson.Description;
+                        //divModalHeader.Controls.Add(modalHeaderCloseButton);
+                        //divModalHeader.Controls.Add(modalHeaderTitle);
 
-                        divModalBody.Controls.Add(contentDescription);
+                        //HtmlGenericControl divModalBody = new HtmlGenericControl("div");
+                        //divModalBody.Attributes["CssClass"] = "modal-body";
+                        //Label contentDescription = new Label();
+                        //contentDescription.Text = lesson.Description;
 
-                        divContent.Controls.Add(divModalHeader);
-                        divContent.Controls.Add(divModalBody);
+                        //divModalBody.Controls.Add(contentDescription);
 
-                        divModalDialog.Controls.Add(divContent);
+                        //divContent.Controls.Add(divModalHeader);
+                        //divContent.Controls.Add(divModalBody);
 
-                        divContainer.Controls.Add(divModalDialog);
+                        //divModalDialog.Controls.Add(divContent);
 
-
+                        //divContainer.Controls.Add(divModalDialog);
 
 
-                        scheduleTable.Rows[GetRowNumber[timeslot]]
-                            .Cells[GetCellNumber[lesson.DateTime.DayOfWeek.ToString()]]
-                            .Controls.Add(button);
 
-                        Panel1.Controls.Add(modalPop);
-                        Panel1.Controls.Add(divContainer);
+
+                        //scheduleTable.Rows[GetRowNumber[timeslot]]
+                        //    .Cells[GetCellNumber[lesson.DateTime.DayOfWeek.ToString()]]
+                        //    .Controls.Add(button);
+
+                        //Panel1.Controls.Add(modalPop);
+                        //Panel1.Controls.Add(divContainer);
 
 
 
@@ -234,45 +234,45 @@ namespace StudyPlatform
 
 
 
-                        //Panel panel = new Panel();
+                        Panel panel = new Panel();
 
-                        //panel.ID = unigid;
-                        //panel.Attributes["runat"] = "server";
-                        //panel.CssClass = "modalPopup";
-                        //panel.Attributes["Style"] = "display: none";
-                        //panel.BackColor = Color.Gray;
+                        panel.ID = unigid;
+                        panel.Attributes["runat"] = "server";
+                        panel.CssClass = "modalPopup";
+                        panel.Attributes["Style"] = "display: none";
+                        panel.BackColor = Color.Gray;
 
-                        //HtmlGenericControl divHeader = new HtmlGenericControl("div");
-                        //divHeader.Attributes["class"] = "header";
-                        //divHeader.InnerText = lesson.Course.Name;
+                        HtmlGenericControl divHeader = new HtmlGenericControl("div");
+                        divHeader.Attributes["class"] = "header";
+                        divHeader.InnerText = lesson.Course.Name;
 
-                        //panel.Controls.Add(divHeader);
-
-
-                        //HtmlGenericControl divBody = new HtmlGenericControl("div");
-                        //divBody.Attributes["class"] = "body";
-                        //divBody.InnerText = lesson.Description;
+                        panel.Controls.Add(divHeader);
 
 
-                        //Button bnt = new Button();
-                        //bnt.ID = "btnCancel" + unigid;
-                        //bnt.Attributes["runat"] = "server";
-                        //bnt.Text = "Hide Modal Popup";
-
-                        //divBody.Controls.Add(bnt);
-
-                        //panel.Controls.Add(divBody);
+                        HtmlGenericControl divBody = new HtmlGenericControl("div");
+                        divBody.Attributes["class"] = "body";
+                        divBody.InnerText = lesson.Description;
 
 
+                        Button bnt = new Button();
+                        bnt.ID = "btnCancel" + unigid;
+                        bnt.Attributes["runat"] = "server";
+                        bnt.Text = "Hide Modal Popup";
+
+                        divBody.Controls.Add(bnt);
+
+                        panel.Controls.Add(divBody);
 
 
-                        //scheduleTable.Rows[GetRowNumber[timeslot]]
-                        //    .Cells[GetCellNumber[lesson.DateTime.DayOfWeek.ToString()]]
-                        //    .Controls.Add(button);
 
-                        //Panel1.Controls.Add(modalPop);
 
-                        //Panel1.Controls.Add(panel);
+                        scheduleTable.Rows[GetRowNumber[timeslot]]
+                            .Cells[GetCellNumber[lesson.DateTime.DayOfWeek.ToString()]]
+                            .Controls.Add(button);
+
+                        Panel1.Controls.Add(modalPop);
+
+                        Panel1.Controls.Add(panel);
 
 
                     }
