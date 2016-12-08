@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -42,9 +43,25 @@ namespace StudyPlatform
         {
             List<Person> recipients = RecipientsListBox.GetSelectedIndices().Select(index =>
                 Person.GetByID(Convert.ToUInt32(RecipientsListBox.Items[index].Value))).ToList();
+            List<string> filepaths = new List<string>();
+            if (FileUploadControl.HasFiles)
+            {
+                foreach (HttpPostedFile document in FileUploadControl.PostedFiles)
+                {
+                    try
+                    {
+                        filepaths.Add("~/filer/beskeder/" + Path.GetFileName(document.FileName));
+                        document.SaveAs(Path.Combine(Server.MapPath("~/filer/beskeder/"), document.FileName));
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+                }
+            }
             try
             {
-                Message.New(Session["user"] as Person, TitleTextBox.Text, TextTextBox.Text, recipients, new List<string>());
+                Message.New(Session["user"] as Person, TitleTextBox.Text, TextTextBox.Text, recipients, filepaths);
                 Response.Redirect(Request.RawUrl);
             }
             catch (ArgumentException)

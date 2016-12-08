@@ -171,7 +171,7 @@ namespace StudyPlatformSQLSetup
 
             // Students
             WriteSetupMessageIndent("Creating students");
-            var student01 = Student.New("Iver Clausen", "iverclausen", "1234");
+            var student01 = Student.New("Helle", "helle", "1234");
             var student02 = Student.New("Gunner Ebbesen", "gunnerebbesen", "1234");
             var student03 = Student.New("Kent Poulsen", "kentpoulsen", "1234");
             var student04 = Student.New("Bertel Greve", "bertelgreve", "1234");
