@@ -138,7 +138,7 @@
 
 
 
-                    <asp:Label runat="server" ID="CurrentWeekNumber"></asp:Label>
+                    <asp:Label runat="server" ID="CurrentWeekNumber" Font-Size="15"></asp:Label>
                     <asp:LinkButton runat="server" ID="JumpWeekRight" CssClass="btn btn-default" OnClick="JumpWeekRight_OnClick"/>
                 </div>
             </div>
