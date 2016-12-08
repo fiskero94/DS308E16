@@ -29,6 +29,49 @@ namespace StudyPlatform
                 SidePanel.Controls.Add(link);
             NameLabel.Text = ((Person) Session["user"]).Name;
         }
+
+
+        private void CreateStudentSidePanel()
+        {
+            foreach (HyperLink link in GetStudentLinks())
+            {
+                if (link.NavigateUrl == "/skema.aspx")
+                {
+                    
+                }
+                else if (link.NavigateUrl == "/afleveringer.aspx")
+                {
+
+                }
+                else if (link.NavigateUrl == "/indbakke.aspx")
+                {
+
+                }
+                else if (link.NavigateUrl == "/udbakke.aspx")
+                {
+
+                }
+                else
+                {
+                    SidePanel.Controls.Add(link);
+                }
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         private static IEnumerable<HyperLink> GetStudentLinks()
         {
             return new List<HyperLink>
