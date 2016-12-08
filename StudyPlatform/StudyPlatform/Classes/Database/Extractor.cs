@@ -145,7 +145,7 @@ namespace StudyPlatform.Classes.Database
             {
                 uint id = reader.GetUInt32(reader.GetOrdinal("ID"));
                 uint courseID = reader.GetUInt32(reader.GetOrdinal("CourseID"));
-                string title = reader.GetString(reader.GetOrdinal("Description"));
+                string title = reader.GetString(reader.GetOrdinal("Title"));
                 string description = reader.GetString(reader.GetOrdinal("Description"));
                 bool cancelled = reader.GetBoolean(reader.GetOrdinal("Cancelled"));
                 DateTime deadline = reader.GetDateTime(reader.GetOrdinal("Deadline"));
