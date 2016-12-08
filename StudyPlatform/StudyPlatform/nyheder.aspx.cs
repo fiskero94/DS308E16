@@ -27,7 +27,7 @@ namespace StudyPlatform
         {
             NewNewsButton.Visible = false;
             CreateNewsButton.Visible = false;
-            foreach (News news in News.GetAll())
+            foreach (News news in News.GetAll().OrderBy(o => o.DateTimePublished).Reverse())
             {
                 TableRow row = new TableRow();
                 row.Attributes["class"] = "clickable";
@@ -58,7 +58,7 @@ namespace StudyPlatform
         {
             NewsTableHeaderRow.Cells.Add(new TableCell());
             NewsTableHeaderRow.Cells.Add(new TableCell());
-            foreach (News news in News.GetAll())
+            foreach (News news in News.GetAll().OrderBy(o => o.DateTimePublished).Reverse())
             {
                 TableRow row = new TableRow();
                 row.Attributes["class"] = "clickable";
