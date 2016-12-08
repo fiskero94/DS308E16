@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="~/Content/bootstrap.min.css"/>
     <link rel="stylesheet" href="~/Content/bootstrap-lumen.min.css"/>
     <link rel="stylesheet" href="~/Content/shared.css"/>
-    <link rel="shortcut icon" type="image/x-icon" href="~/Content/images/favicon.png" />
+    <link rel="shortcut icon" type="image/x-icon" href="~/Content/images/favicon.png"/>
     <meta name="description" content="StudyPlatform"/>
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
@@ -26,10 +26,10 @@
                 <a class="navbar-brand" href="#">
                     <asp:Label ID="TitelLabel" runat="server" Text="Layout"></asp:Label>
                 </a>
-                <div class="form-group pull-right">
-                    <asp:Label ID="NameLabel" runat="server"></asp:Label>
-                    <a href="login.aspx" class="btn btn-default">Logud</a>
-                </div>
+            </div>
+            <div class="container-fluid pull-right">
+                <asp:Label ID="NameLabel" runat="server"></asp:Label>
+                <a href="login.aspx" class="btn btn-default" style="margin-left: 20px;">Logud</a>
             </div>
         </div>
     </nav>
