@@ -13,62 +13,15 @@
         <%: System.Web.Optimization.Styles.Render("~/Content/AjaxControlToolkit/Styles/Bundle") %>
     </asp:PlaceHolder>
     
-    <script src="Scripts/coolb.js"></script>
-
-    <style type="text/css">   
-        .modalBackground 
-        {
-            background-color: black;
-            opacity: 0.8;        
-        }
-        .modalPopup 
-        {
-            background-color: #FFFFFF;
-            border-width: 3px;
-            border-style: solid;
-            border-color: black;
-            padding-top: 10px;
-            padding-left: 10px;
-            width: 300px;
-            height: 140px;    
-        }
-
-        .overlay 
-        {
-            background: pink;
-            display: none;
-            position: absolute; 
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
-            opacity: 0.5;         
-        }
-
-
-
-
-    </style>
-    
-   
 </asp:Content>
-
 
 <asp:Content ID="Body" ContentPlaceHolderID="body" runat="server">
 
     <asp:ScriptManager runat="server" EnableScriptGlobalization="True">
         <Scripts>
             <asp:ScriptReference Path="~/Scripts/AjaxControlToolkit/Bundle"/>
-        </Scripts>
-       
+        </Scripts>   
     </asp:ScriptManager>
-
-
-<div class="overlay">
-
-            <button id="bada">Submit</button>
-    </div>
-    
 
 
     <asp:PlaceHolder runat="server" ID="modalPlaceHolder">
@@ -76,58 +29,7 @@
 
             <asp:Panel ID="Panel1" runat="server">
 
-<%--                <asp:Button ID="Button1" runat="server" Text="CreateModal" OnClick="Button_Click" CssClass="right"/>--%>
-
-<%--                <asp:Button runat="server" ID="08:10Monday"/>
-                <asp:Button runat="server" ID="08:10Tuesday"/>
-                <asp:Button runat="server" ID="08:10Wednesday"/>
-                <asp:Button runat="server" ID="08:10Thursday"/>
-                <asp:Button runat="server" ID="08:10Friday"/>
-
-                <asp:Button runat="server" ID="09:05Monday"/>
-                <asp:Button runat="server" ID="09:05Tuesday"/>
-                <asp:Button runat="server" ID="09:05Wednesday"/>
-                <asp:Button runat="server" ID="09:05Thursday"/>
-                <asp:Button runat="server" ID="09:05Friday"/>
-
-                <asp:Button runat="server" ID="10:00Monday"/>
-                <asp:Button runat="server" ID="10:00Tuesday"/>
-                <asp:Button runat="server" ID="10:00Wednesday"/>
-                <asp:Button runat="server" ID="10:00Thursday"/>
-                <asp:Button runat="server" ID="10:00Friday"/>
-
-                <asp:Button runat="server" ID="10:55Monday"/>
-                <asp:Button runat="server" ID="10:55Tuesday"/>
-                <asp:Button runat="server" ID="10:55Wednesday"/>
-                <asp:Button runat="server" ID="10:55Thursday"/>
-                <asp:Button runat="server" ID="10:55Friday"/>
-
-                <asp:Button runat="server" ID="12:05Monday"/>
-                <asp:Button runat="server" ID="12:05Tuesday"/>
-                <asp:Button runat="server" ID="12:05Wednesday"/>
-                <asp:Button runat="server" ID="12:05Thursday"/>
-                <asp:Button runat="server" ID="12:05Friday"/>
-
-                <asp:Button runat="server" ID="13:00Monday"/>
-                <asp:Button runat="server" ID="13:00Tuesday"/>
-                <asp:Button runat="server" ID="13:00Wednesday"/>
-                <asp:Button runat="server" ID="13:00Thursday"/>
-                <asp:Button runat="server" ID="13:00Friday"/>
-
-                <asp:Button runat="server" ID="13:55Monday"/>
-                <asp:Button runat="server" ID="13:55Tuesday"/>
-                <asp:Button runat="server" ID="13:55Wednesday"/>
-                <asp:Button runat="server" ID="13:55Thursday"/>
-                <asp:Button runat="server" ID="13:55Friday"/>
-
-                <asp:Button runat="server" ID="14:50Monday"/>
-                <asp:Button runat="server" ID="14:50Tuesday"/>
-                <asp:Button runat="server" ID="14:50Wednesday"/>
-                <asp:Button runat="server" ID="14:50Thursday"/>
-                <asp:Button runat="server" ID="14:50Friday"/>--%>
-               
             </asp:Panel>
-
 
             <div class="container col-sm-12" style="margin-top: -80px;">
                 <div class="form-group col-sm-4 col-sm-offset-4">

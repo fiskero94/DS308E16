@@ -184,7 +184,7 @@ namespace StudyPlatform
                         modalPop.DropShadow = false;
                         modalPop.CancelControlID = "btnCancel" + unigid;
 
-
+                        //modalPop.BackgroundCssClass = "jsMpeBackground";
 
 
 
@@ -269,10 +269,8 @@ namespace StudyPlatform
                         panel.ID = unigid;
                         panel.Attributes["runat"] = "server";
                         panel.CssClass = "modalPopup";
-                        panel.Attributes["Style"] = "display: none; position: relative; Height: 50%; Width: 25%;";
+                        panel.Attributes["Style"] = "display: none; position: relative; Height: 66%; Width: 33%;";
                         panel.BackColor = Color.AliceBlue;
-                        //panel.Height = 500;
-                        //panel.Width = 400;
 
 
 
@@ -340,6 +338,7 @@ namespace StudyPlatform
                         Button bnt = new Button();
                         bnt.ID = "btnCancel" + unigid;
                         bnt.Attributes["runat"] = "server";
+                        bnt.Attributes["class"] = "btn btn-primary";
                         bnt.Text = "Luk";
                         bnt.Attributes["Style"] = "position: absolute; width: 15%; height: 6%; margin: 0 auto; left: auto; right: 2px; bottom: 2px";
 
