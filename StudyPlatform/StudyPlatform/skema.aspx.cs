@@ -20,6 +20,8 @@ namespace StudyPlatform
     {
         private static readonly string[] TimeSlots = { "08:10", "09:05", "10:00", "10:55", "12:05", "13:00", "13:55", "14:50" };
 
+        private string year;
+        private string week;
 
 
         // Lav Color Picker metode, hvor user.Course.Count tages, og Colores fremstilles ud fra start color.
@@ -44,8 +46,15 @@ namespace StudyPlatform
                 Response.Redirect("login.aspx");
             Master.TitelLabelText = "Skema";
 
-            string year = Request.QueryString["aar"];
-            string week = Request.QueryString["uge"];
+            year = Request.QueryString["aar"];
+            week = Request.QueryString["uge"];
+            CurrentWeekNumber.Text = " " + week + " ";
+
+
+
+
+
+
             Person user = (Person)Session["user"];
             int weekNumber = Convert.ToInt32(Request.QueryString["uge"]);
 
@@ -98,26 +107,39 @@ namespace StudyPlatform
 
 
 
-                // Uge Skift
-                Button buttonLeft = new Button();
-                buttonLeft.ID = "bntLeft";
-                buttonLeft.PostBackUrl = "skema.aspx?aar=" + year + "&uge=" + (Convert.ToInt32(week) - 1);
-                buttonLeft.Attributes["runat"] = "server";
-                buttonLeft.Text = "<---";
-                buttonLeft.Attributes["class"] = "btn btn-default";
-                Panel1.Controls.Add(buttonLeft);
 
-                Label currentweekLabel = new Label();
-                currentweekLabel.Text = "Uge: " + week;
-                Panel1.Controls.Add(currentweekLabel);
 
-                Button buttonRight = new Button();
-                buttonRight.ID = "bntRight";
-                buttonRight.PostBackUrl = "skema.aspx?aar=" + year + "&uge=" + (Convert.ToInt32(week) + 1);
-                buttonRight.Attributes["runat"] = "server";
-                buttonRight.Text = "--->";
-                buttonRight.Attributes["class"] = "btn btn-default";
-                Panel1.Controls.Add(buttonRight);
+
+                //// Uge Skift
+                //HtmlGenericControl divContainer = new HtmlGenericControl("div");
+                //divContainer.Attributes["class"] = "Form-control container";
+
+
+                //Button buttonLeft = new Button();
+                //buttonLeft.ID = "bntLeft";
+                //buttonLeft.PostBackUrl = "skema.aspx?aar=" + year + "&uge=" + (Convert.ToInt32(week) - 1);
+                //buttonLeft.Attributes["runat"] = "server";
+                //buttonLeft.Text = "<---";
+                //buttonLeft.Attributes["class"] = "btn btn-default";
+                //Panel1.Controls.Add(buttonLeft);
+
+                //Label currentweekLabel = new Label();
+                //currentweekLabel.Text = " Uge: " + week + " ";
+
+
+                //Button buttonRight = new Button();
+                //buttonRight.ID = "bntRight";
+                //buttonRight.PostBackUrl = "skema.aspx?aar=" + year + "&uge=" + (Convert.ToInt32(week) + 1);
+                //buttonRight.Attributes["runat"] = "server";
+                //buttonRight.Text = "--->";
+                //buttonRight.Attributes["class"] = "btn btn-default";
+
+                //divContainer.Controls.Add(buttonLeft);
+                //divContainer.Controls.Add(buttonRight);
+
+                //Panel1.Controls.Add(buttonLeft);
+                //Panel1.Controls.Add(currentweekLabel);
+                //Panel1.Controls.Add(buttonRight);
 
 
 
@@ -145,11 +167,11 @@ namespace StudyPlatform
                         button.Attributes.Add("Style", "border:none; position: absolute; width: 100%; height: 100%; margin: 0 auto; left: auto; right: auto; background: " + GetCourseColor[lesson.Course.Name] + "; color: White;");
 
                         button.ID = DateTime.Now.Millisecond.ToString() + lesson.DateTime.Date.DayOfWeek;
-                        //button.Click += Button_Click;
+                        button.Click += Button_Click;
 
                         //button.OnClientClick = "overlayOn()";
 
-        
+
 
 
 
@@ -504,34 +526,14 @@ namespace StudyPlatform
         }
 
 
+        protected void JumpWeekRight_OnClick(object sender, EventArgs e)
+        {
+            Response.Redirect("skema.aspx?aar=" + year + "&uge=" + (Convert.ToInt32(week) + 1));
+        }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        protected void JumpWeekLeft_OnClick(object sender, EventArgs e)
+        {
+            Response.Redirect("skema.aspx?aar=" + year + "&uge=" + (Convert.ToInt32(week) - 1));
+        }
     }
 }

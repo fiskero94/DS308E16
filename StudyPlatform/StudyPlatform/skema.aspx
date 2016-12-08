@@ -56,12 +56,11 @@
 
 <asp:Content ID="Body" ContentPlaceHolderID="body" runat="server">
 
-    <asp:ScriptManager runat="server">
+    <asp:ScriptManager runat="server" EnableScriptGlobalization="True">
         <Scripts>
             <asp:ScriptReference Path="~/Scripts/AjaxControlToolkit/Bundle"/>
         </Scripts>
-        
-
+       
     </asp:ScriptManager>
 
 
@@ -128,12 +127,25 @@
                 <asp:Button runat="server" ID="14:50Friday"/>--%>
                
             </asp:Panel>
-            
+
+
+            <div class="container col-sm-12">
+                <div class="form-group col-sm-2 col-sm-offset-5">
+
+                    <asp:LinkButton runat="server" ID="JumpWeekLeft" CssClass="btn btn-default" OnClick="JumpWeekLeft_OnClick">
+                        <span class="glyphicon glyphicon-triangle-right"></span>
+                    </asp:LinkButton>
+
+
+
+                    <asp:Label runat="server" ID="CurrentWeekNumber"></asp:Label>
+                    <asp:LinkButton runat="server" ID="JumpWeekRight" CssClass="btn btn-default" OnClick="JumpWeekRight_OnClick"/>
+                </div>
+            </div>
 
 
             
-            
-    
+
     
     <asp:Table runat="server" ID="scheduleTable" CssClass="table table-bordered">
         <asp:TableHeaderRow runat="server">
