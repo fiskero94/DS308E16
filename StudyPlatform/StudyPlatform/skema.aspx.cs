@@ -106,7 +106,12 @@ namespace StudyPlatform
                 GetRowNumber.Add("14:50", 22);
 
 
-
+                DateTime weekDateTime = FirstDateOfWeekISO8601(Convert.ToInt32(year), Convert.ToInt32(week));
+                tableHeaderCellMonday.Text = "Mandag(" + weekDateTime.ToShortDateString() + ")";
+                tableHeaderCellTuesday.Text = "Tirsdag(" + weekDateTime.AddDays(1).ToShortDateString() + ")";
+                tableHeaderCellWednesday.Text = "Onsdag(" + weekDateTime.AddDays(2).ToShortDateString() + ")";
+                tableHeaderCellThursday.Text = "Torsdag(" + weekDateTime.AddDays(3).ToShortDateString() + ")";
+                tableHeaderCellFriday.Text = "Fredag(" + weekDateTime.AddDays(4).ToShortDateString() + ")";
 
 
 
@@ -432,7 +437,23 @@ namespace StudyPlatform
 
 
 
+        public static DateTime FirstDateOfWeekISO8601(int year, int weekOfYear)
+        {
+            DateTime jan1 = new DateTime(year, 1, 1);
+            int daysOffset = DayOfWeek.Thursday - jan1.DayOfWeek;
 
+            DateTime firstThursday = jan1.AddDays(daysOffset);
+            var cal = CultureInfo.CurrentCulture.Calendar;
+            int firstWeek = cal.GetWeekOfYear(firstThursday, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+
+            var weekNum = weekOfYear;
+            if (firstWeek <= 1)
+            {
+                weekNum -= 1;
+            }
+            var result = firstThursday.AddDays(weekNum * 7);
+            return result.AddDays(-3);
+        }
 
 
 

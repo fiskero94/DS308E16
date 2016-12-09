@@ -53,11 +53,11 @@
     <asp:Table runat="server" ID="scheduleTable" CssClass="table table-bordered">
         <asp:TableHeaderRow runat="server">
             <asp:TableHeaderCell runat="server" CssClass="col-sm-1"></asp:TableHeaderCell>
-            <asp:TableHeaderCell runat="server" CssClass="text-center">Mandag</asp:TableHeaderCell>
-            <asp:TableHeaderCell runat="server" CssClass="text-center">Tirsdag</asp:TableHeaderCell>
-            <asp:TableHeaderCell runat="server" CssClass="text-center">Onsdag</asp:TableHeaderCell>
-            <asp:TableHeaderCell runat="server" CssClass="text-center">Torsdag</asp:TableHeaderCell>
-            <asp:TableHeaderCell runat="server" CssClass="text-center">Fredag</asp:TableHeaderCell>  
+            <asp:TableHeaderCell runat="server" CssClass="text-center" ID="tableHeaderCellMonday"></asp:TableHeaderCell>
+            <asp:TableHeaderCell runat="server" CssClass="text-center" ID="tableHeaderCellTuesday"></asp:TableHeaderCell>
+            <asp:TableHeaderCell runat="server" CssClass="text-center" ID="tableHeaderCellWednesday"></asp:TableHeaderCell>
+            <asp:TableHeaderCell runat="server" CssClass="text-center" ID="tableHeaderCellThursday"></asp:TableHeaderCell>
+            <asp:TableHeaderCell runat="server" CssClass="text-center" ID="tableHeaderCellFriday"></asp:TableHeaderCell>  
     </asp:TableHeaderRow>
         <asp:TableRow runat="server" ID="tableRow1" CssClass="table">
             <asp:TableCell runat="server">8.10</asp:TableCell>
