@@ -21,8 +21,8 @@ namespace StudyPlatform
     {
         private static readonly string[] TimeSlots = { "08:10", "09:05", "10:00", "10:55", "12:05", "13:00", "13:55", "14:50" };
 
-        private string year;
-        private string week;
+        private string _year;
+        private string _week;
 
 
         // Lav Color Picker metode, hvor user.Course.Count tages, og Colores fremstilles ud fra start color.
@@ -41,25 +41,34 @@ namespace StudyPlatform
         };
 
 
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!(Session["user"] is Student || Session["user"] is Teacher))
                 Response.Redirect("login.aspx");
             Master.TitelLabelText = "Skema";
 
-            year = Request.QueryString["aar"];
-            week = Request.QueryString["uge"];
-            CurrentWeekNumber.Text = " " + week + " ";
+            _year = Request.QueryString["aar"];
+            _week = Request.QueryString["uge"];
+
+            //if (Convert.ToInt32(_week) > 52)
+            //{
+            //    Response.Redirect("skema.aspx?aar=" + (_year) + "&uge=" + "52");
+            //}
+            //else if (Convert.ToInt32(_week) < 1)
+            //{
+            //    Response.Redirect("skema.aspx?aar=" + (_year) + "&uge=" + "1");
+            //}
 
 
-
-
-
+            CurrentWeekNumber.Text = " " + _week + " ";
 
             Person user = (Person)Session["user"];
             int weekNumber = Convert.ToInt32(Request.QueryString["uge"]);
 
-            if (year != null && week != null)
+
+
+            if (_year != null && _week != null)
             {
                 SortedList<string, List<Lesson>> sortedList = new SortedList<string, List<Lesson>>();
 
@@ -75,7 +84,7 @@ namespace StudyPlatform
                 }
                 else
                 {
-                    Response.Redirect("nyheder.aspx");
+                    Response.Redirect("nyheder.aspx");  // SLET?!?
                 }
 
                 SortedList<string, TableRow> GetTableRow = new SortedList<string, TableRow>();
@@ -106,46 +115,16 @@ namespace StudyPlatform
                 GetRowNumber.Add("14:50", 22);
 
 
+                // Table Headers
+                DateTime weekDateTime = FirstDateOfWeekISO8601(Convert.ToInt32(_year), Convert.ToInt32(_week));
+                tableHeaderCellMonday.Text = "Mandag(" + weekDateTime.ToShortDateString() + ")";
+                tableHeaderCellTuesday.Text = "Tirsdag(" + weekDateTime.AddDays(1).ToShortDateString() + ")";
+                tableHeaderCellWednesday.Text = "Onsdag(" + weekDateTime.AddDays(2).ToShortDateString() + ")";
+                tableHeaderCellThursday.Text = "Torsdag(" + weekDateTime.AddDays(3).ToShortDateString() + ")";
+                tableHeaderCellFriday.Text = "Fredag(" + weekDateTime.AddDays(4).ToShortDateString() + ")";
 
 
-
-
-
-                //// Uge Skift
-                //HtmlGenericControl divContainer = new HtmlGenericControl("div");
-                //divContainer.Attributes["class"] = "Form-control container";
-
-
-                //Button buttonLeft = new Button();
-                //buttonLeft.ID = "bntLeft";
-                //buttonLeft.PostBackUrl = "skema.aspx?aar=" + year + "&uge=" + (Convert.ToInt32(week) - 1);
-                //buttonLeft.Attributes["runat"] = "server";
-                //buttonLeft.Text = "<---";
-                //buttonLeft.Attributes["class"] = "btn btn-default";
-                //Panel1.Controls.Add(buttonLeft);
-
-                //Label currentweekLabel = new Label();
-                //currentweekLabel.Text = " Uge: " + week + " ";
-
-
-                //Button buttonRight = new Button();
-                //buttonRight.ID = "bntRight";
-                //buttonRight.PostBackUrl = "skema.aspx?aar=" + year + "&uge=" + (Convert.ToInt32(week) + 1);
-                //buttonRight.Attributes["runat"] = "server";
-                //buttonRight.Text = "--->";
-                //buttonRight.Attributes["class"] = "btn btn-default";
-
-                //divContainer.Controls.Add(buttonLeft);
-                //divContainer.Controls.Add(buttonRight);
-
-                //Panel1.Controls.Add(buttonLeft);
-                //Panel1.Controls.Add(currentweekLabel);
-                //Panel1.Controls.Add(buttonRight);
-
-
-
-
-
+                // Creating TableCells with button for each Day in each TimeSlot.
                 foreach (string timeslot in TimeSlots)
                 {
                     for (int i = 0; i < 5; i++)
@@ -157,130 +136,64 @@ namespace StudyPlatform
 
                     foreach (var lesson in sortedList[timeslot])
                     {
+                        // TableCell Button Layout
                         Button button = new Button();
 
-                        // No line break?!?!?!?!?
-                        string strtext = lesson.Course.Name + Environment.NewLine + " - " + lesson.Rooms[0].Name;
-                        button.Text = strtext;
+                        string lessonButtonName = lesson.Course.Name + " - " + lesson.Rooms[0].Name;
+                        button.Text = lessonButtonName;
                         
+                        button.Attributes.Add("Style", "border:none; position: absolute; width: 100%; height: 100%; " +
+                                                       "margin: 0 auto; left: auto; right: auto; background: " + 
+                                                       GetCourseColor[lesson.Course.Name] + "; color: White;");
 
-                        // MANGLER KURSUS COLOR /////////////////////////////////// // color: black; display: block; 
-                        button.Attributes.Add("Style", "border:none; position: absolute; width: 100%; height: 100%; margin: 0 auto; left: auto; right: auto; background: " + GetCourseColor[lesson.Course.Name] + "; color: White;");
-
-                        button.ID = DateTime.Now.Millisecond.ToString() + lesson.DateTime.Date.DayOfWeek;
-                        button.Click += Button_Click;
-
-                        //button.OnClientClick = "overlayOn()";
+                        string buttonUniqueId = Guid.NewGuid().ToString();
+                        button.ID = buttonUniqueId;
 
 
 
 
-
-                        string unigid = DateTime.Now.Millisecond.ToString() + lesson.DateTime.Date.DayOfWeek + DateTime.Now.Millisecond.ToString();
-
-                        AjaxControlToolkit.ModalPopupExtender modalPop = new AjaxControlToolkit.ModalPopupExtender();
-                        modalPop.ID = "popUp" + button.ID;
-                        modalPop.PopupControlID = unigid;
-                        modalPop.TargetControlID = button.ID;
-                        modalPop.DropShadow = false;
-                        modalPop.CancelControlID = "btnCancel" + unigid;
-
-                        //modalPop.BackgroundCssClass = "jsMpeBackground";
+                        if (lesson.Documents.Count < 1)
+                        {
+                            Panel p = new Panel();
 
 
+                            HtmlGenericControl divContainer = new HtmlGenericControl("div");
+                            divContainer.Attributes["style"] = "position: absolute; z-index: 999;";
 
 
+                            HtmlGenericControl iContainer = new HtmlGenericControl("span");
 
-                        // MODAL POPUP STUFF
+                            iContainer.Attributes["class"] = "fa fa-arrow-circle-o-right fa-4x";
 
-                        //HtmlGenericControl divContainer = new HtmlGenericControl("div");
-                        //divContainer.ID = unigid;
-                        //divContainer.Attributes["CssClass"] = "modal fade modalPopup";
-                        //divContainer.Attributes["role"] = "dialog";
+                            divContainer.Controls.Add(iContainer);
 
-                        //HtmlGenericControl divModalDialog = new HtmlGenericControl("div");
-                        //divModalDialog.Attributes["CssClass"] = "modal-dialog";
+                            p.Controls.Add(divContainer);
 
-                        //HtmlGenericControl divContent = new HtmlGenericControl("div");
-                        //divContent.Attributes["CssClass"] = "modal-content";
-
-                        //HtmlGenericControl divModalHeader = new HtmlGenericControl("div");
-                        //divModalHeader.Attributes["CssClass"] = "modal-header";
-
-                        //Button modalHeaderCloseButton = new Button();
-                        //modalHeaderCloseButton.Attributes["type"] = "button";
-                        //modalHeaderCloseButton.Attributes["CssClass"] = "close";
-                        //modalHeaderCloseButton.Attributes["data-dismiss"] = "modal";
-                        //modalHeaderCloseButton.ID = "btnCancel" + unigid;
-                        //modalHeaderCloseButton.Text = "&times;";
-
-                        //HtmlGenericControl modalHeaderTitle = new HtmlGenericControl("h4");
-                        //modalHeaderTitle.Attributes["CssClass"] = "modal-title";
-                        //modalHeaderTitle.InnerText = lesson.Course.Name;
-
-                        //divModalHeader.Controls.Add(modalHeaderCloseButton);
-                        //divModalHeader.Controls.Add(modalHeaderTitle);
-
-                        //HtmlGenericControl divModalBody = new HtmlGenericControl("div");
-                        //divModalBody.Attributes["CssClass"] = "modal-body";
-                        //Label contentDescription = new Label();
-                        //contentDescription.Text = lesson.Description;
-
-                        //divModalBody.Controls.Add(contentDescription);
-
-                        //divContent.Controls.Add(divModalHeader);
-                        //divContent.Controls.Add(divModalBody);
-
-                        //divModalDialog.Controls.Add(divContent);
-
-                        //divContainer.Controls.Add(divModalDialog);
+                            button.Controls.Add(p);
 
 
 
-
-                        //scheduleTable.Rows[GetRowNumber[timeslot]]
-                        //    .Cells[GetCellNumber[lesson.DateTime.DayOfWeek.ToString()]]
-                        //    .Controls.Add(button);
-
-                        //Panel1.Controls.Add(modalPop);
-                        //Panel1.Controls.Add(divContainer);
-
-
-
-                        //////////////////////////////////////////
-                        //scheduleTable.Rows[GetRowNumber[timeslot]]
-                        //    .Cells[GetCellNumber[lesson.DateTime.DayOfWeek.ToString()]]
-                        //    .Controls.Add(modalPop);
-
-
-                        //scheduleTable.Rows[GetRowNumber[timeslot]]
-                        //    .Cells[GetCellNumber[lesson.DateTime.DayOfWeek.ToString()]]
-                        //    .Controls.Add(divContainer);
-                        //////////////////////////////////////////
+                        }
 
 
 
 
 
-
-
-
+                        // Popup Panel Layout
                         Panel panel = new Panel();
 
-                        panel.ID = unigid;
+                        string panelUniqueId = Guid.NewGuid().ToString();
+                        panel.ID = panelUniqueId;
                         panel.Attributes["runat"] = "server";
                         panel.CssClass = "modalPopup";
                         panel.Attributes["Style"] = "display: none; position: relative; Height: 66%; Width: 33%; padding: 16px;";
                         panel.BackColor = Color.AliceBlue;
-
-
-
-
                         panel.BorderColor = Color.FromArgb(231,231,231);
 
 
+
+                        // HTML For Popup Content
                         HtmlGenericControl titleHeader = new HtmlGenericControl("h2");
-                        //divHeader.Attributes["class"] = "header";
                         titleHeader.InnerText = lesson.Course.Name;
 
                         panel.Controls.Add(titleHeader);
@@ -351,9 +264,9 @@ namespace StudyPlatform
                         HtmlGenericControl footerLine = new HtmlGenericControl("hr");
                         divBody.Controls.Add(footerLine);
 
-
+                        // Content Close Button Layout
                         Button bnt = new Button();
-                        bnt.ID = "btnCancel" + unigid;
+                        bnt.ID = "btnCancel" + panelUniqueId;
                         bnt.Attributes["runat"] = "server";
                         bnt.Attributes["class"] = "btn btn-primary";
                         bnt.Text = "Luk";
@@ -368,13 +281,29 @@ namespace StudyPlatform
                         panel.Controls.Add(divBody);
 
 
-
-
                         scheduleTable.Rows[GetRowNumber[timeslot]]
                             .Cells[GetCellNumber[lesson.DateTime.DayOfWeek.ToString()]]
                             .Controls.Add(button);
 
+
+
+
+
+
+                        ModalPopupExtender modalPop = new ModalPopupExtender();
+                        modalPop.ID = "popUp" + button.ID;
+                        modalPop.PopupControlID = panelUniqueId;
+                        modalPop.TargetControlID = button.ID;
+                        modalPop.DropShadow = false;
+                        modalPop.CancelControlID = "btnCancel" + panelUniqueId;
+
+
                         Panel1.Controls.Add(modalPop);
+
+
+
+
+
 
                         Panel1.Controls.Add(panel);
 
@@ -415,24 +344,25 @@ namespace StudyPlatform
         }
 
 
-        protected void Button_Click(object sender, EventArgs e)
+
+
+        public static DateTime FirstDateOfWeekISO8601(int year, int weekOfYear)
         {
-            //PopupExtender mpePopUp = new PopupExtender();
+            DateTime jan1 = new DateTime(year, 1, 1);
+            int daysOffset = DayOfWeek.Thursday - jan1.DayOfWeek;
 
-            //mpePopUp = bodystuff.FindControl( );
+            DateTime firstThursday = jan1.AddDays(daysOffset);
+            var cal = CultureInfo.CurrentCulture.Calendar;
+            int firstWeek = cal.GetWeekOfYear(firstThursday, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
 
-            //mpePopUp.Show;
-
-
-
-
- 
-
+            var weekNum = weekOfYear;
+            if (firstWeek <= 1)
+            {
+                weekNum -= 1;
+            }
+            var result = firstThursday.AddDays(weekNum * 7);
+            return result.AddDays(-3);
         }
-
-
-
-
 
 
 
@@ -498,11 +428,6 @@ namespace StudyPlatform
 
 
 
-
-
-
-
-
             foreach (Lesson lesson in sortedList)
             {
                 if (lesson.DateTime.TimeOfDay == timespanLesson1)
@@ -544,12 +469,29 @@ namespace StudyPlatform
 
         protected void JumpWeekRight_OnClick(object sender, EventArgs e)
         {
-            Response.Redirect("skema.aspx?aar=" + year + "&uge=" + (Convert.ToInt32(week) + 1));
+            if (Convert.ToInt32(_week) < 52)
+            {
+                Response.Redirect("skema.aspx?aar=" + _year + "&uge=" + (Convert.ToInt32(_week) + 1));
+            }
+            else
+            {
+                Response.Redirect("skema.aspx?aar=" + (Convert.ToInt32(_year) + 1) + "&uge=" + "1");
+            }
+
         }
 
         protected void JumpWeekLeft_OnClick(object sender, EventArgs e)
         {
-            Response.Redirect("skema.aspx?aar=" + year + "&uge=" + (Convert.ToInt32(week) - 1));
+            if (Convert.ToInt32(_week) > 1)
+            {
+                Response.Redirect("skema.aspx?aar=" + _year + "&uge=" + (Convert.ToInt32(_week) - 1));
+            }
+            else
+            {
+                Response.Redirect("skema.aspx?aar=" + (Convert.ToInt32(_year) - 1) + "&uge=" + "52");
+            }
+
+
         }
     }
 }

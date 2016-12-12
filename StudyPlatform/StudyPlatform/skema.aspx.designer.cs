@@ -67,6 +67,51 @@ namespace StudyPlatform {
         protected global::System.Web.UI.WebControls.Table scheduleTable;
         
         /// <summary>
+        /// tableHeaderCellMonday control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableHeaderCell tableHeaderCellMonday;
+        
+        /// <summary>
+        /// tableHeaderCellTuesday control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableHeaderCell tableHeaderCellTuesday;
+        
+        /// <summary>
+        /// tableHeaderCellWednesday control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableHeaderCell tableHeaderCellWednesday;
+        
+        /// <summary>
+        /// tableHeaderCellThursday control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableHeaderCell tableHeaderCellThursday;
+        
+        /// <summary>
+        /// tableHeaderCellFriday control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableHeaderCell tableHeaderCellFriday;
+        
+        /// <summary>
         /// tableRow1 control.
         /// </summary>
         /// <remarks>
