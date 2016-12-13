@@ -4,14 +4,20 @@
 <%@ MasterType virtualpath="~/layout.master" %>
 
 
+
 <asp:Content ID="Head" ContentPlaceHolderID="head" runat="server">
     <asp:PlaceHolder runat="server">
         <%: System.Web.Optimization.Styles.Render("~/Content/AjaxControlToolkit/Styles/Bundle") %>
     </asp:PlaceHolder>
+    
+    
+
+
 </asp:Content>
 
-
 <asp:Content ID="Body" ContentPlaceHolderID="body" runat="server">
+
+
 
     <asp:ScriptManager runat="server" EnableScriptGlobalization="True">
         <Scripts>
@@ -19,37 +25,53 @@
         </Scripts>
     </asp:ScriptManager>
 
-
-<%--    <asp:Panel ID="test123" runat="server">
-        <div style="position: absolute;  z-index: 999;">
-            <span class="fa fa-arrow-circle-o-left fa-2x"></span>
-        </div>
-    </asp:Panel>--%>
-
-    
-    
-
     <asp:PlaceHolder runat="server" ID="modalPlaceHolder">
 
+        
+
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
+        <link rel="stylesheet" href="/resources/demos/style.css"/>
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+        
+        <script>
+function myFunction() {
+    window.location.replace("http://stackoverflow.com");
+}
+</script>
+        
+        
+
+
+
         <%-- Popup content destination --%>
-        <asp:Panel ID="Panel1" runat="server"></asp:Panel>
+        <asp:Panel ID="Panel1" runat="server" ></asp:Panel>
 
         <%-- Week shifters --%>
-        <div class="container col-sm-12" style="margin-top: -80px;">
+        <div class="container col-sm-13" style="margin-top: -80px;">
             <div class="form-group col-sm-4 col-sm-offset-4">
-
+                
                 <asp:LinkButton runat="server" ID="JumpWeekLeft" CssClass="btn btn-default" OnClick="JumpWeekLeft_OnClick">
                     <i class="fa fa-arrow-circle-o-left fa-2x"></i>
                 </asp:LinkButton>
-                <button class="btn btn-default disabled">
-                    Uge <asp:Label runat="server" ID="CurrentWeekNumber" CssClass=""></asp:Label>
-                </button>
+                <input type="week" runat="server" id="datepickerinut"/>
+                <input type="submit" value="OK"/>
+<%--                <input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;" tabindex="-1" />--%>
+<%--                <button class="btn btn-default disabled">
+                    Uge <asp:Label runat="server" ID="CurrentWeekNumber"></asp:Label>
+                </button>--%>
                 <asp:LinkButton runat="server" ID="JumpWeekRight" CssClass="btn btn-default" OnClick="JumpWeekRight_OnClick">
                     <i class="fa fa-arrow-circle-o-right fa-2x"></i>
                 </asp:LinkButton>
             </div>
         </div>
 
+
+
+        
+        
+        
 
         <%-- Table headers --%>
         <asp:Table runat="server" ID="scheduleTable" CssClass="table table-bordered">
@@ -159,5 +181,5 @@
         </asp:Table>
 
     </asp:PlaceHolder>
-
+    
 </asp:Content>
