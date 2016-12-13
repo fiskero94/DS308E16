@@ -262,7 +262,7 @@ namespace StudyPlatform
             { "/fravaer.aspx", CreateIcon("fa-area-chart") },
             { "/brugere.aspx", CreateIcon("fa-users") },
             { "/indbakke.aspx", CreateIcon("fa-envelope") },
-            { "/udbakke.aspx", CreateIcon("fa-envelope-open") }
+            { "/udbakke.aspx", CreateIcon("fa-envelope-o") }
         };
         private static HtmlGenericControl CreateIcon(string icon)
         {

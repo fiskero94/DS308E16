@@ -112,7 +112,7 @@ namespace StudyPlatform
             SetupCoursesPanel(ActiveCoursesPanel, "Aktive kurser", activeCourses, "btn btn-primary");
             SetupCoursesPanel(InactiveCoursesPanel, "Inaktive kurser", inactiveCourses, "btn btn-default");
         }
-        private static void SetupCoursesPanel(Panel panel, string headerText, List<Course> courses, string buttonClass)
+        private void SetupCoursesPanel(Panel panel, string headerText, List<Course> courses, string buttonClass)
         {
             HtmlGenericControl header = new HtmlGenericControl("h4") { InnerText = headerText };
             panel.Controls.Add(header);
@@ -130,7 +130,7 @@ namespace StudyPlatform
             }
             panel.Controls.Add(buttonGroup);
         }
-        private static void SetupCourseSelectionEdit(Secretary secretary)
+        private void SetupCourseSelectionEdit(Secretary secretary)
         {
             
         }
@@ -283,17 +283,26 @@ namespace StudyPlatform
                 }
                 assignmentDescriptionRow.Cells.Add(new TableCell { Text = assignmentDescription.Title });
                 assignmentDescriptionRow.Cells.Add(new TableCell { Text = assignmentDescription.Deadline.ToString() });
-                TableCell submittedCell = new TableCell
+
+
+
+                TableCell submittedCell = new TableCell();
+                bool hasSubmitted = assignmentDescription.Assignments.Any(
+                    assignment => assignment.Student.ID == ((Person)Session["user"]).ID);
+                if (hasSubmitted)
                 {
-                    Text =
-                        assignmentDescription.Assignments.Any(
-                            assignment => assignment.Student.ID == ((Person) Session["user"]).ID)
-                            ? "Ja"
-                            : "Nej"
-                };
-                AssignmentGrade grade = assignmentDescription.Assignments.Single(a => a.Student.ID == ((Person) Session["user"]).ID).Grade;
-                if (grade != null) submittedCell.Text += ", " + grade.Grade;
-                else submittedCell.Text += ", Ingen karakter";
+                    try
+                    {
+                        AssignmentGrade grade = assignmentDescription.Assignments
+                            .Single(a => a.Student.ID == ((Person)Session["user"]).ID).Grade;
+                        submittedCell.Text += "Ja, " + grade.Grade;
+                    }
+                    catch (InvalidOperationException)
+                    {
+                        submittedCell.Text += "Ja, Ingen karakter";
+                    }
+                }
+                else submittedCell.Text += "Nej";
                 assignmentDescriptionRow.Cells.Add(new TableCell { Text = assignmentDescription.Assignments
                     .Any(assignment => assignment.Student.ID == ((Person)Session["user"]).ID) ? "Ja" : "Nej" });
                 assignmentDescriptionsTable.Rows.Add(assignmentDescriptionRow);
@@ -401,14 +410,14 @@ namespace StudyPlatform
             // Tab Content End
             CoursePanel.Controls.Add(tabContent);
         }
-        private static void SetupCourseEdit(Course course)
+        private void SetupCourseEdit(Course course)
         {
             
         }
-        private static bool IsPersonInCourse(Person person, Course course) => 
+        private bool IsPersonInCourse(Person person, Course course) => 
             course.Students.Any(student => person.ID == student.ID) || 
             course.Teachers.Any(teacher => person.ID == teacher.ID);
-        private static void DisablePanels(params Panel[] panels)
+        private void DisablePanels(params Panel[] panels)
         {
             foreach (Panel panel in panels)
                 panel.Visible = false;
