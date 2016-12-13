@@ -24,7 +24,7 @@
                 <asp:FileUpload ID="FileUploadControl" runat="server"/>
             </div>
             <div class="form-group">
-                <asp:Button ID="CreateMessageButton" runat="server" Text="Send beskeden" CssClass="btn btn-success" OnClick="CreateMessageButton_OnClick"/>
+                <asp:Button ID="CreateMessageButton" runat="server" Text="Send beskeden" CssClass="btn btn-primary" OnClick="CreateMessageButton_OnClick"/>
                 <asp:Label ID="ResponseLabel" runat="server" CssClass="text-danger"></asp:Label>
             </div>
         </div>

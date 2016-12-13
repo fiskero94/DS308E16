@@ -45,9 +45,11 @@ namespace StudyPlatform
         private void AddExpandRow(Pair link, Table expandTable)
         {
             TableRow row = new TableRow();
-            TableCell linkCell = new TableCell { Text = (string)link.Second };
+            TableCell linkCell = new TableCell();
             linkCell.Attributes.Add("class", "clickable sidepanel-table-linkcell");
             linkCell.Attributes.Add("onclick", "window.document.location='" + (string)link.First + "';");
+            linkCell.Controls.Add(new HtmlGenericControl { InnerText = (string)link.Second + " " });
+            linkCell.Controls.Add(IconsByLink[(string)link.First]);
             if (Request.RawUrl.Contains((string)link.First)) // Should probably only request rawurl once
                 linkCell.Attributes.Add("style", "background: #75CAEB;");
             TableCell expandCell = new TableCell();
@@ -73,9 +75,11 @@ namespace StudyPlatform
         private void AddGenericRow(Pair link)
         {
             TableRow row = new TableRow();
-            TableCell cell = new TableCell { Text = (string)link.Second };
+            TableCell cell = new TableCell();
             cell.Attributes.Add("class", "clickable sidepanel-table-linkcell");
             cell.Attributes.Add("onclick", "window.document.location='" + (string)link.First + "';");
+            cell.Controls.Add(new HtmlGenericControl { InnerText = (string)link.Second + " " });
+            cell.Controls.Add(IconsByLink[(string)link.First]);
             if (Request.RawUrl.Contains((string)link.First)) // Should probably only request rawurl once
                 cell.Attributes.Add("style", "background: #75CAEB;");
             row.Cells.Add(cell);
@@ -115,10 +119,8 @@ namespace StudyPlatform
                     courses = ((Teacher) Session["user"]).Courses;
                 List<Lesson> lessons = new List<Lesson>();
                 foreach (Course course in courses)
-                    lessons.AddRange(course.Lessons);
-                foreach (Lesson lesson in lessons.Where(l => l.DateTime > DateTime.Now)
-                                                 .OrderBy(o => o.DateTime)
-                                                 .Take(3))
+                    lessons.AddRange(course.Lessons.Where(l => l.DateTime > DateTime.Now));
+                foreach (Lesson lesson in lessons.OrderBy(o => o.DateTime).Take(3))
                 {
                     TableRow row = new TableRow();
                     row.Attributes.Add("class", "clickable");
@@ -128,6 +130,10 @@ namespace StudyPlatform
                     row.Cells[0].Attributes.Add("class", "col-sm-8");
                     row.Cells[1].Attributes.Add("class", "col-sm-4");
                     table.Rows.Add(row);
+                }
+                if (lessons.Count == 0)
+                {
+                    
                 }
                 return table;
             }
@@ -245,7 +251,24 @@ namespace StudyPlatform
             new Pair("/brugere.aspx", "Brugere"),
             new Pair("/indbakke.aspx", "Indbakke"),
             new Pair("/udbakke.aspx", "Udbakke")
-            
         };
+        private static readonly Dictionary<string, HtmlGenericControl> IconsByLink = new Dictionary<string, HtmlGenericControl>
+        {
+            { "/nyheder.aspx", CreateIcon("fa-newspaper-o") },
+            { "/skema.aspx", CreateIcon("fa-calendar") },
+            { "/kurser.aspx", CreateIcon("fa-book") },
+            { "/afleveringer.aspx", CreateIcon("fa-pencil-square-o") },
+            { "/karakterer.aspx", CreateIcon("fa-graduation-cap") },
+            { "/fravaer.aspx", CreateIcon("fa-area-chart") },
+            { "/brugere.aspx", CreateIcon("fa-users") },
+            { "/indbakke.aspx", CreateIcon("fa-envelope") },
+            { "/udbakke.aspx", CreateIcon("fa-envelope-open") }
+        };
+        private static HtmlGenericControl CreateIcon(string icon)
+        {
+            HtmlGenericControl iconControl = new HtmlGenericControl("i");
+            iconControl.Attributes.Add("class", "fa " + icon);
+            return iconControl;
+        }
     }
 }

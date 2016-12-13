@@ -243,7 +243,7 @@ namespace StudyPlatform
                         foreach (string document in lesson.Documents)
                         {
                             TableRow documentRow = new TableRow();
-                            documentRow.Cells.Add(new TableCell { Text = document });
+                            documentRow.Cells.Add(new TableCell { Text = Path.GetFileName(document) });
                             TableCell downloadCell = new TableCell();
                             Button downloadButton = new Button { Text = "Download" };
                             downloadButton.Attributes["class"] = "btn btn-info";
