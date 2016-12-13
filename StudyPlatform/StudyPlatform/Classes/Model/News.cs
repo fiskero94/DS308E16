@@ -50,7 +50,6 @@ namespace StudyPlatform.Classes.Model
             }
         }
         public DateTime DateTimePublished { get; }
-
         public void Remove() => Remover.RemoveNews(this);
         public static News New(Secretary author, string title, string text)
         {
