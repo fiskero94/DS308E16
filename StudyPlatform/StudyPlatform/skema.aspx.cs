@@ -20,12 +20,8 @@ namespace StudyPlatform
     public partial class Skema : Page
     {
         private static readonly string[] TimeSlots = { "08:10", "09:05", "10:00", "10:55", "12:05", "13:00", "13:55", "14:50" };
-
         private string _year;
         private string _week;
-
-
-        // Lav Color Picker metode, hvor user.Course.Count tages, og Colores fremstilles ud fra start color.
 
         private static readonly Dictionary<string, string> GetCourseColor = new Dictionary<string, string>
         {
@@ -40,32 +36,52 @@ namespace StudyPlatform
             { "Historie B", "#7D1615" },
         };
 
+        private static readonly Dictionary<string, int> GetCellNumber = new Dictionary<string, int>
+        {
+            { "Monday", 1 },
+            { "Tuesday", 2 },
+            { "Wednesday", 3 },
+            { "Thursday", 4 },
+            { "Friday", 5 },
+        };
 
+        private static readonly Dictionary<string, int> GetRowNumber = new Dictionary<string, int>
+        {
+            { "08:10", 1 },
+            { "09:05", 4 },
+            { "10:00", 7 },
+            { "10:55", 10 },
+            { "12:05", 13 },
+            { "13:00", 16 },
+            { "13:55", 19 },
+            { "14:50", 22 },
+        };
 
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!(Session["user"] is Student || Session["user"] is Teacher))
+            {
                 Response.Redirect("login.aspx");
-            Master.TitelLabelText = "Skema";
+            }
 
+            Master.TitelLabelText = "Skema";
             _year = Request.QueryString["aar"];
             _week = Request.QueryString["uge"];
+            //CurrentWeekNumber.Text = " " + _week + " ";
+            if (Convert.ToInt32(_week) < 10)
+            {
+                datepickerinut.Value = _year + "-W0" + _week;
+            }
+            else
+            {
+                datepickerinut.Value = _year + "-W" + _week;
+            }
 
-            //if (Convert.ToInt32(_week) > 52)
-            //{
-            //    Response.Redirect("skema.aspx?aar=" + (_year) + "&uge=" + "52");
-            //}
-            //else if (Convert.ToInt32(_week) < 1)
-            //{
-            //    Response.Redirect("skema.aspx?aar=" + (_year) + "&uge=" + "1");
-            //}
+            
 
-
-            CurrentWeekNumber.Text = " " + _week + " ";
 
             Person user = (Person)Session["user"];
             int weekNumber = Convert.ToInt32(Request.QueryString["uge"]);
-
 
 
             if (_year != null && _week != null)
@@ -97,26 +113,8 @@ namespace StudyPlatform
                 GetTableRow.Add("13:55", tableRow19);
                 GetTableRow.Add("14:50", tableRow22);
 
-                SortedList<string, int> GetCellNumber = new SortedList<string, int>();
-                GetCellNumber.Add("Monday", 1);
-                GetCellNumber.Add("Tuesday", 2);
-                GetCellNumber.Add("Wednesday", 3);
-                GetCellNumber.Add("Thursday", 4);
-                GetCellNumber.Add("Friday", 5);
-
-                SortedList<string, int> GetRowNumber = new SortedList<string, int>();
-                GetRowNumber.Add("08:10", 1);
-                GetRowNumber.Add("09:05", 4);
-                GetRowNumber.Add("10:00", 7);
-                GetRowNumber.Add("10:55", 10);
-                GetRowNumber.Add("12:05", 13);
-                GetRowNumber.Add("13:00", 16);
-                GetRowNumber.Add("13:55", 19);
-                GetRowNumber.Add("14:50", 22);
-
-
                 // Table Headers
-                DateTime weekDateTime = FirstDateOfWeekISO8601(Convert.ToInt32(_year), Convert.ToInt32(_week));
+                DateTime weekDateTime = GetFirstDateOfWeek(Convert.ToInt32(_year), Convert.ToInt32(_week));
                 tableHeaderCellMonday.Text = "Mandag(" + weekDateTime.ToShortDateString() + ")";
                 tableHeaderCellTuesday.Text = "Tirsdag(" + weekDateTime.AddDays(1).ToShortDateString() + ")";
                 tableHeaderCellWednesday.Text = "Onsdag(" + weekDateTime.AddDays(2).ToShortDateString() + ")";
@@ -136,178 +134,8 @@ namespace StudyPlatform
 
                     foreach (var lesson in sortedList[timeslot])
                     {
-                        // TableCell Button Layout
-                        Button button = new Button();
-
-                        string lessonButtonName = lesson.Course.Name + " - " + lesson.Rooms[0].Name;
-                        button.Text = lessonButtonName;
-                        
-                        button.Attributes.Add("Style", "border:none; position: absolute; width: 100%; height: 100%; " +
-                                                       "margin: 0 auto; left: auto; right: auto; background: " + 
-                                                       GetCourseColor[lesson.Course.Name] + "; color: White;");
-
-                        string buttonUniqueId = Guid.NewGuid().ToString();
-                        button.ID = buttonUniqueId;
-
-
-
-
-                        if (lesson.Documents.Count < 1)
-                        {
-                            Panel p = new Panel();
-
-
-                            HtmlGenericControl divContainer = new HtmlGenericControl("div");
-                            divContainer.Attributes["style"] = "position: absolute; z-index: 999;";
-
-
-                            HtmlGenericControl iContainer = new HtmlGenericControl("span");
-
-                            iContainer.Attributes["class"] = "fa fa-arrow-circle-o-right fa-4x";
-
-                            divContainer.Controls.Add(iContainer);
-
-                            p.Controls.Add(divContainer);
-
-                            button.Controls.Add(p);
-
-
-
-                        }
-
-
-
-
-
-                        // Popup Panel Layout
-                        Panel panel = new Panel();
-
-                        string panelUniqueId = Guid.NewGuid().ToString();
-                        panel.ID = panelUniqueId;
-                        panel.Attributes["runat"] = "server";
-                        panel.CssClass = "modalPopup";
-                        panel.Attributes["Style"] = "display: none; position: relative; Height: 66%; Width: 33%; padding: 16px;";
-                        panel.BackColor = Color.AliceBlue;
-                        panel.BorderColor = Color.FromArgb(231,231,231);
-
-
-
-                        // HTML For Popup Content
-                        HtmlGenericControl titleHeader = new HtmlGenericControl("h2");
-                        titleHeader.InnerText = lesson.Course.Name;
-
-                        panel.Controls.Add(titleHeader);
-
-                        HtmlGenericControl TitleLine = new HtmlGenericControl("hr");
-                        panel.Controls.Add(TitleLine);
-
-
-
-                        string str = "";
-                        Common.AppendStringArray(ref str, ", ", lesson.Course.Teachers.Select(teac => teac.Name).ToArray());
-                        panel.Controls.Add(new Label() {Text = str});
-
-
-                        panel.Controls.Add(new HtmlGenericControl("br"));
-
-                        Label dateLabel = new Label();
-                        dateLabel.Text = lesson.DateTime.Date.ToLongDateString();
-                        panel.Controls.Add(dateLabel);
-
-
-                        panel.Controls.Add(new HtmlGenericControl("br"));
-
-                        Label statusLabel = new Label();                      
-                        if (lesson.Cancelled)
-                        {
-                            statusLabel.Text = "Status: Aflyst";
-                        }
-                        else
-                        {
-                            statusLabel.Text = lesson.Online ? "Status: Virtuel" : "Status: Standard";
-                        }
-                        panel.Controls.Add(statusLabel); 
-
-
-
-                        HtmlGenericControl dateLine = new HtmlGenericControl("hr");
-                        panel.Controls.Add(dateLine);
-
-
-                        HtmlGenericControl descriptionHeader = new HtmlGenericControl("h4");
-                        descriptionHeader.InnerText = "Beskrivelse";
-                        panel.Controls.Add(descriptionHeader);
-
-
-                        HtmlGenericControl divBody = new HtmlGenericControl("div");
-                        divBody.Attributes["class"] = "body";
-                        divBody.InnerText = lesson.Description;
-
-                        HtmlGenericControl bodyLine = new HtmlGenericControl("hr");
-                        divBody.Controls.Add(bodyLine);
-
-                        HtmlGenericControl fileHeader = new HtmlGenericControl("h4");
-                        fileHeader.InnerText = "Filer";
-                        divBody.Controls.Add(fileHeader);
-
-
-                        foreach (var filepath in lesson.Documents)
-                        {
-                            Button downloadButton = new Button { Text = Path.GetFileName(filepath) };
-                            downloadButton.Attributes["class"] = "btn btn-warning";
-                            downloadButton.Attributes["style"] = "display: inline-block;";
-                            downloadButton.Attributes["path"] = filepath;
-                            downloadButton.Click += DownloadButton_Click;
-                            divBody.Controls.Add(downloadButton);
-                        }
-
-                        HtmlGenericControl footerLine = new HtmlGenericControl("hr");
-                        divBody.Controls.Add(footerLine);
-
-                        // Content Close Button Layout
-                        Button bnt = new Button();
-                        bnt.ID = "btnCancel" + panelUniqueId;
-                        bnt.Attributes["runat"] = "server";
-                        bnt.Attributes["class"] = "btn btn-primary";
-                        bnt.Text = "Luk";
-                        bnt.Attributes["Style"] = "position: absolute; width: 15%; height: 6%; margin: 0 auto; left: auto; right: 2px; bottom: 2px";
-
-
-
-
-
-                        divBody.Controls.Add(bnt);
-
-                        panel.Controls.Add(divBody);
-
-
-                        scheduleTable.Rows[GetRowNumber[timeslot]]
-                            .Cells[GetCellNumber[lesson.DateTime.DayOfWeek.ToString()]]
-                            .Controls.Add(button);
-
-
-
-
-
-
-                        ModalPopupExtender modalPop = new ModalPopupExtender();
-                        modalPop.ID = "popUp" + button.ID;
-                        modalPop.PopupControlID = panelUniqueId;
-                        modalPop.TargetControlID = button.ID;
-                        modalPop.DropShadow = false;
-                        modalPop.CancelControlID = "btnCancel" + panelUniqueId;
-
-
-                        Panel1.Controls.Add(modalPop);
-
-
-
-
-
-
-                        Panel1.Controls.Add(panel);
-
-
+                        // TableCell & Button & PopupContent layout 
+                        CreateTableCellContent(lesson, timeslot);
                     }
                 }
             }
@@ -323,30 +151,150 @@ namespace StudyPlatform
         }
 
 
-        protected void DownloadButton_Click(object sender, EventArgs e)
+        private void CreateTableCellContent(Lesson lesson, string timeslot)
         {
-            Button button = sender as Button;
-            string path = button.Attributes["path"];
-            string name = Path.GetFileName(path);
-            try
+            // TableCell Button Layout
+            Button button = new Button();
+
+            string lessonButtonName = lesson.Course.Name + " - " + lesson.Rooms[0].Name;
+            button.Text = lessonButtonName;
+
+            button.Attributes.Add("Style", "border:none; position: absolute; width: 100%; height: 100%; " +
+                                           "margin: 0 auto; left: auto; right: auto; background: " +
+                                           GetCourseColor[lesson.Course.Name] + "; color: White;");
+
+            string buttonUniqueId = Guid.NewGuid().ToString();
+            button.ID = buttonUniqueId;
+
+
+            // Add File Icon if lesson contain Doucuments
+            if (lesson.Documents.Count > 0)
             {
-                Response.ContentType = "application/octet-stream";
-                Response.AppendHeader("Content-Disposition", "attachment; filename=" + name);
-                Response.TransmitFile(Server.MapPath(path));
-                Response.End();
+                Panel p = new Panel();
+                p.Attributes["runat"] = "server";
+
+                HtmlGenericControl divContainer = new HtmlGenericControl("div");
+                divContainer.Attributes["style"] = "position: absolute; z-index: 999; right: 1px; bottom: 1px;";
+
+                HtmlGenericControl iContainer = new HtmlGenericControl("span");
+                iContainer.Attributes["class"] = "fa 	fa fa-file-pdf-o fa-2x";
+
+                divContainer.Controls.Add(iContainer);
+                p.Controls.Add(divContainer);
+                scheduleTable.Rows[GetRowNumber[timeslot]]
+                    .Cells[GetCellNumber[lesson.DateTime.DayOfWeek.ToString()]]
+                    .Controls.Add(p);
             }
-            catch (Exception)
+
+            // Popup Panel Layout
+            Panel panel = new Panel();
+
+            string panelUniqueId = Guid.NewGuid().ToString();
+            panel.ID = panelUniqueId;
+            panel.Attributes["runat"] = "server";
+            panel.CssClass = "modalPopup";
+            panel.Attributes["Style"] = "display: none; position: relative; Height: 66%; Width: 33%; padding: 16px;";
+            panel.BackColor = Color.AliceBlue;
+            panel.BorderColor = Color.FromArgb(231, 231, 231);
+
+            // HTML For Popup Content
+            HtmlGenericControl titleHeader = new HtmlGenericControl("h2");
+            titleHeader.InnerText = lesson.Course.Name;
+
+            panel.Controls.Add(titleHeader);
+
+            HtmlGenericControl TitleLine = new HtmlGenericControl("hr");
+            panel.Controls.Add(TitleLine);
+
+            string str = "";
+            Common.AppendStringArray(ref str, ", ", lesson.Course.Teachers.Select(teac => teac.Name).ToArray());
+            panel.Controls.Add(new Label() { Text = str });
+
+            panel.Controls.Add(new HtmlGenericControl("br"));
+
+            Label dateLabel = new Label();
+            dateLabel.Text = lesson.DateTime.Date.ToLongDateString();
+            panel.Controls.Add(dateLabel);
+
+            panel.Controls.Add(new HtmlGenericControl("br"));
+
+            Label statusLabel = new Label();
+            if (lesson.Cancelled)
             {
-                button.Text = "Fil forsvundet";
-                button.Attributes["class"] = "btn btn-danger disabled";
-                Assignment.RemoveDocument(path);
+                statusLabel.Text = "Status: Aflyst";
             }
+            else
+            {
+                statusLabel.Text = lesson.Online ? "Status: Virtuel" : "Status: Standard";
+            }
+            panel.Controls.Add(statusLabel);
+
+
+
+            HtmlGenericControl dateLine = new HtmlGenericControl("hr");
+            panel.Controls.Add(dateLine);
+
+
+            HtmlGenericControl descriptionHeader = new HtmlGenericControl("h4");
+            descriptionHeader.InnerText = "Beskrivelse";
+            panel.Controls.Add(descriptionHeader);
+
+
+            HtmlGenericControl divBody = new HtmlGenericControl("div");
+            divBody.Attributes["class"] = "body";
+            divBody.InnerText = lesson.Description;
+
+            HtmlGenericControl bodyLine = new HtmlGenericControl("hr");
+            divBody.Controls.Add(bodyLine);
+
+            HtmlGenericControl fileHeader = new HtmlGenericControl("h4");
+            fileHeader.InnerText = "Filer";
+            divBody.Controls.Add(fileHeader);
+
+
+            foreach (var filepath in lesson.Documents)
+            {
+                Button downloadButton = new Button { Text = Path.GetFileName(filepath) };
+                downloadButton.Attributes["class"] = "btn btn-warning";
+                downloadButton.Attributes["style"] = "display: inline-block;";
+                downloadButton.Attributes["path"] = filepath;
+                downloadButton.Click += DownloadButton_Click;
+                divBody.Controls.Add(downloadButton);
+            }
+
+            HtmlGenericControl footerLine = new HtmlGenericControl("hr");
+            divBody.Controls.Add(footerLine);
+
+            // Content Close Button Layout
+            Button bnt = new Button();
+            bnt.ID = "btnCancel" + panelUniqueId;
+            bnt.Attributes["runat"] = "server";
+            bnt.Attributes["class"] = "btn btn-primary";
+            bnt.Text = "Luk";
+            bnt.Attributes["Style"] = "position: absolute; width: 15%; height: 6%; " +
+                                      "margin: 0 auto; left: auto; right: 2px; bottom: 2px";
+
+            divBody.Controls.Add(bnt);
+            panel.Controls.Add(divBody);
+            scheduleTable.Rows[GetRowNumber[timeslot]]
+                .Cells[GetCellNumber[lesson.DateTime.DayOfWeek.ToString()]]
+                .Controls.Add(button);
+
+
+            // Modal PopupExtender setup
+            ModalPopupExtender modalPop = new ModalPopupExtender();
+            modalPop.ID = "popUp" + button.ID;
+            modalPop.PopupControlID = panelUniqueId;
+            modalPop.TargetControlID = button.ID;
+            modalPop.DropShadow = false;
+            modalPop.CancelControlID = "btnCancel" + panelUniqueId;
+
+
+            Panel1.Controls.Add(modalPop);
+            Panel1.Controls.Add(panel);
         }
 
-
-
-
-        public static DateTime FirstDateOfWeekISO8601(int year, int weekOfYear)
+        private static DateTime GetFirstDateOfWeek(int year, int weekOfYear)
         {
             DateTime jan1 = new DateTime(year, 1, 1);
             int daysOffset = DayOfWeek.Thursday - jan1.DayOfWeek;
@@ -363,21 +311,6 @@ namespace StudyPlatform
             var result = firstThursday.AddDays(weekNum * 7);
             return result.AddDays(-3);
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         private SortedList<string, List<Lesson>> FindAndSortLessonsForPerson(List<Course> courses, int weekNumber)
         {
@@ -466,7 +399,6 @@ namespace StudyPlatform
             return coollist;
         }
 
-
         protected void JumpWeekRight_OnClick(object sender, EventArgs e)
         {
             if (Convert.ToInt32(_week) < 52)
@@ -493,5 +425,28 @@ namespace StudyPlatform
 
 
         }
+
+        protected void DownloadButton_Click(object sender, EventArgs e)
+        {
+            Button button = sender as Button;
+            string path = button.Attributes["path"];
+            string name = Path.GetFileName(path);
+            try
+            {
+                Response.ContentType = "application/octet-stream";
+                Response.AppendHeader("Content-Disposition", "attachment; filename=" + name);
+                Response.TransmitFile(Server.MapPath(path));
+                Response.End();
+            }
+            catch (Exception)
+            {
+                button.Text = "Fil forsvundet";
+                button.Attributes["class"] = "btn btn-danger disabled";
+                Assignment.RemoveDocument(path);
+            }
+        }
+
+
     }
+
 }
