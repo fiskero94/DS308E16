@@ -144,12 +144,11 @@ namespace StudyPlatform
                     RedirectToCurrentWeek();
                 }
             }
-            else
+            else // PostBack
             {
                 if (datepickerinut.Value.Length > 7)
                 {
                     string str = datepickerinut.Value;
-
                     _year = new string(str.Take(4).ToArray());
                     _week = str.Substring(str.Length - 2);
 
@@ -325,7 +324,8 @@ namespace StudyPlatform
             modalPop.TargetControlID = button.ID;
             modalPop.DropShadow = false;
             modalPop.CancelControlID = "btnCancel" + panelUniqueId;
-
+            modalPop.BackgroundCssClass = "modalBackground";
+          
 
             Panel1.Controls.Add(modalPop);
             Panel1.Controls.Add(panel);
@@ -446,7 +446,6 @@ namespace StudyPlatform
             {
                 Response.Redirect("skema.aspx?aar=" + (Convert.ToInt32(_year) + 1) + "&uge=" + "1");
             }
-
         }
 
         protected void JumpWeekLeft_OnClick(object sender, EventArgs e)
@@ -459,8 +458,6 @@ namespace StudyPlatform
             {
                 Response.Redirect("skema.aspx?aar=" + (Convert.ToInt32(_year) - 1) + "&uge=" + "52");
             }
-
-
         }
 
         protected void DownloadButton_Click(object sender, EventArgs e)
