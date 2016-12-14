@@ -18,7 +18,6 @@
 <asp:Content ID="Body" ContentPlaceHolderID="body" runat="server">
 
 
-
     <asp:ScriptManager runat="server" EnableScriptGlobalization="True">
         <Scripts>
             <asp:ScriptReference Path="~/Scripts/AjaxControlToolkit/Bundle"/>
@@ -27,23 +26,8 @@
 
     <asp:PlaceHolder runat="server" ID="modalPlaceHolder">
 
-        
-
-        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
-        <link rel="stylesheet" href="/resources/demos/style.css"/>
-        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
         
-        <script>
-function myFunction() {
-    window.location.replace("http://stackoverflow.com");
-}
-</script>
-        
-        
-
-
 
         <%-- Popup content destination --%>
         <asp:Panel ID="Panel1" runat="server" ></asp:Panel>
@@ -57,10 +41,6 @@ function myFunction() {
                 </asp:LinkButton>
                 <input type="week" runat="server" id="datepickerinut"/>
                 <input type="submit" value="OK"/>
-<%--                <input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;" tabindex="-1" />--%>
-<%--                <button class="btn btn-default disabled">
-                    Uge <asp:Label runat="server" ID="CurrentWeekNumber"></asp:Label>
-                </button>--%>
                 <asp:LinkButton runat="server" ID="JumpWeekRight" CssClass="btn btn-default" OnClick="JumpWeekRight_OnClick">
                     <i class="fa fa-arrow-circle-o-right fa-2x"></i>
                 </asp:LinkButton>
