@@ -36,12 +36,12 @@
         <div class="container col-sm-13" style="margin-top: -80px;">
             <div class="form-group col-sm-4 col-sm-offset-4">
                 
-                <asp:LinkButton runat="server" ID="JumpWeekLeft" CssClass="btn btn-default" OnClick="JumpWeekLeft_OnClick">
+                <asp:LinkButton runat="server" ID="JumpWeekLeft" CssClass="btn btn-default" OnClick="JumpWeekLeft_OnClick" BackColor="transparent" BorderStyle="None">
                     <i class="fa fa-arrow-circle-o-left fa-2x"></i>
                 </asp:LinkButton>
                 <input type="week" runat="server" id="datepickerinut"/>
                 <input type="submit" value="OK"/>
-                <asp:LinkButton runat="server" ID="JumpWeekRight" CssClass="btn btn-default" OnClick="JumpWeekRight_OnClick">
+                <asp:LinkButton runat="server" ID="JumpWeekRight" CssClass="btn btn-default" OnClick="JumpWeekRight_OnClick" BackColor="transparent" BorderStyle="None">
                     <i class="fa fa-arrow-circle-o-right fa-2x"></i>
                 </asp:LinkButton>
             </div>
