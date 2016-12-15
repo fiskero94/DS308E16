@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
+using StudyPlatform.Classes;
 using StudyPlatform.Classes.Model;
 
 namespace StudyPlatform
@@ -268,21 +269,15 @@ namespace StudyPlatform
         };
         private static readonly Dictionary<string, HtmlGenericControl> IconsByLink = new Dictionary<string, HtmlGenericControl>
         {
-            { "/nyheder.aspx", CreateIcon("fa-newspaper-o") },
-            { "/skema.aspx", CreateIcon("fa-calendar") },
-            { "/kurser.aspx", CreateIcon("fa-book") },
-            { "/afleveringer.aspx", CreateIcon("fa-pencil-square-o") },
-            { "/karakterer.aspx", CreateIcon("fa-graduation-cap") },
-            { "/fravaer.aspx", CreateIcon("fa-area-chart") },
-            { "/brugere.aspx", CreateIcon("fa-users") },
-            { "/indbakke.aspx", CreateIcon("fa-envelope") },
-            { "/udbakke.aspx", CreateIcon("fa-envelope-o") }
+            { "/nyheder.aspx", Common.CreateIconControl("fa-newspaper-o") },
+            { "/skema.aspx", Common.CreateIconControl("fa-calendar") },
+            { "/kurser.aspx", Common.CreateIconControl("fa-book") },
+            { "/afleveringer.aspx", Common.CreateIconControl("fa-pencil-square-o") },
+            { "/karakterer.aspx", Common.CreateIconControl("fa-graduation-cap") },
+            { "/fravaer.aspx", Common.CreateIconControl("fa-area-chart") },
+            { "/brugere.aspx", Common.CreateIconControl("fa-users") },
+            { "/indbakke.aspx", Common.CreateIconControl("fa-envelope") },
+            { "/udbakke.aspx", Common.CreateIconControl("fa-envelope-o") }
         };
-        private static HtmlGenericControl CreateIcon(string icon)
-        {
-            HtmlGenericControl iconControl = new HtmlGenericControl("i");
-            iconControl.Attributes.Add("class", "fa " + icon);
-            return iconControl;
-        }
     }
 }
