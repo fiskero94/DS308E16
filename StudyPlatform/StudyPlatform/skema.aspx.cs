@@ -351,32 +351,12 @@ namespace StudyPlatform
 
         private SortedList<string, List<Lesson>> FindAndSortLessonsForPerson(List<Course> courses, int weekNumber)
         {
-            List<Lesson> lessons = new List<Lesson>();
             DateTimeFormatInfo dfi = DateTimeFormatInfo.CurrentInfo;
             System.Globalization.Calendar cal = dfi.Calendar;
-
-            foreach (Course course in courses)
-            {
-                foreach (Lesson lesson in course.Lessons)
-                {
-                    if (cal.GetWeekOfYear(lesson.DateTime, dfi.CalendarWeekRule, dfi.FirstDayOfWeek) == weekNumber)
-                    {
-                        lessons.Add(lesson);
-                    }
-                }
-            }
-
+            List<Lesson> lessons = (from course in courses from lesson in course.Lessons
+                                    where cal.GetWeekOfYear(lesson.DateTime, dfi.CalendarWeekRule, dfi.FirstDayOfWeek) == 
+                                    weekNumber select lesson).ToList();
             List<Lesson> sortedList = lessons.OrderBy(x => x.DateTime.TimeOfDay).ToList();
-
-            TimeSpan timespanLesson1 = new TimeSpan(8, 10, 0);
-            TimeSpan timespanLesson2 = new TimeSpan(9, 5, 0);
-            TimeSpan timespanLesson3 = new TimeSpan(10, 0, 0);
-            TimeSpan timespanLesson4 = new TimeSpan(10, 55, 0);
-            TimeSpan timespanLesson5 = new TimeSpan(12, 5, 0);
-            TimeSpan timespanLesson6 = new TimeSpan(13, 0, 0);
-            TimeSpan timespanLesson7 = new TimeSpan(13, 55, 0);
-            TimeSpan timespanLesson8 = new TimeSpan(14, 50, 0);
-
             List<Lesson> lesson1List = new List<Lesson>();
             List<Lesson> lesson2List = new List<Lesson>();
             List<Lesson> lesson3List = new List<Lesson>();
@@ -385,57 +365,54 @@ namespace StudyPlatform
             List<Lesson> lesson6List = new List<Lesson>();
             List<Lesson> lesson7List = new List<Lesson>();
             List<Lesson> lesson8List = new List<Lesson>();
-
-            SortedList<string, List<Lesson>> coollist = new SortedList<string, List<Lesson>>();
-            coollist.Add("08:10", lesson1List);
-            coollist.Add("09:05", lesson2List);
-            coollist.Add("10:00", lesson3List);
-            coollist.Add("10:55", lesson4List);
-            coollist.Add("12:05", lesson5List);
-            coollist.Add("13:00", lesson6List);
-            coollist.Add("13:55", lesson7List);
-            coollist.Add("14:50", lesson8List);
-
-
-
+            SortedList<string, List<Lesson>> coollist = new SortedList<string, List<Lesson>>
+            {
+                {"08:10", lesson1List},
+                {"09:05", lesson2List},
+                {"10:00", lesson3List},
+                {"10:55", lesson4List},
+                {"12:05", lesson5List},
+                {"13:00", lesson6List},
+                {"13:55", lesson7List},
+                {"14:50", lesson8List}
+            };
             foreach (Lesson lesson in sortedList)
             {
-                if (lesson.DateTime.TimeOfDay == timespanLesson1)
+                if (lesson.DateTime.TimeOfDay == new TimeSpan(8, 10, 0))
                 {
                     lesson1List.Add(lesson);
                 }
-                else if (lesson.DateTime.TimeOfDay == timespanLesson2)
+                else if (lesson.DateTime.TimeOfDay == new TimeSpan(9, 5, 0))
                 {
                     lesson2List.Add(lesson);
                 }
-                else if (lesson.DateTime.TimeOfDay == timespanLesson3)
+                else if (lesson.DateTime.TimeOfDay == new TimeSpan(10, 0, 0))
                 {
                     lesson3List.Add(lesson);
                 }
-                else if (lesson.DateTime.TimeOfDay == timespanLesson4)
+                else if (lesson.DateTime.TimeOfDay == new TimeSpan(10, 55, 0))
                 {
                     lesson4List.Add(lesson);
                 }
-                else if (lesson.DateTime.TimeOfDay == timespanLesson5)
+                else if (lesson.DateTime.TimeOfDay == new TimeSpan(12, 5, 0))
                 {
                     lesson5List.Add(lesson);
                 }
-                else if (lesson.DateTime.TimeOfDay == timespanLesson6)
+                else if (lesson.DateTime.TimeOfDay == new TimeSpan(13, 0, 0))
                 {
                     lesson6List.Add(lesson);
                 }
-                else if (lesson.DateTime.TimeOfDay == timespanLesson7)
+                else if (lesson.DateTime.TimeOfDay == new TimeSpan(13, 55, 0))
                 {
                     lesson7List.Add(lesson);
                 }
-                else if (lesson.DateTime.TimeOfDay == timespanLesson8)
+                else if (lesson.DateTime.TimeOfDay == new TimeSpan(14, 50, 0))
                 {
                     lesson8List.Add(lesson);
                 }
             }
             return coollist;
         }
-
         protected void JumpWeekRight_OnClick(object sender, EventArgs e)
         {
             if (Convert.ToInt32(_week) < 52)
@@ -447,7 +424,6 @@ namespace StudyPlatform
                 Response.Redirect("skema.aspx?aar=" + (Convert.ToInt32(_year) + 1) + "&uge=" + "1");
             }
         }
-
         protected void JumpWeekLeft_OnClick(object sender, EventArgs e)
         {
             if (Convert.ToInt32(_week) > 1)
@@ -459,28 +435,7 @@ namespace StudyPlatform
                 Response.Redirect("skema.aspx?aar=" + (Convert.ToInt32(_year) - 1) + "&uge=" + "52");
             }
         }
-
-        protected void DownloadButton_Click(object sender, EventArgs e)
-        {
-            Button button = sender as Button;
-            string path = button.Attributes["path"];
-            string name = Path.GetFileName(path);
-            try
-            {
-                Response.ContentType = "application/octet-stream";
-                Response.AppendHeader("Content-Disposition", "attachment; filename=" + name);
-                Response.TransmitFile(Server.MapPath(path));
-                Response.End();
-            }
-            catch (Exception)
-            {
-                button.Text = "Fil forsvundet";
-                button.Attributes["class"] = "btn btn-danger disabled";
-                Assignment.RemoveDocument(path);
-            }
-        }
-
-
+        protected void DownloadButton_Click(object sender, EventArgs e) => 
+            Common.DownloadFile(sender as LinkButton, this);
     }
-
 }
