@@ -239,7 +239,7 @@ namespace StudyPlatform
             panel.Attributes["runat"] = "server";
             panel.CssClass = "modalPopup";
             panel.Attributes["Style"] = "display: none; position: relative; Height: 66%; Width: 33%; padding: 16px; border-radius: 10px; box-shadow: 0px 0px 50px;";
-            panel.BackColor = Color.AliceBlue;
+            panel.BackColor = Color.FromArgb(249, 249, 249);
             panel.BorderColor = Color.FromArgb(231, 231, 231);
 
             // HTML For Popup Content

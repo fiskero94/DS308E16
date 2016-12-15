@@ -29,8 +29,6 @@ namespace StudyPlatformSQLSetup
                 SetupTables(null);
                 SetupAdmin(null);
                 SetupPseudoData();
-                // SetupData();
-                // SetupData(null);
                 success = true;
             }
             catch (MySqlException e)
