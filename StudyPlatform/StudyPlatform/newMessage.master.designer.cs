@@ -28,7 +28,7 @@ namespace StudyPlatform {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button NewMessageButton;
+        protected global::System.Web.UI.WebControls.LinkButton NewMessageButton;
         
         /// <summary>
         /// TitleTextBox control.
@@ -73,7 +73,7 @@ namespace StudyPlatform {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button CreateMessageButton;
+        protected global::System.Web.UI.WebControls.LinkButton CreateMessageButton;
         
         /// <summary>
         /// ResponseLabel control.

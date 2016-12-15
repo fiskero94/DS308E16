@@ -103,22 +103,18 @@ namespace StudyPlatform
             {
                 // MainRow
                 TableRow row = new TableRow();
-                TableCell titleCell = new TableCell {Text = assignmentDescription.Title};
                 if (assignmentDescription.Documents.Count > 0 || assignmentDescription.Description.Length > 0)
                 {
-                    titleCell.Attributes["class"] = "clickable";
-                    titleCell.Attributes["data-toggle"] = "collapse";
-                    titleCell.Attributes["data-target"] = "#accordion" + assignmentDescription.ID;
+                    row.Cells.Add(Common.CreateAccordionToggleCell("#accordion" + assignmentDescription.ID,
+                        assignmentDescription.Title));
+                    row.Cells.Add(Common.CreateAccordionToggleCell("#accordion" + assignmentDescription.ID,
+                        assignmentDescription.Deadline.ToString()));
                 }
-                row.Cells.Add(titleCell);
-                TableCell deadlineCell = new TableCell {Text = assignmentDescription.Deadline.ToString()};
-                if (assignmentDescription.Documents.Count > 0 || assignmentDescription.Description.Length > 0)
+                else
                 {
-                    deadlineCell.Attributes["class"] = "clickable";
-                    deadlineCell.Attributes["data-toggle"] = "collapse";
-                    deadlineCell.Attributes["data-target"] = "#accordion" + assignmentDescription.ID;
+                    row.Cells.Add(new TableCell { Text = assignmentDescription.Title });
+                    row.Cells.Add(new TableCell { Text = assignmentDescription.Deadline.ToString() });
                 }
-                row.Cells.Add(deadlineCell);
                 TableCell submitCell = new TableCell();
                 if (assignmentDescription.Assignments.Any(assignment => assignment.Student.ID == student.ID))
                 {
@@ -149,18 +145,15 @@ namespace StudyPlatform
                 else if (assignmentDescription.Deadline < DateTime.Now)
                 {
                     // Assignment deadline passed
-                    Button expiredButton = new Button { Text = "Udløbet" };
-                    expiredButton.Attributes["class"] = "btn btn-danger disabled";
+                    LinkButton expiredButton = Common.CreateLinkButtonWithIcon("btn btn-danger disabled", "fa-check","Udløbet");
                     submitCell.Controls.Add(expiredButton);
                 }
                 else
                 {
                     // Student is yet to submit assignment
-                    HyperLink submitButton = new HyperLink
-                    {
-                        Text = "Aflever",
-                        NavigateUrl = "/afleveringer.aspx?aflever=" + assignmentDescription.ID
-                    };
+                    HyperLink submitButton = new HyperLink { NavigateUrl = "/afleveringer.aspx?aflever=" + assignmentDescription.ID };
+                    submitButton.Controls.Add(Common.CreateIconControl("fa-upload"));
+                    submitButton.Controls.Add(Common.CreateTextControl(" Aflever"));
                     submitButton.Attributes["class"] = "btn btn-primary";
                     submitCell.Controls.Add(submitButton);
                 }
@@ -205,28 +198,21 @@ namespace StudyPlatform
                 }
                 if (assignmentDescription.Documents.Count > 0)
                 {
+                    accordion.Controls.Add(new HtmlGenericControl("br"));
                     HtmlGenericControl documentHeader = new HtmlGenericControl("h4") { InnerText = "Dokumenter" };
                     accordion.Controls.Add(documentHeader);
                     HtmlGenericControl container = new HtmlGenericControl("div");
                     container.Attributes["class"] = "container";
                     Table assignmentDescriptionDocumentsTable = new Table { CssClass = "table table-striped table-hover table-bordered" };
                     TableHeaderRow assignmentDescriptionDocumentsTableHeaderRow = new TableHeaderRow();
-                    assignmentDescriptionDocumentsTableHeaderRow.Cells.Add(new TableCell { Text = "Dokument" });
-                    assignmentDescriptionDocumentsTableHeaderRow.Cells.Add(new TableCell { Text = "Download" });
+                    assignmentDescriptionDocumentsTableHeaderRow.Cells.Add(new TableCell { Text = "Dokumenter" });
                     assignmentDescriptionDocumentsTable.Rows.Add(assignmentDescriptionDocumentsTableHeaderRow);
+                    TableRow documentsRow = new TableRow();
+                    TableCell documentsCell = new TableCell();
                     foreach (string document in assignmentDescription.Documents)
-                    {
-                        TableRow documentRow = new TableRow();
-                        documentRow.Cells.Add(new TableCell { Text = document });
-                        TableCell downloadCell = new TableCell();
-                        Button downloadButton = new Button { Text = "Download" };
-                        downloadButton.Attributes["class"] = "btn btn-info";
-                        downloadButton.Attributes["path"] = document;
-                        downloadButton.Click += DownloadButton_Click;
-                        downloadCell.Controls.Add(downloadButton);
-                        documentRow.Cells.Add(downloadCell);
-                        assignmentDescriptionDocumentsTable.Rows.Add(documentRow);
-                    }
+                        documentsCell.Controls.Add(Common.CreateDownloadButton(document, DownloadButton_Click));
+                    documentsRow.Cells.Add(documentsCell);
+                    assignmentDescriptionDocumentsTable.Rows.Add(documentsRow);
                     container.Controls.Add(assignmentDescriptionDocumentsTable);
                     accordion.Controls.Add(container);
                 }
@@ -248,25 +234,8 @@ namespace StudyPlatform
                 .Select(Path.GetFileName).ToArray());
             SuccessDocuments.Text = documents;
         }
-        protected void DownloadButton_Click(object sender, EventArgs e)
-        {
-            Button button = sender as Button;
-            string path = button.Attributes["path"];
-            string name = Path.GetFileName(path);
-            try
-            {
-                Response.ContentType = "application/octet-stream";
-                Response.AppendHeader("Content-Disposition", "attachment; filename=" + name);
-                Response.TransmitFile(Server.MapPath(path));
-                Response.End();
-            }
-            catch (Exception)
-            {
-                button.Text = "Fil forsvundet";
-                button.Attributes["class"] = "btn btn-danger disabled";
-                Assignment.RemoveDocument(path);
-            }
-        }
+        protected void DownloadButton_Click(object sender, EventArgs e) =>
+            Common.DownloadFile(sender as LinkButton, this);
         protected void SubmitAssignmentButton_OnClick(object sender, EventArgs e)
         {
             if (!FileUploadControl.HasFiles)

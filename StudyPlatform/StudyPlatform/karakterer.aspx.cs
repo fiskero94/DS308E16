@@ -6,6 +6,7 @@ using System.Web.Razor.Parser.SyntaxTree;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
+using StudyPlatform.Classes;
 using StudyPlatform.Classes.Model;
 
 namespace StudyPlatform
@@ -33,14 +34,17 @@ namespace StudyPlatform
                 commentRow.Cells.Add(new TableCell { Text = grade.Comment });
                 CommentsTable.Rows.Add(commentRow);
             }
-            if (courseGrades.Count > 0) // Avoid DevideByZero
+            if (courseGrades.Count > 0) // Avoid DivideByZero
             {
                 TableRow averageRow = new TableRow();
-                TableCell textCell = new TableCell {Text = "Gennemsnit"};
-                textCell.Attributes["class"] = "average-grade";
+                TableCell textCell = new TableCell
+                {
+                    Text = "Gennemsnit",
+                    CssClass = "average-grade"
+                };
                 averageRow.Cells.Add(textCell);
-                TableCell averageCell = new TableCell {Text = Convert.ToString((double)gradeSum/(double)courseGrades.Count)};
-                averageCell.Attributes["class"] = "average-grade";
+                TableCell averageCell = new TableCell { Text = ((double)gradeSum/(double)courseGrades.Count).ToString() };
+                averageCell.Attributes.Add("class", "average-grade");
                 averageRow.Cells.Add(averageCell);
                 GradesTable.Rows.Add(averageRow);
             }
@@ -49,14 +53,10 @@ namespace StudyPlatform
             if (CommentsTable.Rows.Count == 1)
                 AddAlertRow(CommentsTable, "Du har ikke fået nogen karakter kommentarer");
         }
-
         private static void AddAlertRow(Table table, string message)
         {
-            HtmlGenericControl alert = new HtmlGenericControl("div") {InnerText = message};
-            alert.Attributes["role"] = "alert";
-            alert.Attributes["class"] = "alert alert-info";
             TableCell alertCell = new TableCell { ColumnSpan = 2 };
-            alertCell.Controls.Add(alert);
+            alertCell.Controls.Add(Common.CreateAlertDiv(message));
             TableRow alertRow = new TableRow();
             alertRow.Cells.Add(alertCell);
             table.Rows.Add(alertRow);

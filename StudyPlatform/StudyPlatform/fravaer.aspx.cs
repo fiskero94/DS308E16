@@ -43,13 +43,13 @@ namespace StudyPlatform
                 if (course.CurrentAssignmentDescriptions.Count == 0)
                     courseRow.Cells.Add(new TableCell { Text = "0 %" });
                 else
-                    courseRow.Cells.Add(new TableCell { Text = Convert.ToString(((course.CurrentAssignmentDescriptions.Count - student.CurrentCourseAssignments(course).Count) * 100) / course.CurrentAssignmentDescriptions.Count) + "%" });
-                courseRow.Cells.Add(new TableCell { Text = Convert.ToString(course.CurrentAssignmentDescriptions.Count - student.CurrentCourseAssignments(course).Count) + "/" + Convert.ToString(course.CurrentAssignmentDescriptions.Count)});
+                    courseRow.Cells.Add(new TableCell { Text = Convert.ToString(((course.CurrentAssignmentDescriptions.Count - student.GetActiveAssignmentsByCourse(course).Count) * 100) / course.CurrentAssignmentDescriptions.Count) + "%" });
+                courseRow.Cells.Add(new TableCell { Text = Convert.ToString(course.CurrentAssignmentDescriptions.Count - student.GetActiveAssignmentsByCourse(course).Count) + "/" + Convert.ToString(course.CurrentAssignmentDescriptions.Count)});
                 if (course.AssignmentDescriptions.Count == 0)
                     courseRow.Cells.Add(new TableCell { Text = "0 %" });
                 else
-                    courseRow.Cells.Add(new TableCell { Text = Convert.ToString(((course.CurrentAssignmentDescriptions.Count - student.CurrentCourseAssignments(course).Count) * 100) / course.AssignmentDescriptions.Count) + "%" });
-                courseRow.Cells.Add(new TableCell { Text = Convert.ToString(course.CurrentAssignmentDescriptions.Count - student.CurrentCourseAssignments(course).Count) + "/" + Convert.ToString(course.AssignmentDescriptions.Count) });
+                    courseRow.Cells.Add(new TableCell { Text = Convert.ToString(((course.CurrentAssignmentDescriptions.Count - student.GetActiveAssignmentsByCourse(course).Count) * 100) / course.AssignmentDescriptions.Count) + "%" });
+                courseRow.Cells.Add(new TableCell { Text = Convert.ToString(course.CurrentAssignmentDescriptions.Count - student.GetActiveAssignmentsByCourse(course).Count) + "/" + Convert.ToString(course.AssignmentDescriptions.Count) });
                 AbsenceTable.Rows.Add(courseRow);
             }
             TableRow totalCoursesRow = new TableRow();
@@ -68,26 +68,18 @@ namespace StudyPlatform
             if (totalNumberOfCurrentAssignments == 0)
                 totalCoursesRow.Cells.Add(new TableCell { Text = "0 %" });
             else
-                totalCoursesRow.Cells.Add(new TableCell { Text = Convert.ToString(((totalNumberOfCurrentAssignments - student.CurrentAssignments.Count) * 100) / totalNumberOfCurrentAssignments) + "%" });
-            totalCoursesRow.Cells.Add(new TableCell { Text = Convert.ToString(totalNumberOfCurrentAssignments - student.CurrentAssignments.Count) + "/" + Convert.ToString(totalNumberOfCurrentAssignments)});
+                totalCoursesRow.Cells.Add(new TableCell { Text = Convert.ToString(((totalNumberOfCurrentAssignments - student.ActiveAssignments.Count) * 100) / totalNumberOfCurrentAssignments) + "%" });
+            totalCoursesRow.Cells.Add(new TableCell { Text = Convert.ToString(totalNumberOfCurrentAssignments - student.ActiveAssignments.Count) + "/" + Convert.ToString(totalNumberOfCurrentAssignments)});
             if (totalNumberOfAssignments == 0)
                 totalCoursesRow.Cells.Add(new TableCell { Text = "0 %" });
             else
-                totalCoursesRow.Cells.Add(new TableCell { Text = Convert.ToString(((totalNumberOfCurrentAssignments - student.CurrentAssignments.Count) * 100) / totalNumberOfAssignments) + "%" });
-            totalCoursesRow.Cells.Add(new TableCell { Text = Convert.ToString(totalNumberOfCurrentAssignments - student.CurrentAssignments.Count) + "/" + Convert.ToString(totalNumberOfAssignments) });
+                totalCoursesRow.Cells.Add(new TableCell { Text = Convert.ToString(((totalNumberOfCurrentAssignments - student.ActiveAssignments.Count) * 100) / totalNumberOfAssignments) + "%" });
+            totalCoursesRow.Cells.Add(new TableCell { Text = Convert.ToString(totalNumberOfCurrentAssignments - student.ActiveAssignments.Count) + "/" + Convert.ToString(totalNumberOfAssignments) });
             AbsenceTable.Rows.Add(totalCoursesRow);
             fag.Attributes["style"] = "line-height: 100px;";
 
             string filePathName = "~/Content/Images/absenceGraph.jpg";
-
-    const string customChartDesign =
-@"<Chart BackColor=""#F8F8F8""
-    BorderColor=""#158CBA"" BorderlineDashStyle=""Solid"" BorderWidth=""5"" Palette=""None"">
-<ChartAreas>
-    <ChartArea Name=""Default"" BackColor=""#F8F8F8""
-    BorderColor=""#158CBA"" BorderDashStyle=""Solid""/> 
-</ChartAreas>
-</Chart>";
+            const string customChartDesign = @"<Chart BackColor=""#F8F8F8"" BorderColor=""#158CBA"" BorderlineDashStyle=""Solid"" BorderWidth=""5"" Palette=""None""> <ChartAreas> <ChartArea Name=""Default"" BackColor=""#F8F8F8"" BorderColor=""#158CBA"" BorderDashStyle=""Solid""/> </ChartAreas> </Chart>";
             Chart chartImage = new Chart(2500, 500, customChartDesign);
             List<Lesson> allLessons = new List<Lesson>();
             foreach (Course studentCourse in student.Courses)

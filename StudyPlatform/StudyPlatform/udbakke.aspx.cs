@@ -22,11 +22,7 @@ namespace StudyPlatform
             if (((Person)Session["user"]).SentMessages.Count == 0)
             {
                 SentMessagesTable.Visible = false;
-                HtmlGenericControl alert = new HtmlGenericControl("div");
-                alert.Attributes["role"] = "alert";
-                alert.Attributes["class"] = "alert alert-info";
-                alert.InnerHtml = "Du har ikke sendt nogen beskeder, tryk på ny besked for at begynde.";
-                AlertPanel.Controls.Add(alert);
+                AlertPanel.Controls.Add(Common.CreateAlertDiv("Du har ikke sendt nogen beskeder, tryk på ny besked for at begynde."));
                 return;
             }
             List<Message> messages = ((Person)Session["user"]).SentMessages;
@@ -34,29 +30,13 @@ namespace StudyPlatform
             foreach (Message message in messages)
             {
                 TableRow row = new TableRow();
-                row.Attributes["class"] = "clickable";
-                TableCell titleCell = new TableCell {Text = message.Title};
-                titleCell.Attributes["data-toggle"] = "collapse";
-                titleCell.Attributes["data-target"] = "#accordion" + message.ID;
-                row.Cells.Add(titleCell);
-                TableCell recipientsCell = new TableCell { Text = GetRecipients(message) };
-                recipientsCell.Attributes["data-toggle"] = "collapse";
-                recipientsCell.Attributes["data-target"] = "#accordion" + message.ID;
-                row.Cells.Add(recipientsCell);
-                TableCell dateCell = new TableCell { Text = message.DateTimeSent.ToShortDateString() };
-                dateCell.Attributes["data-toggle"] = "collapse";
-                dateCell.Attributes["data-target"] = "#accordion" + message.ID;
-                row.Cells.Add(dateCell);
-                Button forwardButton = new Button
-                {
-                    Text = "Videresend",
-                    CssClass = "btn btn-default"
-                };
-                forwardButton.Attributes["messageid"] = message.ID.ToString();
+                row.Cells.Add(Common.CreateAccordionToggleCell("#accordion" + message.ID, message.Title));
+                row.Cells.Add(Common.CreateAccordionToggleCell("#accordion" + message.ID, GetRecipients(message)));
+                row.Cells.Add(Common.CreateAccordionToggleCell("#accordion" + message.ID, message.DateTimeSent.ToShortDateString()));
+                LinkButton forwardButton = Common.CreateLinkButtonWithIcon("btn btn-default", "fa-share", "Videresend");
+                forwardButton.Attributes.Add("messageid", message.ID.ToString());
                 forwardButton.Click += ForwardButton_Click;
-                TableCell forwardButtonCell = new TableCell();
-                forwardButtonCell.Controls.Add(forwardButton);
-                row.Cells.Add(forwardButtonCell);
+                row.Cells.Add(Common.CreateCellWithControls(forwardButton));
                 SentMessagesTable.Rows.Add(row);
                 TableRow textRow = new TableRow();
                 TableCell textCell = new TableCell { ColumnSpan = 4 };
@@ -67,6 +47,7 @@ namespace StudyPlatform
                 {
                     HtmlGenericControl container = new HtmlGenericControl("div");
                     container.Attributes["class"] = "container";
+                    container.Controls.Add(new HtmlGenericControl("br"));
                     Table messageAttachmentsTable = new Table { CssClass = "table table-striped table-hover table-bordered" };
                     TableHeaderRow messageAttachmentsTableHeaderRow = new TableHeaderRow();
                     messageAttachmentsTableHeaderRow.Cells.Add(new TableCell { Text = "Vedhæftninger" });
@@ -74,13 +55,7 @@ namespace StudyPlatform
                     TableRow attachmentRow = new TableRow();
                     TableCell attachmentCell = new TableCell();
                     foreach (string attachment in message.Attachments)
-                    {
-                        Button downloadButton = new Button { Text = Path.GetFileName(attachment) };
-                        downloadButton.Attributes["class"] = "btn btn-warning";
-                        downloadButton.Attributes["path"] = attachment;
-                        downloadButton.Click += DownloadButton_Click;
-                        attachmentCell.Controls.Add(downloadButton);
-                    }
+                        attachmentCell.Controls.Add(Common.CreateDownloadButton(attachment, DownloadButton_Click));
                     attachmentRow.Cells.Add(attachmentCell);
                     messageAttachmentsTable.Rows.Add(attachmentRow);
                     container.Controls.Add(messageAttachmentsTable);
@@ -101,29 +76,12 @@ namespace StudyPlatform
         }
         protected void ForwardButton_Click(object sender, EventArgs e)
         {
-            Message message = Message.GetByID(Convert.ToUInt32(((Button) sender).Attributes["messageid"]));
+            Message message = Message.GetByID(Convert.ToUInt32(((LinkButton) sender).Attributes["messageid"]));
             Master.MessageTitle = message.Title;
             Master.MessageText = message.Text;
             Master.OpenNewMessage();
         }
-        protected void DownloadButton_Click(object sender, EventArgs e)
-        {
-            Button button = sender as Button;
-            string path = button.Attributes["path"];
-            string name = Path.GetFileName(path);
-            try
-            {
-                Response.ContentType = "application/octet-stream";
-                Response.AppendHeader("Content-Disposition", "attachment; filename=" + name);
-                Response.TransmitFile(Server.MapPath(path));
-                Response.End();
-            }
-            catch (Exception)
-            {
-                button.Text = "Fil forsvundet";
-                button.Attributes["class"] = "btn btn-danger disabled";
-                Assignment.RemoveDocument(path);
-            }
-        }
+        protected void DownloadButton_Click(object sender, EventArgs e) => 
+            Common.DownloadFile(sender as LinkButton, this);
     }
 }

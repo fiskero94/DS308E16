@@ -103,6 +103,8 @@ namespace StudyPlatform
                     row.Cells[1].Attributes.Add("class", "col-sm-4");
                     table.Rows.Add(row);
                 }
+                if(News.GetAll().Count == 0)
+                    AddWarningRow(table, "Ingen nyheder", "/nyheder.aspx");
                 return table;
             }
         }
@@ -132,9 +134,7 @@ namespace StudyPlatform
                     table.Rows.Add(row);
                 }
                 if (lessons.Count == 0)
-                {
-                    
-                }
+                    AddWarningRow(table, "Ingen kommende lektioner", "/skema.aspx");
                 return table;
             }
         }
@@ -146,11 +146,11 @@ namespace StudyPlatform
                 table.Attributes.Add("class", "sidepanel-table-inner table table-striped table-hover table-bordered");
                 List<AssignmentDescription> assignmentDescriptions = new List<AssignmentDescription>();
                 foreach (Course course in ((Student)Session["user"]).Courses)
-                    assignmentDescriptions.AddRange(course.AssignmentDescriptions);
+                    assignmentDescriptions.AddRange(course.AssignmentDescriptions
+                        .Where(ad => ad.HasExpired == false &&
+                               ad.Assignments.All(a => a.Student.ID != ((Student)Session["user"]).ID)));
                 foreach (AssignmentDescription assignmentDescription in
-                         assignmentDescriptions.Where(ad => ad.HasExpired == false && 
-                                                      ad.Assignments.All(a => a.Student.ID != ((Student) Session["user"]).ID))
-                                               .OrderBy(o => o.Deadline)
+                         assignmentDescriptions.OrderBy(o => o.Deadline)
                                                .Take(3))
                 {
                     TableRow row = new TableRow();
@@ -162,6 +162,8 @@ namespace StudyPlatform
                     row.Cells[1].Attributes.Add("class", "col-sm-4");
                     table.Rows.Add(row);
                 }
+                if (assignmentDescriptions.Count == 0)
+                    AddWarningRow(table, "Ingen kommende afleveringer", "/afleveringer.aspx");
                 return table;
             }
         }
@@ -183,6 +185,8 @@ namespace StudyPlatform
                     row.Cells[1].Attributes.Add("class", "col-sm-4");
                     table.Rows.Add(row);
                 }
+                if (((Person)Session["user"]).RecievedMessages.Count == 0)
+                    AddWarningRow(table, "Ingen modtaget beskeder", "/indbakke.aspx");
                 return table;
             }
         }
@@ -204,8 +208,18 @@ namespace StudyPlatform
                     row.Cells[1].Attributes.Add("class", "col-sm-4");
                     table.Rows.Add(row);
                 }
+                if (((Person)Session["user"]).SentMessages.Count == 0)
+                    AddWarningRow(table, "Ingen sendte beskeder", "/udbakke.aspx");
                 return table;
             }
+        }
+        private static void AddWarningRow(Table table, string message, string link)
+        {
+            TableRow row = new TableRow();
+            row.Attributes.Add("class", "clickable warning");
+            row.Attributes.Add("onclick", "window.document.location='" + link + "';");
+            row.Cells.Add(new TableCell { Text = message, ColumnSpan = 2 });
+            table.Rows.Add(row);
         }
         private static string GetTimeUntil(DateTime dateTime)
         {

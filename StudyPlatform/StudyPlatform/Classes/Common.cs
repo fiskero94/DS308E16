@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
+using StudyPlatform.Classes.Model;
 
 namespace StudyPlatform.Classes
 {
@@ -22,17 +24,13 @@ namespace StudyPlatform.Classes
         }
         public static void EnsureNotNull(params object[] objects)
         {
-            foreach (object obj in objects)
-                if (obj == null)
-                    throw new ArgumentNullException();
+            if (objects.Any(obj => obj == null))
+                throw new ArgumentNullException();
         }
         public static void EnsureNotEmpty(params string[] strings)
         {
-            foreach (string str in strings)
-            {
-                if (str == "")
-                    throw new ArgumentException();
-            }
+            if (strings.Any(str => str == ""))
+                throw new ArgumentException();
         }
         // http://stackoverflow.com/a/8605204 edited to support WebControls instead of HtmlControls
         public static T FindWebControlByAttribute<T>(Control controlToSearch, string attributeName, string attributeValue) where T : WebControl
@@ -63,11 +61,75 @@ namespace StudyPlatform.Classes
             }
             return null;
         }
-
         public static TableCell CreateTextCell(string text, string size)
         {
             TableCell cell = new TableCell {Text = text};
             cell.Attributes["class"] = size;
+            return cell;
+        }
+        public static HtmlGenericControl CreateIconControl(string icon)
+        {
+            HtmlGenericControl iconControl = new HtmlGenericControl("i");
+            iconControl.Attributes.Add("class", "fa " + icon);
+            return iconControl;
+        }
+        public static HtmlGenericControl CreateTextControl(string text) => 
+            new HtmlGenericControl { InnerText = text };
+        public static LinkButton CreateLinkButtonWithIcon(string cssClass, string icon, string text)
+        {
+            LinkButton button = new LinkButton { CssClass = cssClass };
+            button.Controls.Add(CreateIconControl(icon));
+            button.Controls.Add(CreateTextControl(" " + text));
+            return button;
+        }
+        public static LinkButton CreateDownloadButton(string filepath, EventHandler onClickEventHandler)
+        {
+            LinkButton downloadButton = CreateLinkButtonWithIcon("btn btn-warning", "fa-file",
+                Path.GetFileName(filepath));
+            downloadButton.Attributes.Add("path", filepath);
+            downloadButton.Click += onClickEventHandler;
+            return downloadButton;
+        }
+        public static void DownloadFile(LinkButton button, Page page)
+        {
+            string path = button.Attributes["path"];
+            string name = Path.GetFileName(path);
+            try
+            {
+                page.Response.ContentType = "application/octet-stream";
+                page.Response.AppendHeader("Content-Disposition", "attachment; filename=" + name);
+                page.Response.TransmitFile(page.Server.MapPath(path));
+                page.Response.End();
+            }
+            catch (Exception)
+            {
+                button.Text = "Fil forsvundet";
+                button.Attributes.Add("class", "btn btn-danger disabled");
+                Assignment.RemoveDocument(path);
+            }
+        }
+
+        public static TableCell CreateAccordionToggleCell(string target, string text)
+        {
+            TableCell cell = new TableCell { Text = text };
+            cell.Attributes.Add("data-toggle", "collapse");
+            cell.Attributes.Add("data-target", target);
+            return cell;
+        }
+
+        public static HtmlGenericControl CreateAlertDiv(string message)
+        {
+            HtmlGenericControl alert = new HtmlGenericControl("div");
+            alert.Attributes.Add("role", "alert");
+            alert.Attributes.Add("class", "alert alert-info");
+            alert.InnerText = message;
+            return alert;
+        }
+        public static TableCell CreateCellWithControls(params Control[] controls)
+        {
+            TableCell cell = new TableCell();
+            foreach(Control control in controls)
+                cell.Controls.Add(control);
             return cell;
         }
     }
