@@ -57,6 +57,15 @@ namespace StudyPlatform
             { "14:50", 22 },
         };
 
+        readonly Func<string, string> SomeDynamicMessage = s => {
+            var val = s;
+            val = val.Replace("{", "<span class='bold-token'>{");
+            val = val.Replace("}", "}</span>");
+            return val;
+        };
+
+
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack)
@@ -210,10 +219,10 @@ namespace StudyPlatform
                 p.Attributes["runat"] = "server";
 
                 HtmlGenericControl divContainer = new HtmlGenericControl("div");
-                divContainer.Attributes["style"] = "position: absolute; z-index: 999; right: 1px; bottom: 1px;";
+                divContainer.Attributes["style"] = "position: absolute; z-index: 999; right: 5px; bottom: 3px; color: white;";
 
                 HtmlGenericControl iContainer = new HtmlGenericControl("span");
-                iContainer.Attributes["class"] = "fa 	fa fa-file-pdf-o fa-2x";
+                iContainer.Attributes["class"] = "fa fa-file-text";
 
                 divContainer.Controls.Add(iContainer);
                 p.Controls.Add(divContainer);
@@ -229,7 +238,7 @@ namespace StudyPlatform
             panel.ID = panelUniqueId;
             panel.Attributes["runat"] = "server";
             panel.CssClass = "modalPopup";
-            panel.Attributes["Style"] = "display: none; position: relative; Height: 66%; Width: 33%; padding: 16px;";
+            panel.Attributes["Style"] = "display: none; position: relative; Height: 66%; Width: 33%; padding: 16px; border-radius: 10px; box-shadow: 0px 0px 50px;";
             panel.BackColor = Color.AliceBlue;
             panel.BorderColor = Color.FromArgb(231, 231, 231);
 
@@ -243,13 +252,16 @@ namespace StudyPlatform
             panel.Controls.Add(TitleLine);
 
             string str = "";
-            Common.AppendStringArray(ref str, ", ", lesson.Course.Teachers.Select(teac => teac.Name).ToArray());
-            panel.Controls.Add(new Label() { Text = str });
+            string input = "";
+            Common.AppendStringArray(ref str, ", ", lesson.Course.Teachers.Select(x => x.Name).ToArray());
+            input = @"{0}" + str;
+            panel.Controls.Add(new Label() { Text = string.Format(SomeDynamicMessage(input), "Lærer: " )});
 
             panel.Controls.Add(new HtmlGenericControl("br"));
 
             Label dateLabel = new Label();
-            dateLabel.Text = lesson.DateTime.Date.ToLongDateString();
+            input = @"{0}" + lesson.DateTime.Date.ToLongDateString();
+            dateLabel.Text = string.Format(SomeDynamicMessage(input), "Dato: ");
             panel.Controls.Add(dateLabel);
 
             panel.Controls.Add(new HtmlGenericControl("br"));
@@ -257,14 +269,15 @@ namespace StudyPlatform
             Label statusLabel = new Label();
             if (lesson.Cancelled)
             {
-                statusLabel.Text = "Status: Aflyst";
+                input = @"{0}" + "Aflyst";
+                statusLabel.Text = string.Format(SomeDynamicMessage(input), "Status: ");
             }
             else
             {
-                statusLabel.Text = lesson.Online ? "Status: Virtuel" : "Status: Standard";
+                input = lesson.Online ? @"{0}" + "Virtuel" : @"{0}" + "Standard:";
+                statusLabel.Text = string.Format(SomeDynamicMessage(input), "Status: ");
             }
             panel.Controls.Add(statusLabel);
-
 
 
             HtmlGenericControl dateLine = new HtmlGenericControl("hr");
@@ -308,7 +321,7 @@ namespace StudyPlatform
             bnt.Attributes["class"] = "btn btn-primary";
             bnt.Text = "Luk";
             bnt.Attributes["Style"] = "position: absolute; width: 15%; height: 6%; " +
-                                      "margin: 0 auto; left: auto; right: 2px; bottom: 2px";
+                                      "margin: 0 auto; left: auto; right: 10px; bottom: 10px";
 
             divBody.Controls.Add(bnt);
             panel.Controls.Add(divBody);
@@ -325,7 +338,9 @@ namespace StudyPlatform
             modalPop.DropShadow = false;
             modalPop.CancelControlID = "btnCancel" + panelUniqueId;
             modalPop.BackgroundCssClass = "modalBackground";
-          
+
+
+            //modalPop.BehaviorID = "MPE" + modalPop.ID;
 
             Panel1.Controls.Add(modalPop);
             Panel1.Controls.Add(panel);

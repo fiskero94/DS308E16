@@ -12,10 +12,15 @@
     
 
     <style type="text/css">
-        .modalBackground {
-            background-color: #cad1d0;
-            filter: alpha(opacity=80);
-            opacity: 0.8;
+        .modalBackground
+        {
+            background-color: Gray;
+            filter: alpha(opacity=70);
+            opacity: 0.7;
+            -moz-opacity: 0.7;
+        }
+        .bold-token {
+             font-weight: bold;
         }
     </style>
     
@@ -31,14 +36,17 @@
             <asp:ScriptReference Path="~/Scripts/AjaxControlToolkit/Bundle"/>
         </Scripts>
     </asp:ScriptManager>
+    
+    
+
 
 
     <%-- Popup content destination --%>
     <asp:Panel ID="Panel1" runat="server"></asp:Panel>
 
     <%-- Week shifters --%>
-    <div class="container col-sm-13" style="margin-top: -80px;">
-        <div class="form-group col-sm-4 col-sm-offset-4">
+    <div class="container" style="margin-top: -80px;">
+        <div class="form-group col-sm-offset-4">
             <asp:LinkButton runat="server" ID="JumpWeekLeft" CssClass="btn btn-default" OnClick="JumpWeekLeft_OnClick" BackColor="transparent" BorderStyle="None">
                 <i class="fa fa-arrow-circle-o-left fa-2x"></i>
             </asp:LinkButton>
