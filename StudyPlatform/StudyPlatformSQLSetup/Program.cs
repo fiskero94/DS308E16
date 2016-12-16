@@ -208,17 +208,19 @@ namespace StudyPlatformSQLSetup
             var rooms = Group(room01, room02, room03, room04, room05, room06, room07, room08, room09, room10);
             // Messages
             WriteSetupMessageIndent("Creating messages");
-            var message01 = Message.New(student01, "Titel", "Tekst", Group<Person>(student02), Group<string>());
-            var message02 = Message.New(student01, "Titel", "Tekst", Group<Person>(student03, student04, teacher01, teacher02), Group<string>());
-            var message03 = Message.New(student01, "Titel", "Tekst", Group<Person>(student05, student06, teacher03, teacher04), Group<string>());
-            var message04 = Message.New(student01, "Titel", "Tekst", Group<Person>(student07, student08, teacher05, teacher06), Group<string>());
-            var message05 = Message.New(student01, "Titel", "Tekst", Group<Person>(student09, student10, teacher07, teacher08), Group<string>());
-            var message06 = Message.New(student02, "Titel", "Tekst", Group<Person>(student01, teacher09), Group<string>());
-            var message07 = Message.New(student03, "Titel", "Tekst", Group<Person>(student01, teacher10), Group<string>());
-            var message08 = Message.New(teacher01, "Titel", "Tekst", Group<Person>(student01, teacher01), Group<string>());
-            var message09 = Message.New(teacher02, "Titel", "Tekst", Group<Person>(student01, teacher02), Group<string>());
-            var message10 = Message.New(teacher03, "Titel", "Tekst", Group<Person>(student01, teacher03), Group<string>());
-            var messages = Group(message01, message02, message03, message04, message05, message06, message07, message08, message09, message10);
+            var message01 = Message.New(student01, "Hjælp til dansk", "Tekst", Group<Person>(student02), Group<string>());
+            var message02 = Message.New(student01, "Angående aflevering", "Tekst", Group<Person>(student03, student04, teacher01, teacher02), Group<string>());
+            var message03 = Message.New(student01, "Kemi spørgsmål", "Tekst", Group<Person>(student05, student06, teacher03, teacher04), Group<string>());
+            var message04 = Message.New(student01, "Idrætsdag", "Tekst", Group<Person>(student07, student08, teacher05, teacher06), Group<string>());
+            var message05 = Message.New(student01, "Nye åbningstider ved studievejleder", "Tekst", Group<Person>(student09, student10, teacher07, teacher08), Group<string>());
+            var message06 = Message.New(student02, "Åbent hus", "Tekst", Group<Person>(student01, teacher09), Group<string>());
+            var messages = Group(message01, message02, message03, message04, message05, message06);
+
+            //messages til billeder
+            Student student1 = Student.GetByID(2);
+            List<Person> recipients = new List<Person>();
+            recipients.Add(student1);
+            Creator.CreateMessage(student1, "Angående matematik eksamen", "Hej alle kursister på tredje år.  <br/> Lokale til matematik eksamen er skiftet til 301a, tidspunkt er ikke ændret.  <br/> Mvh,  <br/> Studieordning på VUC", recipients, new List<string>());
             // Courses
             WriteSetupMessageIndent("Creating courses");
             var course01 = Course.New("Dansk A", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque non ipsum nec libero tincidunt convallis quis nec turpis. Cras lobortis condimentum vestibulum. Integer felis lectus, imperdiet eu commodo vel, tristique accumsan elit. Aenean mattis metus nibh, quis vestibulum elit vulputate sed. Duis cursus suscipit velit, at egestas massa lacinia et. Phasellus elementum arcu lectus, et convallis massa dictum nec. Aliquam erat volutpat. Mauris congue nibh sapien, id facilisis nibh cras amet.");
