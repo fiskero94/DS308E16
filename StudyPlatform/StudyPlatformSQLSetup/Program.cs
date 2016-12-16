@@ -255,33 +255,43 @@ namespace StudyPlatformSQLSetup
             course10.AddTeacher(teacher10);
             // Lessons
             GenerateLessons("05", "09", "2016", 20, courses, rooms);
-            // AssignmentDescriptions
-            WriteSetupMessageIndent("Creating AssignmentDescriptions");
-            const string description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent et nisl ipsum. Nunc nec eros vel dolor semper maximus. Suspendisse cursus in mi quis vehicula. Quisque elit risus, aliquet sit amet sem ut, facilisis eleifend libero. Donec ultricies nibh ut quam condimentum, non sollicitudin leo sed.";
-            var deadline = DateTime.Today;
-            var assignmentDescriptions = new List<AssignmentDescription>();
-            foreach (Course course in courses)
-            {
-                assignmentDescriptions.Add(AssignmentDescription.New(course, "Title", description, deadline.AddDays(Rng.Next(-50, 50)), Group<string>()));
-                assignmentDescriptions.Add(AssignmentDescription.New(course, "Title", description, deadline.AddDays(Rng.Next(-50, 50)), Group<string>()));
-                assignmentDescriptions.Add(AssignmentDescription.New(course, "Title", description, deadline.AddDays(Rng.Next(-50, 50)), Group<string>()));
-                assignmentDescriptions.Add(AssignmentDescription.New(course, "Title", description, deadline.AddDays(Rng.Next(-50, 50)), Group<string>()));
-                assignmentDescriptions.Add(AssignmentDescription.New(course, "Title", description, deadline.AddDays(Rng.Next(-50, 50)), Group<string>()));
-            }
-            // Assignments
-            WriteSetupMessageIndent("Creating Assignments");
-            var assignments = new List<Assignment>();
-            foreach (AssignmentDescription assignmentDescription in assignmentDescriptions)
-            {
-                List<Student> choices = new List<Student>(students);
-                choices.RemoveAt(Rng.Next(0, choices.Count - 1));
-                assignments.AddRange(choices.Select(student =>
-                    Assignment.New(assignmentDescription, student, "Lorem ipsum dolor sit amet, consectetur cras amet.", Group<string>())));
-            }
-            // AssignmentGrades
-            WriteSetupMessageIndent("Creating AssignmentGrades");
-            foreach (Assignment assignment in assignments)
-                assignment.Grade = AssignmentGrade.New(TakeRandom(Common.ValidGrades.ToList()), "Lorem ipsum dolor sit amet.", assignment);
+            //// AssignmentDescriptions --- KOMMENTERET UD TIL AT LAVE BILLEDER AF DESIGN
+            //WriteSetupMessageIndent("Creating AssignmentDescriptions");
+            //const string description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent et nisl ipsum. Nunc nec eros vel dolor semper maximus. Suspendisse cursus in mi quis vehicula. Quisque elit risus, aliquet sit amet sem ut, facilisis eleifend libero. Donec ultricies nibh ut quam condimentum, non sollicitudin leo sed.";
+            //var deadline = DateTime.Today;
+            //var assignmentDescriptions = new List<AssignmentDescription>();
+            //foreach (Course course in courses)
+            //{
+            //    assignmentDescriptions.Add(AssignmentDescription.New(course, "Title", description, deadline.AddDays(Rng.Next(-50, 50)), Group<string>()));
+            //    assignmentDescriptions.Add(AssignmentDescription.New(course, "Title", description, deadline.AddDays(Rng.Next(-50, 50)), Group<string>()));
+            //    assignmentDescriptions.Add(AssignmentDescription.New(course, "Title", description, deadline.AddDays(Rng.Next(-50, 50)), Group<string>()));
+            //    assignmentDescriptions.Add(AssignmentDescription.New(course, "Title", description, deadline.AddDays(Rng.Next(-50, 50)), Group<string>()));
+            //    assignmentDescriptions.Add(AssignmentDescription.New(course, "Title", description, deadline.AddDays(Rng.Next(-50, 50)), Group<string>()));
+            //}
+            //// Assignments
+            //WriteSetupMessageIndent("Creating Assignments");
+            //var assignments = new List<Assignment>();
+            //foreach (AssignmentDescription assignmentDescription in assignmentDescriptions)
+            //{
+            //    List<Student> choices = new List<Student>(students);
+            //    choices.RemoveAt(Rng.Next(0, choices.Count - 1));
+            //    assignments.AddRange(choices.Select(student =>
+            //        Assignment.New(assignmentDescription, student, "Lorem ipsum dolor sit amet, consectetur cras amet.", Group<string>())));
+            //}
+            //// AssignmentGrades
+            //WriteSetupMessageIndent("Creating AssignmentGrades");
+            //foreach (Assignment assignment in assignments)
+            //    assignment.Grade = AssignmentGrade.New(TakeRandom(Common.ValidGrades.ToList()), "Vi gennemgår resultaterne af disse afleveringer i klassen", assignment);
+
+
+            Creator.CreateAssignmentDescription(course01, "Dansk A, analyse af selvvalgt novelle", "Lav en analyse af en novelle, som følger analyse-kravene i kapitel 7", (DateTime.Now - TimeSpan.FromDays(5)), Group<string>());
+            Creator.CreateAssignmentDescription(course02, "Matematik A, test af eksamenssæt", "Fuldfør til egen evne eksamenssættet fra sidste år", (DateTime.Now - TimeSpan.FromDays(1)), Group<string>());
+            AssignmentDescription assignmentDescription1 = AssignmentDescription.GetLatest();
+            List<string> aflevering = new List<string>();
+            aflevering.Add("eksamenssæt.txt");
+            Creator.CreateAssignment(assignmentDescription1, student1, "Vi gennemgår resultaterne af disse afleveringer i klassen", aflevering);
+            Assignment.GetLatest().Grade = AssignmentGrade.New("10", "Vi gennemgår resultaterne af disse afleveringer i klassen", Assignment.GetLatest());
+            Creator.CreateAssignmentDescription(course03, "Fysik A, tyngdekraft", "Lav en analyse af de forsøg vi foretog af tyngdekraften", DateTime.Now.AddDays(5), Group<string>());
 
             // CourseGrades
             WriteSetupMessageIndent("Creating CourseGrades");
