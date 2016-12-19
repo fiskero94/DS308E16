@@ -5,6 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StudyPlatform.Classes.Database;
 using StudyPlatform.Classes.Model;
 using System.Linq;
+using StudyPlatform.Classes.Exceptions;
 
 namespace StudyPlatform.Tests.DatabaseTests
 {
@@ -91,6 +92,21 @@ namespace StudyPlatform.Tests.DatabaseTests
 
             // Assert
             Assert.IsFalse(isNull);
+        }
+        [TestMethod]
+        public void CommandsCheckNull_NonExistantID_InvalidIDExceptionThrown()
+        {
+            // Act & Assert
+            try
+            {
+                Commands.CheckNull("Assignment", 1, "GradeID");
+                Assert.Fail(); // No exception thrown
+            }
+            catch (Exception ex)
+            {
+                if (!(typeof(InvalidIDException) == ex.GetType()))
+                    Assert.Fail(); // Exception thrown is not an InvalidIDException
+            }
         }
     }
 }

@@ -40,5 +40,20 @@ namespace StudyPlatform.Tests.DatabaseTests
             MySqlConnectionReader connectionReader = query.Execute();
             connectionReader.Connection.Close();
         }
+        [TestMethod]
+        public void SetQueryString_NullValue_ArgumentNullExceptionThrown()
+        {
+            // Act & Assert
+            try
+            {
+                Query query = new Query(null);
+                Assert.Fail(); // No exception thrown
+            }
+            catch (Exception ex)
+            {
+                if (!(typeof(ArgumentNullException) == ex.GetType()))
+                    Assert.Fail(); // Exception thrown is not an ArgumentNullException
+            }
+        }
     }
 }
