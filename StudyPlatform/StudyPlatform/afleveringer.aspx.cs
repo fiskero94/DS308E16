@@ -119,33 +119,29 @@ namespace StudyPlatform
                 if (assignmentDescription.Assignments.Any(assignment => assignment.Student.ID == student.ID))
                 {
                     // Assignment already submitted
-                    Button submittedButton = new Button { Text = "Afleveret" };
-                    submittedButton.Attributes["class"] = "btn btn-success disabled";
+                    LinkButton submittedButton = Common.CreateLinkButtonWithIcon("btn btn-success disabled", "fa-check-square", "Afleveret");
                     submittedButton.Attributes["style"] = "display: inline-block;";
                     submitCell.Controls.Add(submittedButton);
                     List<string> documents = assignmentDescription.Assignments
                         .Single(assignment => assignment.Student.ID == student.ID).Documents;
                     if (documents.Count == 0)
                     {
-                        Button noDocumentsButton = new Button { Text = "Ingen dokumenter" };
-                        noDocumentsButton.Attributes["class"] = "btn btn-default disabled";
+                        LinkButton noDocumentsButton = Common.CreateLinkButtonWithIcon("btn btn-default disabled", "fa-info-circle",
+                            "Ingen dokumenter");
                         noDocumentsButton.Attributes["style"] = "display: inline-block;";
                         submitCell.Controls.Add(noDocumentsButton);
                     }
                     foreach (string document in documents)
                     {
-                        Button downloadButton = new Button { Text = Path.GetFileName(document) };
-                        downloadButton.Attributes["class"] = "btn btn-warning";
+                        LinkButton downloadButton = Common.CreateDownloadButton(document, DownloadButton_Click);
                         downloadButton.Attributes["style"] = "display: inline-block;";
-                        downloadButton.Attributes["path"] = document;
-                        downloadButton.Click += DownloadButton_Click;
                         submitCell.Controls.Add(downloadButton);
                     }
                 }
                 else if (assignmentDescription.Deadline < DateTime.Now)
                 {
                     // Assignment deadline passed
-                    LinkButton expiredButton = Common.CreateLinkButtonWithIcon("btn btn-danger disabled", "fa-check","Udløbet");
+                    LinkButton expiredButton = Common.CreateLinkButtonWithIcon("btn btn-danger disabled", "fa-exclamation-triangle", "Udløbet");
                     submitCell.Controls.Add(expiredButton);
                 }
                 else

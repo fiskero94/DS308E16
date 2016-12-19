@@ -38,6 +38,12 @@ namespace StudyPlatform
             persons.Sort((a,b) => string.Compare(a.Name, b.Name, StringComparison.InvariantCultureIgnoreCase));
             foreach (Person person in persons)
                 RecipientsListBox.Items.Add(new ListItem(person.Name, person.ID.ToString()));
+            if (Session["newMessageError"] != null && (bool) Session["newMessageError"])
+            {
+                ResponseLabel.Text = (string) Session["newMessageErrorText"];
+                OpenNewMessage();
+                Session["newMessageError"] = false;
+            }
         }
         protected void CreateMessageButton_OnClick(object sender, EventArgs e)
         {
@@ -55,43 +61,44 @@ namespace StudyPlatform
                     }
                     catch (Exception ex)
                     {
-
+                        Session["newMessageError"] = true;
+                        Session["newMessageErrorText"] = "Filerne kan ikke hentes: " + ex.Message;
+                        Response.Redirect(Request.RawUrl);
+                        return;
                     }
                 }
             }
             try
             {
                 Message.New(Session["user"] as Person, TitleTextBox.Text, TextTextBox.Text, recipients, filepaths);
-                Response.Redirect(Request.RawUrl);
             }
             catch (ArgumentException)
             {
-                ResponseLabel.Text = "Beskeden skal have en titel.";
+                Session["newMessageError"] = true;
+                Session["newMessageErrorText"] = "Beskeden skal have en titel.";
             }
             catch (NoRecipientsException)
             {
-                ResponseLabel.Text = "Beskeden skal have en eller flere modtagere";
+                Session["newMessageError"] = true;
+                Session["newMessageErrorText"] = "Beskeden skal have en eller flere modtagere";
             }
             catch (Exception ex)
             {
-                ResponseLabel.Text = "Unhandled exception: " + ex.Message;
+                Session["newMessageError"] = true;
+                Session["newMessageErrorText"] = "Unhandled exception: " + ex.Message;
+            }
+            finally
+            {
+                Response.Redirect(Request.RawUrl);
             }
         }
 
-        public void OpenNewMessage()
-        {
-            ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "text", "stuff()", true);
-        }
+        public void OpenNewMessage() => ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "text", "openNewMessage()", true);
 
         public void ReplyMessage(Message message)
         {
             foreach (ListItem item in RecipientsListBox.Items)
-            {
-                if (item.Value == Convert.ToString(message.Sender.ID))
-                    item.Selected = true;
-                else
-                    item.Selected = false;
-            }
+                item.Selected = item.Value == Convert.ToString(message.Sender.ID);
             MessageTitle = "RE: " + message.Title;
             OpenNewMessage();
         }

@@ -114,6 +114,7 @@ namespace StudyPlatform.Classes
             TableCell cell = new TableCell { Text = text };
             cell.Attributes.Add("data-toggle", "collapse");
             cell.Attributes.Add("data-target", target);
+            cell.Attributes.Add("class", "clickable");
             return cell;
         }
 

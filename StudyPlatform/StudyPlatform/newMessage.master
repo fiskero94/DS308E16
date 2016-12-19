@@ -40,7 +40,7 @@
     </asp:ContentPlaceHolder>
 
 <script type="text/javascript" >
-    function stuff() {
+    function openNewMessage() {
         $("#newmessage").collapse('show');
         javascript:scroll(0,0);
     }
