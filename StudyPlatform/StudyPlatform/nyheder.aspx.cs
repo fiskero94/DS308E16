@@ -132,8 +132,8 @@ namespace StudyPlatform
         protected void SaveButton_Click(object sender, EventArgs e)
         {
             string newsId = ((Button) sender).Attributes["newsid"];
-            TextBox titleTextBox = Common.FindWebControlByAttribute<TextBox>(NewsTable, "textboxid", "title" + newsId);
-            TextBox textTextBox = Common.FindWebControlByAttribute<TextBox>(NewsTable, "textboxid", "text" + newsId);
+            TextBox titleTextBox = WebHelper.FindWebControlByAttribute<TextBox>(NewsTable, "textboxid", "title" + newsId);
+            TextBox textTextBox = WebHelper.FindWebControlByAttribute<TextBox>(NewsTable, "textboxid", "text" + newsId);
             News news = News.GetByID(Convert.ToUInt32(newsId));
             try
             {

@@ -12,7 +12,7 @@ namespace StudyPlatform.Tests.DatabaseTests
     {
         public QueryTests()
         {
-            Common.ResetTables();
+            WebHelper.ResetTables();
         }
 
         [TestMethod]

@@ -22,7 +22,6 @@ namespace StudyPlatform
         private static readonly string[] TimeSlots = { "08:10", "09:05", "10:00", "10:55", "12:05", "13:00", "13:55", "14:50" };
         private string _year;
         private string _week;
-
         private static readonly Dictionary<string, string> GetCourseColor = new Dictionary<string, string>
         {
             { "Kemi B", "#6F308A" },
@@ -33,18 +32,16 @@ namespace StudyPlatform
             { "Geografi B", "#4578B4" },
             { "Engelsk A", "#473896" },
             { "Samfund B", "#90278A" },
-            { "Historie B", "#7D1615" },
+            { "Historie B", "#7D1615" }
         };
-
         private static readonly Dictionary<string, int> GetCellNumber = new Dictionary<string, int>
         {
             { "Monday", 1 },
             { "Tuesday", 2 },
             { "Wednesday", 3 },
             { "Thursday", 4 },
-            { "Friday", 5 },
+            { "Friday", 5 }
         };
-
         private static readonly Dictionary<string, int> GetRowNumber = new Dictionary<string, int>
         {
             { "08:10", 1 },
@@ -54,27 +51,23 @@ namespace StudyPlatform
             { "12:05", 13 },
             { "13:00", 16 },
             { "13:55", 19 },
-            { "14:50", 22 },
+            { "14:50", 22 }
         };
-
         readonly Func<string, string> SomeDynamicMessage = s => {
             var val = s;
             val = val.Replace("{", "<span class='bold-token'>{");
             val = val.Replace("}", "}</span>");
             return val;
         };
-
-
-
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!(Session["user"] is Student || Session["user"] is Teacher))
+                Response.Redirect("login.aspx");
+            if (_year != null && _week != null)
+                RedirectToCurrentWeek();
+            
             if (!Page.IsPostBack)
             {
-                if (!(Session["user"] is Student || Session["user"] is Teacher))
-                {
-                    Response.Redirect("login.aspx");
-                }
-
                 Master.TitelLabelText = "Skema";
                 _year = Request.QueryString["aar"];
                 _week = Request.QueryString["uge"];
@@ -84,8 +77,6 @@ namespace StudyPlatform
                 {
                     RedirectToCurrentWeek();
                 }
-
-
                 if (Convert.ToInt32(_week) < 10)
                 {
                     datepickerinut.Value = _year + "-W0" + _week;
@@ -94,63 +85,51 @@ namespace StudyPlatform
                 {
                     datepickerinut.Value = _year + "-W" + _week;
                 }
+                SetupWeekButtons();
 
                 Person user = (Person)Session["user"];
                 int weekNumber = Convert.ToInt32(Request.QueryString["uge"]);
 
+                SortedList<string, List<Lesson>> sortedList = new SortedList<string, List<Lesson>>();
 
-                if (_year != null && _week != null)
+                if (Session["user"] is Student)
                 {
-                    SortedList<string, List<Lesson>> sortedList = new SortedList<string, List<Lesson>>();
-
-                    if (Session["user"] is Student)
-                    {
-                        List<Course> courses = Student.GetByID(Convert.ToUInt32(user.ID)).Courses;
-                        sortedList = FindAndSortLessonsForPerson(courses, weekNumber);
-                    }
-                    else if (Session["user"] is Teacher)
-                    {
-                        List<Course> courses = Teacher.GetByID(Convert.ToUInt32(user.ID)).Courses;
-                        sortedList = FindAndSortLessonsForPerson(courses, weekNumber);
-                    }
-                    else
-                    {
-                        Response.Redirect("nyheder.aspx");  // SLET?!?
-                    }
-
-                    SortedList<string, TableRow> GetTableRow = new SortedList<string, TableRow>();
-                    GetTableRow.Add("08:10", tableRow1);
-                    GetTableRow.Add("09:05", tableRow4);
-                    GetTableRow.Add("10:00", tableRow7);
-                    GetTableRow.Add("10:55", tableRow10);
-                    GetTableRow.Add("12:05", tableRow13);
-                    GetTableRow.Add("13:00", tableRow16);
-                    GetTableRow.Add("13:55", tableRow19);
-                    GetTableRow.Add("14:50", tableRow22);
-
-                    // Table Headers
-                    CreateTableHeadersText();
-
-                    // Creating TableCells with button for each Day in each TimeSlot.
-                    foreach (string timeslot in TimeSlots)
-                    {
-                        for (int i = 0; i < 5; i++)
-                        {
-                            TableCell tableCell = new TableCell { RowSpan = 2 };
-                            tableCell.Attributes["Style"] = "background:transparent; position: relative; padding: 0px; margin: 0px;";
-                            GetTableRow[timeslot].Cells.Add(tableCell);
-                        }
-
-                        foreach (var lesson in sortedList[timeslot])
-                        {
-                            // TableCell & Button & PopupContent layout 
-                            CreateTableCellContent(lesson, timeslot);
-                        }
-                    }
+                    List<Course> courses = Student.GetByID(Convert.ToUInt32(user.ID)).Courses;
+                    sortedList = FindAndSortLessonsForPerson(courses, weekNumber);
                 }
                 else
                 {
-                    RedirectToCurrentWeek();
+                    List<Course> courses = Teacher.GetByID(Convert.ToUInt32(user.ID)).Courses;
+                    sortedList = FindAndSortLessonsForPerson(courses, weekNumber);
+                }
+
+                SortedList<string, TableRow> GetTableRow = new SortedList<string, TableRow>();
+                GetTableRow.Add("08:10", tableRow1);
+                GetTableRow.Add("09:05", tableRow4);
+                GetTableRow.Add("10:00", tableRow7);
+                GetTableRow.Add("10:55", tableRow10);
+                GetTableRow.Add("12:05", tableRow13);
+                GetTableRow.Add("13:00", tableRow16);
+                GetTableRow.Add("13:55", tableRow19);
+                GetTableRow.Add("14:50", tableRow22);
+
+                // Table Headers
+                CreateTableHeadersText();
+
+                // Creating TableCells with button for each Day in each TimeSlot.
+                foreach (string timeslot in TimeSlots)
+                {
+                    for (int i = 0; i < 5; i++)
+                    {
+                        TableCell tableCell = new TableCell { RowSpan = 2 };
+                        tableCell.Attributes["Style"] = "background:transparent; position: relative; padding: 0px; margin: 0px;";
+                        GetTableRow[timeslot].Cells.Add(tableCell);
+                    }
+                    foreach (var lesson in sortedList[timeslot])
+                    {
+                        // TableCell & Button & PopupContent layout 
+                        CreateTableCellContent(lesson, timeslot);
+                    }
                 }
             }
             else // PostBack
@@ -167,15 +146,9 @@ namespace StudyPlatform
                 {
                     RedirectToCurrentWeek();
                 }
-                
+
             }
         }
-
-
-
-
-
-
         private void CreateTableHeadersText()
         {
             DateTime weekDateTime = GetFirstDateOfWeek(Convert.ToInt32(_year), Convert.ToInt32(_week));
@@ -185,17 +158,14 @@ namespace StudyPlatform
             tableHeaderCellThursday.Text = "Torsdag(" + weekDateTime.AddDays(3).ToShortDateString() + ")";
             tableHeaderCellFriday.Text = "Fredag(" + weekDateTime.AddDays(4).ToShortDateString() + ")";
         }
-
         private void RedirectToCurrentWeek()
         {
             DateTimeFormatInfo dfi = DateTimeFormatInfo.CurrentInfo;
             System.Globalization.Calendar cal = dfi.Calendar;
             int currentWeek = cal.GetWeekOfYear(DateTime.Now, dfi.CalendarWeekRule, dfi.FirstDayOfWeek);
             int currentYear = cal.GetYear(DateTime.Now);
-
             Response.Redirect("skema.aspx?aar=" + currentYear + "&uge=" + currentWeek);
         }
-
         private void CreateTableCellContent(Lesson lesson, string timeslot)
         {
             // TableCell Button Layout
@@ -345,7 +315,6 @@ namespace StudyPlatform
             Panel1.Controls.Add(modalPop);
             Panel1.Controls.Add(panel);
         }
-
         private static DateTime GetFirstDateOfWeek(int year, int weekOfYear)
         {
             DateTime jan1 = new DateTime(year, 1, 1);
@@ -363,14 +332,13 @@ namespace StudyPlatform
             var result = firstThursday.AddDays(weekNum * 7);
             return result.AddDays(-3);
         }
-
         private SortedList<string, List<Lesson>> FindAndSortLessonsForPerson(List<Course> courses, int weekNumber)
         {
             DateTimeFormatInfo dfi = DateTimeFormatInfo.CurrentInfo;
             System.Globalization.Calendar cal = dfi.Calendar;
             List<Lesson> lessons = (from course in courses from lesson in course.Lessons
                                     where cal.GetWeekOfYear(lesson.DateTime, dfi.CalendarWeekRule, dfi.FirstDayOfWeek) == 
-                                    weekNumber select lesson).ToList();
+                                    weekNumber && lesson.DateTime.Year == Convert.ToInt32(_year) select lesson).ToList();
             List<Lesson> sortedList = lessons.OrderBy(x => x.DateTime.TimeOfDay).ToList();
             List<Lesson> lesson1List = new List<Lesson>();
             List<Lesson> lesson2List = new List<Lesson>();
@@ -428,29 +396,29 @@ namespace StudyPlatform
             }
             return coollist;
         }
-        protected void JumpWeekRight_OnClick(object sender, EventArgs e)
+        private void SetupWeekButtons()
         {
-            if (Convert.ToInt32(_week) < 52)
+            switch (_week)
             {
-                Response.Redirect("skema.aspx?aar=" + _year + "&uge=" + (Convert.ToInt32(_week) + 1));
-            }
-            else
-            {
-                Response.Redirect("skema.aspx?aar=" + (Convert.ToInt32(_year) + 1) + "&uge=" + "1");
+                case "52":
+                    WeekForward.NavigateUrl = "/skema.aspx?aar=" + IncrementYearString() + "&uge=1";
+                    WeekBack.NavigateUrl = "/skema.aspx?aar=" + _year + "&uge=" + DecrementWeekString();
+                    break;
+                case "1":
+                    WeekForward.NavigateUrl = "/skema.aspx?aar=" + _year + "&uge=" + IncrementWeekString();
+                    WeekBack.NavigateUrl = "/skema.aspx?aar=" + DecrementYearString() + "&uge=52";
+                    break;
+                default:
+                    WeekForward.NavigateUrl = "/skema.aspx?aar=" + _year + "&uge=" + IncrementWeekString();
+                    WeekBack.NavigateUrl = "/skema.aspx?aar=" + _year + "&uge=" + DecrementWeekString();
+                    break;
             }
         }
-        protected void JumpWeekLeft_OnClick(object sender, EventArgs e)
-        {
-            if (Convert.ToInt32(_week) > 1)
-            {
-                Response.Redirect("skema.aspx?aar=" + _year + "&uge=" + (Convert.ToInt32(_week) - 1));
-            }
-            else
-            {
-                Response.Redirect("skema.aspx?aar=" + (Convert.ToInt32(_year) - 1) + "&uge=" + "52");
-            }
-        }
+        private string IncrementYearString() => (Convert.ToInt32(_year) + 1).ToString();
+        private string DecrementYearString() => (Convert.ToInt32(_year) - 1).ToString();
+        private string IncrementWeekString() => (Convert.ToInt32(_week) + 1).ToString();
+        private string DecrementWeekString() => (Convert.ToInt32(_week) - 1).ToString();
         protected void DownloadButton_Click(object sender, EventArgs e) => 
-            Common.DownloadFile(sender as LinkButton, this);
+            WebHelper.DownloadFile(sender as LinkButton, this);
     }
 }

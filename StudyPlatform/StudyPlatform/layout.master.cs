@@ -269,15 +269,15 @@ namespace StudyPlatform
         };
         private static readonly Dictionary<string, HtmlGenericControl> IconsByLink = new Dictionary<string, HtmlGenericControl>
         {
-            { "/nyheder.aspx", Common.CreateIconControl("fa-newspaper-o") },
-            { "/skema.aspx", Common.CreateIconControl("fa-calendar") },
-            { "/kurser.aspx", Common.CreateIconControl("fa-book") },
-            { "/afleveringer.aspx", Common.CreateIconControl("fa-pencil-square-o") },
-            { "/karakterer.aspx", Common.CreateIconControl("fa-graduation-cap") },
-            { "/fravaer.aspx", Common.CreateIconControl("fa-area-chart") },
-            { "/brugere.aspx", Common.CreateIconControl("fa-users") },
-            { "/indbakke.aspx", Common.CreateIconControl("fa-envelope") },
-            { "/udbakke.aspx", Common.CreateIconControl("fa-envelope-o") }
+            { "/nyheder.aspx", WebHelper.CreateIconControl("fa-newspaper-o") },
+            { "/skema.aspx", WebHelper.CreateIconControl("fa-calendar") },
+            { "/kurser.aspx", WebHelper.CreateIconControl("fa-book") },
+            { "/afleveringer.aspx", WebHelper.CreateIconControl("fa-pencil-square-o") },
+            { "/karakterer.aspx", WebHelper.CreateIconControl("fa-graduation-cap") },
+            { "/fravaer.aspx", WebHelper.CreateIconControl("fa-area-chart") },
+            { "/brugere.aspx", WebHelper.CreateIconControl("fa-users") },
+            { "/indbakke.aspx", WebHelper.CreateIconControl("fa-envelope") },
+            { "/udbakke.aspx", WebHelper.CreateIconControl("fa-envelope-o") }
         };
     }
 }

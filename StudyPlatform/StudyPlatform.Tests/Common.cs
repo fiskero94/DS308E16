@@ -10,7 +10,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace StudyPlatform.Tests
 {
-    static class Common
+    static class WebHelper
     {
         public static void ResetTables()
         {

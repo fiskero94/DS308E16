@@ -742,7 +742,6 @@
     <Compile Include="Classes\Exceptions\InvalidIDException.cs" />
     <Compile Include="Classes\Exceptions\NoConnectionException.cs" />
     <Compile Include="Classes\Exceptions\StudentCourseGradeExistsException.cs" />
-    <Compile Include="Classes\FileSystem.cs" />
     <Compile Include="Classes\Model\Entity.cs" />
     <Compile Include="Classes\Database\Creator.cs" />
     <Compile Include="Classes\Database\Commands.cs" />
@@ -765,6 +764,7 @@
     <Compile Include="Classes\Model\Secretary.cs" />
     <Compile Include="Classes\Model\Student.cs" />
     <Compile Include="Classes\Model\Teacher.cs" />
+    <Compile Include="Classes\WebHelper.cs" />
     <Compile Include="fravaer.aspx.cs">
       <DependentUpon>fravaer.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

@@ -22,13 +22,13 @@ namespace StudyPlatform {
         protected global::System.Web.UI.WebControls.Panel Panel1;
         
         /// <summary>
-        /// JumpWeekLeft control.
+        /// WeekBack control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton JumpWeekLeft;
+        protected global::System.Web.UI.WebControls.HyperLink WeekBack;
         
         /// <summary>
         /// datepickerinut control.
@@ -40,13 +40,13 @@ namespace StudyPlatform {
         protected global::System.Web.UI.HtmlControls.HtmlInputGenericControl datepickerinut;
         
         /// <summary>
-        /// JumpWeekRight control.
+        /// WeekForward control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton JumpWeekRight;
+        protected global::System.Web.UI.WebControls.HyperLink WeekForward;
         
         /// <summary>
         /// scheduleTable control.

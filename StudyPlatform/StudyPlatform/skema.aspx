@@ -47,14 +47,14 @@
     <%-- Week shifters --%>
     <div class="container" style="margin-top: -80px;">
         <div class="form-group col-sm-offset-4">
-            <asp:LinkButton runat="server" ID="JumpWeekLeft" CssClass="btn btn-default" OnClick="JumpWeekLeft_OnClick" BackColor="transparent" BorderStyle="None">
+            <asp:HyperLink runat="server" ID="WeekBack" CssClass="btn btn-default" BackColor="transparent" BorderStyle="None">
                 <i class="fa fa-arrow-circle-o-left fa-2x"></i>
-            </asp:LinkButton>
+            </asp:HyperLink>
             <input type="week" runat="server" id="datepickerinut"/>
             <input type="submit" value="OK"/>
-            <asp:LinkButton runat="server" ID="JumpWeekRight" CssClass="btn btn-default" OnClick="JumpWeekRight_OnClick" BackColor="transparent" BorderStyle="None">
+            <asp:HyperLink runat="server" ID="WeekForward" CssClass="btn btn-default" BackColor="transparent" BorderStyle="None">
                 <i class="fa fa-arrow-circle-o-right fa-2x"></i>
-            </asp:LinkButton>
+            </asp:HyperLink>
         </div>
     </div>
 

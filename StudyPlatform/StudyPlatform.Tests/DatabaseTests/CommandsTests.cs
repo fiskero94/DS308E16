@@ -14,7 +14,7 @@ namespace StudyPlatform.Tests.DatabaseTests
     {
         public CommandsTests()
         {
-            Common.ResetTables();
+            WebHelper.ResetTables();
         }
 
         [TestMethod]

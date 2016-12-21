@@ -23,13 +23,13 @@ namespace StudyPlatform
             {
                 if (person.Name == "Admin") continue;
                 TableRow row = new TableRow();
-                row.Cells.Add(Common.CreateTextCell(person.ID.ToString(), "col-sm-1"));
-                row.Cells.Add(Common.CreateTextCell(person.Name, "col-sm-8"));
+                row.Cells.Add(WebHelper.CreateTextCell(person.ID.ToString(), "col-sm-1"));
+                row.Cells.Add(WebHelper.CreateTextCell(person.Name, "col-sm-8"));
                 string type;
                 if (person is Student) type = "Kursist";
                 else if (person is Teacher) type = "Lærer";
                 else type = "Sekretær";
-                row.Cells.Add(Common.CreateTextCell(type, "col-sm-2"));
+                row.Cells.Add(WebHelper.CreateTextCell(type, "col-sm-2"));
                 Button deleteButton = new Button
                 {
                     Text = "Slet",

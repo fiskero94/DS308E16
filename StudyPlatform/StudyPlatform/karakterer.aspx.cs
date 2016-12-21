@@ -56,7 +56,7 @@ namespace StudyPlatform
         private static void AddAlertRow(Table table, string message)
         {
             TableCell alertCell = new TableCell { ColumnSpan = 2 };
-            alertCell.Controls.Add(Common.CreateAlertDiv(message));
+            alertCell.Controls.Add(WebHelper.CreateAlertDiv(message));
             TableRow alertRow = new TableRow();
             alertRow.Cells.Add(alertCell);
             table.Rows.Add(alertRow);

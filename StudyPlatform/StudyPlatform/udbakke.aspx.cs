@@ -22,7 +22,7 @@ namespace StudyPlatform
             if (((Person)Session["user"]).SentMessages.Count == 0)
             {
                 SentMessagesTable.Visible = false;
-                AlertPanel.Controls.Add(Common.CreateAlertDiv("Du har ikke sendt nogen beskeder, tryk på ny besked for at begynde."));
+                AlertPanel.Controls.Add(WebHelper.CreateAlertDiv("Du har ikke sendt nogen beskeder, tryk på ny besked for at begynde."));
                 return;
             }
             List<Message> messages = ((Person)Session["user"]).SentMessages;
@@ -30,13 +30,13 @@ namespace StudyPlatform
             foreach (Message message in messages)
             {
                 TableRow row = new TableRow();
-                row.Cells.Add(Common.CreateAccordionToggleCell("#accordion" + message.ID, message.Title));
-                row.Cells.Add(Common.CreateAccordionToggleCell("#accordion" + message.ID, GetRecipients(message)));
-                row.Cells.Add(Common.CreateAccordionToggleCell("#accordion" + message.ID, message.DateTimeSent.ToShortDateString()));
-                LinkButton forwardButton = Common.CreateLinkButtonWithIcon("btn btn-default", "fa-share", "Videresend");
+                row.Cells.Add(WebHelper.CreateAccordionToggleCell("#accordion" + message.ID, message.Title));
+                row.Cells.Add(WebHelper.CreateAccordionToggleCell("#accordion" + message.ID, GetRecipients(message)));
+                row.Cells.Add(WebHelper.CreateAccordionToggleCell("#accordion" + message.ID, message.DateTimeSent.ToShortDateString()));
+                LinkButton forwardButton = WebHelper.CreateLinkButtonWithIcon("btn btn-default", "fa-share", "Videresend");
                 forwardButton.Attributes.Add("messageid", message.ID.ToString());
                 forwardButton.Click += ForwardButton_Click;
-                row.Cells.Add(Common.CreateCellWithControls(forwardButton));
+                row.Cells.Add(WebHelper.CreateCellWithControls(forwardButton));
                 SentMessagesTable.Rows.Add(row);
                 TableRow textRow = new TableRow();
                 TableCell textCell = new TableCell { ColumnSpan = 4 };
@@ -55,7 +55,7 @@ namespace StudyPlatform
                     TableRow attachmentRow = new TableRow();
                     TableCell attachmentCell = new TableCell();
                     foreach (string attachment in message.Attachments)
-                        attachmentCell.Controls.Add(Common.CreateDownloadButton(attachment, DownloadButton_Click));
+                        attachmentCell.Controls.Add(WebHelper.CreateDownloadButton(attachment, DownloadButton_Click));
                     attachmentRow.Cells.Add(attachmentCell);
                     messageAttachmentsTable.Rows.Add(attachmentRow);
                     container.Controls.Add(messageAttachmentsTable);
@@ -82,6 +82,6 @@ namespace StudyPlatform
             Master.OpenNewMessage();
         }
         protected void DownloadButton_Click(object sender, EventArgs e) => 
-            Common.DownloadFile(sender as LinkButton, this);
+            WebHelper.DownloadFile(sender as LinkButton, this);
     }
 }

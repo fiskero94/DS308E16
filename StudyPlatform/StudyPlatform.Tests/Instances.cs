@@ -1,9 +1,6 @@
-﻿using System;
+﻿using StudyPlatform.Classes.Model;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using StudyPlatform.Classes.Model;
 
 namespace StudyPlatform.Tests
 {
@@ -22,7 +19,7 @@ namespace StudyPlatform.Tests
         public static Teacher Teacher => new Teacher(ID, Name);
         public static Student Student => new Student(ID, Name);
         public static uint ID => 1;
-        public static DateTime Date => DateTime.Now;
+        public static DateTime Date => new DateTime(2016, 12, 12);
         public static string Comment => "Comment";
         public static string Description => "Description";
         public static string Grade => "12";

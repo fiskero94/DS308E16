@@ -105,9 +105,9 @@ namespace StudyPlatform
                 TableRow row = new TableRow();
                 if (assignmentDescription.Documents.Count > 0 || assignmentDescription.Description.Length > 0)
                 {
-                    row.Cells.Add(Common.CreateAccordionToggleCell("#accordion" + assignmentDescription.ID,
+                    row.Cells.Add(WebHelper.CreateAccordionToggleCell("#accordion" + assignmentDescription.ID,
                         assignmentDescription.Title));
-                    row.Cells.Add(Common.CreateAccordionToggleCell("#accordion" + assignmentDescription.ID,
+                    row.Cells.Add(WebHelper.CreateAccordionToggleCell("#accordion" + assignmentDescription.ID,
                         assignmentDescription.Deadline.ToString()));
                 }
                 else
@@ -119,21 +119,21 @@ namespace StudyPlatform
                 if (assignmentDescription.Assignments.Any(assignment => assignment.Student.ID == student.ID))
                 {
                     // Assignment already submitted
-                    LinkButton submittedButton = Common.CreateLinkButtonWithIcon("btn btn-success disabled", "fa-check-square", "Afleveret");
+                    LinkButton submittedButton = WebHelper.CreateLinkButtonWithIcon("btn btn-success disabled", "fa-check-square", "Afleveret");
                     submittedButton.Attributes["style"] = "display: inline-block;";
                     submitCell.Controls.Add(submittedButton);
                     List<string> documents = assignmentDescription.Assignments
                         .Single(assignment => assignment.Student.ID == student.ID).Documents;
                     if (documents.Count == 0)
                     {
-                        LinkButton noDocumentsButton = Common.CreateLinkButtonWithIcon("btn btn-default disabled", "fa-info-circle",
+                        LinkButton noDocumentsButton = WebHelper.CreateLinkButtonWithIcon("btn btn-default disabled", "fa-info-circle",
                             "Ingen dokumenter");
                         noDocumentsButton.Attributes["style"] = "display: inline-block;";
                         submitCell.Controls.Add(noDocumentsButton);
                     }
                     foreach (string document in documents)
                     {
-                        LinkButton downloadButton = Common.CreateDownloadButton(document, DownloadButton_Click);
+                        LinkButton downloadButton = WebHelper.CreateDownloadButton(document, DownloadButton_Click);
                         downloadButton.Attributes["style"] = "display: inline-block;";
                         submitCell.Controls.Add(downloadButton);
                     }
@@ -141,15 +141,15 @@ namespace StudyPlatform
                 else if (assignmentDescription.Deadline < DateTime.Now)
                 {
                     // Assignment deadline passed
-                    LinkButton expiredButton = Common.CreateLinkButtonWithIcon("btn btn-danger disabled", "fa-exclamation-triangle", "Udløbet");
+                    LinkButton expiredButton = WebHelper.CreateLinkButtonWithIcon("btn btn-danger disabled", "fa-exclamation-triangle", "Udløbet");
                     submitCell.Controls.Add(expiredButton);
                 }
                 else
                 {
                     // Student is yet to submit assignment
                     HyperLink submitButton = new HyperLink { NavigateUrl = "/afleveringer.aspx?aflever=" + assignmentDescription.ID };
-                    submitButton.Controls.Add(Common.CreateIconControl("fa-upload"));
-                    submitButton.Controls.Add(Common.CreateTextControl(" Aflever"));
+                    submitButton.Controls.Add(WebHelper.CreateIconControl("fa-upload"));
+                    submitButton.Controls.Add(WebHelper.CreateTextControl(" Aflever"));
                     submitButton.Attributes["class"] = "btn btn-primary";
                     submitCell.Controls.Add(submitButton);
                 }
@@ -206,7 +206,7 @@ namespace StudyPlatform
                     TableRow documentsRow = new TableRow();
                     TableCell documentsCell = new TableCell();
                     foreach (string document in assignmentDescription.Documents)
-                        documentsCell.Controls.Add(Common.CreateDownloadButton(document, DownloadButton_Click));
+                        documentsCell.Controls.Add(WebHelper.CreateDownloadButton(document, DownloadButton_Click));
                     documentsRow.Cells.Add(documentsCell);
                     assignmentDescriptionDocumentsTable.Rows.Add(documentsRow);
                     container.Controls.Add(assignmentDescriptionDocumentsTable);
@@ -231,7 +231,7 @@ namespace StudyPlatform
             SuccessDocuments.Text = documents;
         }
         protected void DownloadButton_Click(object sender, EventArgs e) =>
-            Common.DownloadFile(sender as LinkButton, this);
+            WebHelper.DownloadFile(sender as LinkButton, this);
         protected void SubmitAssignmentButton_OnClick(object sender, EventArgs e)
         {
             if (!FileUploadControl.HasFiles)
