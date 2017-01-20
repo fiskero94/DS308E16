@@ -1,10 +1,10 @@
-﻿using System;
-using MySql.Data.MySqlClient;
-using System.Collections.Generic;
-using System.Linq;
+﻿using MySql.Data.MySqlClient;
+using StudyPlatform.Classes;
 using StudyPlatform.Classes.Database;
 using StudyPlatform.Classes.Model;
-using StudyPlatform.Classes;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace StudyPlatformSQLSetup
 {
@@ -164,8 +164,12 @@ namespace StudyPlatformSQLSetup
         {
             WriteSetupMessage("Populating tables");
             //News
+            WriteSetupMessageIndent("Creating news");
             Creator.CreateNews(Person.GetByID(1) as Secretary, "Informant Stuff", "Vi startede med at få informanten til at fortælle om hvordan hendes hverdag var, herefter spurgte vi ind til til de områder der blev nævnt som vi følte var relevante for et nyt system. Gennem interviewet kom vi frem til at informanten primært bruger skemaet, tjek af fravær, og aflevering af opgaver. Informanten bruger skemaet til at tjekke lokale og fag samt lektier. Derudover bruger informanten en funktion til at aflevere sine opgaver, hvor hun fortalte at det ville være hjælpsomt, hvis der kom en bekræftelse på at opgaverne er afleveret. Derudover fortalte hun, at systemet ikke skal logge af, således at den forbliver logget ind.");
-            Creator.CreateNews(Person.GetByID(1) as Secretary, "Taking Austria", "German-Austria must return to the great German mo- \r\ntherland, and not because of economic considerations of \r\nany sort. No, no: even if from the economic point of view \r\nthis union were unimportant, indeed, if it were harmful, it \r\nought nevertheless to be brought about. Common blood be- \r\nlongs in a common Reich. As long as the German nation is \r\nunable even to band together its own children in one com- \r\nmon State, it has no moral right to think of colonization as \r\none of its political aims. Only when the boundaries of the \r\nReich include even the last German, only when it is no \r\nlonger possible to assure him of daily bread inside them, \r\ndoes there arise, out of the distress of the nation, the moral \r\nright to acquire foreign soil and territory. The sword is \r\nthen the plow, and from the tears of war there grows the \r\ndaily bread for generations to come. Therefore, this little \r\ntown on the border appears to me the symbol of a great \r\ntask. But in another respect also it looms up as a warning \r\nto our present time. More than a hundred years ago, this \r\ninsignificant little place had the privilege of gaining an \r\nimmortal place in German history at least by being the \r\nscene of a tragic misfortune that moved the entire nation.");
+            Creator.CreateNews(Person.GetByID(1) as Secretary, "Ændring af elev login.", "Der er sket en fejl i opretning af jeres elev logins, så jeres login virker ikke d. 3 Feb 2017, da jeres login skal opdateres.");
+            Creator.CreateNews(Person.GetByID(1) as Secretary, "Der er ikke lektiecafé i matematik i dag torsdag d. 12/1-17 kl. 13.45-16.30.", "");
+            Creator.CreateNews(Person.GetByID(1) as Secretary, "Administrationen i Aalborg afd.lukker kl. 13.30 fredag den 13.1.17", "");
+            Creator.CreateNews(Person.GetByID(1) as Secretary, "Velkommen til vores afdeling i Aars!", "Her underviser vi både i HF enkeltfag, AVU (Almen voksenuddannelse), FVU(forberedende voksenuddannelse) og OBU(ordblindeundervisning).Vil du vide mere om vores uddannelser finder du dem på forsiden af hjemmesiden eller ved hjælp af den farvede bjælke herover for. Du kan ligeledes finder oplysninger om vores personale - dette finder du i menuen til venstre. Vi glæder os til at byde dig velkommen som kursist i vores flotte nye lokaler.");
 
             // Students
             WriteSetupMessageIndent("Creating students");
@@ -226,8 +230,8 @@ namespace StudyPlatformSQLSetup
             var course01 = Course.New("Dansk A", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque non ipsum nec libero tincidunt convallis quis nec turpis. Cras lobortis condimentum vestibulum. Integer felis lectus, imperdiet eu commodo vel, tristique accumsan elit. Aenean mattis metus nibh, quis vestibulum elit vulputate sed. Duis cursus suscipit velit, at egestas massa lacinia et. Phasellus elementum arcu lectus, et convallis massa dictum nec. Aliquam erat volutpat. Mauris congue nibh sapien, id facilisis nibh cras amet.");
             var course02 = Course.New("Matematik A", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque non ipsum nec libero tincidunt convallis quis nec turpis. Cras lobortis condimentum vestibulum. Integer felis lectus, imperdiet eu commodo vel, tristique accumsan elit. Aenean mattis metus nibh, quis vestibulum elit vulputate sed. Duis cursus suscipit velit, at egestas massa lacinia et. Phasellus elementum arcu lectus, et convallis massa dictum nec. Aliquam erat volutpat. Mauris congue nibh sapien, id facilisis nibh cras amet.");
             var course03 = Course.New("Fysik A", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque non ipsum nec libero tincidunt convallis quis nec turpis. Cras lobortis condimentum vestibulum. Integer felis lectus, imperdiet eu commodo vel, tristique accumsan elit. Aenean mattis metus nibh, quis vestibulum elit vulputate sed. Duis cursus suscipit velit, at egestas massa lacinia et. Phasellus elementum arcu lectus, et convallis massa dictum nec. Aliquam erat volutpat. Mauris congue nibh sapien, id facilisis nibh cras amet.");
-            var course04 = Course.New("Kemi B", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque non ipsum nec libero tincidunt convallis quis nec turpis. Cras lobortis condimentum vestibulum. Integer felis lectus, imperdiet eu commodo vel, tristique accumsan elit. Aenean mattis metus nibh, quis vestibulum elit vulputate sed. Duis cursus suscipit velit, at egestas massa lacinia et. Phasellus elementum arcu lectus, et convallis massa dictum nec. Aliquam erat volutpat. Mauris congue nibh sapien, id facilisis nibh cras amet.");
-            var course05 = Course.New("Engelsk A", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque non ipsum nec libero tincidunt convallis quis nec turpis. Cras lobortis condimentum vestibulum. Integer felis lectus, imperdiet eu commodo vel, tristique accumsan elit. Aenean mattis metus nibh, quis vestibulum elit vulputate sed. Duis cursus suscipit velit, at egestas massa lacinia et. Phasellus elementum arcu lectus, et convallis massa dictum nec. Aliquam erat volutpat. Mauris congue nibh sapien, id facilisis nibh cras amet.");
+            var course04 = Course.New("Kemi B", "I kemi B får du kendskab til kemiens centrale begreber og eksperimentelle arbejdsmetoder sammen med en forståelse for stoffers opbygning og kemiske reaktioner.");
+            var course05 = Course.New("Engelsk A", "I engelsk A får du et solidt kendskab til det engelske sprogs mundtlige og skriftlige udtryksformer og lærer at begå dig sprogligt i en globaliseret verden.");
             var course06 = Course.New("Samfund B", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque non ipsum nec libero tincidunt convallis quis nec turpis. Cras lobortis condimentum vestibulum. Integer felis lectus, imperdiet eu commodo vel, tristique accumsan elit. Aenean mattis metus nibh, quis vestibulum elit vulputate sed. Duis cursus suscipit velit, at egestas massa lacinia et. Phasellus elementum arcu lectus, et convallis massa dictum nec. Aliquam erat volutpat. Mauris congue nibh sapien, id facilisis nibh cras amet.");
             var course07 = Course.New("Historie B", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque non ipsum nec libero tincidunt convallis quis nec turpis. Cras lobortis condimentum vestibulum. Integer felis lectus, imperdiet eu commodo vel, tristique accumsan elit. Aenean mattis metus nibh, quis vestibulum elit vulputate sed. Duis cursus suscipit velit, at egestas massa lacinia et. Phasellus elementum arcu lectus, et convallis massa dictum nec. Aliquam erat volutpat. Mauris congue nibh sapien, id facilisis nibh cras amet.");
             var course08 = Course.New("Idræt C", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque non ipsum nec libero tincidunt convallis quis nec turpis. Cras lobortis condimentum vestibulum. Integer felis lectus, imperdiet eu commodo vel, tristique accumsan elit. Aenean mattis metus nibh, quis vestibulum elit vulputate sed. Duis cursus suscipit velit, at egestas massa lacinia et. Phasellus elementum arcu lectus, et convallis massa dictum nec. Aliquam erat volutpat. Mauris congue nibh sapien, id facilisis nibh cras amet.");
@@ -254,7 +258,13 @@ namespace StudyPlatformSQLSetup
             course09.AddTeacher(teacher10);
             course10.AddTeacher(teacher10);
             // Lessons
-            GenerateLessons("05", "09", "2016", 20, courses, rooms);
+            GenerateLessons("05", "09", "2016", 40, courses, rooms);
+            // CustomLesson
+            Lesson customLesson = Lesson.GetByConditions("DateTime='2017-01-24 10:00:00'").Single();
+            customLesson.Description = "Lav opgaverne i den vedhæftede fil";
+            Commands.InsertInto("lessonfile", customLesson.ID.ToString(), "opgaver.pdf");
+
+
             //// AssignmentDescriptions --- KOMMENTERET UD TIL AT LAVE BILLEDER AF DESIGN
             //WriteSetupMessageIndent("Creating AssignmentDescriptions");
             //const string description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent et nisl ipsum. Nunc nec eros vel dolor semper maximus. Suspendisse cursus in mi quis vehicula. Quisque elit risus, aliquet sit amet sem ut, facilisis eleifend libero. Donec ultricies nibh ut quam condimentum, non sollicitudin leo sed.";
@@ -297,7 +307,28 @@ namespace StudyPlatformSQLSetup
             WriteSetupMessageIndent("Creating CourseGrades");
             foreach (Course course in courses)
                 foreach (Student student in students)
-                    CourseGrade.New(course, student, TakeRandom(Common.ValidGrades.ToList()), "Lorem ipsum dolor sit amet.");
+                    CourseGrade.New(course, student, TakeRandom(Common.ValidGrades.ToList()), "");
+            List<CourseGrade> cg = CourseGrade.GetByConditions("StudentID=" + student01.ID);
+            cg[0].Grade = "10";
+            cg[0].Comment = "Godt gået, deltag lidt mere i timerne for at få 12.";
+            cg[1].Grade = "02";
+            cg[1].Comment = "Det er for dårligt, deltag mere i timerne og lav dine afleveringer.";
+            cg[2].Grade = "7";
+            cg[2].Comment = "Du klarer dig fint, jeg ved du kan gøre det bedre.";
+            cg[3].Grade = "4";
+            cg[3].Comment = "Deltag i undervisning og aflever dine afleveringer.";
+            cg[4].Grade = "02";
+            cg[4].Comment = "Ved du kan gøre det bedre.";
+            cg[5].Grade = "-3";
+            cg[5].Comment = "Tag dig sammen, og deltag i undervisningen.";
+            cg[6].Grade = "7";
+            cg[6].Comment = "Du klarer dig godt, brug lidt mere tid på dine afleveringer.";
+            cg[7].Grade = "12";
+            cg[7].Comment = "Du deltager aktivt i undervisning. Godt at se!";
+            cg[8].Grade = "12";
+            cg[8].Comment = "Godt klaret, godt at se.";
+            cg[9].Grade = "00";
+            cg[9].Comment = "Du skal begynde at deltage i undervisningen.";
         }
         private static List<T> Group<T>(params T[] objects) => objects.ToList();
         private static void GenerateLessons(string startDay, string startMonth, string startYear, int weeksToGenerate, List<Course> courses, List<Room> rooms)
@@ -344,7 +375,7 @@ namespace StudyPlatformSQLSetup
         {
             foreach (string timeSlot in TimeSlots)
             {
-                List<Room> selectedRooms = new List<Room> {TakeRandom(rooms)};
+                List<Room> selectedRooms = new List<Room> { TakeRandom(rooms) };
                 Lesson lesson = Lesson.New(TakeRandom(courses), "Lorem ipsum dolor sit amet.", true,
                     DateTime.ParseExact(day + "-" + timeSlot, "dd/MM/yyyy-HH:mm", null), selectedRooms, Group<string>());
                 if (DateTime.Now > lesson.DateTime)
@@ -352,7 +383,7 @@ namespace StudyPlatformSQLSetup
             }
             if (Rng.Next(1, 100) > 50)
             {
-                List<Room> selectedRooms = new List<Room> {TakeRandom(rooms)};
+                List<Room> selectedRooms = new List<Room> { TakeRandom(rooms) };
                 Lesson lesson = Lesson.New(TakeRandom(courses), "Lorem ipsum dolor sit amet.", false,
                     DateTime.ParseExact(day + "-" + ExtraSlots[0], "dd/MM/yyyy-HH:mm", null), selectedRooms, Group<string>());
                 if (DateTime.Now > lesson.DateTime)
